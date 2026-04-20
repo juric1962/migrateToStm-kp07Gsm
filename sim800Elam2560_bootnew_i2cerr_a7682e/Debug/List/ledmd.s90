@@ -1,0 +1,363 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+//                                                     24/Oct/2025  13:29:10 /
+// IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version               /
+// Copyright 1996-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\ledmd.c        /
+//    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\ledmd.c        /
+//                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a7 /
+//                    682e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_ /
+//                    a7682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cer /
+//                    r_a7682e\Debug\List\ -y --initializers_in_flash -z9    /
+//                    --no_inline --no_tbaa --cross_call_passes=1 --debug    /
+//                    -e -I "E:\box\IAR Systems\Embedded Workbench 4.0       /
+//                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded   /
+//                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size  /
+//                    4096 --dlib_config "E:\box\IAR Systems\Embedded        /
+//                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h" /
+//    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\led /
+//                    md.s90                                                 /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME ledmd
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "5"
+        RTMODEL "__cpu_name", "ATmega2560"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?need_segment_init
+
+        PUBWEAK `?<Segment init: NEAR_Z>`
+        PUBWEAK _A_PORTC
+        PUBWEAK _A_PORTG
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBLIC count_led
+        PUBLIC fun_state_md
+        FUNCTION fun_state_md,0203H
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC state_led_md
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetByte3:8, ?RetHigh:8, ?RetLow:8
+        CFI VirtualResource ?Ret:25
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetByte3, ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Notused
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 SameValue
+        CFI R1 SameValue
+        CFI R2 SameValue
+        CFI R3 SameValue
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 SameValue
+        CFI R17 SameValue
+        CFI R18 SameValue
+        CFI R19 SameValue
+        CFI R20 SameValue
+        CFI R21 SameValue
+        CFI R22 SameValue
+        CFI R23 SameValue
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 SameValue
+        CFI R31 SameValue
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI Y SameValue
+        CFI EndCommon cfiCommon1
+        
+        EXTERN simka
+
+// E:\sim800Elam2560_bootnew_i2cerr_a7682e\ledmd.c
+//    1 
+//    2 #include <iom2560.h> 
+
+        ASEGN ABSOLUTE:DATA:NOROOT,034H
+// union <unnamed> volatile __io _A_PORTG
+_A_PORTG:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,028H
+// union <unnamed> volatile __io _A_PORTC
+_A_PORTC:
+        DS 1
+//    3 #include "dfpin.h"
+//    4 #include "dfcnst.h"
+//    5 
+//    6 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//    7 unsigned char state_led_md; 
+//    8 unsigned int count_led;
+count_led:
+        DS 2
+state_led_md:
+        DS 1
+//    9 
+//   10 extern unsigned char simka; //dobavka
+//   11 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   12 void fun_state_md(void)
+fun_state_md:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function fun_state_md
+//   13 {
+//   14   count_led++;
+        LDI	R30, LOW(count_led)
+        LDI	R31, (count_led) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 255
+        SBCI	R17, 255
+        ST	Z, R16
+        STD	Z+1, R17
+//   15   switch(state_led_md)
+        LDD	R16, Z+2
+        DEC	R16
+        BREQ	??fun_state_md_0
+        DEC	R16
+        BREQ	??fun_state_md_1
+        DEC	R16
+        BREQ	??fun_state_md_2
+        DEC	R16
+        BREQ	??fun_state_md_3
+        DEC	R16
+        BREQ	??fun_state_md_4
+        RJMP	??fun_state_md_5
+//   16   {
+//   17   case LED_MD_OFF: S1_OFF; S5_OFF; break;
+??fun_state_md_0:
+        CBI	0x14, 0x00
+        CBI	0x14, 0x01
+        CBI	0x08, 0x06
+        CBI	0x08, 0x07
+        RJMP	??fun_state_md_5
+//   18   case LED_MD_NO_CREG:  if(count_led<500){if(simka==SIM_BASE){S1_GR;}else {S1_RD;}}else {S1_YL;}break; //dobavka
+??fun_state_md_1:
+        LD	R16, Z
+        CPI	R16, 244
+        SBCI	R17, 1
+        BRCC	??fun_state_md_6
+??fun_state_md_7:
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_0:
+        BRNE	??fun_state_md_8
+        RJMP	??fun_state_md_9
+??fun_state_md_6:
+        SBI	0x14, 0x00
+??fun_state_md_10:
+        SBI	0x14, 0x01
+        RJMP	??fun_state_md_5
+//   19   case LED_MD_YES_CREG: if(count_led<100){if(simka==SIM_BASE){S1_GR;}else {S1_RD;}}else {S1_OFF;}break;//dobavka
+??fun_state_md_2:
+        LD	R16, Z
+        CPI	R16, 100
+        SBCI	R17, 0
+        BRCC	??fun_state_md_11
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_1:
+        BRNE	??fun_state_md_8
+??fun_state_md_9:
+        CBI	0x14, 0x00
+        SBI	0x14, 0x01
+        RET
+??fun_state_md_8:
+        SBI	0x14, 0x00
+        CBI	0x14, 0x01
+        RET
+??fun_state_md_11:
+        CBI	0x14, 0x00
+        RJMP	??fun_state_md_12
+//   20   case LED_MD_GPRS:if(count_led<500){if(simka==SIM_BASE){S1_GR;}else {S1_RD;}}else {S1_OFF;}break;//dobavka
+??fun_state_md_3:
+        LD	R16, Z
+        CPI	R16, 244
+        SBCI	R17, 1
+        BRCC	??fun_state_md_11
+        RJMP	??fun_state_md_7
+//   21   case LED_MD_PPP: if(simka==SIM_BASE){S1_GR;}else {S1_RD;};break;                                //dobavka
+??fun_state_md_4:
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_2:
+        BRNE	??fun_state_md_13
+        CBI	0x14, 0x00
+        RJMP	??fun_state_md_10
+??fun_state_md_13:
+        SBI	0x14, 0x00
+??fun_state_md_12:
+        CBI	0x14, 0x01
+//   22      
+//   23   }
+//   24   if(count_led>=1000)count_led=0;
+??fun_state_md_5:
+        LD	R16, Z
+        LDD	R17, Z+1
+        CPI	R16, 232
+        SBCI	R17, 3
+        BRCS	??fun_state_md_14
+        LDI	R16, 0
+        ST	Z, R16
+        STD	Z+1, R16
+//   25 }
+??fun_state_md_14:
+        RET
+        CFI EndBlock cfiBlock0
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine0:
+        CFI Block cfiCond1 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_0
+        CFI CFA_SP SP+6
+        CFI Block cfiCond2 Using cfiCommon0
+        CFI (cfiCond2) NoFunction
+        CFI (cfiCond2) Conditional ??CrossCallReturnLabel_1
+        CFI (cfiCond2) CFA_SP SP+6
+        CFI Block cfiCond3 Using cfiCommon0
+        CFI (cfiCond3) NoFunction
+        CFI (cfiCond3) Conditional ??CrossCallReturnLabel_2
+        CFI (cfiCond3) CFA_SP SP+6
+        CFI Block cfiPicker4 Using cfiCommon1
+        CFI (cfiPicker4) NoFunction
+        CFI (cfiPicker4) Picker
+        LDS	R16, simka
+        TST	R16
+        RET
+        CFI EndBlock cfiCond1
+        CFI EndBlock cfiCond2
+        CFI EndBlock cfiCond3
+        CFI EndBlock cfiPicker4
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_Z>`:
+        DW	SFE(NEAR_Z) - SFB(NEAR_Z)
+        DW	SFB(NEAR_Z)
+        DP	0
+        REQUIRE ?need_segment_init
+
+        END
+//   26 
+//   27 
+// 
+//   2 bytes in segment ABSOLUTE
+// 146 bytes in segment FARCODE
+//   7 bytes in segment INITTAB
+//   3 bytes in segment NEAR_Z
+// 
+// 146 bytes of CODE memory (+ 7 bytes shared)
+//   3 bytes of DATA memory (+ 2 bytes shared)
+//
+//Errors: none
+//Warnings: none

@@ -1,0 +1,17 @@
+#include "inc.h"
+#include "ver_api.h"
+
+ 
+ ASEG
+ #ifndef version_s_zagruzchk 
+  PUBLIC  boot,reload_apl 
+  ORG 0xFF
+   db  VERSION_API
+  
+  ORG  0x3FC00
+  boot: 
+  
+  ORG  0x3FE00
+  reload_apl:   
+  #endif 
+end

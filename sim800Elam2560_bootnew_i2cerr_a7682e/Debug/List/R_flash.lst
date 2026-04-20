@@ -1,0 +1,101 @@
+###############################################################################
+#                                                                             #
+#     IAR Systems AVR Assembler V4.12A/W32 24/Oct/2025  13:27:59              #
+#     Copyright 2005 IAR Systems. All rights reserved.                        #
+#                                                                             #
+#           Target option =  Relative jumps do not wrap                       #
+#           Source file   =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\R_flash.s90#
+#           List file     =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\R_flash.lst#
+#           Object file   =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\R_flash.r90#
+#           Command line  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\R_flash.s90 #
+#                            -v5                                              #
+#                            -OE:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\ #
+#                            -s+ -w+ -r -M<>                                  #
+#                            -LE:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\ #
+#                            -t8 -u_enhancedCore -D__HAS_ENHANCED_CORE__=1    #
+#                            -D__HAS_MUL__=1                                  #
+#                            -IE:\box\IAR Systems\Embedded Workbench 4.0 Evaluation\avr\INC\ #
+#                            -D__MEMORY_MODEL__=2 -D__ATmega2560__=1          #
+#                            -D__HAS_ELPM__=1                                 #
+#                                                                             #
+###############################################################################
+
+      1    00000000              ;#include "dudo.inc"
+      2    00000000              ; такая конструкция прокатывает !!!!! на
+                                  будущее
+      3    00000000              ;#define  USB_INTR_PENDING  0x3F
+      4    00000000              ;#define x2      r17
+      5    00000000              ;#define  USB_LOAD_PENDING(reg)   in reg,
+                                  USB_INTR_PENDING
+      6    00000000              RSEG CODE
+      7    00000000              
+      8    00000000              PUBLIC r_p_flash;
+      9    00000000              ;EXTERN array_in_232
+     10    00000000              
+     11    00000000              sfrb RAMPZ = 59
+     12    00000000              
+     13    00000000              r_p_flash:
+     14    00000000                
+     15    00000000                
+     16    00000000              ;    USB_LOAD_PENDING(x2) 
+     17    00000000 93EF             push r30
+     18    00000002 93FF             push r31
+     19    00000004 93CF             push r28
+     20    00000006 93DF             push r29
+     21    00000008 920F             push r0
+     22    0000000A 938F             push r24
+     23    0000000C                  
+     24    0000000C                  
+     25    0000000C                 ; ld  r28,Z        ;адрес буфера передается
+                                  через Z регистр
+     26    0000000C                  ;ldd r29,Z+1
+     27    0000000C                 
+     28    0000000C A1C0             ldd  r28,Z+32        ;адрес буфера
+                                                           передается через Z
+                                                           регистр
+     29    0000000E A1D1             ldd  r29,Z+33
+     30    00000010                 
+     31    00000010                 ; ldi r28, low(array_in_232)  ;init loop
+                                  variable
+     32    00000010                 ; ldi r29, high(array_in_232) ;not required
+                                  for PAGESIZEB<=256 
+     33    00000010                 
+     34    00000010                
+     35    00000010                 
+     36    00000010 01F8             movw r30,r16                              
+                                               ;copy adress
+     37    00000012              ;18 05 2022    ldi     R17,1
+     38    00000012              ;18 05 2022     out     RAMPZ,R17             
+                                             ;RAMPZ=1  
+     39    00000012 E080             ldi r24, 0 ;init loop variable
+     40    00000014                 
+     41    00000014                 Readloop:                   ;read 1 page
+                                  (128 bytes) from flash 
+     42    00000014 95D8            elpm 
+     43    00000016 9631            adiw r30,1
+     44    00000018 9209               st  Y+,r0 
+     45    0000001A 5081            subi r24, 1 
+     46    0000001C F7D9            brne Readloop 
+     47    0000001E                 
+     48    0000001E              ;18 05 2022    clr     R17
+     49    0000001E              ;18 05 2022    out     RAMPZ,R17              
+                                            ;RAMPZ=0 
+     50    0000001E                 
+     51    0000001E 918F            pop r24
+     52    00000020 900F            pop r0
+     53    00000022 91DF            pop r29
+     54    00000024 91CF            pop r28
+     55    00000026 91FF            pop r31
+     56    00000028 91EF            pop r30
+     57    0000002A 9508            ret
+     58    0000002C              end  
+##############################
+#          CRC:7139          #
+#        Errors:   0         #
+#        Warnings: 0         #
+#         Bytes: 44          #
+##############################
+
+
+
+

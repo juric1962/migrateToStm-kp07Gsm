@@ -1,0 +1,660 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+//                                                     24/Oct/2025  13:27:16 /
+// IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version               /
+// Copyright 1996-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\coder.c        /
+//    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\coder.c        /
+//                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a7 /
+//                    682e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_ /
+//                    a7682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cer /
+//                    r_a7682e\Debug\List\ -y --initializers_in_flash -z9    /
+//                    --no_inline --no_tbaa --cross_call_passes=1 --debug    /
+//                    -e -I "E:\box\IAR Systems\Embedded Workbench 4.0       /
+//                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded   /
+//                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size  /
+//                    4096 --dlib_config "E:\box\IAR Systems\Embedded        /
+//                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h" /
+//    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\cod /
+//                    er.s90                                                 /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME coder
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "5"
+        RTMODEL "__cpu_name", "ATmega2560"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?EPILOGUE_B12_L09
+        EXTERN ?EPILOGUE_B6_L09
+        EXTERN ?PROLOGUE12_L09
+        EXTERN ?PROLOGUE6_L09
+        EXTERN ?Register_R10_is_cg_reg
+        EXTERN ?Register_R11_is_cg_reg
+        EXTERN ?Register_R4_is_cg_reg
+        EXTERN ?Register_R5_is_cg_reg
+        EXTERN ?Register_R6_is_cg_reg
+        EXTERN ?Register_R7_is_cg_reg
+        EXTERN ?Register_R8_is_cg_reg
+        EXTERN ?Register_R9_is_cg_reg
+        EXTERN ?SS_DIVMOD_L02
+
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBLIC kodirovka
+        FUNCTION kodirovka,021203H
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC s1
+        PUBLIC s2
+        PUBLIC `shl`
+        FUNCTION `shl`,0203H
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC transform_buf
+        FUNCTION transform_buf,021203H
+        LOCFRAME CSTACK, 14, STACK
+        LOCFRAME RSTACK, 6, STACK
+        PUBLIC zamena
+        FUNCTION zamena,0203H
+        LOCFRAME RSTACK, 3, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetByte3:8, ?RetHigh:8, ?RetLow:8
+        CFI VirtualResource ?Ret:25
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetByte3, ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Notused
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 SameValue
+        CFI R1 SameValue
+        CFI R2 SameValue
+        CFI R3 SameValue
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 SameValue
+        CFI R17 SameValue
+        CFI R18 SameValue
+        CFI R19 SameValue
+        CFI R20 SameValue
+        CFI R21 SameValue
+        CFI R22 SameValue
+        CFI R23 SameValue
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 SameValue
+        CFI R31 SameValue
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI Y SameValue
+        CFI EndCommon cfiCommon1
+        
+        EXTERN rand
+        FUNCTION rand,010202H
+        EXTERN buf_tx_232
+        EXTERN keys
+
+// E:\sim800Elam2560_bootnew_i2cerr_a7682e\coder.c
+//    1 #include "ozu_map.h"
+//    2 #include "def_prot.h"
+//    3 #include <stdlib.h>
+//    4 
+
+        RSEG NEAR_F:CODE:NOROOT(0)
+//    5 __flash unsigned char s1[] = {0,15,1,14,2,13,3,12,4,11,5,10,6,9,7,8};
+s1:
+        DB 0, 15, 1, 14, 2, 13, 3, 12, 4, 11, 5, 10, 6, 9, 7, 8
+//    6 __flash unsigned char s2[] = {1,9,2,10,3,11,4,12,5,13,6,14,7,15,8,0};
+s2:
+        DB 1, 9, 2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15, 8, 0
+//    7 extern unsigned char keys[10];
+//    8 extern unsigned char buf_tx_232[VOL_TX_PPP];
+//    9 //##################################
+//   10   //##################################  функции кодировки
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   11    unsigned char shl (unsigned char n)
+`shl`:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function `shl`
+//   12     {
+//   13      unsigned char n1,count;
+//   14      for(count=0;count<3;count++)
+        LDI	R17, 3
+//   15         {
+//   16          n1=n&(0x80);
+//   17          n1=n1>>7;
+//   18          n=n<<1; 
+//   19          n=n|n1; 
+??shl_0:
+        MOV	R19, R16
+        LSL	R19
+        LDI	R16, 0
+        ROL	R16
+        OR	R16, R19
+//   20         }
+        DEC	R17
+        BRNE	??shl_0
+//   21      return n; 
+        RET
+        CFI EndBlock cfiBlock0
+//   22     } 
+//   23    
+//   24    
+//   25    
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   26     unsigned char zamena (unsigned char i)
+zamena:
+        CFI Block cfiBlock1 Using cfiCommon0
+        CFI Function zamena
+//   27     {
+//   28      unsigned char i1,i2;
+//   29      i1=i&0x0f;
+//   30      i2=i&0xf0;
+//   31      i2=i2>>4;
+//   32      i1=s1[i1];
+//   33      i2=s2[i2];
+//   34      i2=i2<<4;
+//   35      i=0;
+//   36      i=i|i1;
+//   37      i=i|i2; 
+//   38      return i; 
+        LDI	R30, LOW(s1)
+        LDI	R31, (s1) >> 8
+        MOV	R18, R16
+        ANDI	R18, 0x0F
+        LDI	R19, 0
+        ADD	R30, R18
+        ADC	R31, R19
+        LPM	R18, Z
+        LDI	R30, LOW((s1 + 16))
+        LDI	R31, HIGH((s1 + 16))
+        SWAP	R16
+        ANDI	R16, 0x0F
+        ADD	R30, R16
+        ADC	R31, R19
+        LPM	R16, Z
+        SWAP	R16
+        ANDI	R16, 0xF0
+        OR	R16, R18
+        RET
+        CFI EndBlock cfiBlock1
+//   39     }
+//   40     
+//   41  
+//   42    
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   43      void  transform_buf(unsigned char *p,unsigned int kol_byte,unsigned int s_rand)
+transform_buf:
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI Function transform_buf
+//   44     { 
+        FUNCALL transform_buf, zamena
+        LOCFRAME CSTACK, 14, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL transform_buf, `shl`
+        LOCFRAME CSTACK, 14, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL transform_buf, zamena
+        LOCFRAME CSTACK, 14, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL transform_buf, `shl`
+        LOCFRAME CSTACK, 14, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL transform_buf, zamena
+        LOCFRAME CSTACK, 14, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL transform_buf, `shl`
+        LOCFRAME CSTACK, 14, STACK
+        LOCFRAME RSTACK, 3, STACK
+        CALL	?PROLOGUE12_L09
+        CFI R11 Frame(CFA_Y, -1)
+        CFI R10 Frame(CFA_Y, -2)
+        CFI R9 Frame(CFA_Y, -3)
+        CFI R8 Frame(CFA_Y, -4)
+        CFI R7 Frame(CFA_Y, -5)
+        CFI R6 Frame(CFA_Y, -6)
+        CFI R5 Frame(CFA_Y, -7)
+        CFI R4 Frame(CFA_Y, -8)
+        CFI R27 Frame(CFA_Y, -9)
+        CFI R26 Frame(CFA_Y, -10)
+        CFI R25 Frame(CFA_Y, -11)
+        CFI R24 Frame(CFA_Y, -12)
+        CFI CFA_Y Y+12
+        REQUIRE	?Register_R4_is_cg_reg
+        REQUIRE	?Register_R5_is_cg_reg
+        REQUIRE	?Register_R6_is_cg_reg
+        REQUIRE	?Register_R7_is_cg_reg
+        REQUIRE	?Register_R8_is_cg_reg
+        REQUIRE	?Register_R9_is_cg_reg
+        REQUIRE	?Register_R10_is_cg_reg
+        REQUIRE	?Register_R11_is_cg_reg
+        SBIW	R29:R28, 2
+        CFI CFA_Y Y+14
+        MOVW	R7:R6, R17:R16
+//   45     unsigned char N1,N2,N3,N4;  
+//   46     unsigned char C1,C2;
+//   47     union
+//   48      {
+//   49       unsigned char bytes[2]; 
+//   50       unsigned int word;
+//   51      }S;
+//   52     unsigned char N,Z; 
+//   53     unsigned char i,j;
+//   54     unsigned int count_byte;          //kol_byte - четное число
+//   55     
+//   56     C1=0xa3;
+//   57     C2=0x23;
+//   58     S.word=s_rand;
+        ST	Y, R20
+        STD	Y+1, R21
+//   59     N1=S.bytes[0]; 
+        MOV	R26, R20
+//   60     N2=S.bytes[1];
+        MOV	R4, R21
+//   61     count_byte=0;
+        LDI	R24, 0
+        LDI	R25, 0
+        SUBI	R18, 1
+        SBCI	R19, 0
+        MOVW	R11:R10, R19:R18
+        RJMP	??transform_buf_0
+//   62     while(count_byte<=kol_byte-1)
+//   63        {       
+//   64          for(j=0;j<3;j++)
+//   65             for(i=0;i<8;i++)
+//   66             {
+//   67             N=N1+keys[i];
+//   68             Z=zamena(N);
+//   69             N=shl(Z);
+//   70             Z=N^N2;
+//   71             N2=N1;
+//   72             N1=Z;
+//   73             }
+//   74 
+//   75          for(i=0;i<8;i++)
+//   76             {
+//   77              N=N1+keys[7-i];
+//   78             Z=zamena(N);
+//   79             N=shl(Z);
+//   80             Z=N^N2;
+//   81             N2=N1;
+//   82             N1=Z;
+//   83             }
+//   84            N=N1+keys[0]; 
+//   85            Z=zamena(N);
+//   86            N=shl(Z);
+//   87            Z=N^N2;
+//   88            N2=Z;
+//   89            N3=N1;
+//   90            N4=N2;
+//   91            N1=N3+C2;
+//   92            
+//   93            N2=(N4+C1)%(0xff);
+//   94            
+//   95            *p=*p^N2; 
+//   96             p++;
+//   97            
+//   98            if((count_byte+1)<=(kol_byte-1))
+//   99            {
+//  100            *p=*p^N1;  
+??transform_buf_1:
+        MOVW	R31:R30, R7:R6
+        LD	R16, Z
+        EOR	R16, R26
+        RCALL	?Subroutine1
+//  101             p++;
+//  102            count_byte=count_byte+2; 
+??CrossCallReturnLabel_2:
+        ADIW	R25:R24, 2
+//  103            } 
+??transform_buf_0:
+        CP	R10, R24
+        CPC	R11, R25
+        BRCS	??transform_buf_2
+        LDI	R16, 3
+        MOV	R5, R16
+??transform_buf_3:
+        LDI	R27, 0
+        LDI	R16, LOW(keys)
+        MOV	R8, R16
+        LDI	R16, (keys) >> 8
+        MOV	R9, R16
+??transform_buf_4:
+        LDI	R17, 0
+        MOVW	R31:R30, R9:R8
+        ADD	R30, R27
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_0:
+        BRCS	??transform_buf_4
+        DEC	R5
+        BRNE	??transform_buf_3
+        LDI	R27, 0
+??transform_buf_5:
+        MOVW	R31:R30, R9:R8
+        ADIW	R31:R30, 7
+        MOV	R16, R27
+        LDI	R17, 0
+        NEG	R16
+        SBCI	R17, 0
+        ADD	R30, R16
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_1:
+        BRCS	??transform_buf_5
+        LDI	R30, LOW(keys)
+        LDI	R31, (keys) >> 8
+        LD	R16, Z
+        ADD	R16, R26
+        RCALL	zamena
+        RCALL	`shl`
+        SUBI	R26, 221
+        EOR	R16, R4
+        LDI	R17, 0
+        SUBI	R16, 93
+        SBCI	R17, 255
+        LDI	R20, 255
+        LDI	R21, 0
+        CALL	?SS_DIVMOD_L02
+        MOV	R4, R20
+        MOVW	R31:R30, R7:R6
+        LD	R16, Z
+        EOR	R16, R20
+        RCALL	?Subroutine1
+??CrossCallReturnLabel_3:
+        MOVW	R31:R30, R25:R24
+        ADIW	R31:R30, 1
+        CP	R10, R30
+        CPC	R11, R31
+        BRCC	??transform_buf_1
+//  104            else count_byte++;
+//  105             
+//  106            
+//  107            
+//  108        }//while
+//  109     
+//  110     } 
+??transform_buf_2:
+        ADIW	R29:R28, 2
+        CFI CFA_Y Y+12
+        LDI	R30, 12
+        JMP	?EPILOGUE_B12_L09
+        CFI EndBlock cfiBlock2
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine1:
+        CFI Block cfiCond3 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_2
+        CFI R24 Frame(CFA_Y, -12)
+        CFI R25 Frame(CFA_Y, -11)
+        CFI R26 Frame(CFA_Y, -10)
+        CFI R27 Frame(CFA_Y, -9)
+        CFI R4 Frame(CFA_Y, -8)
+        CFI R5 Frame(CFA_Y, -7)
+        CFI R6 Frame(CFA_Y, -6)
+        CFI R7 Frame(CFA_Y, -5)
+        CFI R8 Frame(CFA_Y, -4)
+        CFI R9 Frame(CFA_Y, -3)
+        CFI R10 Frame(CFA_Y, -2)
+        CFI R11 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+14
+        CFI Block cfiCond4 Using cfiCommon0
+        CFI (cfiCond4) NoFunction
+        CFI (cfiCond4) Conditional ??CrossCallReturnLabel_3
+        CFI (cfiCond4) R24 Frame(CFA_Y, -12)
+        CFI (cfiCond4) R25 Frame(CFA_Y, -11)
+        CFI (cfiCond4) R26 Frame(CFA_Y, -10)
+        CFI (cfiCond4) R27 Frame(CFA_Y, -9)
+        CFI (cfiCond4) R4 Frame(CFA_Y, -8)
+        CFI (cfiCond4) R5 Frame(CFA_Y, -7)
+        CFI (cfiCond4) R6 Frame(CFA_Y, -6)
+        CFI (cfiCond4) R7 Frame(CFA_Y, -5)
+        CFI (cfiCond4) R8 Frame(CFA_Y, -4)
+        CFI (cfiCond4) R9 Frame(CFA_Y, -3)
+        CFI (cfiCond4) R10 Frame(CFA_Y, -2)
+        CFI (cfiCond4) R11 Frame(CFA_Y, -1)
+        CFI (cfiCond4) CFA_SP SP+6
+        CFI (cfiCond4) CFA_Y Y+14
+        CFI Block cfiPicker5 Using cfiCommon1
+        CFI (cfiPicker5) NoFunction
+        CFI (cfiPicker5) Picker
+        ST	Z, R16
+        LDI	R16, 1
+        ADD	R6, R16
+        LDI	R16, 0
+        ADC	R7, R16
+        RET
+        CFI EndBlock cfiCond3
+        CFI EndBlock cfiCond4
+        CFI EndBlock cfiPicker5
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine0:
+        CFI Block cfiCond6 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_0
+        CFI R24 Frame(CFA_Y, -12)
+        CFI R25 Frame(CFA_Y, -11)
+        CFI R26 Frame(CFA_Y, -10)
+        CFI R27 Frame(CFA_Y, -9)
+        CFI R4 Frame(CFA_Y, -8)
+        CFI R5 Frame(CFA_Y, -7)
+        CFI R6 Frame(CFA_Y, -6)
+        CFI R7 Frame(CFA_Y, -5)
+        CFI R8 Frame(CFA_Y, -4)
+        CFI R9 Frame(CFA_Y, -3)
+        CFI R10 Frame(CFA_Y, -2)
+        CFI R11 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+14
+        CFI Block cfiCond7 Using cfiCommon0
+        CFI (cfiCond7) NoFunction
+        CFI (cfiCond7) Conditional ??CrossCallReturnLabel_1
+        CFI (cfiCond7) R24 Frame(CFA_Y, -12)
+        CFI (cfiCond7) R25 Frame(CFA_Y, -11)
+        CFI (cfiCond7) R26 Frame(CFA_Y, -10)
+        CFI (cfiCond7) R27 Frame(CFA_Y, -9)
+        CFI (cfiCond7) R4 Frame(CFA_Y, -8)
+        CFI (cfiCond7) R5 Frame(CFA_Y, -7)
+        CFI (cfiCond7) R6 Frame(CFA_Y, -6)
+        CFI (cfiCond7) R7 Frame(CFA_Y, -5)
+        CFI (cfiCond7) R8 Frame(CFA_Y, -4)
+        CFI (cfiCond7) R9 Frame(CFA_Y, -3)
+        CFI (cfiCond7) R10 Frame(CFA_Y, -2)
+        CFI (cfiCond7) R11 Frame(CFA_Y, -1)
+        CFI (cfiCond7) CFA_SP SP+6
+        CFI (cfiCond7) CFA_Y Y+14
+        CFI Block cfiPicker8 Using cfiCommon1
+        CFI (cfiPicker8) NoFunction
+        CFI (cfiPicker8) Picker
+        ADC	R31, R17
+        LD	R16, Z
+        ADD	R16, R26
+        RCALL	zamena
+        RCALL	`shl`
+        EOR	R16, R4
+        MOV	R4, R26
+        MOV	R26, R16
+        INC	R27
+        CPI	R27, 8
+        RET
+        CFI EndBlock cfiCond6
+        CFI EndBlock cfiCond7
+        CFI EndBlock cfiPicker8
+//  111     
+//  112    
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  113     void kodirovka(unsigned int kol_send_byte)
+kodirovka:
+        CFI Block cfiBlock9 Using cfiCommon0
+        CFI Function kodirovka
+//  114     {
+        FUNCALL kodirovka, rand
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL kodirovka, transform_buf
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 3, STACK
+        CALL	?PROLOGUE6_L09
+        CFI R5 Frame(CFA_Y, -1)
+        CFI R4 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -5)
+        CFI R24 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        REQUIRE	?Register_R4_is_cg_reg
+        REQUIRE	?Register_R5_is_cg_reg
+        MOVW	R5:R4, R17:R16
+//  115      
+//  116    
+//  117     unsigned int kod;
+//  118     kod=rand();
+        CALL	rand
+        MOVW	R27:R26, R17:R16
+//  119     transform_buf(&buf_tx_232[TR_ID],kol_send_byte-7,kod);  
+        LDI	R24, LOW(buf_tx_232)
+        LDI	R25, (buf_tx_232) >> 8
+        MOVW	R21:R20, R17:R16
+        LDI	R16, 249
+        ADD	R4, R16
+        LDI	R16, 255
+        ADC	R5, R16
+        MOVW	R19:R18, R5:R4
+        MOVW	R17:R16, R25:R24
+        SUBI	R16, 219
+        SBCI	R17, 255
+        RCALL	transform_buf
+//  120     *(unsigned int*)&buf_tx_232[TR_KOD]=kod;
+        MOVW	R31:R30, R25:R24
+        STD	Z+34, R26
+        STD	Z+35, R27
+//  121     }
+        LDI	R30, 6
+        JMP	?EPILOGUE_B6_L09
+        CFI EndBlock cfiBlock9
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        END
+//  122     
+//  123   
+//  124   //##################################
+//  125   //################################## 
+// 
+// 288 bytes in segment FARCODE
+//  32 bytes in segment NEAR_F
+// 
+// 320 bytes of CODE memory
+//
+//Errors: none
+//Warnings: none

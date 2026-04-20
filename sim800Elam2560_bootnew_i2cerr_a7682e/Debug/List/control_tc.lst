@@ -1,0 +1,1384 @@
+##############################################################################
+#                                                                            #
+#                                                      24/Oct/2025  13:28:03 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\control_tc.c    #
+#    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\control_tc.c    #
+#                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a76 #
+#                    82e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_a7 #
+#                    682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cerr_a #
+#                    7682e\Debug\List\ -y --initializers_in_flash -z9        #
+#                    --no_inline --no_tbaa --cross_call_passes=1 --debug -e  #
+#                    -I "E:\box\IAR Systems\Embedded Workbench 4.0           #
+#                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size   #
+#                    4096 --dlib_config "E:\box\IAR Systems\Embedded         #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h"  #
+#    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\cont #
+#                    rol_tc.lst                                              #
+#    Object file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\contr #
+#                    ol_tc.r90                                               #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+E:\sim800Elam2560_bootnew_i2cerr_a7682e\control_tc.c
+      1          // 10/02 16 добавлена функция управления по ТИТ для модуля МТС
+      2          #include <iom2560.h> 
+
+   \                                 In segment ABSOLUTE, at 0x22
+   \   union <unnamed> volatile __io _A_PORTA
+   \                     _A_PORTA:
+   \   00000000                      DS 1
+      3          #include "map_mbus.h"
+      4          #include "arh_zap.h"
+      5          #include <inavr.h>
+      6          #include "dfpin.h"
+      7          #include "tc_avtom.h"
+      8          
+      9          
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     10          unsigned char flag_set_akb;
+     11          
+     12          union
+     13                      {                        // структура байта управления
+     14                       unsigned int config;
+     15                       struct
+     16                             {
+     17                             unsigned char nomer_ty      :3;       // 5 - взвод флага для станции, номер ту 1-4, 7-cbros tu
+     18                             unsigned char type_ty       :2;       // тип ту 0 1
+     19                             unsigned char level_tc      :1;       // уровень сигнала ТС 
+     20                             unsigned char wr_ch         :1;
+     21                             unsigned char enable        :1;  
+     22                             }  bit;
+     23                       }uprava; 
+   \                     uprava:
+   \   00000000                      DS 2
+   \                     flag_set_akb:
+   \   00000002                      DS 1
+     24          
+     25          
+     26          
+     27          
+     28          extern struct
+     29                  { // в двоичном коде
+     30                    char r_sec;
+     31                    char r_min;
+     32                    char r_hor;
+     33                    char r_day;
+     34                    char r_date;
+     35                    char r_month;
+     36                    char r_year;
+     37                    char r_control;
+     38                  }  real_time; 
+     39          
+     40          unsigned int c_config_tc[SEG8];
+     41          
+     42          //USERTC c_config_tc;
+     43          
+     44          extern unsigned char sel_modul;
+     45          extern unsigned char cnt_tu1, cnt_tu2;
+     46          
+     47          extern unsigned int modbus_mem1[SEG1];
+     48          
+     49           struct struct_ts_mb
+     50          {
+     51           
+     52            unsigned char tek_tc :1;
+     53            unsigned char old_tc :1;
+     54            unsigned char fl_ch_tc :1;
+     55            unsigned char count_tc;
+     56          };
+     57          
+     58          struct struct_ts_mb ts0_mb,ts1_mb,ts2_mb,ts3_mb,ts4_mb,ts5_mb,ts6_mb,ts7_mb,ts14_mb,ts15_mb;
+   \                     ts0_mb:
+   \   00000003                      DS 2
+   \                     ts1_mb:
+   \   00000005                      DS 2
+   \                     ts2_mb:
+   \   00000007                      DS 2
+   \                     ts3_mb:
+   \   00000009                      DS 2
+   \                     ts4_mb:
+   \   0000000B                      DS 2
+   \                     ts5_mb:
+   \   0000000D                      DS 2
+   \                     ts6_mb:
+   \   0000000F                      DS 2
+   \                     ts7_mb:
+   \   00000011                      DS 2
+   \                     ts14_mb:
+   \   00000013                      DS 2
+   \                     ts15_mb:
+   \   00000015                      DS 2
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+   \                     c_config_tc:
+   \   00000000                      DS 48
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     59          unsigned char k_a_tit[2],sec_ttt[2];
+   \                     k_a_tit:
+   \   00000000                      DS 2
+   \                     sec_ttt:
+   \   00000002                      DS 2
+     60          
+     61          void insert_zapis_tc(unsigned char nomer, unsigned char kod);
+     62          void insert_zapis_tit(unsigned char nomer);
+     63          void local_avtom_tit(void);
+     64          
+     65          
+     66          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     67          void set_avatu(char num)
+   \                     set_avatu:
+     68          {
+     69            if(sel_modul!=0)return;                 // в режиме МКД нет управления !
+   \   00000000   9110....           LDS     R17, sel_modul
+   \   00000004   2311               TST     R17
+   \   00000006   F439               BRNE    ??set_avatu_0
+     70            if (num==1) {TU1_ON;}
+   \   00000008   3001               CPI     R16, 1
+   \   0000000A   F411               BRNE    ??set_avatu_1
+   \   0000000C   9A14               SBI     0x02, 0x04
+   \   0000000E   9508               RET
+     71            if (num==2) {TU2_ON;}
+   \                     ??set_avatu_1:
+   \   00000010   3002               CPI     R16, 2
+   \   00000012   F409               BRNE    ??set_avatu_0
+   \   00000014   9A13               SBI     0x02, 0x03
+   \                     ??set_avatu_0:
+   \   00000016   9508               RET
+     72          
+     73          }
+     74          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     75          void reset_avatu(char num)
+   \                     reset_avatu:
+     76          {
+     77            if(sel_modul!=0)return;
+   \   00000000   9110....           LDS     R17, sel_modul
+   \   00000004   2311               TST     R17
+   \   00000006   F439               BRNE    ??reset_avatu_0
+     78            if (num==1) {TU1_OFF;}
+   \   00000008   3001               CPI     R16, 1
+   \   0000000A   F411               BRNE    ??reset_avatu_1
+   \   0000000C   9814               CBI     0x02, 0x04
+   \   0000000E   9508               RET
+     79            if (num==2) {TU2_OFF;}
+   \                     ??reset_avatu_1:
+   \   00000010   3002               CPI     R16, 2
+   \   00000012   F409               BRNE    ??reset_avatu_0
+   \   00000014   9813               CBI     0x02, 0x03
+   \                     ??reset_avatu_0:
+   \   00000016   9508               RET
+     80          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     81          void impuls_avatu(char num, char bv)
+   \                     impuls_avatu:
+     82          {
+     83            if(sel_modul!=0)return;
+   \   00000000   9120....           LDS     R18, sel_modul
+   \   00000004   2322               TST     R18
+   \   00000006   F461               BRNE    ??impuls_avatu_0
+     84          if (num==1)  {TU1_ON;cnt_tu1=bv+1;}
+   \   00000008   9513               INC     R17
+   \   0000000A   3001               CPI     R16, 1
+   \   0000000C   F421               BRNE    ??impuls_avatu_1
+   \   0000000E   9A14               SBI     0x02, 0x04
+   \   00000010   9310....           STS     cnt_tu1, R17
+   \   00000014   9508               RET
+     85          if (num==2)  {TU2_ON;cnt_tu2=bv+1;}
+   \                     ??impuls_avatu_1:
+   \   00000016   3002               CPI     R16, 2
+   \   00000018   F419               BRNE    ??impuls_avatu_0
+   \   0000001A   9A13               SBI     0x02, 0x03
+   \   0000001C   9310....           STS     cnt_tu2, R17
+   \                     ??impuls_avatu_0:
+   \   00000020   9508               RET
+     86          
+     87          }
+     88          
+     89          
+     90          
+     91          
+     92          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     93          void start_ts_mb(unsigned char num,struct struct_ts_mb *ts)
+   \                     start_ts_mb:
+     94          {
+   \   00000000   010D               MOVW    R1:R0, R27:R26
+   \   00000002   2F50               MOV     R21, R16
+     95            unsigned int maska_ts;
+     96            maska_ts=1;
+     97            maska_ts=maska_ts<<num;
+     98            if(modbus_mem1[AD_TS] & maska_ts)ts->tek_tc=0;else ts->tek_tc=1;
+   \   00000004   ....               LDI     R30, LOW(modbus_mem1)
+   \   00000006   ....               LDI     R31, (modbus_mem1) >> 8
+   \   00000008   A960               LDD     R22, Z+48
+   \   0000000A   A971               LDD     R23, Z+49
+   \   0000000C   ....               RCALL   ?Subroutine1
+   \                     ??CrossCallReturnLabel_6:
+   \   0000000E   2306               AND     R16, R22
+   \   00000010   2317               AND     R17, R23
+   \   00000012   2B01               OR      R16, R17
+   \   00000014   01F9               MOVW    R31:R30, R19:R18
+   \   00000016   8100               LD      R16, Z
+   \   00000018   F011               BREQ    ??start_ts_mb_0
+   \   0000001A   7F0E               ANDI    R16, 0xFE
+   \   0000001C   C001               RJMP    ??start_ts_mb_1
+   \                     ??start_ts_mb_0:
+   \   0000001E   6001               ORI     R16, 0x01
+   \                     ??start_ts_mb_1:
+   \   00000020   8300               ST      Z, R16
+     99            ts->old_tc=ts->tek_tc;
+   \   00000022   8100               LD      R16, Z
+   \   00000024   7001               ANDI    R16, 0x01
+   \   00000026   FB00               BST     R16, 0
+   \   00000028   8100               LD      R16, Z
+   \   0000002A   F901               BLD     R16, 1
+   \   0000002C   8300               ST      Z, R16
+    100            
+    101           
+    102            
+    103                          if( (num==4)  && (sel_modul!=0) ) if(ts->tek_tc==0)flag_set_akb=0;else flag_set_akb=1; // сеть МКД модуль
+   \   0000002E   ....               LDI     R30, LOW(uprava)
+   \   00000030   ....               LDI     R31, (uprava) >> 8
+   \   00000032   3054               CPI     R21, 4
+   \   00000034   F419               BRNE    ??start_ts_mb_2
+   \   00000036   ....               RCALL   ?Subroutine0
+   \                     ??CrossCallReturnLabel_0:
+   \   00000038   F049               BREQ    ??start_ts_mb_3
+   \   0000003A   C004               RJMP    ??start_ts_mb_4
+    104                         if( (num==3)  && (sel_modul==0) )  if(ts->tek_tc==0)flag_set_akb=0;else flag_set_akb=1; // сеть МТС модуль
+   \                     ??start_ts_mb_2:
+   \   0000003C   3053               CPI     R21, 3
+   \   0000003E   F431               BRNE    ??start_ts_mb_3
+   \   00000040   ....               RCALL   ?Subroutine0
+   \                     ??CrossCallReturnLabel_1:
+   \   00000042   F421               BRNE    ??start_ts_mb_3
+   \                     ??start_ts_mb_4:
+   \   00000044   01D9               MOVW    R27:R26, R19:R18
+   \   00000046   910C               LD      R16, X
+   \   00000048   7001               ANDI    R16, 0x01
+   \   0000004A   8302               STD     Z+2, R16
+    105            
+    106            
+    107          }
+   \                     ??start_ts_mb_3:
+   \   0000004C   01D0               MOVW    R27:R26, R1:R0
+   \   0000004E   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine1:
+   \   00000000   E001               LDI     R16, 1
+   \   00000002   E010               LDI     R17, 0
+   \   00000004   2F45               MOV     R20, R21
+   \   00000006   ........           JMP     ?S_SHL_L02
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine0:
+   \   00000000   9100....           LDS     R16, sel_modul
+   \   00000004   2300               TST     R16
+   \   00000006   9508               RET
+    108          
+    109          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    110          void begin_ts_mb(void)
+   \                     begin_ts_mb:
+    111          {
+    112          //  if(sel_modul!=1)return;
+    113            start_ts_mb(14,&ts14_mb);
+   \   00000000   ....               LDI     R18, LOW((uprava + 19))
+   \   00000002   ....               LDI     R19, HIGH((uprava + 19))
+   \   00000004   E00E               LDI     R16, 14
+   \   00000006   ....               RCALL   ?Subroutine3
+    114            start_ts_mb(15,&ts15_mb);
+   \                     ??CrossCallReturnLabel_17:
+   \   00000008   ....               LDI     R18, LOW((uprava + 21))
+   \   0000000A   ....               LDI     R19, HIGH((uprava + 21))
+   \   0000000C   E00F               LDI     R16, 15
+   \   0000000E   ....               RCALL   ?Subroutine3
+    115            
+    116            start_ts_mb(0,&ts0_mb);
+   \                     ??CrossCallReturnLabel_16:
+   \   00000010   ....               LDI     R18, LOW((uprava + 3))
+   \   00000012   ....               LDI     R19, HIGH((uprava + 3))
+   \   00000014   E000               LDI     R16, 0
+   \   00000016   ....               RCALL   ?Subroutine3
+    117            start_ts_mb(1,&ts1_mb); 
+   \                     ??CrossCallReturnLabel_15:
+   \   00000018   ....               LDI     R18, LOW((uprava + 5))
+   \   0000001A   ....               LDI     R19, HIGH((uprava + 5))
+   \   0000001C   E001               LDI     R16, 1
+   \   0000001E   ....               RCALL   ?Subroutine3
+    118            start_ts_mb(2,&ts2_mb);
+   \                     ??CrossCallReturnLabel_14:
+   \   00000020   ....               LDI     R18, LOW((uprava + 7))
+   \   00000022   ....               LDI     R19, HIGH((uprava + 7))
+   \   00000024   E002               LDI     R16, 2
+   \   00000026   ....               RCALL   ?Subroutine3
+    119            start_ts_mb(3,&ts3_mb); 
+   \                     ??CrossCallReturnLabel_13:
+   \   00000028   ....               LDI     R18, LOW((uprava + 9))
+   \   0000002A   ....               LDI     R19, HIGH((uprava + 9))
+   \   0000002C   E003               LDI     R16, 3
+   \   0000002E   ....               RCALL   ?Subroutine3
+    120            start_ts_mb(4,&ts4_mb); 
+   \                     ??CrossCallReturnLabel_12:
+   \   00000030   ....               LDI     R18, LOW((uprava + 11))
+   \   00000032   ....               LDI     R19, HIGH((uprava + 11))
+   \   00000034   E004               LDI     R16, 4
+   \   00000036   ....               RCALL   ?Subroutine3
+    121            if(sel_modul!=0)return;
+   \                     ??CrossCallReturnLabel_11:
+   \   00000038   ....               RCALL   ?Subroutine0
+   \                     ??CrossCallReturnLabel_2:
+   \   0000003A   F461               BRNE    ??CrossCallReturnLabel_8
+    122             start_ts_mb(5,&ts5_mb);
+   \   0000003C   ....               LDI     R18, LOW((uprava + 13))
+   \   0000003E   ....               LDI     R19, HIGH((uprava + 13))
+   \   00000040   E005               LDI     R16, 5
+   \   00000042   ....               RCALL   ?Subroutine3
+    123             start_ts_mb(6,&ts6_mb); 
+   \                     ??CrossCallReturnLabel_10:
+   \   00000044   ....               LDI     R18, LOW((uprava + 15))
+   \   00000046   ....               LDI     R19, HIGH((uprava + 15))
+   \   00000048   E006               LDI     R16, 6
+   \   0000004A   ....               RCALL   ?Subroutine3
+    124             start_ts_mb(7,&ts7_mb);
+   \                     ??CrossCallReturnLabel_9:
+   \   0000004C   ....               LDI     R18, LOW((uprava + 17))
+   \   0000004E   ....               LDI     R19, HIGH((uprava + 17))
+   \   00000050   E007               LDI     R16, 7
+   \   00000052   ....               RCALL   ?Subroutine3
+    125            
+    126          }
+   \                     ??CrossCallReturnLabel_8:
+   \   00000054   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine3:
+   \   00000000   ....               RJMP    start_ts_mb
+    127          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    128          void opros_ts_mb(unsigned char num,struct struct_ts_mb *ts)
+   \                     opros_ts_mb:
+    129          
+    130          {
+   \   00000000   93BA               ST      -Y, R27
+   \   00000002   93AA               ST      -Y, R26
+   \   00000004   2F50               MOV     R21, R16
+   \   00000006   01D9               MOVW    R27:R26, R19:R18
+    131             unsigned int maska_ts;
+    132              
+    133               
+    134             maska_ts=1;
+    135             maska_ts=maska_ts<<num;
+    136             
+    137             if(modbus_mem1[AD_TS] & maska_ts)ts->tek_tc=0;else ts->tek_tc=1;
+   \   00000008   ....               LDI     R30, LOW(modbus_mem1)
+   \   0000000A   ....               LDI     R31, (modbus_mem1) >> 8
+   \   0000000C   A920               LDD     R18, Z+48
+   \   0000000E   A931               LDD     R19, Z+49
+   \   00000010   ....               RCALL   ?Subroutine1
+   \                     ??CrossCallReturnLabel_7:
+   \   00000012   2302               AND     R16, R18
+   \   00000014   2313               AND     R17, R19
+   \   00000016   2B01               OR      R16, R17
+   \   00000018   910C               LD      R16, X
+   \   0000001A   F011               BREQ    ??opros_ts_mb_0
+   \   0000001C   7F0E               ANDI    R16, 0xFE
+   \   0000001E   C001               RJMP    ??opros_ts_mb_1
+   \                     ??opros_ts_mb_0:
+   \   00000020   6001               ORI     R16, 0x01
+   \                     ??opros_ts_mb_1:
+   \   00000022   930C               ST      X, R16
+    138             if(ts->fl_ch_tc==1)
+   \   00000024   910C               LD      R16, X
+   \   00000026   FF02               SBRS    R16, 2
+   \   00000028   C024               RJMP    ??opros_ts_mb_2
+    139               {
+    140                 
+    141                 
+    142                 if(ts->tek_tc==ts->old_tc)
+   \   0000002A   ....               RCALL   ?Subroutine2
+   \                     ??CrossCallReturnLabel_39:
+   \   0000002C   F4F1               BRNE    ??opros_ts_mb_3
+    143                  {
+    144               
+    145                      ts->count_tc--;
+   \   0000002E   01FD               MOVW    R31:R30, R27:R26
+   \   00000030   8101               LDD     R16, Z+1
+   \   00000032   950A               DEC     R16
+   \   00000034   8301               STD     Z+1, R16
+    146                      if(ts->count_tc==0)
+   \   00000036   F529               BRNE    ??opros_ts_mb_4
+    147                        {
+    148                         ts->fl_ch_tc=0;
+   \   00000038   910C               LD      R16, X
+   \   0000003A   7F0B               ANDI    R16, 0xFB
+   \   0000003C   930C               ST      X, R16
+    149                       /* 
+    150                         if(num==4)
+    151                         {
+    152                           
+    153                           if(ts->tek_tc==1)
+    154                           {
+    155                            //запись акб
+    156                             flag_set_akb=1; 
+    157                             if (uprava.bit.wr_ch){insert_zapis_tc(num,ZP_CH_AKB);}
+    158                           }
+    159                           else
+    160                           {//запись сеть
+    161                             flag_set_akb=0;
+    162                             if (uprava.bit.wr_ch){insert_zapis_tc(num,ZP_CH_SET);}
+    163                           }
+    164                         }
+    165                        */
+    166                         if( (num==4)  && (sel_modul!=0) ) if(ts->tek_tc==0)flag_set_akb=0;else flag_set_akb=1; // сеть МКД модуль
+   \   0000003E   ....               LDI     R30, LOW(uprava)
+   \   00000040   ....               LDI     R31, (uprava) >> 8
+   \   00000042   3054               CPI     R21, 4
+   \   00000044   F419               BRNE    ??opros_ts_mb_5
+   \   00000046   ....               RCALL   ?Subroutine0
+   \                     ??CrossCallReturnLabel_3:
+   \   00000048   F041               BREQ    ??opros_ts_mb_6
+   \   0000004A   C004               RJMP    ??opros_ts_mb_7
+    167                         if( (num==3)  && (sel_modul==0) ) if(ts->tek_tc==0)flag_set_akb=0;else flag_set_akb=1; // сеть МТС модуль
+   \                     ??opros_ts_mb_5:
+   \   0000004C   3053               CPI     R21, 3
+   \   0000004E   F429               BRNE    ??opros_ts_mb_6
+   \   00000050   ....               RCALL   ?Subroutine0
+   \                     ??CrossCallReturnLabel_4:
+   \   00000052   F419               BRNE    ??opros_ts_mb_6
+   \                     ??opros_ts_mb_7:
+   \   00000054   910C               LD      R16, X
+   \   00000056   7001               ANDI    R16, 0x01
+   \   00000058   8302               STD     Z+2, R16
+    168                         
+    169                         
+    170                         
+    171                         if (uprava.bit.wr_ch)insert_zapis_tc(num,ZP_CH_TC);  // запись в архив изменений ТС
+   \                     ??opros_ts_mb_6:
+   \   0000005A   8100               LD      R16, Z
+   \   0000005C   FF06               SBRS    R16, 6
+   \   0000005E   C011               RJMP    ??opros_ts_mb_4
+   \   00000060   E114               LDI     R17, 20
+   \   00000062   2F05               MOV     R16, R21
+   \   00000064   ........           CALL    insert_zapis_tc
+   \   00000068   C00C               RJMP    ??opros_ts_mb_4
+    172                         
+    173                        
+    174                        }
+    175                 
+    176                  }
+    177                 else
+    178                 {
+    179                   ts->fl_ch_tc=0;
+   \                     ??opros_ts_mb_3:
+   \   0000006A   910C               LD      R16, X
+   \   0000006C   7F0B               ANDI    R16, 0xFB
+   \   0000006E   930C               ST      X, R16
+   \   00000070   C008               RJMP    ??opros_ts_mb_4
+    180                 }
+    181                 
+    182               } 
+    183               else
+    184               {
+    185                 if(ts->tek_tc!=ts->old_tc)
+   \                     ??opros_ts_mb_2:
+   \   00000072   ....               RCALL   ?Subroutine2
+   \                     ??CrossCallReturnLabel_40:
+   \   00000074   F031               BREQ    ??opros_ts_mb_4
+    186                 {
+    187                 ts->fl_ch_tc=1;
+   \   00000076   910C               LD      R16, X
+   \   00000078   6004               ORI     R16, 0x04
+   \   0000007A   930C               ST      X, R16
+    188                 ts->count_tc=3;
+   \   0000007C   E003               LDI     R16, 3
+   \   0000007E   01FD               MOVW    R31:R30, R27:R26
+   \   00000080   8301               STD     Z+1, R16
+    189                 }
+    190               }
+    191              ts->old_tc=ts->tek_tc;
+   \                     ??opros_ts_mb_4:
+   \   00000082   910C               LD      R16, X
+   \   00000084   7001               ANDI    R16, 0x01
+   \   00000086   FB00               BST     R16, 0
+   \   00000088   910C               LD      R16, X
+   \   0000008A   F901               BLD     R16, 1
+   \   0000008C   930C               ST      X, R16
+    192          }
+   \   0000008E   91A9               LD      R26, Y+
+   \   00000090   91B9               LD      R27, Y+
+   \   00000092   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine2:
+   \   00000000   7001               ANDI    R16, 0x01
+   \   00000002   911C               LD      R17, X
+   \   00000004   FB11               BST     R17, 1
+   \   00000006   E010               LDI     R17, 0
+   \   00000008   F910               BLD     R17, 0
+   \   0000000A                      REQUIRE ?Subroutine13
+   \   0000000A                      ;               // Fall through to label ?Subroutine13
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine13:
+   \   00000000   1701               CP      R16, R17
+   \   00000002   9508               RET
+    193          
+    194          
+    195          
+    196          
+    197          
+    198          
+    199          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    200          void control_ts(void)
+   \                     control_ts:
+    201          {
+   \   00000000   ........           CALL    ?PROLOGUE4_L09
+    202          unsigned char ivx,cc;
+    203           
+    204          if(sel_modul!=0) cc=5;
+   \   00000004   ....               RCALL   ?Subroutine0
+   \                     ??CrossCallReturnLabel_5:
+   \   00000006   F011               BREQ    ??control_ts_0
+   \   00000008   E085               LDI     R24, 5
+   \   0000000A   C001               RJMP    ??control_ts_1
+    205          else cc=8;
+   \                     ??control_ts_0:
+   \   0000000C   E088               LDI     R24, 8
+    206          
+    207          uprava.config=c_config_tc[14];
+   \                     ??control_ts_1:
+   \   0000000E   ....               LDI     R26, LOW(c_config_tc)
+   \   00000010   ....               LDI     R27, (c_config_tc) >> 8
+   \   00000012   01FD               MOVW    R31:R30, R27:R26
+   \   00000014   8D04               LDD     R16, Z+28
+   \   00000016   8D15               LDD     R17, Z+29
+   \   00000018   ....               RCALL   ?Subroutine4
+    208          opros_ts_mb(14,&ts14_mb);
+   \                     ??CrossCallReturnLabel_18:
+   \   0000001A   ....               LDI     R18, LOW((uprava + 19))
+   \   0000001C   ....               LDI     R19, HIGH((uprava + 19))
+   \   0000001E   E00E               LDI     R16, 14
+   \   00000020   ....               RCALL   ?Subroutine6
+    209          
+    210          uprava.config=c_config_tc[15];
+   \                     ??CrossCallReturnLabel_25:
+   \   00000022   01FD               MOVW    R31:R30, R27:R26
+   \   00000024   8D06               LDD     R16, Z+30
+   \   00000026   8D17               LDD     R17, Z+31
+   \   00000028   ....               RCALL   ?Subroutine4
+    211          opros_ts_mb(15,&ts15_mb);
+   \                     ??CrossCallReturnLabel_19:
+   \   0000002A   ....               LDI     R18, LOW((uprava + 21))
+   \   0000002C   ....               LDI     R19, HIGH((uprava + 21))
+   \   0000002E   E00F               LDI     R16, 15
+   \   00000030   ....               RCALL   ?Subroutine6
+    212          
+    213          
+    214           for (ivx=0;ivx<cc;ivx++)
+   \                     ??CrossCallReturnLabel_24:
+   \   00000032   E090               LDI     R25, 0
+   \   00000034   C005               RJMP    ??control_ts_2
+    215           {
+    216             
+    217             uprava.config=c_config_tc[ivx];   
+    218              switch(ivx)
+    219                {
+    220                  case 0: opros_ts_mb(ivx,&ts0_mb);break;
+    221                  case 1: opros_ts_mb(ivx,&ts1_mb);break;
+    222                  case 2: opros_ts_mb(ivx,&ts2_mb);break;
+    223                  case 3: opros_ts_mb(ivx,&ts3_mb);break;
+    224                  case 4: opros_ts_mb(ivx,&ts4_mb);break;//акб сеть  
+    225                  case 5: opros_ts_mb(ivx,&ts5_mb);break;
+    226                  case 6: opros_ts_mb(ivx,&ts6_mb);break;
+    227                  case 7: opros_ts_mb(ivx,&ts7_mb);break;
+   \                     ??control_ts_3:
+   \   00000036   ....               LDI     R18, LOW((uprava + 17))
+   \   00000038   ....               LDI     R19, HIGH((uprava + 17))
+   \                     ??control_ts_4:
+   \   0000003A   2F09               MOV     R16, R25
+   \                     ??control_ts_5:
+   \   0000003C   ....               RCALL   ?Subroutine6
+   \                     ??CrossCallReturnLabel_23:
+   \   0000003E   9593               INC     R25
+   \                     ??control_ts_2:
+   \   00000040   1798               CP      R25, R24
+   \   00000042   F578               BRCC    ??control_ts_6
+   \   00000044   E002               LDI     R16, 2
+   \   00000046   9F90               MUL     R25, R16
+   \   00000048   01FD               MOVW    R31:R30, R27:R26
+   \   0000004A   0DE0               ADD     R30, R0
+   \   0000004C   1DF1               ADC     R31, R1
+   \   0000004E   8100               LD      R16, Z
+   \   00000050   8111               LDD     R17, Z+1
+   \   00000052   ....               RCALL   ?Subroutine4
+   \                     ??CrossCallReturnLabel_20:
+   \   00000054   2F09               MOV     R16, R25
+   \   00000056   2399               TST     R25
+   \   00000058   F079               BREQ    ??control_ts_7
+   \   0000005A   950A               DEC     R16
+   \   0000005C   F081               BREQ    ??control_ts_8
+   \   0000005E   950A               DEC     R16
+   \   00000060   F089               BREQ    ??control_ts_9
+   \   00000062   950A               DEC     R16
+   \   00000064   F091               BREQ    ??control_ts_10
+   \   00000066   950A               DEC     R16
+   \   00000068   F099               BREQ    ??control_ts_11
+   \   0000006A   950A               DEC     R16
+   \   0000006C   F0A1               BREQ    ??control_ts_12
+   \   0000006E   950A               DEC     R16
+   \   00000070   F0A9               BREQ    ??control_ts_13
+   \   00000072   950A               DEC     R16
+   \   00000074   F301               BREQ    ??control_ts_3
+   \   00000076   CFE3               RJMP    ??CrossCallReturnLabel_23
+   \                     ??control_ts_7:
+   \   00000078   ....               LDI     R18, LOW((uprava + 3))
+   \   0000007A   ....               LDI     R19, HIGH((uprava + 3))
+   \   0000007C   CFDF               RJMP    ??control_ts_5
+   \                     ??control_ts_8:
+   \   0000007E   ....               LDI     R18, LOW((uprava + 5))
+   \   00000080   ....               LDI     R19, HIGH((uprava + 5))
+   \   00000082   CFDB               RJMP    ??control_ts_4
+   \                     ??control_ts_9:
+   \   00000084   ....               LDI     R18, LOW((uprava + 7))
+   \   00000086   ....               LDI     R19, HIGH((uprava + 7))
+   \   00000088   CFD8               RJMP    ??control_ts_4
+   \                     ??control_ts_10:
+   \   0000008A   ....               LDI     R18, LOW((uprava + 9))
+   \   0000008C   ....               LDI     R19, HIGH((uprava + 9))
+   \   0000008E   CFD5               RJMP    ??control_ts_4
+   \                     ??control_ts_11:
+   \   00000090   ....               LDI     R18, LOW((uprava + 11))
+   \   00000092   ....               LDI     R19, HIGH((uprava + 11))
+   \   00000094   CFD2               RJMP    ??control_ts_4
+   \                     ??control_ts_12:
+   \   00000096   ....               LDI     R18, LOW((uprava + 13))
+   \   00000098   ....               LDI     R19, HIGH((uprava + 13))
+   \   0000009A   CFCF               RJMP    ??control_ts_4
+   \                     ??control_ts_13:
+   \   0000009C   ....               LDI     R18, LOW((uprava + 15))
+   \   0000009E   ....               LDI     R19, HIGH((uprava + 15))
+   \   000000A0   CFCC               RJMP    ??control_ts_4
+    228                }
+    229           }
+    230           
+    231           
+    232            local_avtom_tit(); 
+   \                     ??control_ts_6:
+   \   000000A2   ....               RCALL   local_avtom_tit
+    233            return;   
+   \   000000A4   E0E4               LDI     R30, 4
+   \   000000A6   ........           JMP     ?EPILOGUE_B4_L09
+    234          
+    235          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine6:
+   \   00000000   ....               RJMP    opros_ts_mb
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine4:
+   \   00000000   ....               LDI     R30, LOW(uprava)
+   \   00000002   ....               LDI     R31, (uprava) >> 8
+   \   00000004   8300               ST      Z, R16
+   \   00000006   8311               STD     Z+1, R17
+   \   00000008   9508               RET
+    236          
+    237          ////////////////////////////////////////////////////////////////////*****************************************************
+    238          
+    239          /////////////////////////////////////  вставка функции управления по ТИТ
+    240          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    241          void local_avtom_tit(void) 
+   \                     local_avtom_tit:
+    242          {
+   \   00000000   ........           CALL    ?PROLOGUE16_L09
+   \   00000004                      REQUIRE ?Register_R4_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R5_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R6_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R7_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R8_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R9_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R10_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R12_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R13_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R14_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R15_is_cg_reg
+   \   00000004   972A               SBIW    R29:R28, 10
+    243          //Локальная автоматика===============================
+    244          //extern unsigned char switch_acc; //0-сеть 1-раб.от акк.
+    245          //unsigned char k_a_tit[8]; //количество аварий по входам ТИТ
+    246          //unsigned char ivx,j;//Индекс входа, временный байт
+    247          
+    248           int run_1;
+    249           int analog_max,analog_min;
+    250           char ivx;
+    251           
+    252          
+    253                  unsigned char *triger_titmin ;
+    254                  unsigned char *triger_titmax;
+    255                
+    256          
+    257             
+    258              union
+    259            { unsigned int data;   
+    260              struct {//описание записи типа "поле"
+    261                  unsigned int ustavka    :10;
+    262                  unsigned int delay      :3;
+    263                  unsigned int impuls      :3;
+    264                     } map;
+    265            } analog_ust_1; 
+    266             
+    267             union
+    268            { unsigned int data;   
+    269              struct {//описание записи типа "поле"
+    270                  unsigned int ustavka    :10;
+    271                  unsigned int gisteresis      :6;
+    272                 
+    273                     } map;
+    274            } analog_ust_2; 
+    275              
+    276             union
+    277            { unsigned int data;   
+    278              struct {//описание записи типа "поле"
+    279                  unsigned int nomer_ty_low     :3;
+    280                  unsigned int type_ty_low      :3;
+    281                  unsigned int en_alarm_low      :2; 
+    282                  unsigned int nomer_ty_hi     :3;
+    283                  unsigned int type_ty_hi      :3;
+    284                  unsigned int en_alarm_hi      :2;  
+    285                     } map;
+    286            } analog_uprava;  
+    287            
+    288            
+    289           
+    290            
+    291           if ( *(unsigned int*)&c_config_tc[0x16] !=0x55aa) return;
+   \   00000006   ....               LDI     R26, LOW(c_config_tc)
+   \   00000008   ....               LDI     R27, (c_config_tc) >> 8
+   \   0000000A   01FD               MOVW    R31:R30, R27:R26
+   \   0000000C   A504               LDD     R16, Z+44
+   \   0000000E   A515               LDD     R17, Z+45
+   \   00000010   3A0A               CPI     R16, 170
+   \   00000012   4515               SBCI    R17, 85
+   \   00000014   F009               BREQ    $+2+2
+   \   00000016   C100               RJMP    ??local_avtom_tit_0
+    292           
+    293          triger_titmin = (unsigned char*)&c_config_tc[0x17]; 
+    294          triger_titmax = triger_titmin + 1; 
+    295          
+    296          
+    297          
+    298          
+    299          
+    300          // c_config_tc[0x17] это регистр флагов аварий 
+    301           
+    302          /*    
+    303           if (c_config_tc.mb[23]==255) 
+    304           
+    305           {//Сброс аварий
+    306            c_config_tc[23]=0;
+    307            
+    308            
+    309            triger_titmax=0;
+    310            triger_titmin=0; 
+    311            
+    312            for (j=0;j<2;j++) {k_a_tit[j]=0;}
+    313            
+    314            
+    315            
+    316           } 
+    317           
+    318          */
+    319           
+    320          //Блок контроля ТИТ====================  
+    321           
+    322           run_1=1; 
+   \   00000018   24AA               CLR     R10
+   \   0000001A   94A3               INC     R10
+    323           for (ivx=0;ivx<2;ivx++)       // 
+   \   0000001C   E000               LDI     R16, 0
+   \   0000001E   8309               STD     Y+1, R16
+    324           {
+    325            //Исключение контроля ТИТ была авария по этому входу ТИТ)
+    326          
+    327          
+    328            if (sec_ttt[ivx]==real_time.r_sec){run_1=run_1<<1;continue;} //Идет отработка паузы. След.вх.
+   \                     ??local_avtom_tit_1:
+   \   00000020   8069               LDD     R6, Y+1
+   \   00000022   2477               CLR     R7
+   \   00000024   ....               LDI     R16, LOW(k_a_tit)
+   \   00000026   2E40               MOV     R4, R16
+   \   00000028   ....               LDI     R16, (k_a_tit) >> 8
+   \   0000002A   2E50               MOV     R5, R16
+   \   0000002C   0C46               ADD     R4, R6
+   \   0000002E   1C57               ADC     R5, R7
+   \   00000030   01F2               MOVW    R31:R30, R5:R4
+   \   00000032   8102               LDD     R16, Z+2
+   \   00000034   9110....           LDS     R17, real_time
+   \   00000038   1701               CP      R16, R17
+   \   0000003A   F409               BRNE    $+2+2
+   \   0000003C   C0E6               RJMP    ??local_avtom_tit_2
+    329            
+    330            
+    331            
+    332            
+    333            analog_ust_1.data= *(unsigned int*)&c_config_tc[0x10+ivx*3];
+   \   0000003E   01A3               MOVW    R21:R20, R7:R6
+   \   00000040   E003               LDI     R16, 3
+   \   00000042   E010               LDI     R17, 0
+   \   00000044   ........           CALL    ?S_EC_MUL_L02
+   \   00000048   0F00               LSL     R16
+   \   0000004A   1F11               ROL     R17
+   \   0000004C   01FD               MOVW    R31:R30, R27:R26
+   \   0000004E   0FE0               ADD     R30, R16
+   \   00000050   1FF1               ADC     R31, R17
+   \   00000052   A080               LDD     R8, Z+32
+   \   00000054   A091               LDD     R9, Z+33
+    334            analog_ust_2.data= *(unsigned int*)&c_config_tc[0x11+ivx*3]; 
+   \   00000056   A122               LDD     R18, Z+34
+   \   00000058   A133               LDD     R19, Z+35
+   \   0000005A   8728               STD     Y+8, R18
+   \   0000005C   8739               STD     Y+9, R19
+    335            analog_uprava.data=*(unsigned int*)&c_config_tc[0x12+ivx*3];    
+   \   0000005E   A0E4               LDD     R14, Z+36
+   \   00000060   A0F5               LDD     R15, Z+37
+    336           
+    337            analog_min=analog_ust_1.map.ustavka;  
+   \   00000062   E013               LDI     R17, 3
+   \   00000064   2119               AND     R17, R9
+   \   00000066   828C               STD     Y+4, R8
+   \   00000068   831D               STD     Y+5, R17
+    338            analog_max=analog_ust_2.map.ustavka; 
+   \   0000006A   2F13               MOV     R17, R19
+   \   0000006C   7013               ANDI    R17, 0x03
+   \   0000006E   832E               STD     Y+6, R18
+   \   00000070   831F               STD     Y+7, R17
+    339                 
+    340            
+    341            
+    342            if ( analog_uprava.map.en_alarm_low !=1) { goto control_max_tit;} // запрещено сигнализация о авариях
+   \   00000072   ....               LDI     R24, LOW(modbus_mem1)
+   \   00000074   ....               LDI     R25, (modbus_mem1) >> 8
+   \   00000076   0183               MOVW    R17:R16, R7:R6
+   \   00000078   0F00               LSL     R16
+   \   0000007A   1F11               ROL     R17
+   \   0000007C   0F80               ADD     R24, R16
+   \   0000007E   1F91               ADC     R25, R17
+   \   00000080   2D0A               MOV     R16, R10
+   \   00000082   9500               COM     R16
+   \   00000084   830A               STD     Y+2, R16
+   \   00000086   ....               LDI     R16, LOW(k_a_tit)
+   \   00000088   ....               LDI     R17, (k_a_tit) >> 8
+   \   0000008A   0D06               ADD     R16, R6
+   \   0000008C   1D17               ADC     R17, R7
+   \   0000008E   0138               MOVW    R7:R6, R17:R16
+   \   00000090   2D0E               MOV     R16, R14
+   \   00000092   7C00               ANDI    R16, 0xC0
+   \   00000094   3400               CPI     R16, 64
+   \   00000096   F5A9               BRNE    ??CrossCallReturnLabel_38
+    343            
+    344          //Контроль Уmin -----------------
+    345            if ( ((*triger_titmin   & run_1)==0) &&                                //ТУ еще не выдавалоь
+    346                 
+    347                ( modbus_mem1[AD_TIT1+ivx] < analog_min )     //Меньше Уmin
+    348               )
+   \   00000098   01FD               MOVW    R31:R30, R27:R26
+   \   0000009A   A506               LDD     R16, Z+46
+   \   0000009C   2D1A               MOV     R17, R10
+   \   0000009E   2310               AND     R17, R16
+   \   000000A0   F581               BRNE    ??CrossCallReturnLabel_38
+   \   000000A2   ....               RCALL   ?Subroutine8
+   \                     ??CrossCallReturnLabel_28:
+   \   000000A4   813D               LDD     R19, Y+5
+   \   000000A6   1508               CP      R16, R8
+   \   000000A8   0713               CPC     R17, R19
+   \   000000AA   F558               BRCC    ??CrossCallReturnLabel_38
+    349               {sec_ttt[ivx]=real_time.r_sec;  k_a_tit[ivx]=(k_a_tit[ivx]+1 ) & 0xf; 
+   \   000000AC   9100....           LDS     R16, real_time
+   \   000000B0   01F2               MOVW    R31:R30, R5:R4
+   \   000000B2   8302               STD     Z+2, R16
+   \   000000B4   ....               RCALL   ?Subroutine10
+    350                if (k_a_tit[ivx]==(3+ analog_ust_1.map.delay)  )       //программированная выдержка авария -> выдатьТУ
+   \                     ??CrossCallReturnLabel_35:
+   \   000000B6   ....               RCALL   ?Subroutine7
+   \                     ??CrossCallReturnLabel_26:
+   \   000000B8   1720               CP      R18, R16
+   \   000000BA   F519               BRNE    ??CrossCallReturnLabel_38
+    351                {   
+    352                    
+    353                    *triger_titmin=*triger_titmin   | run_1;      // установить бит аварии по минимуму
+   \   000000BC   01FD               MOVW    R31:R30, R27:R26
+   \   000000BE   A516               LDD     R17, Z+46
+   \   000000C0   291A               OR      R17, R10
+   \   000000C2   A716               STD     Z+46, R17
+    354                    *triger_titmax=*triger_titmax   & ~run_1;      // сбросить бит аварии по максимуму для разблокировки 
+   \   000000C4   810A               LDD     R16, Y+2
+   \   000000C6   A517               LDD     R17, Z+47
+   \   000000C8   2310               AND     R17, R16
+   \   000000CA   A717               STD     Z+47, R17
+    355                    
+    356                   
+    357                    
+    358                    
+    359                    
+    360                     if (analog_uprava.map.nomer_ty_low>0  && analog_uprava.map.nomer_ty_low <= 3 )  //Допустимый.NТУ
+   \   000000CC   2D2E               MOV     R18, R14
+   \   000000CE   7027               ANDI    R18, 0x07
+   \   000000D0   F0B9               BREQ    ??CrossCallReturnLabel_32
+   \   000000D2   3024               CPI     R18, 4
+   \   000000D4   F4A8               BRCC    ??CrossCallReturnLabel_32
+    361                     
+    362                    {
+    363                    if(analog_uprava.map.type_ty_low==0) impuls_avatu(analog_uprava.map.nomer_ty_low,analog_ust_1.map.impuls);
+   \   000000D6   2D1E               MOV     R17, R14
+   \   000000D8   7318               ANDI    R17, 0x38
+   \   000000DA   F439               BRNE    ??local_avtom_tit_3
+   \   000000DC   E008               LDI     R16, 8
+   \   000000DE   2D49               MOV     R20, R9
+   \   000000E0   9F40               MUL     R20, R16
+   \   000000E2   2D11               MOV     R17, R1
+   \   000000E4   2F02               MOV     R16, R18
+   \   000000E6   ....               RCALL   impuls_avatu
+   \   000000E8   C00B               RJMP    ??CrossCallReturnLabel_32
+    364                    if(analog_uprava.map.type_ty_low==1) set_avatu(analog_uprava.map.nomer_ty_low);
+   \                     ??local_avtom_tit_3:
+   \   000000EA   3018               CPI     R17, 8
+   \   000000EC   F419               BRNE    ??local_avtom_tit_4
+   \                     ??local_avtom_tit_5:
+   \   000000EE   2F02               MOV     R16, R18
+   \   000000F0   ....               RCALL   set_avatu
+   \   000000F2   C006               RJMP    ??CrossCallReturnLabel_32
+    365                    if(analog_uprava.map.type_ty_low==3) set_avatu(analog_uprava.map.nomer_ty_low);
+   \                     ??local_avtom_tit_4:
+   \   000000F4   3118               CPI     R17, 24
+   \   000000F6   F3D9               BREQ    ??local_avtom_tit_5
+    366                    if(analog_uprava.map.type_ty_low==2) reset_avatu(analog_uprava.map.nomer_ty_low);  
+   \   000000F8   3110               CPI     R17, 16
+   \   000000FA   F411               BRNE    ??CrossCallReturnLabel_32
+   \   000000FC   2F02               MOV     R16, R18
+   \   000000FE   ....               RCALL   ??Subroutine9_0
+    367                                   
+    368                    }     
+    369                    
+    370                                  
+    371                    insert_zapis_tit(ivx);                    // записать в архив 
+   \                     ??CrossCallReturnLabel_32:
+   \   00000100   ....               RCALL   ?Subroutine11
+    372                     
+    373                   }//if 3я авария                 
+    374                 
+    375                     }//end if Контроль Уmin------               
+    376                   
+    377                  
+    378                     
+    379                    
+    380                
+    381           
+    382          
+    383          //Контроль Уmax -----------------   
+    384          control_max_tit: 
+    385             
+    386            
+    387            if ( analog_uprava.map.en_alarm_hi !=1) goto control_ala;
+   \                     ??CrossCallReturnLabel_38:
+   \   00000102   ....               RCALL   ?Subroutine7
+   \                     ??CrossCallReturnLabel_27:
+   \   00000104   830B               STD     Y+3, R16
+   \   00000106   E000               LDI     R16, 0
+   \   00000108   E017               LDI     R17, 7
+   \   0000010A   211F               AND     R17, R15
+   \   0000010C   8318               ST      Y, R17
+   \   0000010E   24CC               CLR     R12
+   \   00000110   E328               LDI     R18, 56
+   \   00000112   2ED2               MOV     R13, R18
+   \   00000114   20DF               AND     R13, R15
+   \   00000116   EC50               LDI     R21, 192
+   \   00000118   215F               AND     R21, R15
+   \   0000011A   3000               CPI     R16, 0
+   \   0000011C   4450               SBCI    R21, 64
+   \   0000011E   F5E9               BRNE    ??CrossCallReturnLabel_37
+    388            if ( ((*triger_titmax   & run_1)==0) &&                                 //ТУ еще не выдавалоь
+    389                 
+    390                (modbus_mem1[AD_TIT1+ivx] >= analog_max)     //>= Уmax
+    391               )
+   \   00000120   01FD               MOVW    R31:R30, R27:R26
+   \   00000122   A527               LDD     R18, Z+47
+   \   00000124   2D3A               MOV     R19, R10
+   \   00000126   2332               AND     R19, R18
+   \   00000128   F5C1               BRNE    ??CrossCallReturnLabel_37
+   \   0000012A   01FC               MOVW    R31:R30, R25:R24
+   \   0000012C   A120               LDD     R18, Z+32
+   \   0000012E   A131               LDD     R19, Z+33
+   \   00000130   814E               LDD     R20, Y+6
+   \   00000132   815F               LDD     R21, Y+7
+   \   00000134   1724               CP      R18, R20
+   \   00000136   0735               CPC     R19, R21
+   \   00000138   F180               BRCS    ??CrossCallReturnLabel_37
+    392               {sec_ttt[ivx]=real_time.r_sec;  k_a_tit[ivx]=(k_a_tit[ivx]+1 ) & 0xf; 
+   \   0000013A   9120....           LDS     R18, real_time
+   \   0000013E   01F2               MOVW    R31:R30, R5:R4
+   \   00000140   8322               STD     Z+2, R18
+   \   00000142   ....               RCALL   ?Subroutine10
+    393                if (k_a_tit[ivx]==(3+ analog_ust_1.map.delay) )//3я авария -> выдатьТУ
+   \                     ??CrossCallReturnLabel_36:
+   \   00000144   813B               LDD     R19, Y+3
+   \   00000146   1723               CP      R18, R19
+   \   00000148   F541               BRNE    ??CrossCallReturnLabel_37
+    394                {  
+    395                    
+    396                     *triger_titmax=*triger_titmax   | run_1;      // установить бит аварии по максиму
+   \   0000014A   01FD               MOVW    R31:R30, R27:R26
+   \   0000014C   A537               LDD     R19, Z+47
+   \   0000014E   293A               OR      R19, R10
+   \   00000150   A737               STD     Z+47, R19
+    397                     *triger_titmin=*triger_titmin   & ~run_1;      // сбросить бит аварии по минимуму для разблокировки  
+   \   00000152   812A               LDD     R18, Y+2
+   \   00000154   A536               LDD     R19, Z+46
+   \   00000156   2332               AND     R19, R18
+   \   00000158   A736               STD     Z+46, R19
+    398                    
+    399                    
+    400                    
+    401                    
+    402                      if (analog_uprava.map.nomer_ty_hi>0  && analog_uprava.map.nomer_ty_hi <= 3 )  //Допустимый.NТУ
+   \   0000015A   2B01               OR      R16, R17
+   \   0000015C   F0E9               BREQ    ??CrossCallReturnLabel_34
+   \   0000015E   8108               LD      R16, Y
+   \   00000160   3004               CPI     R16, 4
+   \   00000162   F4D0               BRCC    ??CrossCallReturnLabel_34
+    403                     
+    404                    {
+    405                    if(analog_uprava.map.type_ty_hi==0) impuls_avatu(analog_uprava.map.nomer_ty_hi,analog_ust_1.map.impuls);
+   \   00000164   E000               LDI     R16, 0
+   \   00000166   290D               OR      R16, R13
+   \   00000168   F439               BRNE    ??local_avtom_tit_6
+   \   0000016A   E008               LDI     R16, 8
+   \   0000016C   2C89               MOV     R8, R9
+   \   0000016E   9E80               MUL     R8, R16
+   \   00000170   2D11               MOV     R17, R1
+   \   00000172   8108               LD      R16, Y
+   \   00000174   ....               RCALL   impuls_avatu
+   \   00000176   C010               RJMP    ??CrossCallReturnLabel_34
+    406                    if(analog_uprava.map.type_ty_hi==1) set_avatu(analog_uprava.map.nomer_ty_hi);
+   \                     ??local_avtom_tit_6:
+   \   00000178   E000               LDI     R16, 0
+   \   0000017A   3000               CPI     R16, 0
+   \   0000017C   E008               LDI     R16, 8
+   \   0000017E   06D0               CPC     R13, R16
+   \   00000180   F419               BRNE    ??local_avtom_tit_7
+   \                     ??local_avtom_tit_8:
+   \   00000182   8108               LD      R16, Y
+   \   00000184   ....               RCALL   set_avatu
+   \   00000186   C008               RJMP    ??CrossCallReturnLabel_34
+    407                    if(analog_uprava.map.type_ty_hi==3) set_avatu(analog_uprava.map.nomer_ty_hi);
+   \                     ??local_avtom_tit_7:
+   \   00000188   ....               RCALL   ?Subroutine5
+   \                     ??CrossCallReturnLabel_21:
+   \   0000018A   F3D9               BREQ    ??local_avtom_tit_8
+    408                    if(analog_uprava.map.type_ty_hi==2) reset_avatu(analog_uprava.map.nomer_ty_hi);  
+   \   0000018C   E000               LDI     R16, 0
+   \   0000018E   3000               CPI     R16, 0
+   \   00000190   E100               LDI     R16, 16
+   \   00000192   06D0               CPC     R13, R16
+   \   00000194   F409               BRNE    ??CrossCallReturnLabel_34
+   \   00000196   ....               RCALL   ?Subroutine9
+    409                                   
+    410                    }    
+    411                    
+    412                    
+    413                    insert_zapis_tit(ivx);                    // записать в архив
+   \                     ??CrossCallReturnLabel_34:
+   \   00000198   ....               RCALL   ?Subroutine11
+    414                    
+    415                             
+    416                                                
+    417               
+    418                 
+    419                }//if 3я авария
+    420               }//end if Контроль Уmax------
+    421             
+    422             
+    423              
+    424              
+    425             
+    426           control_ala: 
+    427              
+    428            if ( k_a_tit[ivx]== (3+ analog_ust_1.map.delay ) &&                                //ТУ  выдавалоь
+    429                ((modbus_mem1[AD_TIT1+ivx])>= (analog_min+analog_ust_2.map.gisteresis) ) && // >= Уmin + гистерезис
+    430                ((modbus_mem1[AD_TIT1+ivx])< (analog_max-analog_ust_2.map.gisteresis)  )     // < Уmax  - гистерезис
+    431               )//Значение в допуске
+   \                     ??CrossCallReturnLabel_37:
+   \   0000019A   ....               RCALL   ?Subroutine12
+   \                     ??CrossCallReturnLabel_41:
+   \   0000019C   F539               BRNE    ??local_avtom_tit_9
+   \   0000019E   ....               RCALL   ?Subroutine8
+   \                     ??CrossCallReturnLabel_29:
+   \   000001A0   8529               LDD     R18, Y+9
+   \   000001A2   9526               LSR     R18
+   \   000001A4   9526               LSR     R18
+   \   000001A6   814C               LDD     R20, Y+4
+   \   000001A8   815D               LDD     R21, Y+5
+   \   000001AA   0F42               ADD     R20, R18
+   \   000001AC   1D5C               ADC     R21, R12
+   \   000001AE   1704               CP      R16, R20
+   \   000001B0   0715               CPC     R17, R21
+   \   000001B2   F0E0               BRCS    ??local_avtom_tit_9
+   \   000001B4   814E               LDD     R20, Y+6
+   \   000001B6   815F               LDD     R21, Y+7
+   \   000001B8   1B42               SUB     R20, R18
+   \   000001BA   4050               SBCI    R21, 0
+   \   000001BC   1704               CP      R16, R20
+   \   000001BE   0715               CPC     R17, R21
+   \   000001C0   F4A8               BRCC    ??local_avtom_tit_9
+    432              { k_a_tit[ivx]=0;
+   \   000001C2   01F3               MOVW    R31:R30, R7:R6
+   \   000001C4   82C0               ST      Z, R12
+    433              if(analog_uprava.map.type_ty_low==3) reset_avatu(analog_uprava.map.nomer_ty_low);
+   \   000001C6   2D0E               MOV     R16, R14
+   \   000001C8   7308               ANDI    R16, 0x38
+   \   000001CA   3108               CPI     R16, 24
+   \   000001CC   F419               BRNE    ??CrossCallReturnLabel_31
+   \   000001CE   2D0E               MOV     R16, R14
+   \   000001D0   7007               ANDI    R16, 0x07
+   \   000001D2   ....               RCALL   ??Subroutine9_0
+    434              if(analog_uprava.map.type_ty_hi==3)  reset_avatu(analog_uprava.map.nomer_ty_hi);
+   \                     ??CrossCallReturnLabel_31:
+   \   000001D4   ....               RCALL   ?Subroutine5
+   \                     ??CrossCallReturnLabel_22:
+   \   000001D6   F409               BRNE    ??CrossCallReturnLabel_33
+   \   000001D8   ....               RCALL   ?Subroutine9
+    435              *triger_titmax=*triger_titmax   & ~run_1; 
+   \                     ??CrossCallReturnLabel_33:
+   \   000001DA   810A               LDD     R16, Y+2
+   \   000001DC   01FD               MOVW    R31:R30, R27:R26
+   \   000001DE   A517               LDD     R17, Z+47
+   \   000001E0   2310               AND     R17, R16
+   \   000001E2   A717               STD     Z+47, R17
+    436              *triger_titmin=*triger_titmin   & ~run_1; 
+   \   000001E4   810A               LDD     R16, Y+2
+   \   000001E6   A516               LDD     R17, Z+46
+   \   000001E8   2310               AND     R17, R16
+   \   000001EA   A716               STD     Z+46, R17
+    437              } 
+    438            
+    439            
+    440            
+    441            
+    442              
+    443           
+    444          //Контроль допуска -----------------
+    445            if ( k_a_tit[ivx]< (3+ analog_ust_1.map.delay ) &&                                //ТУ еще не выдавалоь
+    446                ((modbus_mem1[AD_TIT1+ivx])>= analog_min) && // >= Уmin
+    447                ((modbus_mem1[AD_TIT1+ivx])< analog_max)     // < Уmax
+    448               )//Значение в допуске
+   \                     ??local_avtom_tit_9:
+   \   000001EC   ....               RCALL   ?Subroutine12
+   \                     ??CrossCallReturnLabel_42:
+   \   000001EE   F468               BRCC    ??local_avtom_tit_2
+   \   000001F0   ....               RCALL   ?Subroutine8
+   \                     ??CrossCallReturnLabel_30:
+   \   000001F2   812C               LDD     R18, Y+4
+   \   000001F4   813D               LDD     R19, Y+5
+   \   000001F6   1702               CP      R16, R18
+   \   000001F8   0713               CPC     R17, R19
+   \   000001FA   F038               BRCS    ??local_avtom_tit_2
+   \   000001FC   812E               LDD     R18, Y+6
+   \   000001FE   813F               LDD     R19, Y+7
+   \   00000200   1702               CP      R16, R18
+   \   00000202   0713               CPC     R17, R19
+   \   00000204   F410               BRCC    ??local_avtom_tit_2
+    449              { k_a_tit[ivx]=0; 
+   \   00000206   01F3               MOVW    R31:R30, R7:R6
+   \   00000208   82C0               ST      Z, R12
+    450               // m_reset_ty(c1_byte.mb[68+ivx]-1);//???Уст.сост.ТУ Выкл.реле
+    451               // m_reset_ty(c1_byte.mb[92+ivx]-1);
+    452              }
+   \                     ??local_avtom_tit_2:
+   \   0000020A   0CAA               LSL     R10
+    453              
+    454              
+    455              
+    456              
+    457               run_1=run_1<<1;
+    458           }//for вх.ТИТ =======================
+   \   0000020C   8109               LDD     R16, Y+1
+   \   0000020E   9503               INC     R16
+   \   00000210   8309               STD     Y+1, R16
+   \   00000212   3002               CPI     R16, 2
+   \   00000214   F408               BRCC    $+2+2
+   \   00000216   CF04               RJMP    ??local_avtom_tit_1
+   \                     ??local_avtom_tit_0:
+   \   00000218   962A               ADIW    R29:R28, 10
+   \   0000021A   E1E0               LDI     R30, 16
+   \   0000021C   ........           JMP     ?EPILOGUE_B16_L09
+    459          //end Блокa контроля ТИТ==================== 
+    460           //modbus_mem1[8]=(triger_titmax<<8) + triger_titmin;
+    461          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine12:
+   \   00000000   01F3               MOVW    R31:R30, R7:R6
+   \   00000002   8100               LD      R16, Z
+   \   00000004   811B               LDD     R17, Y+3
+   \   00000006   ....               RJMP    ?Subroutine13
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine11:
+   \   00000000   8109               LDD     R16, Y+1
+   \   00000002   ........           JMP     insert_zapis_tit
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine10:
+   \   00000000   8120               LD      R18, Z
+   \   00000002   9523               INC     R18
+   \   00000004   702F               ANDI    R18, 0x0F
+   \   00000006   8320               ST      Z, R18
+   \   00000008   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine9:
+   \   00000000   8108               LD      R16, Y
+   \                     ??Subroutine9_0:
+   \   00000002   ....               RJMP    reset_avatu
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine8:
+   \   00000000   01FC               MOVW    R31:R30, R25:R24
+   \   00000002   A100               LDD     R16, Z+32
+   \   00000004   A111               LDD     R17, Z+33
+   \   00000006   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine7:
+   \   00000000   E11C               LDI     R17, 28
+   \   00000002   2119               AND     R17, R9
+   \   00000004   2F01               MOV     R16, R17
+   \   00000006   9506               LSR     R16
+   \   00000008   9506               LSR     R16
+   \   0000000A   5F0D               SUBI    R16, 253
+   \   0000000C   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine5:
+   \   00000000   E000               LDI     R16, 0
+   \   00000002   3000               CPI     R16, 0
+   \   00000004   E108               LDI     R16, 24
+   \   00000006   06D0               CPC     R13, R16
+   \   00000008   9508               RET
+    462          /////////////////////////////////////
+    463          
+    464          
+
+   Maximum stack usage in bytes:
+
+     Function              CSTACK RSTACK
+     --------              ------ ------
+     begin_ts_mb               0      3
+       -> start_ts_mb          0      3
+       -> start_ts_mb          0      3
+       -> start_ts_mb          0      3
+       -> start_ts_mb          0      3
+       -> start_ts_mb          0      3
+       -> start_ts_mb          0      3
+       -> start_ts_mb          0      3
+       -> start_ts_mb          0      3
+       -> start_ts_mb          0      3
+       -> start_ts_mb          0      3
+     control_ts                4      3
+       -> opros_ts_mb          4      3
+       -> opros_ts_mb          4      3
+       -> opros_ts_mb          4      3
+       -> opros_ts_mb          4      3
+       -> opros_ts_mb          4      3
+       -> opros_ts_mb          4      3
+       -> opros_ts_mb          4      3
+       -> opros_ts_mb          4      3
+       -> opros_ts_mb          4      3
+       -> opros_ts_mb          4      3
+       -> local_avtom_tit      4      3
+     impuls_avatu              0      3
+     local_avtom_tit          26      6
+       -> impuls_avatu        26      3
+       -> set_avatu           26      3
+       -> set_avatu           26      3
+       -> reset_avatu         26      3
+       -> insert_zapis_tit    26      3
+       -> impuls_avatu        26      3
+       -> set_avatu           26      3
+       -> set_avatu           26      3
+       -> reset_avatu         26      3
+       -> insert_zapis_tit    26      3
+       -> reset_avatu         26      3
+       -> reset_avatu         26      3
+     opros_ts_mb               2      6
+       -> insert_zapis_tc      2      3
+     reset_avatu               0      3
+     set_avatu                 0      3
+     start_ts_mb               0      6
+
+
+   Segment part sizes:
+
+     Function/Label  Bytes
+     --------------  -----
+     _A_PORTA           1
+     uprava            23
+     c_config_tc       48
+     k_a_tit            4
+     set_avatu         24
+     reset_avatu       24
+     impuls_avatu      34
+     start_ts_mb       80
+     ?Subroutine1      10
+     ?Subroutine0       8
+     begin_ts_mb       86
+     ?Subroutine3       2
+     opros_ts_mb      148
+     ?Subroutine2      10
+     ?Subroutine13      4
+     control_ts       170
+     ?Subroutine6       2
+     ?Subroutine4      10
+     local_avtom_tit  544
+     ?Subroutine12      8
+     ?Subroutine11      6
+     ?Subroutine10     10
+     ?Subroutine9       4
+     ?Subroutine8       8
+     ?Subroutine7      14
+     ?Subroutine5      10
+      Others            7
+
+ 
+     1 byte  in segment ABSOLUTE
+ 1 216 bytes in segment FARCODE
+     7 bytes in segment INITTAB
+    75 bytes in segment NEAR_Z
+ 
+ 1 216 bytes of CODE memory (+ 7 bytes shared)
+    75 bytes of DATA memory (+ 1 byte  shared)
+
+Errors: none
+Warnings: none

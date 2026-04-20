@@ -1,0 +1,3372 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+//                                                     24/Oct/2025  13:27:57 /
+// IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version               /
+// Copyright 1996-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\kd.c           /
+//    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\kd.c           /
+//                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a7 /
+//                    682e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_ /
+//                    a7682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cer /
+//                    r_a7682e\Debug\List\ -y --initializers_in_flash -z9    /
+//                    --no_inline --no_tbaa --cross_call_passes=1 --debug    /
+//                    -e -I "E:\box\IAR Systems\Embedded Workbench 4.0       /
+//                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded   /
+//                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size  /
+//                    4096 --dlib_config "E:\box\IAR Systems\Embedded        /
+//                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h" /
+//    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\kd. /
+//                    s90                                                    /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME kd
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "5"
+        RTMODEL "__cpu_name", "ATmega2560"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?EPILOGUE_B4_L09
+        EXTERN ?PROLOGUE4_L09
+        EXTERN ?need_segment_init
+
+        PUBWEAK `?<Segment init: NEAR_Z>`
+?Subroutine19 EQU 0
+?Subroutine3 EQU 0
+        PUBWEAK _A_PORTA
+        PUBWEAK _A_PORTB
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBLIC begin_kd_2
+        FUNCTION begin_kd_2,021203H
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC bufer
+        PUBLIC c_config_kd
+        PUBLIC cnt_snd
+        PUBLIC com_disp_mbus
+        FUNCTION com_disp_mbus,021203H
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC glob_tabletka
+        PUBLIC glutch
+        PUBLIC insert_query
+        FUNCTION insert_query,021203H
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC iz_vzat
+        PUBLIC monitori
+        FUNCTION monitori,021203H
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC morg
+        FUNCTION morg,0203H
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC obmen_full
+        PUBLIC point_head
+        PUBLIC point_tail
+        PUBLIC query_full
+        PUBLIC read_ohr
+        FUNCTION read_ohr,021203H
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC sost
+        PUBLIC test_alarm
+        FUNCTION test_alarm,021203H
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC test_query
+        FUNCTION test_query,0203H
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC test_snat
+        FUNCTION test_snat,021203H
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC test_t_vhod
+        FUNCTION test_t_vhod,021203H
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC test_t_vihod
+        FUNCTION test_t_vihod,021203H
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC test_vzat
+        FUNCTION test_vzat,021203H
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC timer_autovzat
+        PUBLIC timer_vhod
+        PUBLIC trevoga
+        PUBLIC ust_vhod
+        PUBLIC wr_sost
+        FUNCTION wr_sost,021203H
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC wr_uk
+        FUNCTION wr_uk,021203H
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC zp_prihod_uhod
+        FUNCTION zp_prihod_uhod,021203H
+        LOCFRAME RSTACK, 3, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetByte3:8, ?RetHigh:8, ?RetLow:8
+        CFI VirtualResource ?Ret:25
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetByte3, ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Notused
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 SameValue
+        CFI R1 SameValue
+        CFI R2 SameValue
+        CFI R3 SameValue
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 SameValue
+        CFI R17 SameValue
+        CFI R18 SameValue
+        CFI R19 SameValue
+        CFI R20 SameValue
+        CFI R21 SameValue
+        CFI R22 SameValue
+        CFI R23 SameValue
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 SameValue
+        CFI R31 SameValue
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI Y SameValue
+        CFI EndCommon cfiCommon1
+        
+        EXTERN crc_485
+        FUNCTION crc_485,0202H
+        EXTERN WrArrayToFlesh
+        FUNCTION WrArrayToFlesh,0202H
+        EXTERN RdFromFleshToArr
+        FUNCTION RdFromFleshToArr,0202H
+        EXTERN insert_zapis_kd
+        FUNCTION insert_zapis_kd,0202H
+        EXTERN bit_registr1
+        EXTERN dabl
+        EXTERN flag_arhiv_prihod
+        EXTERN flag_set_akb
+        EXTERN modbus_mem1
+        EXTERN nomer_tab
+        EXTERN prihod_uhod
+        EXTERN sel_modul
+
+// E:\sim800Elam2560_bootnew_i2cerr_a7682e\kd.c
+//    1 
+//    2 #include <iom2560.h>
+
+        ASEGN ABSOLUTE:DATA:NOROOT,025H
+// union <unnamed> volatile __io _A_PORTB
+_A_PORTB:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+// union <unnamed> volatile __io _A_PORTA
+_A_PORTA:
+        DS 1
+//    3 #include <inavr.h>
+//    4 #include "dfcnst.h"
+//    5 #include "map_ef.h"
+//    6 #include "map_mbus.h"
+//    7 #include "arh_zap.h"
+//    8 
+//    9 #include "dfpin.h"
+//   10 
+//   11 
+//   12 
+//   13 
+//   14 
+//   15  void com_disp_mbus (void);
+//   16 
+//   17 void WrArrayToFlesh(unsigned int adres_flesh,  unsigned char *adres_ozu, unsigned int num,unsigned char flag,unsigned char znach);  //запись конфигурации кп во флеш
+//   18 void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,unsigned int num);
+//   19 
+//   20 void insert_zapis_kd(unsigned char nomer,unsigned char type);
+//   21 
+//   22 unsigned char crc_485(unsigned char num, unsigned char *p);
+//   23 
+//   24 unsigned long int burst_ds_r(void);
+//   25 
+//   26 extern unsigned char sel_modul;
+//   27 
+//   28 extern unsigned int modbus_mem1[SEG1];
+//   29 
+//   30 
+//   31 extern char flag_arhiv_prihod;
+//   32 
+//   33 extern unsigned char flag_set_akb;
+//   34 
+//   35 
+//   36 //extern unsigned char zapis[14];
+//   37 
+//   38 
+//   39 
+//   40 extern unsigned char prihod_uhod;
+//   41 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   42 unsigned char cnt_snd;
+//   43 
+//   44 unsigned int glutch;
+glutch:
+        DS 2
+//   45 unsigned int sost;
+sost:
+        DS 2
+//   46 
+//   47 extern char dabl;
+//   48 
+//   49 unsigned int c_config_kd[2];
+//   50 
+//   51 unsigned char crc_485(unsigned char num, unsigned char *p);
+//   52 
+//   53 extern unsigned char fl_akb;
+//   54 
+//   55 
+//   56 
+//   57 
+//   58 unsigned char bufer[2];
+bufer:
+        DS 2
+//   59 
+//   60 unsigned char query_full,obmen_full,point_head,point_tail;
+//   61 
+//   62 extern char bit_registr1;
+//   63 
+//   64 
+//   65 extern unsigned char nomer_tab;
+//   66 
+//   67 unsigned char trevoga,iz_vzat;
+//   68 
+//   69 unsigned char glob_tabletka;
+//   70 
+//   71 unsigned int ust_vhod, timer_vhod,timer_autovzat;
+ust_vhod:
+        DS 2
+timer_vhod:
+        DS 2
+timer_autovzat:
+        DS 2
+cnt_snd:
+        DS 1
+query_full:
+        DS 1
+obmen_full:
+        DS 1
+point_head:
+        DS 1
+point_tail:
+        DS 1
+trevoga:
+        DS 1
+iz_vzat:
+        DS 1
+glob_tabletka:
+        DS 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+c_config_kd:
+        DS 4
+//   72 
+//   73 
+//   74 
+//   75 
+//   76 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   77 void wr_uk (void)
+wr_uk:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function wr_uk
+//   78 {
+        FUNCALL wr_uk, crc_485
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL wr_uk, WrArrayToFlesh
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL wr_uk, WrArrayToFlesh
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 3, STACK
+        SBIW	R29:R28, 4
+        CFI CFA_Y Y+4
+//   79 unsigned char buf[4];
+//   80       buf[0]=point_head;
+        LDI	R30, LOW(glutch)
+        LDI	R31, (glutch) >> 8
+        LDD	R16, Z+15
+        ST	Y, R16
+//   81       buf[1]=point_tail;
+        LDD	R16, Z+16
+        STD	Y+1, R16
+//   82       buf[2]=query_full;
+        LDD	R16, Z+13
+        STD	Y+2, R16
+//   83       buf[3]=crc_485(3,&buf[0]);
+        MOVW	R19:R18, R29:R28
+        LDI	R16, 3
+        CALL	crc_485
+        STD	Y+3, R16
+//   84       WrArrayToFlesh(A_UK_OHR,&buf[0],4,0,0);
+        RCALL	?Subroutine2
+??CrossCallReturnLabel_0:
+        LDI	R16, 182
+        RCALL	?Subroutine28
+//   85       WrArrayToFlesh(A_UK1_OHR,&buf[0],4,0,0);
+??CrossCallReturnLabel_71:
+        RCALL	?Subroutine2
+??CrossCallReturnLabel_1:
+        LDI	R16, 190
+        RCALL	?Subroutine28
+//   86  
+//   87 }
+??CrossCallReturnLabel_70:
+        ADIW	R29:R28, 4
+        CFI CFA_Y Y+0
+        RET
+        CFI EndBlock cfiBlock0
+//   88 
+//   89 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   90 void wr_sost (void)
+wr_sost:
+        CFI Block cfiBlock1 Using cfiCommon0
+        CFI Function wr_sost
+//   91 {
+        FUNCALL wr_sost, crc_485
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL wr_sost, WrArrayToFlesh
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL wr_sost, WrArrayToFlesh
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        SBIW	R29:R28, 2
+        CFI CFA_Y Y+2
+//   92 unsigned char buf[2];
+//   93       buf[0]=sost;
+        LDS	R16, (glutch + 2)
+        RCALL	?Subroutine0
+//   94       buf[1]=crc_485(1,&buf[0]);
+//   95       WrArrayToFlesh(A_SOST_OHR,&buf[0],2,0,0);
+//   96       WrArrayToFlesh(A_SOST1_OHR,&buf[0],2,0,0); 
+//   97 }
+??CrossCallReturnLabel_68:
+        ADIW	R29:R28, 2
+        CFI CFA_Y Y+0
+        RET
+        CFI EndBlock cfiBlock1
+//   98 
+//   99 
+//  100 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  101 void morg( void)
+morg:
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI Function morg
+//  102 {
+        MOV	R19, R25
+        MOV	R20, R24
+//  103   
+//  104    switch(prihod_uhod)
+        LDI	R30, LOW(glutch)
+        LDI	R31, (glutch) >> 8
+        LDS	R16, prihod_uhod
+        TST	R16
+        BREQ	??morg_0
+        DEC	R16
+        BREQ	??morg_1
+        DEC	R16
+        BREQ	??morg_2
+        DEC	R16
+        BREQ	??morg_3
+        DEC	R16
+        BREQ	??morg_4
+        RJMP	??morg_5
+//  105                                 {
+//  106                                 case 0:  break;
+//  107                                 case 1: {SOST_ON; SOUND_ON; return;}   // приход
+??morg_1:
+        RJMP	??morg_6
+//  108                                 case 2:
+//  109                                          {
+//  110                                          if(glutch<170)
+??morg_2:
+        RCALL	?Subroutine8
+??CrossCallReturnLabel_12:
+        CPI	R16, 170
+        LDI	R18, 0
+        CPC	R17, R18
+        BRCC	??morg_7
+//  111                                                   {
+//  112                                                   // indicator=indicator & ~ST_VZ;
+//  113                                                     SOST_OFF;
+??morg_3:
+        CBI	0x02, 0x01
+//  114                                                     SOUND_OFF;
+??morg_8:
+        CBI	0x02, 0x03
+        RJMP	??morg_9
+//  115                                                   }
+//  116                                          if(glutch>170)
+??morg_7:
+        CPI	R16, 171
+        SBCI	R17, 0
+        BRCS	??morg_10
+//  117                                                    {
+//  118                                                   // indicator=indicator | ST_VZ; 
+//  119                                                    SOST_ON;
+        SBI	0x02, 0x01
+//  120                                                    SOUND_ON;
+        SBI	0x02, 0x03
+//  121                                                   }
+//  122                                                      if (glutch >340) glutch=0;
+??morg_10:
+        RCALL	?Subroutine8
+??CrossCallReturnLabel_13:
+        CPI	R16, 85
+        SBCI	R17, 1
+        BRCC	$+2+2
+        RJMP	??morg_9
+??morg_11:
+        LDI	R16, 0
+        ST	Z, R16
+        STD	Z+1, R16
+        RJMP	??morg_9
+//  123                                          return;            
+//  124                                          }
+//  125                                   case 4:
+//  126                                          {
+//  127                                          if(glutch<34)
+??morg_4:
+        LD	R24, Z
+        LDD	R25, Z+1
+        CPI	R24, 34
+        SBCI	R25, 0
+        BRCS	??morg_3
+//  128                                                   {
+//  129                                                 //   indicator=indicator & ~ST_VZ;
+//  130                                                    SOST_OFF;
+//  131                                                    SOUND_OFF;
+//  132                                                   }
+//  133                                          if(glutch>34)
+        LDD	R25, Z+1
+        CPI	R24, 35
+        SBCI	R25, 0
+        BRCS	??morg_12
+//  134                                                    {
+//  135                                                    //indicator=indicator | ST_VZ; 
+//  136                                                    SOST_ON;
+        SBI	0x02, 0x01
+//  137                                                    SOUND_ON;
+        SBI	0x02, 0x03
+//  138                                                   }
+//  139                                                      if (glutch >68) glutch=0;
+??morg_12:
+        RCALL	?Subroutine8
+??CrossCallReturnLabel_14:
+        CPI	R16, 69
+        SBCI	R17, 0
+??morg_13:
+        BRCS	??morg_9
+        RJMP	??morg_11
+//  140                                          return;            
+//  141                                          }       
+//  142                                          
+//  143                                          
+//  144                                   case 3: {SOST_OFF; SOUND_OFF; return;}      
+//  145                                           
+//  146                                    default: {prihod_uhod=0;break;}
+??morg_5:
+        LDI	R16, 0
+        STS	prihod_uhod, R16
+//  147                                   }
+//  148    
+//  149    
+//  150     
+//  151   
+//  152                  switch(sost)
+??morg_0:
+        LDD	R24, Z+2
+        LDD	R25, Z+3
+        ADIW	R25:R24, 0
+        BREQ	??morg_14
+        SBIW	R25:R24, 1
+        BREQ	??morg_3
+        SBIW	R25:R24, 1
+        BREQ	??morg_15
+        SBIW	R25:R24, 1
+        BREQ	??morg_16
+        SBIW	R25:R24, 1
+        BREQ	??morg_17
+        RJMP	??morg_9
+//  153                                 {
+//  154                                 case 0: //ST_ON; 
+//  155                                        // indicator=indicator | ST_VZ;
+//  156                                         SOST_ON;
+??morg_14:
+        SBI	0x02, 0x01
+//  157                                         SOUND_OFF;
+        RJMP	??morg_8
+//  158                                  
+//  159                                         break;
+//  160                                 
+//  161                                 case 1: //ST_OFF; 
+//  162                                         //indicator=indicator & ~ST_VZ;
+//  163                                   SOST_OFF;      
+??morg_18:
+        RJMP	??morg_3
+//  164                                   SOUND_OFF;
+//  165                                       
+//  166                                         break;
+//  167                                 case 2:
+//  168                                          {
+//  169                                          
+//  170                                            
+//  171                                            
+//  172                                          if(glutch< 1000)
+??morg_15:
+        RCALL	?Subroutine8
+??CrossCallReturnLabel_15:
+        CPI	R16, 232
+        LDI	R18, 3
+        CPC	R17, R18
+        BRCS	??morg_3
+//  173                                                   {
+//  174                                                   //ST_OFF;
+//  175                                                  // indicator=indicator & ~ST_VZ; 
+//  176                                                     SOST_OFF;
+//  177                                                   SOUND_OFF;
+//  178                                                   }
+//  179                                          if(glutch> 1000)
+        CPI	R16, 233
+        SBCI	R17, 3
+        BRCS	??morg_19
+//  180                                                    {
+//  181                                                    //ST_ON;
+//  182                                                    
+//  183                                                      
+//  184                                                   // indicator=indicator | ST_VZ; 
+//  185                                                      SOST_ON;
+        SBI	0x02, 0x01
+//  186                                                     if(cnt_snd<OVER_SND)SOUND_ON;
+        LDD	R16, Z+12
+        CPI	R16, 30
+        BRCC	??morg_19
+        SBI	0x02, 0x03
+//  187                                                   }
+//  188                                          
+//  189                                                   if (glutch >2000) glutch=0;
+??morg_19:
+        RCALL	?Subroutine8
+??CrossCallReturnLabel_16:
+        CPI	R16, 209
+        SBCI	R17, 7
+        RJMP	??morg_13
+//  190                                          }
+//  191                                           break;
+//  192 
+//  193 
+//  194                                 case 3:
+//  195                                          {
+//  196                                             if(glutch< 2000)
+??morg_16:
+        RCALL	?Subroutine7
+??CrossCallReturnLabel_10:
+        BRCS	??morg_18
+//  197                                                   {
+//  198 
+//  199                                                       //ST_OFF;
+//  200                                                       //indicator=indicator & ~ST_VZ;  
+//  201                                                       SOST_OFF;
+//  202                                                       SOUND_OFF;
+//  203 
+//  204                                                   }
+//  205                                          if(glutch> 2000)
+        CPI	R16, 209
+        SBCI	R17, 7
+        BRCS	??morg_9
+//  206                                                   {
+//  207                                                     //ST_ON;
+//  208                                                    //indicator=indicator | ST_VZ;   
+//  209                                                     SOST_ON;
+        RJMP	??morg_6
+//  210                                                    SOUND_ON;
+//  211                                                    }
+//  212 
+//  213                                           
+//  214                                          }
+//  215                                          
+//  216                                          break;
+//  217 
+//  218                                 case 4:
+//  219                                            {
+//  220                                             if(glutch< 2000)
+??morg_17:
+        RCALL	?Subroutine7
+??CrossCallReturnLabel_11:
+        BRCC	$+2+2
+        RJMP	??morg_3
+//  221                                                   {
+//  222 
+//  223                                                      //ST_OFF;
+//  224                                                    //  indicator=indicator & ~ST_VZ; 
+//  225                                                      SOST_OFF;
+//  226                                                     SOUND_OFF;
+//  227 
+//  228                                                   }
+//  229                                          if(glutch> 2000)
+        CPI	R16, 209
+        SBCI	R17, 7
+        BRCS	??morg_9
+//  230                                                    {
+//  231                                                    //ST_ON;
+//  232                                                    //  indicator=indicator | ST_VZ; 
+//  233                                                      SOST_ON;
+??morg_6:
+        SBI	0x02, 0x01
+//  234                                                      SOUND_ON;
+        SBI	0x02, 0x03
+??morg_9:
+        MOV	R24, R20
+        MOV	R25, R19
+        RET
+        CFI EndBlock cfiBlock2
+//  235 
+//  236                                                   }
+//  237 
+//  238                                           
+//  239                                          }
+//  240                                       
+//  241                                          break;
+//  242 
+//  243 
+//  244 
+//  245                                    default: break;
+//  246                                  }
+//  247  }
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine7:
+        CFI Block cfiCond3 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_10
+        CFI CFA_SP SP+6
+        CFI Block cfiCond4 Using cfiCommon0
+        CFI (cfiCond4) NoFunction
+        CFI (cfiCond4) Conditional ??CrossCallReturnLabel_11
+        CFI (cfiCond4) CFA_SP SP+6
+        CFI Block cfiPicker5 Using cfiCommon1
+        CFI (cfiPicker5) NoFunction
+        CFI (cfiPicker5) Picker
+        LD	R16, Z
+        LDD	R17, Z+1
+        CPI	R16, 208
+        LDI	R18, 7
+        CPC	R17, R18
+        RET
+        CFI EndBlock cfiCond3
+        CFI EndBlock cfiCond4
+        CFI EndBlock cfiPicker5
+//  248 
+//  249 
+//  250 
+//  251 
+//  252 
+//  253 
+//  254 
+//  255 
+//  256 
+//  257 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  258 void insert_query(char tabletka,char sobit)
+insert_query:
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI Function insert_query
+//  259 {
+        FUNCALL insert_query, wr_sost
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL insert_query, WrArrayToFlesh
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL insert_query, WrArrayToFlesh
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL insert_query, wr_uk
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        CALL	?PROLOGUE4_L09
+        CFI R27 Frame(CFA_Y, -1)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        SBIW	R29:R28, 4
+        CFI CFA_Y Y+8
+        MOV	R25, R16
+        MOV	R24, R17
+//  260 
+//  261       unsigned char buf[4];
+//  262       unsigned char ukaz;
+//  263       //if(query_full) return;
+//  264       
+//  265        wr_sost();
+        RCALL	wr_sost
+//  266       
+//  267       
+//  268        if(query_full) 
+        RCALL	??Subroutine13_0
+??CrossCallReturnLabel_31:
+        LDD	R16, Z+13
+        TST	R16
+        BREQ	??insert_query_0
+//  269        { 
+//  270          
+//  271          if(sobit<2)
+        CPI	R24, 2
+        BRCC	??CrossCallReturnLabel_46
+//  272          {
+//  273          buf[0]=sobit;
+        ST	Y, R24
+//  274          buf[1]=tabletka;
+        STD	Y+1, R25
+//  275          
+//  276          if(point_head==0)ukaz=0x1e;else ukaz=point_head-2;
+        LDD	R16, Z+15
+        TST	R16
+        BRNE	??insert_query_1
+        LDI	R16, 30
+        RJMP	??insert_query_2
+??insert_query_1:
+        SUBI	R16, 2
+//  277          
+//  278          WrArrayToFlesh(A_SOB_OHR+ukaz, &buf[0],2,0,0);
+??insert_query_2:
+        LDI	R23, 0
+        LDI	R22, 0
+        LDI	R20, 2
+        RCALL	??Subroutine2_1
+??CrossCallReturnLabel_2:
+        LDI	R17, 0
+        SUBI	R16, 174
+        SBCI	R17, 252
+        CALL	WrArrayToFlesh
+        RJMP	??CrossCallReturnLabel_46
+//  279          }
+//  280          return;
+//  281        }
+//  282        
+//  283        buf[0]=sobit;
+??insert_query_0:
+        ST	Y, R24
+//  284        buf[1]=tabletka;
+        STD	Y+1, R25
+//  285       
+//  286       point_head=point_head & 0x1f;
+        LDD	R16, Z+15
+        ANDI	R16, 0x1F
+        STD	Z+15, R16
+//  287       
+//  288       WrArrayToFlesh(A_SOB_OHR+point_head, &buf[0],2,0,0);
+        LDI	R23, 0
+        LDI	R22, 0
+        LDI	R20, 2
+        RCALL	??Subroutine2_1
+??CrossCallReturnLabel_3:
+        SUBI	R16, 174
+        RCALL	?Subroutine28
+//  289       
+//  290       
+//  291       point_head=( (point_head+2) & 0x1f);
+??CrossCallReturnLabel_69:
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+15
+        SUBI	R16, 254
+        ANDI	R16, 0x1F
+        STD	Z+15, R16
+//  292       
+//  293       if(point_head==point_tail) query_full=1;
+        LDD	R17, Z+16
+        CP	R16, R17
+        BRNE	??insert_query_3
+        LDI	R16, 1
+        STD	Z+13, R16
+//  294       
+//  295      wr_uk();
+??insert_query_3:
+        RCALL	?Subroutine20
+//  296       /*
+//  297       buf[0]=point_head;
+//  298       buf[1]=point_tail;
+//  299       buf[2]=query_full;
+//  300       buf[3]=crc_485(3,&buf[0]);
+//  301       WrArrayToFlesh(A_UK_OHR,&buf[0],4,0,0);
+//  302       WrArrayToFlesh(A_UK1_OHR,&buf[0],4,0,0);  */
+//  303       
+//  304     //  modbus_mem1[0x155-BEGIN_SEG1]=point_head;
+//  305     //  modbus_mem1[0x156-BEGIN_SEG1]=point_tail;
+//  306     //  modbus_mem1[0x157-BEGIN_SEG1]=query_full;
+//  307 }
+??CrossCallReturnLabel_46:
+        RJMP	?Subroutine27
+        CFI EndBlock cfiBlock6
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine28:
+        CFI Block cfiCond7 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_71
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+4
+        CFI Block cfiCond8 Using cfiCommon0
+        CFI (cfiCond8) NoFunction
+        CFI (cfiCond8) Conditional ??CrossCallReturnLabel_70
+        CFI (cfiCond8) CFA_SP SP+6
+        CFI (cfiCond8) CFA_Y Y+4
+        CFI Block cfiCond9 Using cfiCommon0
+        CFI (cfiCond9) NoFunction
+        CFI (cfiCond9) Conditional ??CrossCallReturnLabel_69
+        CFI (cfiCond9) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond9) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond9) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond9) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond9) CFA_SP SP+6
+        CFI (cfiCond9) CFA_Y Y+8
+        CFI Block cfiCond10 Using cfiCommon0
+        CFI (cfiCond10) NoFunction
+        CFI (cfiCond10) Conditional ??CrossCallReturnLabel_68
+        CFI (cfiCond10) CFA_SP SP+6
+        CFI (cfiCond10) CFA_Y Y+2
+        CFI Block cfiCond11 Using cfiCommon0
+        CFI (cfiCond11) NoFunction
+        CFI (cfiCond11) Conditional ??CrossCallReturnLabel_67
+        CFI (cfiCond11) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond11) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond11) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond11) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond11) CFA_SP SP+6
+        CFI (cfiCond11) CFA_Y Y+8
+        CFI Block cfiPicker12 Using cfiCommon1
+        CFI (cfiPicker12) NoFunction
+        CFI (cfiPicker12) Picker
+        LDI	R17, 3
+        JMP	WrArrayToFlesh
+        CFI EndBlock cfiCond7
+        CFI EndBlock cfiCond8
+        CFI EndBlock cfiCond9
+        CFI EndBlock cfiCond10
+        CFI EndBlock cfiCond11
+        CFI EndBlock cfiPicker12
+//  308 
+//  309 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  310 char read_ohr(void)
+read_ohr:
+        CFI Block cfiBlock13 Using cfiCommon0
+        CFI Function read_ohr
+//  311 {
+        FUNCALL read_ohr, RdFromFleshToArr
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL read_ohr, wr_uk
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        RCALL	?Subroutine13
+        CFI R24 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+4
+//  312 char cc;
+//  313 //unsigned char buf[4];
+//  314 //
+//  315 //  ЎгдҐа ®Ў¬Ґ­  Їгбв Ё«Ё ­Ґв
+//  316 //
+//  317   if(obmen_full)
+??CrossCallReturnLabel_29:
+        LDD	R16, Z+14
+        TST	R16
+        BREQ	??read_ohr_0
+//  318       {
+//  319        cc=bufer[0];
+//  320        glob_tabletka=bufer[1];
+        LDD	R16, Z+5
+        STD	Z+19, R16
+//  321   return(cc);
+        LDD	R16, Z+4
+        RJMP	??read_ohr_1
+//  322 
+//  323       }
+//  324 
+//  325 
+//  326   if(point_head==point_tail)
+??read_ohr_0:
+        LDD	R16, Z+16
+        LDD	R17, Z+15
+        CP	R17, R16
+        BRNE	??read_ohr_2
+//  327                                       {
+//  328                                       if(query_full) goto extract_it;
+        LDD	R17, Z+13
+        TST	R17
+        BRNE	??read_ohr_2
+//  329                                       
+//  330                                       //if(fl_akb==0)bufer[0]=0x74;else bufer[0]=0x64;
+//  331                                       //bufer[1]=0;
+//  332                                       
+//  333                                      // if(fl_akb==0)bufer[0]=0x44;else bufer[0]=0x54;                                    
+//  334                                       if(flag_set_akb==0) bufer[0]=0x44;else bufer[0]=0x54; 
+        LDS	R16, flag_set_akb
+        TST	R16
+        BRNE	??read_ohr_3
+        LDI	R16, 68
+        RJMP	??read_ohr_4
+??read_ohr_3:
+        LDI	R16, 84
+??read_ohr_4:
+        STD	Z+4, R16
+//  335                                       if(modbus_mem1[AD_IND_DNS]==0)bufer[1]=99;else bufer[1]=modbus_mem1[AD_IND_DNS]-1;
+        LDI	R30, LOW((modbus_mem1 + 64))
+        LDI	R31, HIGH((modbus_mem1 + 64))
+        RCALL	?Subroutine8
+??CrossCallReturnLabel_17:
+        MOV	R18, R16
+        OR	R18, R17
+        BRNE	??read_ohr_5
+        LDI	R16, 99
+        RJMP	??read_ohr_6
+??read_ohr_5:
+        DEC	R16
+??read_ohr_6:
+        MOVW	R31:R30, R27:R26
+        STD	Z+5, R16
+//  336                                       
+//  337                                        return(0x74);
+        LDI	R16, 116
+        RJMP	??read_ohr_1
+//  338                                       }
+//  339 
+//  340 extract_it:
+//  341                  
+//  342         obmen_full=1; 
+??read_ohr_2:
+        LDI	R17, 1
+        STD	Z+14, R17
+//  343 //  bit_registr3=bit_registr3 | OBMEN_FULL;
+//  344 
+//  345 
+//  346       // cc=adr_soob[point_tail];
+//  347       // glob_tabletka=adr_soob[point_tail+1];
+//  348        RdFromFleshToArr(A_SOB_OHR+point_tail, &bufer[0],2);          
+        LDI	R20, 2
+        LDI	R21, 0
+        MOVW	R19:R18, R27:R26
+        SUBI	R18, 252
+        SBCI	R19, 255
+        LDI	R17, 0
+        SUBI	R16, 174
+        SBCI	R17, 252
+        CALL	RdFromFleshToArr
+//  349        
+//  350 
+//  351        
+//  352        point_tail=((point_tail+2) & 0x1f);
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+16
+        SUBI	R16, 254
+        ANDI	R16, 0x1F
+        STD	Z+16, R16
+//  353 
+//  354        cc=bufer[0];
+        LDD	R24, Z+4
+//  355        glob_tabletka=bufer[1];
+        LDD	R16, Z+5
+        STD	Z+19, R16
+//  356        
+//  357       query_full=0;
+        LDI	R16, 0
+        STD	Z+13, R16
+//  358       
+//  359       wr_uk();
+        RCALL	?Subroutine20
+//  360       
+//  361       /*
+//  362       buf[0]=point_head;
+//  363       buf[1]=point_tail;
+//  364       buf[2]=query_full;
+//  365       buf[3]=crc_485(3,&buf[0]);
+//  366       WrArrayToFlesh(A_UK_OHR,&buf[0],4,0,0);
+//  367       WrArrayToFlesh(A_UK1_OHR,&buf[0],4,0,0);  */
+//  368      
+//  369 
+//  370  //     modbus_mem1[0x155-BEGIN_SEG1]=point_head;
+//  371  //     modbus_mem1[0x156-BEGIN_SEG1]=point_tail;
+//  372   //    modbus_mem1[0x157-BEGIN_SEG1]=query_full;
+//  373       
+//  374        return(cc);
+??CrossCallReturnLabel_45:
+        MOV	R16, R24
+??read_ohr_1:
+        RJMP	??Subroutine27_0
+        CFI EndBlock cfiBlock13
+//  375 
+//  376 }
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine27:
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        CFI CFA_Y Y+8
+        CFI R24 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        ADIW	R29:R28, 4
+        CFI CFA_Y Y+4
+??Subroutine27_0:
+        LDI	R30, 4
+        JMP	?EPILOGUE_B4_L09
+        CFI EndBlock cfiBlock14
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine20:
+        CFI Block cfiCond15 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_46
+        CFI R24 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+8
+        CFI Block cfiCond16 Using cfiCommon0
+        CFI (cfiCond16) NoFunction
+        CFI (cfiCond16) Conditional ??CrossCallReturnLabel_45
+        CFI (cfiCond16) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond16) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond16) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond16) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond16) CFA_SP SP+6
+        CFI (cfiCond16) CFA_Y Y+4
+        CFI Block cfiCond17 Using cfiCommon0
+        CFI (cfiCond17) NoFunction
+        CFI (cfiCond17) Conditional ??CrossCallReturnLabel_44
+        CFI (cfiCond17) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond17) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond17) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond17) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond17) CFA_SP SP+6
+        CFI (cfiCond17) CFA_Y Y+8
+        CFI Block cfiPicker18 Using cfiCommon1
+        CFI (cfiPicker18) NoFunction
+        CFI (cfiPicker18) Picker
+        RJMP	wr_uk
+        CFI EndBlock cfiCond15
+        CFI EndBlock cfiCond16
+        CFI EndBlock cfiCond17
+        CFI EndBlock cfiPicker18
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine13:
+        CFI Block cfiCond19 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_29
+        CFI CFA_SP SP+6
+        CFI Block cfiCond20 Using cfiCommon0
+        CFI (cfiCond20) NoFunction
+        CFI (cfiCond20) Conditional ??CrossCallReturnLabel_30
+        CFI (cfiCond20) CFA_SP SP+6
+        CFI Block cfiPicker21 Using cfiCommon1
+        CFI (cfiPicker21) NoFunction
+        CFI (cfiPicker21) Picker
+        CALL	?PROLOGUE4_L09
+        CFI (cfiCond19) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond19) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond19) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond19) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond19) CFA_Y Y+4
+        CFI (cfiCond20) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond20) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond20) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond20) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond20) CFA_Y Y+4
+        CFI (cfiPicker21) R24 Frame(CFA_Y, -4)
+        CFI (cfiPicker21) R25 Frame(CFA_Y, -3)
+        CFI (cfiPicker21) R26 Frame(CFA_Y, -2)
+        CFI (cfiPicker21) R27 Frame(CFA_Y, -1)
+        CFI Block cfiCond22 Using cfiCommon0
+        CFI (cfiCond22) NoFunction
+        CFI (cfiCond22) Conditional ??CrossCallReturnLabel_31
+        CFI (cfiCond22) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond22) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond22) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond22) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond22) CFA_SP SP+6
+        CFI (cfiCond22) CFA_Y Y+8
+        CFI Block cfiCond23 Using cfiCommon0
+        CFI (cfiCond23) NoFunction
+        CFI (cfiCond23) Conditional ??CrossCallReturnLabel_32
+        CFI (cfiCond23) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond23) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond23) CFA_SP SP+6
+        CFI (cfiCond23) CFA_Y Y+2
+??Subroutine13_0:
+        LDI	R26, LOW(glutch)
+        LDI	R27, (glutch) >> 8
+        MOVW	R31:R30, R27:R26
+        RET
+        CFI EndBlock cfiCond19
+        CFI EndBlock cfiCond20
+        CFI EndBlock cfiPicker21
+        CFI EndBlock cfiCond22
+        CFI EndBlock cfiCond23
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine8:
+        CFI Block cfiCond24 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_12
+        CFI CFA_SP SP+6
+        CFI Block cfiCond25 Using cfiCommon0
+        CFI (cfiCond25) NoFunction
+        CFI (cfiCond25) Conditional ??CrossCallReturnLabel_13
+        CFI (cfiCond25) CFA_SP SP+6
+        CFI Block cfiCond26 Using cfiCommon0
+        CFI (cfiCond26) NoFunction
+        CFI (cfiCond26) Conditional ??CrossCallReturnLabel_14
+        CFI (cfiCond26) CFA_SP SP+6
+        CFI Block cfiCond27 Using cfiCommon0
+        CFI (cfiCond27) NoFunction
+        CFI (cfiCond27) Conditional ??CrossCallReturnLabel_15
+        CFI (cfiCond27) CFA_SP SP+6
+        CFI Block cfiCond28 Using cfiCommon0
+        CFI (cfiCond28) NoFunction
+        CFI (cfiCond28) Conditional ??CrossCallReturnLabel_16
+        CFI (cfiCond28) CFA_SP SP+6
+        CFI Block cfiCond29 Using cfiCommon0
+        CFI (cfiCond29) NoFunction
+        CFI (cfiCond29) Conditional ??CrossCallReturnLabel_17
+        CFI (cfiCond29) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond29) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond29) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond29) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond29) CFA_SP SP+6
+        CFI (cfiCond29) CFA_Y Y+4
+        CFI Block cfiPicker30 Using cfiCommon1
+        CFI (cfiPicker30) NoFunction
+        CFI (cfiPicker30) Picker
+        LD	R16, Z
+        LDD	R17, Z+1
+        RET
+        CFI EndBlock cfiCond24
+        CFI EndBlock cfiCond25
+        CFI EndBlock cfiCond26
+        CFI EndBlock cfiCond27
+        CFI EndBlock cfiCond28
+        CFI EndBlock cfiCond29
+        CFI EndBlock cfiPicker30
+//  377 
+//  378 /*
+//  379 void read_ohr_bt(void)
+//  380 {
+//  381        
+//  382        obmen_full=0;
+//  383      
+//  384        if(point_head==point_tail)return;
+//  385 
+//  386        obmen_full=1;
+//  387        
+//  388        RdFromFleshToArr(A_SOB_OHR+point_tail, &bufer[0],2);          
+//  389        point_tail=((point_tail+2) & 0x1f);
+//  390 
+//  391       
+//  392        glob_tabletka=bufer[1];
+//  393        
+//  394        query_full=0;
+//  395       
+//  396       wr_uk();  
+//  397       modbus_mem1[0x155-BEGIN_SEG1]=point_head;
+//  398       modbus_mem1[0x156-BEGIN_SEG1]=point_tail;
+//  399       modbus_mem1[0x157-BEGIN_SEG1]=query_full;
+//  400      
+//  401       
+//  402 }
+//  403 
+//  404 */
+//  405 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  406 char test_query(void)
+test_query:
+        CFI Block cfiBlock31 Using cfiCommon0
+        CFI Function test_query
+//  407 {
+//  408   if(query_full) return(1);
+        LDI	R16, 1
+        RET
+        CFI EndBlock cfiBlock31
+//  409   else return(1);
+//  410 }
+//  411 
+//  412 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  413                  void test_snat(void)
+test_snat:
+        CFI Block cfiBlock32 Using cfiCommon0
+        CFI Function test_snat
+//  414 {
+        FUNCALL test_snat, test_query
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_snat, insert_query
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_snat, insert_zapis_kd
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_snat, test_query
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+//  415                                                  
+//  416                         if((iz_vzat==1)&&(timer_autovzat==0))
+        RCALL	??Subroutine13_0
+??CrossCallReturnLabel_32:
+        LDD	R16, Z+18
+        CPI	R16, 1
+        BRNE	??test_snat_0
+        LDD	R16, Z+17
+        LDD	R18, Z+10
+        LDD	R19, Z+11
+        OR	R18, R19
+        BRNE	??test_snat_1
+//  417                         {
+//  418                           iz_vzat=0;
+        LDI	R17, 0
+        STD	Z+18, R17
+//  419                           if(trevoga==0)
+        TST	R16
+        BRNE	??test_snat_0
+//  420                           {
+//  421                             if(test_query()==0) return;
+        RCALL	?Subroutine17
+??CrossCallReturnLabel_35:
+        BREQ	??test_snat_2
+//  422                             sost=VZAT;
+        LDI	R17, 0
+        MOVW	R31:R30, R27:R26
+        STD	Z+2, R17
+        STD	Z+3, R17
+//  423                             insert_query(nomer_tab,sost);
+        RCALL	?Subroutine22
+//  424                             insert_zapis_kd(nomer_tab,ZP_VZAT);
+//  425                             return;
+??CrossCallReturnLabel_78:
+        RJMP	??test_snat_2
+//  426                           }
+//  427                         }  
+??test_snat_1:
+        CPI	R16, 1
+        BRNE	??test_snat_0
+//  428                         
+//  429                         
+//  430                           if((iz_vzat==1)&&(timer_autovzat!=0)&&(trevoga==1))
+//  431                         {
+//  432                           iz_vzat=0;                          
+        LDI	R16, 0
+        STD	Z+18, R16
+//  433                         }  
+//  434   
+//  435                          if(( bit_registr1 & TABLETKA)==0) return;
+??test_snat_0:
+        RCALL	?Subroutine21
+??CrossCallReturnLabel_47:
+        SBRS	R16, 3
+        RJMP	??test_snat_2
+//  436                           //  semafor_clr(&bit_registr1 ,TABLETKA);
+//  437                          bit_registr1=bit_registr1 & ~TABLETKA;
+        RCALL	?Subroutine15
+//  438                          
+//  439                          if( dabl==1) { dabl=0;return;}
+??CrossCallReturnLabel_33:
+        BRNE	??test_snat_3
+        RCALL	?Subroutine10
+??CrossCallReturnLabel_22:
+        RJMP	??test_snat_2
+//  440                          
+//  441                          /*
+//  442                          if(trevoga==1) return;
+//  443                                                // shleif
+//  444 //
+//  445 //               if shleif norma & tabletka
+//  446 //
+//  447 //
+//  448                          if(trevoga==0)
+//  449 
+//  450                                  {
+//  451                                       if(test_query()==0) return;
+//  452                                  timer_vhod=ust_vhod;
+//  453                                  sost=VIHOD;
+//  454                           //       insert_query();
+//  455                                  }
+//  456                          */
+//  457                          
+//  458                                  if(test_query()==0) return;
+??test_snat_3:
+        RCALL	?Subroutine17
+??CrossCallReturnLabel_36:
+        BREQ	??test_snat_2
+//  459                                  timer_vhod=ust_vhod;
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+6
+        LDD	R17, Z+7
+        STD	Z+8, R16
+        STD	Z+9, R17
+//  460                                  sost=VIHOD;
+        LDI	R16, 4
+        LDI	R17, 0
+        STD	Z+2, R16
+        STD	Z+3, R17
+//  461 
+//  462 
+//  463 }
+??test_snat_2:
+        RJMP	?Subroutine23
+        CFI EndBlock cfiBlock32
+//  464 
+//  465 
+//  466 //
+//  467 //               function sostojanij
+//  468 //
+//  469 //
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  470                  void test_t_vhod(void)
+test_t_vhod:
+        CFI Block cfiBlock33 Using cfiCommon0
+        CFI Function test_t_vhod
+//  471 {
+        FUNCALL test_t_vhod, test_query
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_t_vhod, insert_query
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_t_vhod, insert_zapis_kd
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_t_vhod, test_query
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_t_vhod, insert_query
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_t_vhod, insert_zapis_kd
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        RCALL	?Subroutine9
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+2
+//  472 
+//  473                          if(timer_vhod==0)
+??CrossCallReturnLabel_18:
+        BRNE	??CrossCallReturnLabel_76
+//  474                                              {
+//  475                                              if(test_query()==0) return;
+        RCALL	?Subroutine17
+??CrossCallReturnLabel_37:
+        BREQ	??CrossCallReturnLabel_74
+//  476                                              sost=ALARM;
+        LDI	R16, 2
+        LDI	R17, 0
+        MOVW	R31:R30, R27:R26
+        RCALL	?Subroutine18
+//  477                                              insert_query(nomer_tab,sost);
+//  478                                              insert_zapis_kd(nomer_tab,ZP_ALARM);
+//  479                                              }
+//  480                          if(timer_vhod !=0)
+??CrossCallReturnLabel_76:
+        RCALL	??Subroutine9_0
+??CrossCallReturnLabel_20:
+        BREQ	??CrossCallReturnLabel_74
+//  481                                  {
+//  482                          if(( bit_registr1 & TABLETKA)==0) return;
+        RCALL	?Subroutine21
+??CrossCallReturnLabel_48:
+        SBRS	R16, 3
+        RJMP	??CrossCallReturnLabel_74
+//  483 
+//  484 
+//  485                         //    semafor_clr(&bit_registr1 ,TABLETKA);
+//  486                           bit_registr1=bit_registr1 & ~TABLETKA;
+        RCALL	?Subroutine12
+//  487                           
+//  488                          if( dabl==2) { dabl=0;return;}
+??CrossCallReturnLabel_26:
+        BRNE	??test_t_vhod_0
+        RCALL	?Subroutine10
+??CrossCallReturnLabel_23:
+        RJMP	??CrossCallReturnLabel_74
+//  489                           
+//  490                             if(test_query()==0) return;
+??test_t_vhod_0:
+        RCALL	?Subroutine17
+??CrossCallReturnLabel_38:
+        BREQ	??CrossCallReturnLabel_74
+//  491                          sost=SNAT;
+        RCALL	?Subroutine6
+//  492                         if(sel_modul==1) PORTB=PORTB & ~0x04; //  PORTE=PORTE & ~4;  //ravil
+//  493                          insert_query(nomer_tab, sost);
+??CrossCallReturnLabel_55:
+        RCALL	?Subroutine16
+//  494                          
+//  495                          insert_zapis_kd(nomer_tab,ZP_SNAT);
+??CrossCallReturnLabel_74:
+        RJMP	?Subroutine23
+        CFI EndBlock cfiBlock33
+//  496 
+//  497 
+//  498 
+//  499 
+//  500                                   }
+//  501 
+//  502 
+//  503 
+//  504 }
+//  505 
+//  506 //
+//  507 //               function sostojanij
+//  508 //
+//  509 //
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  510                  void test_t_vihod(void)
+test_t_vihod:
+        CFI Block cfiBlock34 Using cfiCommon0
+        CFI Function test_t_vihod
+//  511 {
+        FUNCALL test_t_vihod, test_query
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_t_vihod, insert_query
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_t_vihod, insert_zapis_kd
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_t_vihod, insert_query
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_t_vihod, insert_zapis_kd
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_t_vihod, test_query
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        RCALL	?Subroutine9
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+2
+//  512 
+//  513                          if(timer_vhod==0)
+??CrossCallReturnLabel_19:
+        BRNE	??CrossCallReturnLabel_75
+//  514                                          {
+//  515                                           if(test_query()==0) return;
+        RCALL	?Subroutine17
+??CrossCallReturnLabel_39:
+        BREQ	??test_t_vihod_0
+//  516                          if(trevoga==0)
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+17
+        TST	R16
+        BRNE	??CrossCallReturnLabel_77
+//  517 
+//  518         {
+//  519          sost=VZAT;
+        LDI	R17, 0
+        STD	Z+2, R17
+        RCALL	?Subroutine24
+//  520         if(sel_modul==1) PORTB=PORTB & ~0x04; //  PORTE=PORTE & ~4;          //ravil
+//  521         insert_query(nomer_tab,sost);
+??CrossCallReturnLabel_53:
+        RCALL	?Subroutine22
+//  522         insert_zapis_kd(nomer_tab,ZP_VZAT);
+//  523         }
+//  524                          if(trevoga==1)
+??CrossCallReturnLabel_77:
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+17
+        CPI	R16, 1
+        BRNE	??CrossCallReturnLabel_75
+//  525       {
+//  526       sost=ALARM;
+        LDI	R16, 2
+        LDI	R17, 0
+        RCALL	?Subroutine18
+//  527       insert_query(nomer_tab,sost);
+//  528       insert_zapis_kd(nomer_tab,ZP_ALARM);
+//  529       }
+//  530                                          }
+//  531 
+//  532                          if(timer_vhod !=0)
+??CrossCallReturnLabel_75:
+        RCALL	??Subroutine9_0
+??CrossCallReturnLabel_21:
+        BREQ	??test_t_vihod_0
+//  533                                  {
+//  534                          if(( bit_registr1 & TABLETKA)==0) return;
+        RCALL	?Subroutine21
+??CrossCallReturnLabel_49:
+        SBRS	R16, 3
+        RJMP	??test_t_vihod_0
+//  535         
+//  536                          //  semafor_clr(&bit_registr1 ,TABLETKA);
+//  537                          bit_registr1=bit_registr1 & ~TABLETKA;
+        RCALL	?Subroutine15
+//  538                          
+//  539                          if( dabl==1) { dabl=0;return;}
+??CrossCallReturnLabel_34:
+        BRNE	??test_t_vihod_1
+        RCALL	?Subroutine10
+??CrossCallReturnLabel_24:
+        RJMP	??test_t_vihod_0
+//  540                          
+//  541                          if(test_query()==0) return;
+??test_t_vihod_1:
+        RCALL	?Subroutine17
+??CrossCallReturnLabel_40:
+        BREQ	??test_t_vihod_0
+//  542 
+//  543                         sost=SNAT;
+        RCALL	?Subroutine6
+//  544                        if(sel_modul==1)  PORTB=PORTB & ~0x04; //  PORTE=PORTE & ~4;  //ravil
+//  545                         
+//  546                         timer_autovzat=ust_vhod;
+??CrossCallReturnLabel_56:
+        LDD	R16, Z+6
+        LDD	R17, Z+7
+        STD	Z+10, R16
+        STD	Z+11, R17
+//  547                         iz_vzat=1;
+        LDI	R16, 1
+        STD	Z+18, R16
+        CFI EndBlock cfiBlock34
+??test_t_vihod_0:
+        REQUIRE ?Subroutine23
+        ;		// Fall through to label ?Subroutine23
+//  548                         
+//  549                          //insert_query(nomer_tab,sost);
+//  550                          //insert_zapis_kd(nomer_tab,ZP_SNAT);
+//  551 
+//  552 
+//  553                                   }
+//  554 
+//  555 
+//  556 }
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine23:
+        CFI Block cfiBlock35 Using cfiCommon0
+        CFI NoFunction
+        CFI CFA_Y Y+2
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI Block cfiPicker36 Using cfiCommon1
+        CFI (cfiPicker36) NoFunction
+        CFI (cfiPicker36) Picker
+        LD	R26, Y+
+        CFI (cfiBlock35) CFA_Y Y+1
+        CFI (cfiBlock35) R26 SameValue
+        LD	R27, Y+
+        CFI (cfiBlock35) CFA_Y Y+0
+        CFI (cfiBlock35) R27 SameValue
+        RET
+        CFI EndBlock cfiBlock35
+        CFI EndBlock cfiPicker36
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine22:
+        CFI Block cfiCond37 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_78
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond38 Using cfiCommon0
+        CFI (cfiCond38) NoFunction
+        CFI (cfiCond38) Conditional ??CrossCallReturnLabel_77
+        CFI (cfiCond38) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond38) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond38) CFA_SP SP+6
+        CFI (cfiCond38) CFA_Y Y+2
+        CFI Block cfiPicker39 Using cfiCommon1
+        CFI (cfiPicker39) NoFunction
+        CFI (cfiPicker39) Picker
+        LDS	R16, nomer_tab
+        RCALL	insert_query
+        LDI	R17, 30
+        CFI EndBlock cfiCond37
+        CFI EndBlock cfiCond38
+        CFI EndBlock cfiPicker39
+        REQUIRE ?Subroutine29
+        ;		// Fall through to label ?Subroutine29
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine29:
+        CFI Block cfiCond40 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_78
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond41 Using cfiCommon0
+        CFI (cfiCond41) NoFunction
+        CFI (cfiCond41) Conditional ??CrossCallReturnLabel_77
+        CFI (cfiCond41) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond41) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond41) CFA_SP SP+6
+        CFI (cfiCond41) CFA_Y Y+2
+        CFI Block cfiCond42 Using cfiCommon0
+        CFI (cfiCond42) NoFunction
+        CFI (cfiCond42) Conditional ??CrossCallReturnLabel_76
+        CFI (cfiCond42) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond42) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond42) CFA_SP SP+6
+        CFI (cfiCond42) CFA_Y Y+2
+        CFI Block cfiCond43 Using cfiCommon0
+        CFI (cfiCond43) NoFunction
+        CFI (cfiCond43) Conditional ??CrossCallReturnLabel_75
+        CFI (cfiCond43) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond43) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond43) CFA_SP SP+6
+        CFI (cfiCond43) CFA_Y Y+2
+        CFI Block cfiCond44 Using cfiCommon0
+        CFI (cfiCond44) NoFunction
+        CFI (cfiCond44) Conditional ??CrossCallReturnLabel_74
+        CFI (cfiCond44) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond44) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond44) CFA_SP SP+6
+        CFI (cfiCond44) CFA_Y Y+2
+        CFI Block cfiCond45 Using cfiCommon0
+        CFI (cfiCond45) NoFunction
+        CFI (cfiCond45) Conditional ??CrossCallReturnLabel_73
+        CFI (cfiCond45) CFA_SP SP+6
+        CFI Block cfiCond46 Using cfiCommon0
+        CFI (cfiCond46) NoFunction
+        CFI (cfiCond46) Conditional ??CrossCallReturnLabel_72
+        CFI (cfiCond46) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond46) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond46) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond46) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond46) CFA_SP SP+6
+        CFI (cfiCond46) CFA_Y Y+4
+        CFI Block cfiPicker47 Using cfiCommon1
+        CFI (cfiPicker47) NoFunction
+        CFI (cfiPicker47) Picker
+        LDS	R16, nomer_tab
+        JMP	insert_zapis_kd
+        CFI EndBlock cfiCond40
+        CFI EndBlock cfiCond41
+        CFI EndBlock cfiCond42
+        CFI EndBlock cfiCond43
+        CFI EndBlock cfiCond44
+        CFI EndBlock cfiCond45
+        CFI EndBlock cfiCond46
+        CFI EndBlock cfiPicker47
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine18:
+        CFI Block cfiCond48 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_76
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond49 Using cfiCommon0
+        CFI (cfiCond49) NoFunction
+        CFI (cfiCond49) Conditional ??CrossCallReturnLabel_75
+        CFI (cfiCond49) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond49) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond49) CFA_SP SP+6
+        CFI (cfiCond49) CFA_Y Y+2
+        CFI Block cfiPicker50 Using cfiCommon1
+        CFI (cfiPicker50) NoFunction
+        CFI (cfiPicker50) Picker
+        STD	Z+2, R16
+        STD	Z+3, R17
+        LDI	R17, 2
+        LDS	R16, nomer_tab
+        RCALL	insert_query
+        LDI	R17, 32
+        RJMP	?Subroutine29
+        CFI EndBlock cfiCond48
+        CFI EndBlock cfiCond49
+        CFI EndBlock cfiPicker50
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine17:
+        CFI Block cfiCond51 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_35
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond52 Using cfiCommon0
+        CFI (cfiCond52) NoFunction
+        CFI (cfiCond52) Conditional ??CrossCallReturnLabel_36
+        CFI (cfiCond52) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond52) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond52) CFA_SP SP+6
+        CFI (cfiCond52) CFA_Y Y+2
+        CFI Block cfiCond53 Using cfiCommon0
+        CFI (cfiCond53) NoFunction
+        CFI (cfiCond53) Conditional ??CrossCallReturnLabel_37
+        CFI (cfiCond53) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond53) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond53) CFA_SP SP+6
+        CFI (cfiCond53) CFA_Y Y+2
+        CFI Block cfiCond54 Using cfiCommon0
+        CFI (cfiCond54) NoFunction
+        CFI (cfiCond54) Conditional ??CrossCallReturnLabel_38
+        CFI (cfiCond54) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond54) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond54) CFA_SP SP+6
+        CFI (cfiCond54) CFA_Y Y+2
+        CFI Block cfiCond55 Using cfiCommon0
+        CFI (cfiCond55) NoFunction
+        CFI (cfiCond55) Conditional ??CrossCallReturnLabel_39
+        CFI (cfiCond55) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond55) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond55) CFA_SP SP+6
+        CFI (cfiCond55) CFA_Y Y+2
+        CFI Block cfiCond56 Using cfiCommon0
+        CFI (cfiCond56) NoFunction
+        CFI (cfiCond56) Conditional ??CrossCallReturnLabel_40
+        CFI (cfiCond56) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond56) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond56) CFA_SP SP+6
+        CFI (cfiCond56) CFA_Y Y+2
+        CFI Block cfiCond57 Using cfiCommon0
+        CFI (cfiCond57) NoFunction
+        CFI (cfiCond57) Conditional ??CrossCallReturnLabel_41
+        CFI (cfiCond57) CFA_SP SP+6
+        CFI Block cfiCond58 Using cfiCommon0
+        CFI (cfiCond58) NoFunction
+        CFI (cfiCond58) Conditional ??CrossCallReturnLabel_42
+        CFI (cfiCond58) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond58) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond58) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond58) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond58) CFA_SP SP+6
+        CFI (cfiCond58) CFA_Y Y+4
+        CFI Block cfiCond59 Using cfiCommon0
+        CFI (cfiCond59) NoFunction
+        CFI (cfiCond59) Conditional ??CrossCallReturnLabel_43
+        CFI (cfiCond59) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond59) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond59) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond59) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond59) CFA_SP SP+6
+        CFI (cfiCond59) CFA_Y Y+4
+        CFI Block cfiPicker60 Using cfiCommon1
+        CFI (cfiPicker60) NoFunction
+        CFI (cfiPicker60) Picker
+        RCALL	test_query
+        TST	R16
+        RET
+        CFI EndBlock cfiCond51
+        CFI EndBlock cfiCond52
+        CFI EndBlock cfiCond53
+        CFI EndBlock cfiCond54
+        CFI EndBlock cfiCond55
+        CFI EndBlock cfiCond56
+        CFI EndBlock cfiCond57
+        CFI EndBlock cfiCond58
+        CFI EndBlock cfiCond59
+        CFI EndBlock cfiPicker60
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine15:
+        CFI Block cfiCond61 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_33
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond62 Using cfiCommon0
+        CFI (cfiCond62) NoFunction
+        CFI (cfiCond62) Conditional ??CrossCallReturnLabel_34
+        CFI (cfiCond62) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond62) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond62) CFA_SP SP+6
+        CFI (cfiCond62) CFA_Y Y+2
+        CFI Block cfiPicker63 Using cfiCommon1
+        CFI (cfiPicker63) NoFunction
+        CFI (cfiPicker63) Picker
+        ANDI	R16, 0xF7
+        ST	Z, R16
+        LDS	R16, dabl
+        CPI	R16, 1
+        RET
+        CFI EndBlock cfiCond61
+        CFI EndBlock cfiCond62
+        CFI EndBlock cfiPicker63
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine10:
+        CFI Block cfiCond64 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_22
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond65 Using cfiCommon0
+        CFI (cfiCond65) NoFunction
+        CFI (cfiCond65) Conditional ??CrossCallReturnLabel_23
+        CFI (cfiCond65) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond65) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond65) CFA_SP SP+6
+        CFI (cfiCond65) CFA_Y Y+2
+        CFI Block cfiCond66 Using cfiCommon0
+        CFI (cfiCond66) NoFunction
+        CFI (cfiCond66) Conditional ??CrossCallReturnLabel_24
+        CFI (cfiCond66) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond66) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond66) CFA_SP SP+6
+        CFI (cfiCond66) CFA_Y Y+2
+        CFI Block cfiCond67 Using cfiCommon0
+        CFI (cfiCond67) NoFunction
+        CFI (cfiCond67) Conditional ??CrossCallReturnLabel_25
+        CFI (cfiCond67) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond67) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond67) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond67) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond67) CFA_SP SP+6
+        CFI (cfiCond67) CFA_Y Y+4
+        CFI Block cfiBlock68 Using cfiCommon0
+        CFI (cfiBlock68) NoFunction
+        CFI Block cfiPicker69 Using cfiCommon1
+        CFI (cfiPicker69) NoFunction
+        CFI (cfiPicker69) Picker
+        LDI	R16, 0
+        STS	dabl, R16
+        RET
+        CFI EndBlock cfiCond64
+        CFI EndBlock cfiCond65
+        CFI EndBlock cfiCond66
+        CFI EndBlock cfiCond67
+        CFI EndBlock cfiBlock68
+        CFI EndBlock cfiPicker69
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine9:
+        CFI Block cfiCond70 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_18
+        CFI CFA_SP SP+6
+        CFI Block cfiCond71 Using cfiCommon0
+        CFI (cfiCond71) NoFunction
+        CFI (cfiCond71) Conditional ??CrossCallReturnLabel_19
+        CFI (cfiCond71) CFA_SP SP+6
+        CFI Block cfiPicker72 Using cfiCommon1
+        CFI (cfiPicker72) NoFunction
+        CFI (cfiPicker72) Picker
+        ST	-Y, R27
+        CFI (cfiCond70) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond70) CFA_Y Y+1
+        CFI (cfiCond71) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond71) CFA_Y Y+1
+        CFI (cfiPicker72) R27 Frame(CFA_Y, -1)
+        ST	-Y, R26
+        CFI (cfiCond70) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond70) CFA_Y Y+2
+        CFI (cfiCond71) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond71) CFA_Y Y+2
+        CFI (cfiPicker72) R26 Frame(CFA_Y, -2)
+        LDI	R26, LOW(glutch)
+        LDI	R27, (glutch) >> 8
+        CFI Block cfiCond73 Using cfiCommon0
+        CFI (cfiCond73) NoFunction
+        CFI (cfiCond73) Conditional ??CrossCallReturnLabel_20
+        CFI (cfiCond73) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond73) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond73) CFA_SP SP+6
+        CFI (cfiCond73) CFA_Y Y+2
+        CFI Block cfiCond74 Using cfiCommon0
+        CFI (cfiCond74) NoFunction
+        CFI (cfiCond74) Conditional ??CrossCallReturnLabel_21
+        CFI (cfiCond74) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond74) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond74) CFA_SP SP+6
+        CFI (cfiCond74) CFA_Y Y+2
+??Subroutine9_0:
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+8
+        LDD	R17, Z+9
+        OR	R16, R17
+        RET
+        CFI EndBlock cfiCond70
+        CFI EndBlock cfiCond71
+        CFI EndBlock cfiPicker72
+        CFI EndBlock cfiCond73
+        CFI EndBlock cfiCond74
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine6:
+        CFI Block cfiCond75 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_55
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond76 Using cfiCommon0
+        CFI (cfiCond76) NoFunction
+        CFI (cfiCond76) Conditional ??CrossCallReturnLabel_56
+        CFI (cfiCond76) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond76) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond76) CFA_SP SP+6
+        CFI (cfiCond76) CFA_Y Y+2
+        CFI Block cfiPicker77 Using cfiCommon1
+        CFI (cfiPicker77) NoFunction
+        CFI (cfiPicker77) Picker
+        LDI	R16, 1
+        LDI	R17, 0
+        MOVW	R31:R30, R27:R26
+        STD	Z+2, R16
+        CFI EndBlock cfiCond75
+        CFI EndBlock cfiCond76
+        CFI EndBlock cfiPicker77
+        REQUIRE ?Subroutine24
+        ;		// Fall through to label ?Subroutine24
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine24:
+        CFI Block cfiCond78 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_55
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond79 Using cfiCommon0
+        CFI (cfiCond79) NoFunction
+        CFI (cfiCond79) Conditional ??CrossCallReturnLabel_56
+        CFI (cfiCond79) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond79) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond79) CFA_SP SP+6
+        CFI (cfiCond79) CFA_Y Y+2
+        CFI Block cfiCond80 Using cfiCommon0
+        CFI (cfiCond80) NoFunction
+        CFI (cfiCond80) Conditional ??CrossCallReturnLabel_53
+        CFI (cfiCond80) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond80) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond80) CFA_SP SP+6
+        CFI (cfiCond80) CFA_Y Y+2
+        CFI Block cfiCond81 Using cfiCommon0
+        CFI (cfiCond81) NoFunction
+        CFI (cfiCond81) Conditional ??CrossCallReturnLabel_54
+        CFI (cfiCond81) CFA_SP SP+6
+        CFI Block cfiPicker82 Using cfiCommon1
+        CFI (cfiPicker82) NoFunction
+        CFI (cfiPicker82) Picker
+        STD	Z+3, R17
+        LDS	R16, sel_modul
+        CPI	R16, 1
+        BRNE	??Subroutine24_0
+        CBI	0x05, 0x02
+??Subroutine24_0:
+        RET
+        CFI EndBlock cfiCond78
+        CFI EndBlock cfiCond79
+        CFI EndBlock cfiCond80
+        CFI EndBlock cfiCond81
+        CFI EndBlock cfiPicker82
+//  557 
+//  558 
+//  559 
+//  560 //
+//  561 //               function sostojanij
+//  562 //
+//  563 //
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  564                  void test_alarm(void)
+test_alarm:
+        CFI Block cfiBlock83 Using cfiCommon0
+        CFI Function test_alarm
+//  565 {
+//  566 
+//  567                          if(( bit_registr1 & TABLETKA)==0) return;
+        FUNCALL test_alarm, test_query
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_alarm, insert_query
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_alarm, insert_zapis_kd
+        LOCFRAME RSTACK, 3, STACK
+        RCALL	?Subroutine21
+??CrossCallReturnLabel_50:
+        SBRS	R16, 3
+        RJMP	??CrossCallReturnLabel_73
+//  568 
+//  569 
+//  570                         //    semafor_clr(&bit_registr1 ,TABLETKA);
+//  571                          bit_registr1=bit_registr1 & ~TABLETKA;
+        RCALL	?Subroutine12
+//  572                         
+//  573                          if( dabl==2) { dabl=0;return;}
+??CrossCallReturnLabel_27:
+        BRNE	??test_alarm_0
+        RJMP	?Subroutine10
+//  574                          
+//  575                          if(test_query()==0) return;
+??test_alarm_0:
+        RCALL	?Subroutine17
+??CrossCallReturnLabel_41:
+        BREQ	??CrossCallReturnLabel_73
+//  576                          sost=SNAT;
+        LDI	R16, 1
+        LDI	R17, 0
+        LDI	R30, LOW(glutch)
+        LDI	R31, (glutch) >> 8
+        STD	Z+2, R16
+        RCALL	?Subroutine24
+//  577                      if(sel_modul==1)  PORTB=PORTB & ~4;  //  только в режиме МКД пищать
+//  578                          insert_query(nomer_tab,sost);
+??CrossCallReturnLabel_54:
+        RCALL	?Subroutine16
+//  579 
+//  580                        insert_zapis_kd(nomer_tab,ZP_SNAT);
+//  581 
+//  582 
+//  583 
+//  584 }
+??CrossCallReturnLabel_73:
+        RET
+        CFI EndBlock cfiBlock83
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine21:
+        CFI Block cfiCond84 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_47
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond85 Using cfiCommon0
+        CFI (cfiCond85) NoFunction
+        CFI (cfiCond85) Conditional ??CrossCallReturnLabel_48
+        CFI (cfiCond85) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond85) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond85) CFA_SP SP+6
+        CFI (cfiCond85) CFA_Y Y+2
+        CFI Block cfiCond86 Using cfiCommon0
+        CFI (cfiCond86) NoFunction
+        CFI (cfiCond86) Conditional ??CrossCallReturnLabel_49
+        CFI (cfiCond86) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond86) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond86) CFA_SP SP+6
+        CFI (cfiCond86) CFA_Y Y+2
+        CFI Block cfiCond87 Using cfiCommon0
+        CFI (cfiCond87) NoFunction
+        CFI (cfiCond87) Conditional ??CrossCallReturnLabel_50
+        CFI (cfiCond87) CFA_SP SP+6
+        CFI Block cfiCond88 Using cfiCommon0
+        CFI (cfiCond88) NoFunction
+        CFI (cfiCond88) Conditional ??CrossCallReturnLabel_51
+        CFI (cfiCond88) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond88) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond88) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond88) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond88) CFA_SP SP+6
+        CFI (cfiCond88) CFA_Y Y+4
+        CFI Block cfiCond89 Using cfiCommon0
+        CFI (cfiCond89) NoFunction
+        CFI (cfiCond89) Conditional ??CrossCallReturnLabel_52
+        CFI (cfiCond89) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond89) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond89) CFA_SP SP+6
+        CFI (cfiCond89) CFA_Y Y+2
+        CFI Block cfiPicker90 Using cfiCommon1
+        CFI (cfiPicker90) NoFunction
+        CFI (cfiPicker90) Picker
+        LDI	R30, LOW(bit_registr1)
+        LDI	R31, (bit_registr1) >> 8
+        LD	R16, Z
+        RET
+        CFI EndBlock cfiCond84
+        CFI EndBlock cfiCond85
+        CFI EndBlock cfiCond86
+        CFI EndBlock cfiCond87
+        CFI EndBlock cfiCond88
+        CFI EndBlock cfiCond89
+        CFI EndBlock cfiPicker90
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine16:
+        CFI Block cfiCond91 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_74
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond92 Using cfiCommon0
+        CFI (cfiCond92) NoFunction
+        CFI (cfiCond92) Conditional ??CrossCallReturnLabel_73
+        CFI (cfiCond92) CFA_SP SP+6
+        CFI Block cfiCond93 Using cfiCommon0
+        CFI (cfiCond93) NoFunction
+        CFI (cfiCond93) Conditional ??CrossCallReturnLabel_72
+        CFI (cfiCond93) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond93) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond93) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond93) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond93) CFA_SP SP+6
+        CFI (cfiCond93) CFA_Y Y+4
+        CFI Block cfiPicker94 Using cfiCommon1
+        CFI (cfiPicker94) NoFunction
+        CFI (cfiPicker94) Picker
+        LDI	R17, 1
+        LDS	R16, nomer_tab
+        RCALL	insert_query
+        LDI	R17, 31
+        RJMP	?Subroutine29
+        CFI EndBlock cfiCond91
+        CFI EndBlock cfiCond92
+        CFI EndBlock cfiCond93
+        CFI EndBlock cfiPicker94
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine12:
+        CFI Block cfiCond95 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond96 Using cfiCommon0
+        CFI (cfiCond96) NoFunction
+        CFI (cfiCond96) Conditional ??CrossCallReturnLabel_27
+        CFI (cfiCond96) CFA_SP SP+6
+        CFI Block cfiCond97 Using cfiCommon0
+        CFI (cfiCond97) NoFunction
+        CFI (cfiCond97) Conditional ??CrossCallReturnLabel_28
+        CFI (cfiCond97) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond97) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond97) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond97) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond97) CFA_SP SP+6
+        CFI (cfiCond97) CFA_Y Y+4
+        CFI Block cfiPicker98 Using cfiCommon1
+        CFI (cfiPicker98) NoFunction
+        CFI (cfiPicker98) Picker
+        ANDI	R16, 0xF7
+        ST	Z, R16
+        LDS	R16, dabl
+        CPI	R16, 2
+        RET
+        CFI EndBlock cfiCond95
+        CFI EndBlock cfiCond96
+        CFI EndBlock cfiCond97
+        CFI EndBlock cfiPicker98
+//  585 
+//  586 
+//  587 
+//  588 //
+//  589 //               function sostojanij
+//  590 //
+//  591 //
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  592                  void test_vzat(void)
+test_vzat:
+        CFI Block cfiBlock99 Using cfiCommon0
+        CFI Function test_vzat
+//  593 {
+        FUNCALL test_vzat, test_query
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_vzat, test_query
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_vzat, insert_query
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL test_vzat, insert_zapis_kd
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        RCALL	?Subroutine13
+        CFI R24 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+4
+//  594      
+//  595                  if(trevoga==1)
+??CrossCallReturnLabel_30:
+        LDD	R24, Z+6
+        LDD	R25, Z+7
+        LDD	R16, Z+17
+        CPI	R16, 1
+        BRNE	??test_vzat_0
+//  596                                                // shleif
+//  597                                  {
+//  598                                      if(test_query()==0) return;
+        RCALL	?Subroutine17
+??CrossCallReturnLabel_42:
+        BREQ	??CrossCallReturnLabel_72
+//  599 
+//  600                                  timer_vhod=ust_vhod;
+        MOVW	R31:R30, R27:R26
+        STD	Z+8, R24
+        STD	Z+9, R25
+//  601                                  sost=VHOD;
+        LDI	R16, 3
+        LDI	R17, 0
+        STD	Z+2, R16
+        STD	Z+3, R17
+        RJMP	??CrossCallReturnLabel_72
+//  602                             //     insert_query();
+//  603                                  }
+//  604                  else
+//  605 
+//  606                  {
+//  607                          if(( bit_registr1 & TABLETKA)==0) return;
+??test_vzat_0:
+        RCALL	?Subroutine21
+??CrossCallReturnLabel_51:
+        SBRS	R16, 3
+        RJMP	??CrossCallReturnLabel_72
+//  608                         // semafor_clr(&bit_registr1 ,TABLETKA);
+//  609                         bit_registr1=bit_registr1 & ~TABLETKA;
+        RCALL	?Subroutine12
+//  610                      
+//  611                          if( dabl==2) { dabl=0;return;}
+??CrossCallReturnLabel_28:
+        BRNE	??test_vzat_1
+        RCALL	?Subroutine10
+??CrossCallReturnLabel_25:
+        RJMP	??CrossCallReturnLabel_72
+//  612                         
+//  613                          if(test_query()==0) return;
+??test_vzat_1:
+        RCALL	?Subroutine17
+??CrossCallReturnLabel_43:
+        BREQ	??CrossCallReturnLabel_72
+//  614                          sost=SNAT;
+        LDI	R16, 1
+        LDI	R17, 0
+        MOVW	R31:R30, R27:R26
+        STD	Z+2, R16
+        STD	Z+3, R17
+//  615                          timer_autovzat=ust_vhod;
+        STD	Z+10, R24
+        STD	Z+11, R25
+//  616                          iz_vzat=1;
+        STD	Z+18, R16
+//  617                          insert_query(nomer_tab,sost);
+        RCALL	?Subroutine16
+//  618                          insert_zapis_kd(nomer_tab,ZP_SNAT);
+??CrossCallReturnLabel_72:
+        RJMP	??Subroutine27_0
+        CFI EndBlock cfiBlock99
+//  619                    }
+//  620 
+//  621 
+//  622 }
+//  623 
+//  624 /*
+//  625 void begin_kd (void)
+//  626 {
+//  627   unsigned char buf[4];
+//  628   
+//  629   sost=VZAT;
+//  630   
+//  631   
+//  632   RdFromFleshToArr(A_UK_OHR,&buf[0],4);
+//  633   if(buf[3]==crc_485(3,&buf[0]))
+//  634     {
+//  635       if((buf[0]<32) && (buf[1]<32) && (buf[2]<2))
+//  636       {
+//  637         point_head=buf[0];
+//  638         point_tail=buf[1];
+//  639         query_full=buf[2];
+//  640         goto met1;
+//  641       }
+//  642     }
+//  643   
+//  644   RdFromFleshToArr(A_UK1_OHR,&buf[0],4);
+//  645   if(buf[3]==crc_485(3,&buf[0]))
+//  646     {
+//  647       if((buf[0]<32) && (buf[1]<32) && (buf[2]<2))
+//  648       {
+//  649         point_head=buf[0];
+//  650         point_tail=buf[1];
+//  651         query_full=buf[2];
+//  652         goto met1;
+//  653       }
+//  654     }
+//  655   
+//  656           point_head=0;
+//  657           point_tail=0;
+//  658           query_full=0;
+//  659           
+//  660           buf[0]=point_head;
+//  661           buf[1]=point_tail;
+//  662           buf[2]=query_full;
+//  663           buf[3]=crc_485(3,&buf[0]);
+//  664           WrArrayToFlesh(A_UK_OHR,&buf[0],4,0,0);
+//  665           WrArrayToFlesh(A_UK1_OHR,&buf[0],4,0,0);  
+//  666   
+//  667      
+//  668   
+//  669           
+//  670 met1:
+//  671   if(test_query()==0) return;
+//  672   insert_query(0,sost); 
+//  673   insert_zapis_kd(0,ZP_VZAT);
+//  674   
+//  675    modbus_mem1[0x180-BEGIN_SEG1]=point_head;
+//  676    modbus_mem1[0x181-BEGIN_SEG1]=point_tail;
+//  677    modbus_mem1[0x182-BEGIN_SEG1]=query_full; 
+//  678      
+//  679   
+//  680   
+//  681 }
+//  682 
+//  683 */
+//  684 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  685 void begin_kd_2 (void)
+begin_kd_2:
+        CFI Block cfiBlock100 Using cfiCommon0
+        CFI Function begin_kd_2
+//  686 {
+        FUNCALL begin_kd_2, RdFromFleshToArr
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL begin_kd_2, crc_485
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL begin_kd_2, RdFromFleshToArr
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL begin_kd_2, crc_485
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL begin_kd_2, crc_485
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL begin_kd_2, WrArrayToFlesh
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL begin_kd_2, WrArrayToFlesh
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL begin_kd_2, RdFromFleshToArr
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL begin_kd_2, crc_485
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL begin_kd_2, RdFromFleshToArr
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL begin_kd_2, crc_485
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL begin_kd_2, wr_uk
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 3, STACK
+        CALL	?PROLOGUE4_L09
+        CFI R27 Frame(CFA_Y, -1)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        SBIW	R29:R28, 4
+        CFI CFA_Y Y+8
+//  687   unsigned char buf[4];
+//  688   
+//  689  // if(sel_modul!=1)return;               21 06 2017
+//  690   
+//  691   RdFromFleshToArr(A_SOST_OHR,&buf[0],2);
+        LDI	R20, 2
+        RCALL	??Subroutine2_1
+??CrossCallReturnLabel_4:
+        LDI	R16, 196
+        RCALL	?Subroutine5
+//  692   if(buf[1]==crc_485(1,&buf[0]))
+??CrossCallReturnLabel_9:
+        LDI	R26, LOW(glutch)
+        LDI	R27, (glutch) >> 8
+        RCALL	?Subroutine4
+??CrossCallReturnLabel_59:
+        BRNE	??begin_kd_2_0
+//  693   {
+//  694     sost=buf[0];
+??begin_kd_2_1:
+        LD	R16, Y
+        LDI	R17, 0
+        ADIW	R27:R26, 2
+        ST	X+, R16
+        ST	X, R17
+        SBIW	R27:R26, 3
+//  695     goto met2;
+        RJMP	??CrossCallReturnLabel_67
+//  696   }
+//  697   
+//  698   RdFromFleshToArr(A_SOST1_OHR,&buf[0],2);
+??begin_kd_2_0:
+        LDI	R20, 2
+        RCALL	??Subroutine2_1
+??CrossCallReturnLabel_5:
+        LDI	R16, 198
+        RCALL	?Subroutine5
+//  699   if(buf[1]==crc_485(1,&buf[0]))
+??CrossCallReturnLabel_8:
+        RCALL	?Subroutine4
+??CrossCallReturnLabel_60:
+        BREQ	??begin_kd_2_1
+//  700     {
+//  701     sost=buf[0];
+//  702     goto met2;
+//  703     }
+//  704     
+//  705     sost=VZAT;
+        RCALL	?Subroutine14
+??CrossCallReturnLabel_65:
+        SBIW	R27:R26, 3
+//  706       buf[0]=sost;
+        RCALL	?Subroutine0
+//  707       buf[1]=crc_485(1,&buf[0]);
+//  708       WrArrayToFlesh(A_SOST_OHR,&buf[0],2,0,0);
+//  709       WrArrayToFlesh(A_SOST1_OHR,&buf[0],2,0,0); 
+//  710     
+//  711 met2:
+//  712   
+//  713   RdFromFleshToArr(A_UK_OHR,&buf[0],4);
+??CrossCallReturnLabel_67:
+        RCALL	??Subroutine2_0
+??CrossCallReturnLabel_6:
+        LDI	R16, 182
+        RCALL	?Subroutine1
+//  714   if(buf[3]==crc_485(3,&buf[0]))
+??CrossCallReturnLabel_57:
+        BRNE	??begin_kd_2_2
+//  715     {
+//  716       if((buf[0]<32) && (buf[1]<32) && (buf[2]<2))
+        LD	R16, Y
+        CPI	R16, 32
+        BRCC	??begin_kd_2_2
+        LDD	R16, Y+1
+        CPI	R16, 32
+        BRCC	??begin_kd_2_2
+        LDD	R16, Y+2
+        CPI	R16, 2
+        BRCC	??begin_kd_2_2
+//  717       {
+//  718         point_head=buf[0];
+??begin_kd_2_3:
+        LD	R16, Y
+        ADIW	R27:R26, 15
+        ST	X+, R16
+//  719         point_tail=buf[1];
+        LDD	R16, Y+1
+        ST	X, R16
+        SBIW	R27:R26, 3
+//  720         query_full=buf[2];
+        LDD	R16, Y+2
+        ST	X, R16
+//  721         goto met3;
+        RJMP	??CrossCallReturnLabel_44
+//  722       }
+//  723     }
+//  724   
+//  725   RdFromFleshToArr(A_UK1_OHR,&buf[0],4);
+??begin_kd_2_2:
+        RCALL	??Subroutine2_0
+??CrossCallReturnLabel_7:
+        LDI	R16, 190
+        RCALL	?Subroutine1
+//  726   if(buf[3]==crc_485(3,&buf[0]))
+??CrossCallReturnLabel_58:
+        BRNE	??begin_kd_2_4
+//  727     {
+//  728       if((buf[0]<32) && (buf[1]<32) && (buf[2]<2))
+        LD	R16, Y
+        CPI	R16, 32
+        BRCC	??begin_kd_2_4
+        LDD	R16, Y+1
+        CPI	R16, 32
+        BRCC	??begin_kd_2_4
+        LDD	R16, Y+2
+        CPI	R16, 2
+        BRCS	??begin_kd_2_3
+//  729       {
+//  730         point_head=buf[0];
+//  731         point_tail=buf[1];
+//  732         query_full=buf[2];
+//  733         goto met3;
+//  734       }
+//  735     }
+//  736   
+//  737           point_head=0;
+??begin_kd_2_4:
+        LDI	R16, 0
+        ADIW	R27:R26, 15
+        ST	X+, R16
+//  738           point_tail=0;
+        ST	X, R16
+        SBIW	R27:R26, 3
+//  739           query_full=0;
+        ST	X, R16
+//  740           
+//  741           //buf[0]=point_head;
+//  742          // buf[1]=point_tail;
+//  743          // buf[2]=query_full;
+//  744          // buf[3]=crc_485(3,&buf[0]);
+//  745          // WrArrayToFlesh(A_UK_OHR,&buf[0],4,0,0);
+//  746          // WrArrayToFlesh(A_UK1_OHR,&buf[0],4,0,0);  
+//  747           
+//  748           wr_uk();
+        RCALL	?Subroutine20
+//  749          
+//  750           
+//  751           
+//  752           met3:
+//  753          
+//  754         //    modbus_mem1[0x155-BEGIN_SEG1]=point_head;
+//  755         //    modbus_mem1[0x156-BEGIN_SEG1]=point_tail;
+//  756         //    modbus_mem1[0x157-BEGIN_SEG1]=query_full; 
+//  757          
+//  758                  
+//  759          /*        
+//  760                if(test_query()==0) return;
+//  761                
+//  762                point_head=point_head & 0x1f;
+//  763                point_head=( (point_head+2) & 0x1f);
+//  764                if(point_head==point_tail) query_full=1;
+//  765                wr_uk();
+//  766   
+//  767                  modbus_mem1[0x180-BEGIN_SEG1]=point_head;
+//  768                  modbus_mem1[0x181-BEGIN_SEG1]=point_tail;
+//  769                  modbus_mem1[0x182-BEGIN_SEG1]=query_full; 
+//  770          */
+//  771   
+//  772 return;
+??CrossCallReturnLabel_44:
+        RJMP	?Subroutine27
+        CFI EndBlock cfiBlock100
+//  773   
+//  774 }
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine5:
+        CFI Block cfiCond101 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_9
+        CFI R24 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+8
+        CFI Block cfiCond102 Using cfiCommon0
+        CFI (cfiCond102) NoFunction
+        CFI (cfiCond102) Conditional ??CrossCallReturnLabel_8
+        CFI (cfiCond102) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond102) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond102) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond102) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond102) CFA_SP SP+6
+        CFI (cfiCond102) CFA_Y Y+8
+        CFI Block cfiPicker103 Using cfiCommon1
+        CFI (cfiPicker103) NoFunction
+        CFI (cfiPicker103) Picker
+        LDI	R17, 3
+        JMP	RdFromFleshToArr
+        CFI EndBlock cfiCond101
+        CFI EndBlock cfiCond102
+        CFI EndBlock cfiPicker103
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine4:
+        CFI Block cfiCond104 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_59
+        CFI R24 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+8
+        CFI Block cfiCond105 Using cfiCommon0
+        CFI (cfiCond105) NoFunction
+        CFI (cfiCond105) Conditional ??CrossCallReturnLabel_60
+        CFI (cfiCond105) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond105) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond105) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond105) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond105) CFA_SP SP+6
+        CFI (cfiCond105) CFA_Y Y+8
+        CFI Block cfiPicker106 Using cfiCommon1
+        CFI (cfiPicker106) NoFunction
+        CFI (cfiPicker106) Picker
+        LDD	R24, Y+1
+        MOVW	R19:R18, R29:R28
+        LDI	R16, 1
+        CFI EndBlock cfiCond104
+        CFI EndBlock cfiCond105
+        CFI EndBlock cfiPicker106
+        REQUIRE ?Subroutine25
+        ;		// Fall through to label ?Subroutine25
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine25:
+        CFI Block cfiCond107 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_59
+        CFI R24 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+8
+        CFI Block cfiCond108 Using cfiCommon0
+        CFI (cfiCond108) NoFunction
+        CFI (cfiCond108) Conditional ??CrossCallReturnLabel_60
+        CFI (cfiCond108) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond108) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond108) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond108) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond108) CFA_SP SP+6
+        CFI (cfiCond108) CFA_Y Y+8
+        CFI Block cfiCond109 Using cfiCommon0
+        CFI (cfiCond109) NoFunction
+        CFI (cfiCond109) Conditional ??CrossCallReturnLabel_57
+        CFI (cfiCond109) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond109) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond109) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond109) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond109) CFA_SP SP+6
+        CFI (cfiCond109) CFA_Y Y+8
+        CFI Block cfiCond110 Using cfiCommon0
+        CFI (cfiCond110) NoFunction
+        CFI (cfiCond110) Conditional ??CrossCallReturnLabel_58
+        CFI (cfiCond110) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond110) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond110) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond110) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond110) CFA_SP SP+6
+        CFI (cfiCond110) CFA_Y Y+8
+        CFI Block cfiPicker111 Using cfiCommon1
+        CFI (cfiPicker111) NoFunction
+        CFI (cfiPicker111) Picker
+        CALL	crc_485
+        CP	R24, R16
+        RET
+        CFI EndBlock cfiCond107
+        CFI EndBlock cfiCond108
+        CFI EndBlock cfiCond109
+        CFI EndBlock cfiCond110
+        CFI EndBlock cfiPicker111
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine2:
+        CFI Block cfiCond112 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_0
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+4
+        CFI Block cfiCond113 Using cfiCommon0
+        CFI (cfiCond113) NoFunction
+        CFI (cfiCond113) Conditional ??CrossCallReturnLabel_1
+        CFI (cfiCond113) CFA_SP SP+6
+        CFI (cfiCond113) CFA_Y Y+4
+        CFI Block cfiPicker114 Using cfiCommon1
+        CFI (cfiPicker114) NoFunction
+        CFI (cfiPicker114) Picker
+        LDI	R23, 0
+        LDI	R22, 0
+        CFI Block cfiCond115 Using cfiCommon0
+        CFI (cfiCond115) NoFunction
+        CFI (cfiCond115) Conditional ??CrossCallReturnLabel_6
+        CFI (cfiCond115) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond115) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond115) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond115) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond115) CFA_SP SP+6
+        CFI (cfiCond115) CFA_Y Y+8
+        CFI Block cfiCond116 Using cfiCommon0
+        CFI (cfiCond116) NoFunction
+        CFI (cfiCond116) Conditional ??CrossCallReturnLabel_7
+        CFI (cfiCond116) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond116) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond116) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond116) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond116) CFA_SP SP+6
+        CFI (cfiCond116) CFA_Y Y+8
+??Subroutine2_0:
+        LDI	R20, 4
+        CFI Block cfiCond117 Using cfiCommon0
+        CFI (cfiCond117) NoFunction
+        CFI (cfiCond117) Conditional ??CrossCallReturnLabel_2
+        CFI (cfiCond117) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond117) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond117) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond117) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond117) CFA_SP SP+6
+        CFI (cfiCond117) CFA_Y Y+8
+        CFI Block cfiCond118 Using cfiCommon0
+        CFI (cfiCond118) NoFunction
+        CFI (cfiCond118) Conditional ??CrossCallReturnLabel_3
+        CFI (cfiCond118) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond118) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond118) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond118) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond118) CFA_SP SP+6
+        CFI (cfiCond118) CFA_Y Y+8
+        CFI Block cfiCond119 Using cfiCommon0
+        CFI (cfiCond119) NoFunction
+        CFI (cfiCond119) Conditional ??CrossCallReturnLabel_4
+        CFI (cfiCond119) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond119) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond119) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond119) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond119) CFA_SP SP+6
+        CFI (cfiCond119) CFA_Y Y+8
+        CFI Block cfiCond120 Using cfiCommon0
+        CFI (cfiCond120) NoFunction
+        CFI (cfiCond120) Conditional ??CrossCallReturnLabel_5
+        CFI (cfiCond120) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond120) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond120) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond120) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond120) CFA_SP SP+6
+        CFI (cfiCond120) CFA_Y Y+8
+??Subroutine2_1:
+        LDI	R21, 0
+        MOVW	R19:R18, R29:R28
+        RET
+        CFI EndBlock cfiCond112
+        CFI EndBlock cfiCond113
+        CFI EndBlock cfiPicker114
+        CFI EndBlock cfiCond115
+        CFI EndBlock cfiCond116
+        CFI EndBlock cfiCond117
+        CFI EndBlock cfiCond118
+        CFI EndBlock cfiCond119
+        CFI EndBlock cfiCond120
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine1:
+        CFI Block cfiCond121 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_57
+        CFI R24 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+8
+        CFI Block cfiCond122 Using cfiCommon0
+        CFI (cfiCond122) NoFunction
+        CFI (cfiCond122) Conditional ??CrossCallReturnLabel_58
+        CFI (cfiCond122) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond122) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond122) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond122) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond122) CFA_SP SP+6
+        CFI (cfiCond122) CFA_Y Y+8
+        CFI Block cfiPicker123 Using cfiCommon1
+        CFI (cfiPicker123) NoFunction
+        CFI (cfiPicker123) Picker
+        LDI	R17, 3
+        CALL	RdFromFleshToArr
+        LDD	R24, Y+3
+        MOVW	R19:R18, R29:R28
+        LDI	R16, 3
+        RJMP	?Subroutine25
+        CFI EndBlock cfiCond121
+        CFI EndBlock cfiCond122
+        CFI EndBlock cfiPicker123
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine0:
+        CFI Block cfiCond124 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_68
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond125 Using cfiCommon0
+        CFI (cfiCond125) NoFunction
+        CFI (cfiCond125) Conditional ??CrossCallReturnLabel_67
+        CFI (cfiCond125) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond125) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond125) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond125) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond125) CFA_SP SP+6
+        CFI (cfiCond125) CFA_Y Y+8
+        CFI Block cfiPicker126 Using cfiCommon1
+        CFI (cfiPicker126) NoFunction
+        CFI (cfiPicker126) Picker
+        ST	Y, R16
+        MOVW	R19:R18, R29:R28
+        LDI	R16, 1
+        CALL	crc_485
+        STD	Y+1, R16
+        LDI	R23, 0
+        LDI	R22, 0
+        LDI	R20, 2
+        LDI	R21, 0
+        MOVW	R19:R18, R29:R28
+        LDI	R16, 196
+        LDI	R17, 3
+        CALL	WrArrayToFlesh
+        LDI	R23, 0
+        LDI	R22, 0
+        LDI	R20, 2
+        LDI	R21, 0
+        MOVW	R19:R18, R29:R28
+        LDI	R16, 198
+        RJMP	?Subroutine28
+        CFI EndBlock cfiCond124
+        CFI EndBlock cfiCond125
+        CFI EndBlock cfiPicker126
+//  775 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  776 void zp_prihod_uhod(void)
+zp_prihod_uhod:
+        CFI Block cfiBlock127 Using cfiCommon0
+        CFI Function zp_prihod_uhod
+//  777 {
+//  778   
+//  779 switch (flag_arhiv_prihod)
+        FUNCALL zp_prihod_uhod, insert_zapis_kd
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL zp_prihod_uhod, insert_zapis_kd
+        LOCFRAME RSTACK, 3, STACK
+        LDS	R16, flag_arhiv_prihod
+        DEC	R16
+        BREQ	??zp_prihod_uhod_0
+        DEC	R16
+        BREQ	??zp_prihod_uhod_1
+        RET
+//  780 {
+//  781 case 1:insert_zapis_kd(nomer_tab,ZP_PRIHOD); flag_arhiv_prihod=0; break;
+??zp_prihod_uhod_0:
+        LDI	R17, 150
+        RJMP	??zp_prihod_uhod_2
+//  782 case 2:insert_zapis_kd(nomer_tab,ZP_UHOD);flag_arhiv_prihod=0;break;
+??zp_prihod_uhod_1:
+        LDI	R17, 151
+??zp_prihod_uhod_2:
+        LDS	R16, nomer_tab
+        CALL	insert_zapis_kd
+        LDI	R16, 0
+        STS	flag_arhiv_prihod, R16
+//  783 default: break;
+//  784 }
+//  785         
+//  786 }
+        RET
+        CFI EndBlock cfiBlock127
+//  787 
+//  788 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  789  void com_disp_mbus (void)
+com_disp_mbus:
+        CFI Block cfiBlock128 Using cfiCommon0
+        CFI Function com_disp_mbus
+//  790 {
+        FUNCALL com_disp_mbus, test_vzat
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL com_disp_mbus, test_snat
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL com_disp_mbus, test_alarm
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL com_disp_mbus, test_t_vhod
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL com_disp_mbus, test_t_vihod
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+//  791 //unsigned int pred_sost;  
+//  792 
+//  793       bit_registr1=bit_registr1 | TABLETKA; 
+        RCALL	?Subroutine21
+??CrossCallReturnLabel_52:
+        ORI	R16, 0x08
+        ST	Z, R16
+//  794       nomer_tab=0;  
+        LDI	R16, 0
+        STS	nomer_tab, R16
+//  795  //     pred_sost=sost; 
+//  796       switch(sost)
+        LDI	R26, LOW((glutch + 2))
+        LDI	R27, HIGH((glutch + 2))
+        LD	R30, X+
+        LD	R31, X
+        ADIW	R31:R30, 0
+        BREQ	??com_disp_mbus_0
+        SBIW	R31:R30, 1
+        BREQ	??com_disp_mbus_1
+        SBIW	R31:R30, 1
+        BREQ	??com_disp_mbus_2
+        SBIW	R31:R30, 1
+        BREQ	??com_disp_mbus_3
+        SBIW	R31:R30, 1
+        BREQ	??com_disp_mbus_4
+        RJMP	??com_disp_mbus_5
+//  797                                 {
+//  798                                 case 0: test_vzat();  break;
+??com_disp_mbus_0:
+        RCALL	test_vzat
+        RJMP	??com_disp_mbus_5
+//  799                                 case 1: test_snat();  break;
+??com_disp_mbus_1:
+        RCALL	test_snat
+        RJMP	??com_disp_mbus_5
+//  800                                 case 2: test_alarm(); break;
+??com_disp_mbus_2:
+        RCALL	test_alarm
+        RJMP	??com_disp_mbus_5
+//  801                                 case 3: test_t_vhod(); break;
+??com_disp_mbus_3:
+        RCALL	test_t_vhod
+        RJMP	??com_disp_mbus_5
+//  802                                 case 4: test_t_vihod(); break;
+??com_disp_mbus_4:
+        RCALL	test_t_vihod
+//  803                                    default: break;
+//  804                                  } 
+//  805                 
+//  806  //               if(pred_sost==sost) Rs485_buf_rx_tx[TX_BUF_RS485]=192;
+//  807 
+//  808 }
+??com_disp_mbus_5:
+        RJMP	?Subroutine23
+        CFI EndBlock cfiBlock128
+//  809 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  810 void monitori(void)
+monitori:
+        CFI Block cfiBlock129 Using cfiCommon0
+        CFI Function monitori
+//  811                   {
+        FUNCALL monitori, morg
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL monitori, zp_prihod_uhod
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL monitori, test_vzat
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL monitori, test_snat
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL monitori, test_alarm
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL monitori, test_t_vhod
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL monitori, test_t_vihod
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+//  812                    
+//  813               //    if(sel_modul!=1)return;
+//  814                     if(sel_modul==1) {                   // только в режиме МКД
+        LDI	R26, LOW(glutch)
+        LDI	R27, (glutch) >> 8
+        LDS	R16, sel_modul
+        CPI	R16, 1
+        BRNE	??monitori_0
+//  815                    morg();
+        RCALL	morg
+//  816                    if(trevoga==1) {ST_SHL_ON;} else { ST_SHL_OFF;}
+        ADIW	R27:R26, 17
+        LD	R16, X
+        SBIW	R27:R26, 17
+        CPI	R16, 1
+        BRNE	??monitori_1
+        SBI	0x02, 0x04
+        RJMP	??monitori_0
+??monitori_1:
+        CBI	0x02, 0x04
+//  817                     }
+//  818                     
+//  819                   zp_prihod_uhod();
+??monitori_0:
+        RCALL	zp_prihod_uhod
+//  820                                
+//  821                //   if(trevoga==1){ SL_ON; } else {SL_OFF; }  
+//  822                   //!!! выдавать светодиод тревоги !!!!!!!!!!!!!!!!!!
+//  823                  
+//  824                 // if(trevoga==1) indicator=indicator | ST_SHL; else indicator=indicator & ~ST_SHL;
+//  825                   
+//  826                  
+//  827                   
+//  828                  switch(sost)
+        ADIW	R27:R26, 2
+        LD	R30, X+
+        LD	R31, X
+        SBIW	R27:R26, 3
+        ADIW	R31:R30, 0
+        BREQ	??monitori_2
+        SBIW	R31:R30, 1
+        BREQ	??monitori_3
+        SBIW	R31:R30, 1
+        BREQ	??monitori_4
+        SBIW	R31:R30, 1
+        BREQ	??monitori_5
+        SBIW	R31:R30, 1
+        BREQ	??monitori_6
+        RJMP	??monitori_7
+//  829                                 {
+//  830                                 case 0: cnt_snd=0;test_vzat();  break;
+??monitori_2:
+        RCALL	?Subroutine11
+??CrossCallReturnLabel_61:
+        RCALL	test_vzat
+        RJMP	??CrossCallReturnLabel_66
+//  831                                 case 1: cnt_snd=0;test_snat();  break;
+??monitori_3:
+        RCALL	?Subroutine11
+??CrossCallReturnLabel_62:
+        RCALL	test_snat
+        RJMP	??CrossCallReturnLabel_66
+//  832                                 case 2: test_alarm(); break;
+??monitori_4:
+        RCALL	test_alarm
+        RJMP	??CrossCallReturnLabel_66
+//  833                                 case 3: cnt_snd=0;test_t_vhod(); break;
+??monitori_5:
+        RCALL	?Subroutine11
+??CrossCallReturnLabel_63:
+        RCALL	test_t_vhod
+        RJMP	??CrossCallReturnLabel_66
+//  834                                 case 4: cnt_snd=0;test_t_vihod(); break;
+??monitori_6:
+        RCALL	?Subroutine11
+??CrossCallReturnLabel_64:
+        RCALL	test_t_vihod
+        RJMP	??CrossCallReturnLabel_66
+//  835                                    default: sost=0;break;
+??monitori_7:
+        RCALL	?Subroutine14
+//  836                                  }
+//  837                    }
+??CrossCallReturnLabel_66:
+        RJMP	?Subroutine23
+        CFI EndBlock cfiBlock129
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine14:
+        CFI Block cfiCond130 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_65
+        CFI R24 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+8
+        CFI Block cfiCond131 Using cfiCommon0
+        CFI (cfiCond131) NoFunction
+        CFI (cfiCond131) Conditional ??CrossCallReturnLabel_66
+        CFI (cfiCond131) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond131) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond131) CFA_SP SP+6
+        CFI (cfiCond131) CFA_Y Y+2
+        CFI Block cfiPicker132 Using cfiCommon1
+        CFI (cfiPicker132) NoFunction
+        CFI (cfiPicker132) Picker
+        LDI	R16, 0
+        ADIW	R27:R26, 2
+        ST	X+, R16
+        CFI EndBlock cfiCond130
+        CFI EndBlock cfiCond131
+        CFI EndBlock cfiPicker132
+        REQUIRE ?Subroutine26
+        ;		// Fall through to label ?Subroutine26
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine26:
+        CFI Block cfiCond133 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_65
+        CFI R24 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+8
+        CFI Block cfiCond134 Using cfiCommon0
+        CFI (cfiCond134) NoFunction
+        CFI (cfiCond134) Conditional ??CrossCallReturnLabel_66
+        CFI (cfiCond134) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond134) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond134) CFA_SP SP+6
+        CFI (cfiCond134) CFA_Y Y+2
+        CFI Block cfiCond135 Using cfiCommon0
+        CFI (cfiCond135) NoFunction
+        CFI (cfiCond135) Conditional ??CrossCallReturnLabel_61
+        CFI (cfiCond135) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond135) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond135) CFA_SP SP+6
+        CFI (cfiCond135) CFA_Y Y+2
+        CFI Block cfiCond136 Using cfiCommon0
+        CFI (cfiCond136) NoFunction
+        CFI (cfiCond136) Conditional ??CrossCallReturnLabel_62
+        CFI (cfiCond136) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond136) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond136) CFA_SP SP+6
+        CFI (cfiCond136) CFA_Y Y+2
+        CFI Block cfiCond137 Using cfiCommon0
+        CFI (cfiCond137) NoFunction
+        CFI (cfiCond137) Conditional ??CrossCallReturnLabel_63
+        CFI (cfiCond137) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond137) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond137) CFA_SP SP+6
+        CFI (cfiCond137) CFA_Y Y+2
+        CFI Block cfiCond138 Using cfiCommon0
+        CFI (cfiCond138) NoFunction
+        CFI (cfiCond138) Conditional ??CrossCallReturnLabel_64
+        CFI (cfiCond138) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond138) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond138) CFA_SP SP+6
+        CFI (cfiCond138) CFA_Y Y+2
+        CFI Block cfiPicker139 Using cfiCommon1
+        CFI (cfiPicker139) NoFunction
+        CFI (cfiPicker139) Picker
+        ST	X, R16
+        RET
+        CFI EndBlock cfiCond133
+        CFI EndBlock cfiCond134
+        CFI EndBlock cfiCond135
+        CFI EndBlock cfiCond136
+        CFI EndBlock cfiCond137
+        CFI EndBlock cfiCond138
+        CFI EndBlock cfiPicker139
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine11:
+        CFI Block cfiCond140 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_61
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+2
+        CFI Block cfiCond141 Using cfiCommon0
+        CFI (cfiCond141) NoFunction
+        CFI (cfiCond141) Conditional ??CrossCallReturnLabel_62
+        CFI (cfiCond141) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond141) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond141) CFA_SP SP+6
+        CFI (cfiCond141) CFA_Y Y+2
+        CFI Block cfiCond142 Using cfiCommon0
+        CFI (cfiCond142) NoFunction
+        CFI (cfiCond142) Conditional ??CrossCallReturnLabel_63
+        CFI (cfiCond142) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond142) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond142) CFA_SP SP+6
+        CFI (cfiCond142) CFA_Y Y+2
+        CFI Block cfiCond143 Using cfiCommon0
+        CFI (cfiCond143) NoFunction
+        CFI (cfiCond143) Conditional ??CrossCallReturnLabel_64
+        CFI (cfiCond143) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond143) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond143) CFA_SP SP+6
+        CFI (cfiCond143) CFA_Y Y+2
+        CFI Block cfiPicker144 Using cfiCommon1
+        CFI (cfiPicker144) NoFunction
+        CFI (cfiPicker144) Picker
+        LDI	R16, 0
+        ADIW	R27:R26, 12
+        RJMP	?Subroutine26
+        CFI EndBlock cfiCond140
+        CFI EndBlock cfiCond141
+        CFI EndBlock cfiCond142
+        CFI EndBlock cfiCond143
+        CFI EndBlock cfiPicker144
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_Z>`:
+        DW	SFE(NEAR_Z) - SFB(NEAR_Z)
+        DW	SFB(NEAR_Z)
+        DP	0
+        REQUIRE ?need_segment_init
+
+        END
+//  838 
+// 
+//     2 bytes in segment ABSOLUTE
+// 1 446 bytes in segment FARCODE
+//     7 bytes in segment INITTAB
+//    24 bytes in segment NEAR_Z
+// 
+// 1 446 bytes of CODE memory (+ 7 bytes shared)
+//    24 bytes of DATA memory (+ 2 bytes shared)
+//
+//Errors: none
+//Warnings: none

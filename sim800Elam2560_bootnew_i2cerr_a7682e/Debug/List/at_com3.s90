@@ -1,0 +1,3044 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+//                                                     23/Jan/2008  15:27:46 /
+// IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version               /
+// Copyright 1996-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Source file  =  D:\PRJIAR\NSSALFA\at_com3.c                            /
+//    Command line =  D:\PRJIAR\NSSALFA\at_com3.c --cpu=m1280 -ms -o         /
+//                    D:\PRJIAR\NSSALFA\Debug\Obj\ -lCN                      /
+//                    D:\PRJIAR\NSSALFA\Debug\List\ -lA                      /
+//                    D:\PRJIAR\NSSALFA\Debug\List\ -y                       /
+//                    --initializers_in_flash -z6 --no_inline                /
+//                    --no_cross_call --no_tbaa --debug -e -I "D:\Program    /
+//                    Files\IAR Systems\Embedded Workbench 4.0               /
+//                    Evaluation\avr\INC\" -I "D:\Program Files\IAR          /
+//                    Systems\Embedded Workbench 4.0                         /
+//                    Evaluation\avr\INC\DLIB\" --eeprom_size 4096           /
+//                    --dlib_config "D:\Program Files\IAR Systems\Embedded   /
+//                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-3s-ec-n.h" /
+//    List file    =  D:\PRJIAR\NSSALFA\Debug\List\at_com3.s90               /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME at_com3
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "3"
+        RTMODEL "__cpu_name", "ATmega1280"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?CV_SWITCH_L06
+        EXTERN ?EPILOGUE_B4_L09
+        EXTERN ?EPILOGUE_B6_L09
+        EXTERN ?PROLOGUE4_L09
+        EXTERN ?PROLOGUE6_L09
+        EXTERN ?Register_R4_is_cg_reg
+        EXTERN ?Register_R5_is_cg_reg
+        EXTERN ?need_segment_init
+
+        PUBWEAK `?<Segment init: NEAR_I>`
+        PUBWEAK `?<Segment init: NEAR_Z>`
+        PUBLIC At_com
+        PUBLIC Cnt_modem_on_off
+        PUBWEAK _A_PINE
+        PUBWEAK _A_PORTC
+        PUBWEAK _A_UCSR0B
+        PUBWEAK _A_UDR0
+        PUBWEAK _A_UDR3
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBLIC at_com_rx
+        FUNCTION at_com_rx,021203H
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC at_com_scen_init
+        FUNCTION at_com_scen_init,0203H
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC at_com_scen_stm_dc_1
+        FUNCTION at_com_scen_stm_dc_1,0203H
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC at_com_scen_stm_sc
+        FUNCTION at_com_scen_stm_sc,0203H
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC at_com_tx
+        FUNCTION at_com_tx,021203H
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC check_rx_ok
+        FUNCTION check_rx_ok,0203H
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC cnt_com
+        PUBLIC delay_modem_off
+        FUNCTION delay_modem_off,021203H
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC delay_modem_on
+        FUNCTION delay_modem_on,021203H
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC fl_at_com
+        PUBLIC fl_conf_modem
+        PUBLIC flag
+        PUBLIC init_scen_stm_dc_1
+        FUNCTION init_scen_stm_dc_1,0203H
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC init_scen_stm_sc
+        FUNCTION init_scen_stm_sc,0203H
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC init_scen_stm_si
+        FUNCTION init_scen_stm_si,021203H
+        LOCFRAME CSTACK, 10, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC modem_com_init
+        FUNCTION modem_com_init,021203H
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC rep
+        PUBLIC sending_at_pac
+        FUNCTION sending_at_pac,0203H
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC speed_modem
+        PUBLIC stm_pin1_err
+        PUBLIC stm_pin1_ok
+        PUBLIC stm_pin2_err
+        PUBLIC stm_pin2_ok
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetHigh:8, ?RetLow:8, ?Ret:17
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+2
+        CFI ?RetPad 0
+        CFI ?RetHigh and(load(1, DATA, sub(CFA_SP, 1)), ?RetHighByteMask)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+        EXTERN memset
+        FUNCTION memset,010202H
+        EXTERN strcpy
+        FUNCTION strcpy,010202H
+        EXTERN RdFromFleshToArr
+        FUNCTION RdFromFleshToArr,0202H
+        EXTERN strlen
+        FUNCTION strlen,010202H
+        EXTERN send_info
+        FUNCTION send_info,0202H
+        EXTERN delay
+        FUNCTION delay,0202H
+        EXTERN Regim
+        EXTERN event_modem
+        EXTERN simka
+        EXTERN state_led_md
+
+// D:\PRJIAR\NSSALFA\at_com3.c
+//    1 #include <iom1280.h>              
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0136H
+// union <unnamed> volatile __ext_io _A_UDR3
+_A_UDR3:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0c6H
+// union <unnamed> volatile __io _A_UDR0
+_A_UDR0:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0c1H
+// union <unnamed> volatile __io _A_UCSR0B
+_A_UCSR0B:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,02cH
+// union <unnamed> volatile __io _A_PINE
+_A_PINE:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,028H
+// union <unnamed> volatile __io _A_PORTC
+_A_PORTC:
+        DS 1
+//    2 #include <inavr.h>
+//    3 #include <string.h> 
+//    4 #include "dfpin.h"
+//    5 #include "dfproc.h"
+//    6 #include "def_at.h"
+//    7 #include "map_ef.h"
+//    8 #include "dfcnst.h"
+//    9 
+//   10  extern unsigned char state_led_md;
+//   11 //23.03.07 включение PAP для сименса
+//   12 
+//   13 //void st_gprs_atcom(void);
+//   14 //void st_gprs_att(void);
+//   15 
+//   16 void lock_it(void);
+//   17 
+//   18 
+
+        RSEG NEAR_F:CODE:NOROOT(0)
+//   19 __flash char stm_pin1_ok[]=        {'S','T','M',':','p','i','n',' ','s','i','m','1',' ','o','k'};
+stm_pin1_ok:
+        DB 83, 84, 77, 58, 112, 105, 110, 32, 115, 105, 109, 49, 32, 111, 107
+//   20 __flash char stm_pin2_ok[]=        {'S','T','M',':','p','i','n',' ','s','i','m','2',' ','o','k'};
+stm_pin2_ok:
+        DB 83, 84, 77, 58, 112, 105, 110, 32, 115, 105, 109, 50, 32, 111, 107
+//   21 __flash char stm_pin1_err[]=       {'S','T','M',':','p','i','n',' ','s','i','m','1',' ','e','r','r'};
+stm_pin1_err:
+        DB 83, 84, 77, 58, 112, 105, 110, 32, 115, 105, 109, 49, 32, 101, 114
+        DB 114
+//   22 __flash char stm_pin2_err[]=       {'S','T','M',':','p','i','n',' ','s','i','m','2',' ','e','r','r'};
+stm_pin2_err:
+        DB 83, 84, 77, 58, 112, 105, 110, 32, 115, 105, 109, 50, 32, 101, 114
+        DB 114
+//   23 
+//   24 void send_info(char size,char __flash *p,unsigned char fl_id,unsigned char id);
+//   25 
+//   26 extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,unsigned int num);
+//   27 extern void delay(unsigned int period);
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   28 unsigned char cnt_com; 
+cnt_com:
+        DS 1
+//   29 unsigned char rep;
+rep:
+        DS 1
+//   30 
+//   31 unsigned char speed_modem;
+speed_modem:
+        DS 1
+//   32 void sending_at_pac(void); 
+//   33 
+//   34  void init_modem_only(void);
+//   35 
+//   36 extern enum t_event_modem event_modem;
+//   37 
+//   38 extern unsigned char simka; //dobavka
+//   39 
+//   40 struct
+//   41 {
+//   42 unsigned char eho:1;//состояние эхо ответа
+//   43 unsigned char kod :1;//состояние ответ-код 
+//   44 }
+//   45 fl_conf_modem;
+fl_conf_modem:
+        DS 1
+//   46 
+//   47 
+//   48 
+//   49 struct
+//   50 {
+//   51 char buf[LN_BUF_AT];
+//   52 unsigned char cnt_tx;
+//   53 unsigned char cnt_rx;
+//   54 unsigned char ln_buf;
+//   55 unsigned char list_com[VOL_LIST];// перечень исполняемых команд
+//   56 unsigned char ln_list;//длина перечня
+//   57 unsigned char cnt_com;//счетчик команд
+//   58 unsigned int cnt_tm_out; //счетчик времени ожидания ответа
+//   59 unsigned int vol_tm_out; //предел времени ожидания ответа
+//   60 unsigned int cnt_rx_out; //счетчик межбайтовый промежуток
+//   61 unsigned int vol_rx_out; //предел межбайтового промежутка
+//   62 }At_com;
+//   63 
+//   64 
+//   65 struct
+//   66 {
+//   67 unsigned char ok :1;//требуемый ответ
+//   68 unsigned char err :1;//ошибочный, нетребуемый ответ
+//   69 unsigned char tm_out :1;//отсутствие ответа
+//   70 unsigned char tx_en :1;//послать комманду
+//   71 unsigned char rx_en :1;//принимать ответы
+//   72 unsigned char rx_rec :1;//принят ответ
+//   73 //unsigned char tm_out_en:1;//разрешение анализа по превышению времени ожидания ответа
+//   74 }
+//   75 fl_at_com;
+fl_at_com:
+        DS 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+At_com:
+        DS 66
+//   76 
+//   77 
+//   78 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   79 unsigned char Cnt_modem_on_off,flag;
+Cnt_modem_on_off:
+        DS 1
+flag:
+        DS 1
+//   80 
+//   81 extern unsigned char Regim;
+//   82 
+//   83 
+//   84 
+//   85 
+
+        RSEG CODE:CODE:NOROOT(1)
+//   86  void sending_at_pac(void)
+sending_at_pac:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function sending_at_pac
+//   87 {   
+        CALL	?PROLOGUE4_L09
+        CFI R27 Frame(CFA_Y, -1)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+//   88  if(At_com.cnt_tx>=(At_com.ln_buf-1))
+        LDI	R30, LOW(At_com)
+        LDI	R31, (At_com) >> 8
+        LDD	R16, Z+40
+        LDI	R17, 0
+        LDD	R24, Z+42
+        LDI	R25, 0
+        SBIW	R25:R24, 1
+        CP	R16, R24
+        CPC	R17, R25
+        BRLT	??sending_at_pac_0
+//   89      { 
+//   90      At_com.cnt_tx=0;
+        STD	Z+40, R17
+//   91      At_com.cnt_tm_out=At_com.vol_tm_out;
+        MOVW	R27:R26, R31:R30
+        ADIW	R27:R26, 60
+        LD	R16, X+
+        LD	R17, X
+        STD	Z+58, R16
+        STD	Z+59, R17
+//   92      UCSR0B=UCSR0B | RXEN;
+        LDS	R16, 193
+        ORI	R16, 0x10
+        STS	193, R16
+//   93      UCSR0B=UCSR0B | RXCIE;  
+        LDS	R16, 193
+        ORI	R16, 0x80
+        STS	193, R16
+//   94     // UCSR0B=UCSR0B & ~TXEN;!!!!!
+//   95    //  UCSR0B=UCSR0B & ~TXCIE; !!!!
+//   96      S2_OFF;
+        CBI	0x08, 0x00
+        CBI	0x08, 0x01
+//   97      return;
+        RJMP	??sending_at_pac_1
+//   98      }   
+//   99     
+//  100 
+//  101     At_com.cnt_tx++;                   
+??sending_at_pac_0:
+        LDD	R16, Z+40
+        INC	R16
+        STD	Z+40, R16
+//  102     UDR0=At_com.buf[At_com.cnt_tx];
+        LDD	R16, Z+40
+        ADD	R30, R16
+        ADC	R31, R17
+        LD	R17, Z
+        STS	198, R17
+//  103 
+//  104     
+//  105     if(Regim==RG_DEBAG) UDR3=At_com.buf[At_com.cnt_tx];
+        LDS	R16, Regim
+        CPI	R16, 1
+        BRNE	??sending_at_pac_1
+        STS	310, R17
+??sending_at_pac_1:
+        LDI	R30, 4
+        JMP	?EPILOGUE_B4_L09
+        CFI EndBlock cfiBlock0
+//  106 } 
+//  107 
+//  108 
+//  109 
+//  110 
+//  111 
+//  112 
+//  113 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  114 void at_com_tx(unsigned char cnt)
+at_com_tx:
+        CFI Block cfiBlock1 Using cfiCommon0
+        CFI Function at_com_tx
+//  115 {
+        FUNCALL at_com_tx, memset
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, RdFromFleshToArr
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, RdFromFleshToArr
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, RdFromFleshToArr
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, RdFromFleshToArr
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strlen
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strcpy
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_tx, strlen
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        CALL	?PROLOGUE6_L09
+        CFI R5 Frame(CFA_Y, -1)
+        CFI R4 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -5)
+        CFI R24 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        REQUIRE	?Register_R4_is_cg_reg
+        REQUIRE	?Register_R5_is_cg_reg
+        MOV	R4, R16
+//  116 
+//  117 
+//  118 if(cnt>=VOL_LIST)return;
+        LDI	R16, 13
+        CP	R4, R16
+        BRCS	$+2+2
+        RJMP	??at_com_tx_0
+//  119 if(fl_at_com.tx_en==0)return;
+        LDI	R24, LOW(cnt_com)
+        LDI	R25, (cnt_com) >> 8
+        MOVW	R31:R30, R25:R24
+        LDD	R16, Z+4
+        SBRS	R16, 3
+        RJMP	??at_com_tx_0
+//  120 
+//  121 memset(At_com.buf,0,LN_BUF_AT);
+        LDI	R26, LOW(At_com)
+        LDI	R27, (At_com) >> 8
+        LDI	R20, 40
+        LDI	R21, 0
+        LDI	R18, 0
+        LDI	R19, 0
+        MOVW	R17:R16, R27:R26
+        CALL	memset
+//  122 
+//  123 switch(At_com.list_com[cnt])
+        CLR	R5
+        MOVW	R31:R30, R27:R26
+        ADD	R30, R4
+        ADC	R31, R5
+        LDD	R16, Z+43
+        LDI	R30, LOW(`?<Jumptable for at_com_tx>_0`)
+        LDI	R31, (`?<Jumptable for at_com_tx>_0`) >> 16
+        OUT	0x3B, R31
+        LDI	R31, HIGH(`?<Jumptable for at_com_tx>_0`)
+        JMP	?CV_SWITCH_L06
+//  124     {
+//  125      case cAT: 
+//  126            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_1:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  127            At_com.vol_tm_out=100;
+        LDI	R16, 100
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R5
+//  128            strcpy(At_com.buf, "at");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 156))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 156))
+        RJMP	??at_com_tx_2
+//  129            break;  
+//  130      case cATE0:
+//  131            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_3:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  132            At_com.vol_tm_out=100;
+        LDI	R16, 100
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R5
+//  133            strcpy(At_com.buf, "ate0");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 159))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 159))
+        RJMP	??at_com_tx_2
+//  134            break; 
+//  135      case cATV0:
+//  136            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_4:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  137            At_com.vol_tm_out=100;
+        LDI	R16, 100
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R5
+//  138            strcpy(At_com.buf, "atv0");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 164))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 164))
+        RJMP	??at_com_tx_2
+//  139            break;  
+//  140      case cATE0V0:
+//  141            fl_conf_modem.kod=1;
+??at_com_tx_5:
+        MOVW	R31:R30, R25:R24
+        LDD	R16, Z+3
+        ORI	R16, 0x02
+        STD	Z+3, R16
+//  142            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  143            At_com.vol_tm_out=100;
+        LDI	R16, 100
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R5
+//  144            strcpy(At_com.buf, "ate0v0");
+        LDI	R18, LOW(`?<Constant "ate0v0">`)
+        LDI	R19, (`?<Constant "ate0v0">`) >> 8
+        RJMP	??at_com_tx_2
+//  145            break;  
+//  146      case cATIPR:
+//  147              switch(speed_modem)
+??at_com_tx_6:
+        MOVW	R31:R30, R25:R24
+        LDD	R16, Z+2
+        SUBI	R16, 0
+        BREQ	??at_com_tx_7
+        DEC	R16
+        BREQ	??at_com_tx_8
+        DEC	R16
+        BREQ	??at_com_tx_9
+        RJMP	??at_com_tx_10
+//  148                    {
+//  149                     case S9600:strcpy(At_com.buf, "at+ipr=9600");break;
+??at_com_tx_7:
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 179))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 179))
+        RJMP	??at_com_tx_11
+//  150                     case S19200:strcpy(At_com.buf, "at+ipr=19200");break;
+??at_com_tx_8:
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 191))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 191))
+        RJMP	??at_com_tx_11
+//  151                     case S57600:strcpy(At_com.buf, "at+ipr=57600");break;
+??at_com_tx_9:
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 7))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 7))
+        RJMP	??at_com_tx_11
+//  152                     case S115200:strcpy(At_com.buf, "at+ipr=115200");break;
+??at_com_tx_10:
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 20))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 20))
+??at_com_tx_11:
+        MOVW	R17:R16, R27:R26
+        CALL	strcpy
+//  153                     default:strcpy(At_com.buf, "at+ipr=115200");break;
+//  154                    }
+//  155            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ        
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  156            At_com.vol_tm_out=100;
+        LDI	R16, 100
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R5
+        RJMP	??at_com_tx_12
+//  157            break; 
+//  158      case cATIFC:
+//  159           At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_13:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  160           At_com.vol_tm_out=100;
+        LDI	R16, 100
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R5
+//  161           strcpy(At_com.buf, "at+ifc=2,2");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 34))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 34))
+        RJMP	??at_com_tx_2
+//  162           break;
+//  163      case cATC:
+//  164            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_14:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  165            At_com.vol_tm_out=100;
+        LDI	R16, 100
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R5
+//  166            strcpy(At_com.buf, "at&c");     
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 45))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 45))
+        RJMP	??at_com_tx_2
+//  167            break;
+//  168      case cATD:
+//  169            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_15:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  170            At_com.vol_tm_out=3000;
+        LDI	R16, 184
+        LDI	R17, 11
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R17
+//  171            strcpy(At_com.buf, "at&d");    
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 50))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 50))
+        RJMP	??at_com_tx_2
+//  172            break;
+//  173      case cATW:
+//  174            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_16:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  175            At_com.vol_tm_out=100;
+        LDI	R16, 100
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R5
+//  176            strcpy(At_com.buf, "at&w"); 
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 55))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 55))
+        RJMP	??at_com_tx_2
+//  177            break; 
+//  178      case cATCREG:
+//  179            At_com.vol_rx_out=1000;   //ОТ СКОРОСТИ
+??at_com_tx_17:
+        LDI	R16, 232
+        LDI	R17, 3
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R17
+//  180            At_com.vol_tm_out=1200;
+        LDI	R16, 176
+        LDI	R17, 4
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R17
+//  181            strcpy(At_com.buf, "at+creg?");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 60))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 60))
+        RJMP	??at_com_tx_2
+//  182            break; 
+//  183      case cATCGATT:
+//  184            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_18:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  185            At_com.vol_tm_out=5000;
+        LDI	R16, 136
+        LDI	R17, 19
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R17
+//  186            strcpy(At_com.buf, "at+cgatt=1");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 69))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 69))
+        RJMP	??at_com_tx_2
+//  187            break;    
+//  188      case cATCGDCONT:
+//  189            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_19:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  190            At_com.vol_tm_out=200;
+        LDI	R16, 200
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R5
+//  191            strcpy(At_com.buf, "at+cgdcont=1,");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 80))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 80))
+        MOVW	R17:R16, R27:R26
+        CALL	strcpy
+//  192               
+//  193              
+//  194     
+//  195            if(simka==SIM_BASE) RdFromFleshToArr(A_C_GPRS,&At_com.buf[18],LN_BUF_AT-19); //dobavka
+        LDS	R16, simka
+        TST	R16
+        LDI	R20, 21
+        LDI	R21, 0
+        MOVW	R19:R18, R27:R26
+        BRNE	??at_com_tx_20
+        SUBI	R18, 238
+        SBCI	R19, 255
+        LDI	R16, 20
+        RJMP	??at_com_tx_21
+//  196              else RdFromFleshToArr(A_CR_GPRS,&At_com.buf[18],LN_BUF_AT-19);              //dobavka
+??at_com_tx_20:
+        SUBI	R18, 238
+        SBCI	R19, 255
+        LDI	R16, 80
+??at_com_tx_21:
+        LDI	R17, 0
+        CALL	RdFromFleshToArr
+//  197            
+//  198            if(((unsigned char)At_com.buf[18]!=0)&&((unsigned char)At_com.buf[18]<31))
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+18
+        TST	R16
+        BREQ	??at_com_tx_22
+        CPI	R16, 31
+        BRCC	??at_com_tx_22
+//  199              {
+//  200              
+//  201               At_com.buf[13]='"';
+        LDI	R17, 34
+        STD	Z+13, R17
+//  202               At_com.buf[14]='I';
+        LDI	R17, 73
+        STD	Z+14, R17
+//  203               At_com.buf[15]='P';
+        LDI	R17, 80
+        STD	Z+15, R17
+//  204               At_com.buf[16]='"';
+        LDI	R17, 34
+        STD	Z+16, R17
+//  205               At_com.buf[17]=',';
+        LDI	R17, 44
+        STD	Z+17, R17
+//  206               At_com.buf[18+(unsigned char)At_com.buf[18]+1]='"';
+        LDI	R18, 34
+        ADD	R30, R16
+        ADC	R31, R5
+        STD	Z+19, R18
+//  207               At_com.buf[18+(unsigned char)At_com.buf[18]+2]=0;
+        MOVW	R31:R30, R27:R26
+        LDD	R18, Z+18
+        ADD	R30, R18
+        ADC	R31, R5
+        STD	Z+20, R5
+//  208               At_com.buf[18]='"';
+        LDI	R16, 34
+        MOVW	R31:R30, R27:R26
+        STD	Z+18, R16
+        RJMP	??at_com_tx_12
+//  209              }else At_com.buf[18]=0;
+??at_com_tx_22:
+        STD	Z+18, R5
+        RJMP	??at_com_tx_12
+//  210               
+//  211           
+//  212            /*      
+//  213            At_com.buf[18]='"';
+//  214            At_com.buf[19]='i';
+//  215            At_com.buf[20]='n';
+//  216            At_com.buf[21]='t';
+//  217            At_com.buf[22]='e';
+//  218            At_com.buf[23]='r';
+//  219            At_com.buf[24]='n';
+//  220            At_com.buf[25]='e';
+//  221            At_com.buf[26]='t';
+//  222            At_com.buf[27]='.';
+//  223            At_com.buf[28]='m';
+//  224            At_com.buf[29]='t';
+//  225            At_com.buf[30]='s';
+//  226            At_com.buf[31]='.';
+//  227            At_com.buf[32]='r';
+//  228            At_com.buf[33]='u';
+//  229            At_com.buf[34]='"';
+//  230            At_com.buf[35]=0;
+//  231            */
+//  232            
+//  233            break; 
+//  234      
+//  235      case cATCREG0:
+//  236            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_23:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  237            At_com.vol_tm_out=100;
+        LDI	R16, 100
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R5
+//  238            strcpy(At_com.buf, "at+creg=0");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 94))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 94))
+        RJMP	??at_com_tx_2
+//  239            break;        
+//  240            
+//  241      case cATDGPRS:
+//  242           // At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+//  243           // At_com.vol_rx_out=5;   //ОТ СКОРОСТИ
+//  244            At_com.vol_rx_out=3;   //ОТ СКОРОСТИ
+??at_com_tx_24:
+        LDI	R16, 3
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  245            At_com.vol_tm_out=10000;    
+        LDI	R16, 16
+        LDI	R17, 39
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R17
+//  246            strcpy(At_com.buf, "atd*99***1#");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 104))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 104))
+        RJMP	??at_com_tx_2
+//  247            break;
+//  248     case cATH:
+//  249            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_25:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  250            At_com.vol_tm_out=3000;
+        LDI	R16, 184
+        LDI	R17, 11
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R17
+//  251            strcpy(At_com.buf, "ath"); 
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 116))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 116))
+        RJMP	??at_com_tx_2
+//  252            break;  
+//  253    
+//  254    case cATCGATT0:
+//  255            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_26:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  256            At_com.vol_tm_out=500;
+        LDI	R16, 244
+        LDI	R17, 1
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R17
+//  257            strcpy(At_com.buf, "at+cgatt=0");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 120))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 120))
+        RJMP	??at_com_tx_2
+//  258            break;  
+//  259    
+//  260     case cATCPIN:
+//  261            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_27:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  262            At_com.vol_tm_out=2000;
+        LDI	R16, 208
+        LDI	R17, 7
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R17
+//  263            strcpy(At_com.buf, "at+cpin=");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 131))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 131))
+        MOVW	R17:R16, R27:R26
+        CALL	strcpy
+//  264               
+//  265            if(simka==SIM_BASE) RdFromFleshToArr(A_PIN_SIM1,&At_com.buf[8],4); 
+        LDS	R16, simka
+        TST	R16
+        LDI	R20, 4
+        LDI	R21, 0
+        MOVW	R19:R18, R27:R26
+        BRNE	??at_com_tx_28
+        SUBI	R18, 248
+        SBCI	R19, 255
+        LDI	R16, 175
+        RJMP	??at_com_tx_29
+//  266              else RdFromFleshToArr(A_PIN_SIM2,&At_com.buf[8],4);              
+??at_com_tx_28:
+        SUBI	R18, 248
+        SBCI	R19, 255
+        LDI	R16, 181
+??at_com_tx_29:
+        LDI	R17, 0
+        CALL	RdFromFleshToArr
+//  267            At_com.buf[12]=0;
+        MOVW	R31:R30, R27:R26
+        STD	Z+12, R5
+        RJMP	??at_com_tx_12
+//  268              
+//  269           break;
+//  270      
+//  271      case PLUS:
+//  272            At_com.cnt_tm_out=0;
+??at_com_tx_30:
+        MOVW	R31:R30, R27:R26
+        STD	Z+58, R5
+        STD	Z+59, R5
+//  273            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+        LDI	R16, 10
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  274            At_com.vol_tm_out=2300;  
+        LDI	R16, 252
+        LDI	R17, 8
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R17
+//  275            strcpy(At_com.buf, "+++");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 140))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 140))
+        MOVW	R17:R16, R27:R26
+        CALL	strcpy
+//  276            fl_at_com.rx_rec=0;
+//  277            fl_at_com.ok=0;
+//  278            fl_at_com.err=0;
+//  279            fl_at_com.tm_out=0;
+//  280            fl_at_com.tx_en=0;
+//  281            fl_at_com.rx_en=1;
+        MOVW	R31:R30, R25:R24
+        LDD	R16, Z+4
+        ANDI	R16, 0xD0
+        ORI	R16, 0x10
+        STD	Z+4, R16
+//  282        //   fl_at_com.tm_out_en=1;
+//  283            At_com.ln_buf=strlen(At_com.buf);
+        MOVW	R17:R16, R27:R26
+        CALL	strlen
+        MOVW	R31:R30, R27:R26
+        STD	Z+42, R16
+//  284            At_com.cnt_tx=0;
+        STD	Z+40, R5
+//  285            At_com.cnt_rx=0;
+        STD	Z+41, R5
+//  286            UCSR0B=UCSR0B & ~RXEN;  
+        LDS	R16, 193
+        ANDI	R16, 0xEF
+        STS	193, R16
+//  287            UCSR0B=UCSR0B & ~RXCIE; 
+        LDS	R16, 193
+        ANDI	R16, 0x7F
+        STS	193, R16
+//  288          //  UCSR0B=UCSR0B | RXEN;  //proverka !!!!!!!1
+//  289          //  UCSR0B=UCSR0B | RXCIE; //proverka !!!!!!!1
+//  290            UCSR0B=UCSR0B | TXEN;
+        LDS	R16, 193
+        ORI	R16, 0x08
+        STS	193, R16
+//  291            UCSR0B=UCSR0B | TXCIE;
+        LDS	R16, 193
+        ORI	R16, 0x40
+        STS	193, R16
+//  292            S2_RD;
+        SBI	0x08, 0x00
+        CBI	0x08, 0x01
+//  293            UDR0=At_com.buf[0];
+        LD	R16, X
+        STS	198, R16
+//  294            if(Regim==RG_DEBAG) UDR3=At_com.buf[0];
+        LDS	R16, Regim
+        CPI	R16, 1
+        BREQ	$+2+2
+        RJMP	??at_com_tx_0
+??at_com_tx_31:
+        LD	R16, X
+        STS	310, R16
+        RJMP	??at_com_tx_0
+//  295            
+//  296            return;
+//  297            
+//  298    case PAUSA_REG:At_com.vol_tm_out=5000;
+??at_com_tx_32:
+        LDI	R16, 136
+        LDI	R17, 19
+        RJMP	??at_com_tx_33
+//  299                goto yyy;
+//  300    
+//  301     case PAUSA1:
+//  302                At_com.vol_tm_out=3000;
+??at_com_tx_34:
+        LDI	R16, 184
+        LDI	R17, 11
+        RJMP	??at_com_tx_33
+//  303                goto yyy;
+//  304    
+//  305     case PAUSA2:At_com.vol_tm_out=5000;
+//  306                goto yyy;
+//  307     case PAUSA5:
+//  308                At_com.vol_tm_out=2000;
+??at_com_tx_35:
+        LDI	R16, 208
+        LDI	R17, 7
+??at_com_tx_33:
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R17
+//  309                goto yyy;
+//  310     case PAUSA4:At_com.vol_tm_out=2000;
+//  311           yyy:
+//  312           
+//  313            At_com.cnt_tm_out=At_com.vol_tm_out;  
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        LD	R16, Z
+        LDD	R17, Z+1
+??at_com_tx_36:
+        MOVW	R31:R30, R27:R26
+        STD	Z+58, R16
+        STD	Z+59, R17
+//  314            fl_at_com.rx_rec=0;
+//  315            fl_at_com.ok=0;
+//  316            fl_at_com.err=0;
+//  317            fl_at_com.tm_out=0;
+//  318            fl_at_com.tx_en=0;
+//  319            fl_at_com.rx_en=1;
+        MOVW	R31:R30, R25:R24
+        LDD	R16, Z+4
+        ANDI	R16, 0xD0
+        ORI	R16, 0x10
+        STD	Z+4, R16
+//  320            At_com.cnt_tx=0;
+        MOVW	R31:R30, R27:R26
+        STD	Z+40, R5
+//  321            At_com.cnt_rx=0;
+        STD	Z+41, R5
+//  322            return;   
+        RJMP	??at_com_tx_0
+//  323  
+//  324  case PAUSA3: 
+//  325            At_com.vol_tm_out=20000;
+??at_com_tx_37:
+        LDI	R16, 32
+        LDI	R17, 78
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R17
+//  326            At_com.cnt_tm_out=At_com.vol_tm_out;  
+        RJMP	??at_com_tx_36
+//  327            fl_at_com.rx_rec=0;
+//  328            fl_at_com.ok=0;
+//  329            fl_at_com.err=0;
+//  330            fl_at_com.tm_out=0;
+//  331            fl_at_com.tx_en=0;
+//  332            fl_at_com.rx_en=1;
+//  333            At_com.cnt_tx=0;
+//  334            At_com.cnt_rx=0;
+//  335            return;
+//  336 
+//  337 case cATSGAUTH: 
+//  338            At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+??at_com_tx_38:
+        LDI	R16, 10
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R5
+//  339            At_com.vol_tm_out=100;
+        LDI	R16, 100
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R5
+//  340            strcpy(At_com.buf, "at^sgauth=1");
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 144))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 144))
+        RJMP	??at_com_tx_2
+//  341         //   strcpy(At_com.buf, "at%cgpco=1");
+//  342            break; 
+//  343  
+//  344 case cATCGREG:
+//  345            At_com.vol_rx_out=1000;   //ОТ СКОРОСТИ
+??at_com_tx_39:
+        LDI	R16, 232
+        LDI	R17, 3
+        MOVW	R31:R30, R27:R26
+        SUBI	R30, 192
+        SBCI	R31, 255
+        ST	Z, R16
+        STD	Z+1, R17
+//  346            At_com.vol_tm_out=1200;
+        LDI	R16, 176
+        LDI	R17, 4
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 60
+        ST	Z, R16
+        STD	Z+1, R17
+//  347            strcpy(At_com.buf, "at+cgreg?");           
+        LDI	R18, LOW((`?<Constant "ate0v0">` + 169))
+        LDI	R19, HIGH((`?<Constant "ate0v0">` + 169))
+??at_com_tx_2:
+        MOVW	R17:R16, R27:R26
+        CALL	strcpy
+//  348            break;
+//  349            
+//  350      default: return;      
+//  351     }
+//  352     fl_at_com.rx_rec=0;
+//  353     fl_at_com.ok=0;
+//  354     fl_at_com.err=0;
+//  355     fl_at_com.tm_out=0;
+//  356     fl_at_com.tx_en=0;
+//  357     fl_at_com.rx_en=1;
+??at_com_tx_12:
+        MOVW	R31:R30, R25:R24
+        LDD	R16, Z+4
+        ANDI	R16, 0xD0
+        ORI	R16, 0x10
+        STD	Z+4, R16
+//  358     //fl_at_com.tm_out_en=1;
+//  359     At_com.cnt_tm_out=0;
+        MOVW	R31:R30, R27:R26
+        STD	Z+58, R5
+        STD	Z+59, R5
+//  360     At_com.ln_buf=strlen(At_com.buf)+1;
+        MOVW	R17:R16, R27:R26
+        CALL	strlen
+        INC	R16
+        MOVW	R31:R30, R27:R26
+        STD	Z+42, R16
+//  361     At_com.buf[At_com.ln_buf-1]=0x0d;
+        LDI	R16, 13
+        LDD	R18, Z+42
+        ADD	R30, R18
+        ADC	R31, R5
+        SBIW	R31:R30, 1
+        ST	Z, R16
+//  362     At_com.cnt_tx=0;
+        MOVW	R31:R30, R27:R26
+        STD	Z+40, R5
+//  363     At_com.cnt_rx=0;
+        STD	Z+41, R5
+//  364     UCSR0B=UCSR0B | TXEN;
+        LDS	R16, 193
+        ORI	R16, 0x08
+        STS	193, R16
+//  365     UCSR0B=UCSR0B | TXCIE;
+        LDS	R16, 193
+        ORI	R16, 0x40
+        STS	193, R16
+//  366     S2_RD;
+        SBI	0x08, 0x00
+        CBI	0x08, 0x01
+//  367     UDR0=At_com.buf[0]; 
+        LD	R16, X
+        STS	198, R16
+//  368     if(Regim==RG_DEBAG) UDR3=At_com.buf[0];
+        LDS	R16, Regim
+        CPI	R16, 1
+        BRNE	$+2+2
+        RJMP	??at_com_tx_31
+??at_com_tx_0:
+        LDI	R30, 6
+        JMP	?EPILOGUE_B6_L09
+        CFI EndBlock cfiBlock1
+//  369     
+//  370     
+//  371 }
+//  372 
+//  373 
+//  374 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  375 void check_rx_ok(void)
+check_rx_ok:
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI Function check_rx_ok
+//  376 {
+        MOVW	R21:R20, R27:R26
+//  377  if(fl_conf_modem.kod==0)
+        LDI	R16, LOW(At_com)
+        LDI	R17, (At_com) >> 8
+        MOVW	R31:R30, R17:R16
+        LDD	R18, Z+41
+        LDI	R19, 0
+        ADD	R30, R18
+        ADC	R31, R19
+        SBIW	R31:R30, 3
+        LDI	R26, LOW((cnt_com + 3))
+        LDI	R27, HIGH((cnt_com + 3))
+        LD	R18, X
+        SBRC	R18, 1
+        RJMP	??check_rx_ok_0
+//  378                  {
+//  379                   
+//  380                   if (
+//  381                      (At_com.buf[At_com.cnt_rx-3]=='O')&&
+//  382                      (At_com.buf[At_com.cnt_rx-2]=='K')
+//  383                      )
+        LD	R18, Z
+        CPI	R18, 79
+        BRNE	??check_rx_ok_1
+        MOVW	R31:R30, R17:R16
+        LDD	R18, Z+41
+        ADD	R16, R18
+        ADC	R17, R19
+        SUBI	R16, 2
+        SBCI	R17, 0
+        MOVW	R31:R30, R17:R16
+        LD	R16, Z
+        CPI	R16, 75
+        BRNE	??check_rx_ok_1
+//  384                       fl_at_com.ok=1;
+??check_rx_ok_2:
+        LDI	R30, LOW(cnt_com)
+        LDI	R31, (cnt_com) >> 8
+        LDD	R16, Z+4
+        ORI	R16, 0x01
+??check_rx_ok_3:
+        STD	Z+4, R16
+//  385                      else fl_at_com.err=1; 
+//  386                  }
+//  387                  else
+//  388                  {
+//  389                  if(At_com.buf[At_com.cnt_rx-2]==KOD_OK)fl_at_com.ok=1; 
+//  390                      else fl_at_com.err=1;
+//  391                  }  
+//  392 }
+        MOVW	R27:R26, R21:R20
+        RET
+??check_rx_ok_0:
+        LDD	R16, Z+1
+        CPI	R16, 48
+        BREQ	??check_rx_ok_2
+??check_rx_ok_1:
+        LDI	R30, LOW(cnt_com)
+        LDI	R31, (cnt_com) >> 8
+        LDD	R16, Z+4
+        ORI	R16, 0x02
+        RJMP	??check_rx_ok_3
+        CFI EndBlock cfiBlock2
+//  393 
+//  394 
+//  395 
+//  396 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  397 void at_com_rx(unsigned char cnt)
+at_com_rx:
+        CFI Block cfiBlock3 Using cfiCommon0
+        CFI Function at_com_rx
+//  398 {
+        FUNCALL at_com_rx, check_rx_ok
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_rx, send_info
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_rx, send_info
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_rx, send_info
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL at_com_rx, send_info
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        MOV	R20, R16
+//  399 
+//  400 
+//  401 if(fl_at_com.tx_en==1)return;
+        LDI	R26, LOW(cnt_com)
+        LDI	R27, (cnt_com) >> 8
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+4
+        ANDI	R16, 0x38
+        CPI	R16, 48
+        BREQ	$+2+2
+        RJMP	??at_com_rx_0
+//  402 if(fl_at_com.rx_en==0)return;
+//  403 if(fl_at_com.rx_rec==0)return;
+//  404 
+//  405 
+//  406 At_com.cnt_tm_out=0;
+        LDI	R16, LOW(At_com)
+        LDI	R17, (At_com) >> 8
+        LDI	R18, 0
+        MOVW	R31:R30, R17:R16
+        STD	Z+58, R18
+        STD	Z+59, R18
+//  407 fl_at_com.rx_en=0;
+//  408 fl_at_com.rx_rec=0;
+//  409 fl_at_com.tx_en=0;
+        MOVW	R31:R30, R27:R26
+        LDD	R18, Z+4
+        ANDI	R18, 0xC7
+        STD	Z+4, R18
+//  410 //fl_at_com.tm_out_en=0;
+//  411 
+//  412 
+//  413 
+//  414 if(cnt>=VOL_LIST){fl_at_com.err=1;return;}
+        CPI	R20, 13
+        BRCS	??at_com_rx_1
+??at_com_rx_2:
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+4
+        ORI	R16, 0x02
+??at_com_rx_3:
+        STD	Z+4, R16
+        RJMP	??at_com_rx_0
+//  415 //if(At_com.buf[At_com.cnt_rx-1]!=0xd){fl_at_com.err=1;return;}
+//  416 if((fl_conf_modem.kod==1)&&(At_com.cnt_rx<2)){fl_at_com.err=1;return;}
+??at_com_rx_1:
+        MOVW	R31:R30, R17:R16
+        LDD	R22, Z+41
+        MOVW	R31:R30, R27:R26
+        LDD	R18, Z+3
+        SBRS	R18, 1
+        RJMP	??at_com_rx_4
+        CPI	R22, 2
+        BRCS	??at_com_rx_2
+//  417 if((fl_conf_modem.kod==0)&&(At_com.cnt_rx<3)){fl_at_com.err=1;return;}
+??at_com_rx_4:
+        LDD	R18, Z+3
+        SBRC	R18, 1
+        RJMP	??at_com_rx_5
+        CPI	R22, 3
+        BRCS	??at_com_rx_2
+//  418 
+//  419 
+//  420 //At_com.buf[At_com.cnt_rx-1]=0;
+//  421 
+//  422 switch(At_com.list_com[cnt])
+??at_com_rx_5:
+        MOVW	R31:R30, R17:R16
+        LDD	R0, Z+41
+        CLR	R1
+        MOVW	R19:R18, R17:R16
+        ADD	R18, R0
+        ADC	R19, R1
+        SUBI	R18, 1
+        SBCI	R19, 0
+        ADD	R30, R20
+        ADC	R31, R1
+        LDD	R20, Z+43
+        SUBI	R20, 9
+        BRCS	??at_com_rx_6
+        BREQ	??at_com_rx_7
+        DEC	R20
+        BREQ	??at_com_rx_6
+        DEC	R20
+        BREQ	??at_com_rx_6
+        DEC	R20
+        BRNE	$+2+2
+        RJMP	??at_com_rx_8
+        DEC	R20
+        BREQ	??at_com_rx_6
+        SUBI	R20, 2
+        BRNE	$+2+2
+        RJMP	??at_com_rx_0
+        SUBI	R20, 5
+        BREQ	??at_com_rx_6
+        DEC	R20
+        BREQ	??at_com_rx_9
+        SUBI	R20, 2
+        BREQ	??at_com_rx_10
+        DEC	R20
+        BREQ	$+2+2
+        RJMP	??at_com_rx_11
+//  423     {
+//  424      case cAT:    
+//  425      case cATE0:
+//  426      case cATV0:
+//  427      case cATE0V0:
+//  428      case cATIPR: 
+//  429      case cATIFC:
+//  430      case cATC: 
+//  431      case cATD: 
+//  432      case cATW:
+//  433      case cATCGATT:
+//  434      case cATCGDCONT:
+//  435      case cATSGAUTH: 
+//  436      case cATCREG0: 
+//  437      case cATH:  
+//  438 
+//  439                 if(At_com.buf[At_com.cnt_rx-1]!=0xd){fl_at_com.err=1;return;}
+??at_com_rx_6:
+        MOVW	R31:R30, R19:R18
+        LD	R16, Z
+        CPI	R16, 13
+        BRNE	??at_com_rx_2
+//  440                 check_rx_ok();
+        RCALL	check_rx_ok
+        RJMP	??at_com_rx_0
+//  441                 break;  
+//  442     case cATCREG:
+//  443                      if(At_com.buf[At_com.cnt_rx-1]!=0xd){fl_at_com.err=1;return;}
+??at_com_rx_7:
+        MOVW	R31:R30, R19:R18
+        LD	R18, Z
+        CPI	R18, 13
+        BRNE	??at_com_rx_2
+//  444                   //   if(At_com.buf[At_com.cnt_rx-2]=='2')fl_at_com.ok=1;  
+//  445                      if(At_com.buf[At_com.cnt_rx-5]=='1'){fl_at_com.ok=1; state_led_md=LED_MD_YES_CREG;}   
+        MOVW	R31:R30, R17:R16
+        LDD	R18, Z+41
+        ADD	R16, R18
+        ADC	R17, R1
+        SUBI	R16, 5
+        SBCI	R17, 0
+        MOVW	R31:R30, R17:R16
+        LD	R16, Z
+        CPI	R16, 49
+        BREQ	$+2+2
+        RJMP	??at_com_rx_2
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+4
+        ORI	R16, 0x01
+        STD	Z+4, R16
+        LDI	R16, 3
+??at_com_rx_12:
+        STS	state_led_md, R16
+        RJMP	??at_com_rx_0
+//  446                      else fl_at_com.err=1; 
+//  447            break;  
+//  448     
+//  449    case cATCGREG:
+//  450                      if(At_com.buf[At_com.cnt_rx-1]!=0xd){fl_at_com.err=1;return;}
+??at_com_rx_9:
+        MOVW	R31:R30, R19:R18
+        LD	R18, Z
+        CPI	R18, 13
+        BREQ	$+2+2
+        RJMP	??at_com_rx_2
+//  451                   //   if(At_com.buf[At_com.cnt_rx-2]=='2')fl_at_com.ok=1;  
+//  452                      if(At_com.buf[At_com.cnt_rx-5]=='1'){fl_at_com.ok=1;state_led_md=LED_MD_GPRS;}    
+        MOVW	R31:R30, R17:R16
+        LDD	R18, Z+41
+        ADD	R16, R18
+        ADC	R17, R1
+        SUBI	R16, 5
+        SBCI	R17, 0
+        MOVW	R31:R30, R17:R16
+        LD	R16, Z
+        CPI	R16, 49
+        BREQ	$+2+2
+        RJMP	??at_com_rx_2
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+4
+        ORI	R16, 0x01
+        STD	Z+4, R16
+        LDI	R16, 4
+        RJMP	??at_com_rx_12
+//  453                      else fl_at_com.err=1; 
+//  454            break;          
+//  455     
+//  456    case cATCPIN:
+//  457                       if((At_com.buf[0]==0x30)&&(At_com.buf[1]==0xd))
+??at_com_rx_10:
+        MOVW	R31:R30, R17:R16
+        LD	R18, Z
+        CPI	R18, 48
+        BRNE	??at_com_rx_13
+        LDD	R16, Z+1
+        CPI	R16, 13
+        BRNE	??at_com_rx_13
+//  458                              { 
+//  459                                if(simka==SIM_BASE) send_info(sizeof(stm_pin1_ok),stm_pin1_ok,0,0);
+        LDS	R16, simka
+        TST	R16
+        LDI	R20, 0
+        LDI	R17, 0
+        BRNE	??at_com_rx_14
+        LDI	R18, LOW(stm_pin1_ok)
+        LDI	R19, (stm_pin1_ok) >> 8
+        RJMP	??at_com_rx_15
+//  460                                else send_info(sizeof(stm_pin2_ok),stm_pin2_ok,0,0);
+??at_com_rx_14:
+        LDI	R18, LOW((stm_pin1_ok + 15))
+        LDI	R19, HIGH((stm_pin1_ok + 15))
+??at_com_rx_15:
+        LDI	R16, 15
+        CALL	send_info
+//  461                                
+//  462                                S5_GR; fl_at_com.ok=1;
+        CBI	0x08, 0x06
+        SBI	0x08, 0x07
+        RJMP	??at_com_rx_16
+//  463                              }
+//  464                       else
+//  465                           { 
+//  466                             if(simka==SIM_BASE) send_info(sizeof(stm_pin1_err),stm_pin1_err,0,0);
+??at_com_rx_13:
+        LDS	R16, simka
+        TST	R16
+        LDI	R20, 0
+        LDI	R17, 0
+        BRNE	??at_com_rx_17
+        LDI	R18, LOW((stm_pin1_ok + 30))
+        LDI	R19, HIGH((stm_pin1_ok + 30))
+??at_com_rx_18:
+        LDI	R16, 16
+        CALL	send_info
+        RJMP	??at_com_rx_2
+//  467                                else send_info(sizeof(stm_pin2_err),stm_pin2_err,0,0);
+??at_com_rx_17:
+        LDI	R18, LOW((stm_pin1_ok + 46))
+        LDI	R19, HIGH((stm_pin1_ok + 46))
+        RJMP	??at_com_rx_18
+//  468                             fl_at_com.err=1;
+//  469                           }
+//  470                       
+//  471            break;            
+//  472            
+//  473     case cATDGPRS:
+//  474                /*
+//  475                led_sost_s_on;
+//  476                if(fl_conf_modem.kod==0){fl_at_com.ok=1; SVD2_1_ON; while(1);}//proverkafl_at_com.ok=1;
+//  477                  else
+//  478                  {
+//  479                  SVD1_1_ON; while(1);//proverka
+//  480                   if((At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)&&(At_com.buf[At_com.cnt_rx-1]==0xd))fl_at_com.ok=1; 
+//  481                   if((PIND & DCD)==0)fl_at_com.ok=1;else fl_at_com.err=1;
+//  482                  //if(At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)fl_at_com.ok=1; было
+//  483                  //    else fl_at_com.err=1;
+//  484                  }  
+//  485                  */
+//  486                  
+//  487                   if((At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)&&(At_com.buf[At_com.cnt_rx-1]==0xd))fl_at_com.ok=1;
+??at_com_rx_8:
+        MOVW	R31:R30, R17:R16
+        ADD	R30, R22
+        ADC	R31, R1
+        SBIW	R31:R30, 2
+        LD	R18, Z
+        CPI	R18, 49
+        BREQ	$+2+2
+        RJMP	??at_com_rx_2
+        MOVW	R31:R30, R17:R16
+        LDD	R18, Z+41
+        ADD	R16, R18
+        ADC	R17, R1
+        SUBI	R16, 1
+        SBCI	R17, 0
+        MOVW	R31:R30, R17:R16
+        LD	R16, Z
+        CPI	R16, 13
+        BREQ	$+2+2
+        RJMP	??at_com_rx_2
+??at_com_rx_16:
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+4
+        ORI	R16, 0x01
+        RJMP	??at_com_rx_3
+//  488                   else fl_at_com.err=1;
+//  489                 //  if((PINE & DCD0)==0)fl_at_com.ok=1;else fl_at_com.err=1;
+//  490                                              
+//  491            break;
+//  492      case PLUS:
+//  493            return;
+//  494      default:fl_at_com.err=1; At_com.cnt_rx=0;return;      
+??at_com_rx_11:
+        MOVW	R31:R30, R27:R26
+        LDD	R18, Z+4
+        ORI	R18, 0x02
+        STD	Z+4, R18
+        MOVW	R31:R30, R17:R16
+        STD	Z+41, R1
+??at_com_rx_0:
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RET
+        CFI EndBlock cfiBlock3
+//  495     }
+//  496    
+//  497     
+//  498 }
+//  499 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  500 unsigned char at_com_scen_init(unsigned char *cnt,unsigned char *rp)
+at_com_scen_init:
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI Function at_com_scen_init
+//  501 {
+        MOVW	R23:R22, R27:R26
+//  502   if(fl_at_com.tx_en==1)return(0);
+        LDI	R30, LOW(cnt_com)
+        LDI	R31, (cnt_com) >> 8
+        LDD	R20, Z+4
+        SBRS	R20, 3
+        RJMP	??at_com_scen_init_0
+??at_com_scen_init_1:
+        LDI	R16, 0
+??at_com_scen_init_2:
+        MOVW	R27:R26, R23:R22
+        RET
+//  503   if(fl_at_com.rx_en==1)return(0);
+??at_com_scen_init_0:
+        LDD	R20, Z+4
+        SBRC	R20, 4
+        RJMP	??at_com_scen_init_1
+//  504   if(fl_at_com.rx_rec==1)return(0);
+        LDD	R20, Z+4
+        SBRC	R20, 5
+        RJMP	??at_com_scen_init_1
+//  505   
+//  506   switch(At_com.list_com[*cnt])
+        MOVW	R27:R26, R17:R16
+        LD	R20, X
+        LDI	R21, 0
+        MOVW	R27:R26, R21:R20
+        SUBI	R26, LOW((-(At_com + 43) & 0xFFFF))
+        SBCI	R27, HIGH((-(At_com + 43) & 0xFFFF))
+        LD	R20, X
+        SUBI	R20, 0
+        BREQ	??at_com_scen_init_3
+        SUBI	R20, 3
+        BREQ	??at_com_scen_init_4
+        SUBI	R20, 6
+        BREQ	??at_com_scen_init_3
+        DEC	R20
+        BRNE	$+2+2
+        RJMP	??at_com_scen_init_5
+        DEC	R20
+        BREQ	??at_com_scen_init_6
+        SUBI	R20, 9
+        BREQ	??at_com_scen_init_4
+        DEC	R20
+        BRNE	$+2+2
+        RJMP	??at_com_scen_init_7
+        DEC	R20
+        BREQ	??at_com_scen_init_4
+        DEC	R20
+        BRNE	$+2+2
+        RJMP	??at_com_scen_init_8
+        DEC	R20
+        BREQ	??at_com_scen_init_6
+        DEC	R20
+        BREQ	$+2+2
+        RJMP	??at_com_scen_init_9
+//  507   {
+//  508   case cATE0V0:
+//  509            
+//  510            
+//  511            (*cnt)++;*rp=0;
+??at_com_scen_init_4:
+        MOVW	R27:R26, R17:R16
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+        MOVW	R27:R26, R19:R18
+        ST	X, R21
+//  512            fl_at_com.tx_en=1;
+//  513            
+//  514            break;            
+//  515   case cAT: 
+//  516   
+//  517   case cATCREG:
+//  518            if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}
+//  519            if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+//  520            {
+//  521            (*rp)++;
+//  522            if(*rp>=60){event_modem=EVM_AT_ERR;return(2);}//было 40
+//  523            fl_at_com.tx_en=1;
+??at_com_scen_init_10:
+        LDD	R16, Z+4
+        ORI	R16, 0x08
+        STD	Z+4, R16
+        RJMP	??at_com_scen_init_9
+??at_com_scen_init_3:
+        LDD	R20, Z+4
+        SBRS	R20, 0
+        RJMP	??at_com_scen_init_11
+        MOVW	R27:R26, R17:R16
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+        MOVW	R27:R26, R19:R18
+        ST	X, R21
+        LDD	R16, Z+4
+        ORI	R16, 0x08
+        STD	Z+4, R16
+??at_com_scen_init_11:
+        LDD	R16, Z+4
+        ANDI	R16, 0x06
+        BRNE	$+2+2
+        RJMP	??at_com_scen_init_9
+        MOVW	R27:R26, R19:R18
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+        LD	R16, X
+        CPI	R16, 60
+        BRCS	??at_com_scen_init_10
+??at_com_scen_init_12:
+        LDI	R16, 3
+        STS	event_modem, R16
+        LDI	R16, 2
+        RJMP	??at_com_scen_init_2
+//  524            }
+//  525        break; 
+//  526 
+//  527        
+//  528   
+//  529   case cATCGDCONT:
+//  530   case cATCREG0:  
+//  531            if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}
+??at_com_scen_init_6:
+        LDD	R20, Z+4
+        SBRS	R20, 0
+        RJMP	??at_com_scen_init_13
+        MOVW	R27:R26, R17:R16
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+        MOVW	R27:R26, R19:R18
+        ST	X, R21
+        LDD	R16, Z+4
+        ORI	R16, 0x08
+        STD	Z+4, R16
+//  532            if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+??at_com_scen_init_13:
+        LDD	R16, Z+4
+        ANDI	R16, 0x06
+        BRNE	$+2+2
+        RJMP	??at_com_scen_init_9
+//  533            {
+//  534            (*rp)++;
+        MOVW	R27:R26, R19:R18
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+//  535            if(*rp>=3){event_modem=EVM_AT_ERR;return(2);}
+        LD	R16, X
+        CPI	R16, 3
+        BRCS	??at_com_scen_init_10
+        RJMP	??at_com_scen_init_12
+//  536            fl_at_com.tx_en=1;
+//  537            }
+//  538        break; 
+//  539  
+//  540  case cATSGAUTH: 
+//  541 
+//  542            (*cnt)++;*rp=0;
+//  543            fl_at_com.tx_en=1;
+//  544            break;
+//  545            
+//  546   case cATCGATT:
+//  547       // if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+//  548        if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}
+??at_com_scen_init_5:
+        LDD	R20, Z+4
+        SBRS	R20, 0
+        RJMP	??at_com_scen_init_14
+        MOVW	R27:R26, R17:R16
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+        MOVW	R27:R26, R19:R18
+        ST	X, R21
+        LDD	R16, Z+4
+        ORI	R16, 0x08
+        STD	Z+4, R16
+//  549        if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+??at_com_scen_init_14:
+        LDD	R16, Z+4
+        ANDI	R16, 0x06
+        BREQ	??at_com_scen_init_9
+//  550            {
+//  551            (*rp)++;
+        MOVW	R27:R26, R19:R18
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+//  552          //  if(*rp>=1){event_modem=EVM_AT_ERR;return(3);}
+//  553            if(*rp>=6){event_modem=EVM_AT_ERR;return(3);}
+        LD	R16, X
+        CPI	R16, 6
+        BRCC	$+2+2
+        RJMP	??at_com_scen_init_10
+??at_com_scen_init_15:
+        LDI	R16, 3
+        STS	event_modem, R16
+        RJMP	??at_com_scen_init_2
+//  554            fl_at_com.tx_en=1;
+//  555            }
+//  556        break; 
+//  557        
+//  558  case cATCGREG:
+//  559            //if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}
+//  560            if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+??at_com_scen_init_7:
+        LDD	R16, Z+4
+        SBRS	R16, 0
+        RJMP	??at_com_scen_init_16
+        LDI	R16, 2
+        STS	event_modem, R16
+        LDI	R16, 1
+        RJMP	??at_com_scen_init_2
+//  561            if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+??at_com_scen_init_16:
+        LDD	R16, Z+4
+        ANDI	R16, 0x06
+        BREQ	??at_com_scen_init_9
+//  562            {
+//  563            (*rp)++;
+        MOVW	R27:R26, R19:R18
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+//  564            if(*rp>=20){event_modem=EVM_AT_ERR;return(3);}
+        LD	R16, X
+        CPI	R16, 20
+        BRCC	$+2+2
+        RJMP	??at_com_scen_init_10
+        RJMP	??at_com_scen_init_15
+//  565            fl_at_com.tx_en=1;
+//  566            }
+//  567        break;  
+//  568        
+//  569 case cATCPIN:
+//  570            if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}        
+??at_com_scen_init_8:
+        LDD	R20, Z+4
+        SBRS	R20, 0
+        RJMP	??at_com_scen_init_17
+        MOVW	R27:R26, R17:R16
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+        MOVW	R27:R26, R19:R18
+        ST	X, R21
+        LDD	R16, Z+4
+        ORI	R16, 0x08
+        STD	Z+4, R16
+//  571            if((fl_at_com.err==1)||(fl_at_com.tm_out==1)){event_modem=EVM_AT_ERR;return(3);}
+??at_com_scen_init_17:
+        LDD	R16, Z+4
+        ANDI	R16, 0x06
+        BRNE	??at_com_scen_init_15
+//  572            
+//  573        break;         
+//  574        
+//  575  
+//  576  case PAUSA_REG:
+//  577  case PAUSA5:  
+//  578           (*cnt)++;*rp=0;
+//  579            fl_at_com.tx_en=1; 
+//  580            break; 
+//  581        
+//  582   }
+//  583   
+//  584  fl_at_com.ok=0; 
+//  585  fl_at_com.tm_out=0;
+//  586  fl_at_com.err=0;
+??at_com_scen_init_9:
+        LDD	R16, Z+4
+        ANDI	R16, 0xF8
+        STD	Z+4, R16
+        RJMP	??at_com_scen_init_1
+        CFI EndBlock cfiBlock4
+//  587  return(0);
+//  588 }
+//  589 
+//  590 
+//  591 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  592 void init_scen_stm_si(void)
+init_scen_stm_si:
+        CFI Block cfiBlock5 Using cfiCommon0
+        CFI Function init_scen_stm_si
+//  593 {
+        FUNCALL init_scen_stm_si, RdFromFleshToArr
+        LOCFRAME CSTACK, 10, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL init_scen_stm_si, RdFromFleshToArr
+        LOCFRAME CSTACK, 10, STACK
+        LOCFRAME RSTACK, 2, STACK
+        CALL	?PROLOGUE4_L09
+        CFI R27 Frame(CFA_Y, -1)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        SBIW	R29:R28, 4
+        CFI CFA_Y Y+8
+//  594 
+//  595  unsigned char buf[4];
+//  596  unsigned char i;
+//  597  
+//  598  i=0;
+        LDI	R24, 0
+//  599  //st_gprs_atcom();
+//  600 
+//  601 cnt_com=0;
+        LDI	R26, LOW(cnt_com)
+        LDI	R27, (cnt_com) >> 8
+        ST	X, R24
+//  602 rep=0;
+        MOVW	R31:R30, R27:R26
+        STD	Z+1, R24
+//  603 At_com.list_com[0]=cATE0V0;
+        LDI	R16, 3
+        LDI	R30, LOW(At_com)
+        LDI	R31, (At_com) >> 8
+        STD	Z+43, R16
+//  604 At_com.list_com[1]=cATE0V0;
+        STD	Z+44, R16
+//  605 At_com.list_com[2]=cATE0V0;
+        STD	Z+45, R16
+//  606 At_com.list_com[3]=PAUSA5;
+        LDI	R16, 25
+        STD	Z+46, R16
+//  607 At_com.list_com[4]=cAT;
+        STD	Z+47, R24
+//  608 At_com.list_com[5]=cATCREG0;
+        LDI	R16, 24
+        STD	Z+48, R16
+//  609 
+//  610  if(simka==SIM_BASE) RdFromFleshToArr(A_PIN_SIM1,&buf[0],4); 
+        LDS	R16, simka
+        TST	R16
+        LDI	R20, 4
+        LDI	R21, 0
+        MOVW	R19:R18, R29:R28
+        BRNE	??init_scen_stm_si_0
+        LDI	R16, 175
+        RJMP	??init_scen_stm_si_1
+//  611                 else RdFromFleshToArr(A_PIN_SIM2,&buf[0],4);              
+??init_scen_stm_si_0:
+        LDI	R16, 181
+??init_scen_stm_si_1:
+        LDI	R17, 0
+        CALL	RdFromFleshToArr
+//  612 if
+//  613    ((buf[0]>=0x30)&&(buf[0]<=0x39)&&
+//  614    (buf[1]>=0x30)&&(buf[1]<=0x39)&&
+//  615    (buf[2]>=0x30)&&(buf[2]<=0x39)&&
+//  616      (buf[3]>=0x30)&&(buf[3]<=0x39)){At_com.list_com[6]=cATCPIN;i=1; S5_RD;} else {S5_YL;}
+        LD	R16, Y
+        CPI	R16, 48
+        BRCS	??init_scen_stm_si_2
+        LD	R16, Y
+        CPI	R16, 58
+        BRCC	??init_scen_stm_si_2
+        LDD	R16, Y+1
+        CPI	R16, 48
+        BRCS	??init_scen_stm_si_2
+        CPI	R16, 58
+        BRCC	??init_scen_stm_si_2
+        LDD	R16, Y+2
+        CPI	R16, 48
+        BRCS	??init_scen_stm_si_2
+        CPI	R16, 58
+        BRCC	??init_scen_stm_si_2
+        LDD	R16, Y+3
+        CPI	R16, 48
+        BRCS	??init_scen_stm_si_2
+        CPI	R16, 58
+        BRCC	??init_scen_stm_si_2
+        LDI	R16, 23
+        LDI	R30, LOW(At_com)
+        LDI	R31, (At_com) >> 8
+        STD	Z+49, R16
+        LDI	R24, 1
+        SBI	0x08, 0x06
+        CBI	0x08, 0x07
+        RJMP	??init_scen_stm_si_3
+??init_scen_stm_si_2:
+        SBI	0x08, 0x06
+        SBI	0x08, 0x07
+//  617      
+//  618      
+//  619      
+//  620 At_com.list_com[6+i]=cATCREG;
+??init_scen_stm_si_3:
+        LDI	R25, 0
+        LDI	R30, LOW(At_com)
+        LDI	R31, (At_com) >> 8
+        ADD	R30, R24
+        ADC	R31, R25
+        LDI	R16, 9
+        STD	Z+49, R16
+//  621 At_com.list_com[7+i]=PAUSA_REG;//5секунд
+        LDI	R16, 22
+        STD	Z+50, R16
+//  622 At_com.list_com[8+i]=cATCGDCONT;
+        LDI	R16, 11
+        STD	Z+51, R16
+//  623 At_com.list_com[9+i]=cATSGAUTH;  
+        LDI	R16, 20
+        STD	Z+52, R16
+//  624 At_com.list_com[10+i]=cATCGATT;
+        LDI	R16, 10
+        STD	Z+53, R16
+//  625 At_com.list_com[11+i]=cATCGREG;
+        LDI	R16, 21
+        STD	Z+54, R16
+//  626 At_com.ln_list=12+i;
+        SUBI	R24, 244
+        LDI	R30, LOW(At_com)
+        LDI	R31, (At_com) >> 8
+        STD	Z+56, R24
+//  627 At_com.cnt_rx=0;
+        STD	Z+41, R25
+//  628 At_com.cnt_tm_out=0;
+        STD	Z+58, R25
+        STD	Z+59, R25
+//  629 fl_at_com.rx_en=0;
+//  630 fl_at_com.tx_en=1;
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+4
+        ANDI	R16, 0xEF
+        ORI	R16, 0x08
+        STD	Z+4, R16
+//  631 
+//  632 
+//  633 
+//  634 }
+        ADIW	R29:R28, 4
+        CFI CFA_Y Y+4
+        LDI	R30, 4
+        JMP	?EPILOGUE_B4_L09
+        CFI EndBlock cfiBlock5
+//  635 
+//  636 
+//  637 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  638 void init_scen_stm_sc(void)
+init_scen_stm_sc:
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI Function init_scen_stm_sc
+//  639 {
+        MOV	R17, R27
+        MOV	R18, R26
+//  640 //st_gprs_att();
+//  641 
+//  642 cnt_com=0;
+        LDI	R26, LOW(cnt_com)
+        LDI	R27, (cnt_com) >> 8
+        LDI	R16, 0
+        ST	X, R16
+//  643 rep=0;
+        ADIW	R27:R26, 1
+        ST	X, R16
+        SBIW	R27:R26, 1
+//  644 At_com.list_com[0]=cATDGPRS;
+        LDI	R30, LOW(At_com)
+        LDI	R31, (At_com) >> 8
+        LDI	R16, 12
+        STD	Z+43, R16
+//  645 At_com.ln_list=1;
+        LDI	R16, 1
+        STD	Z+56, R16
+//  646 At_com.cnt_rx=0;
+        LDI	R16, 0
+        STD	Z+41, R16
+//  647 At_com.cnt_tm_out=0;
+        STD	Z+58, R16
+        STD	Z+59, R16
+//  648 fl_at_com.rx_en=0;
+//  649 fl_at_com.tx_en=1;
+        ADIW	R27:R26, 4
+        LD	R16, X
+        SBIW	R27:R26, 4
+        ANDI	R16, 0xEF
+        ORI	R16, 0x08
+        ADIW	R27:R26, 4
+        ST	X, R16
+//  650 }
+        MOV	R26, R18
+        MOV	R27, R17
+        RET
+        CFI EndBlock cfiBlock6
+//  651 
+//  652 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  653 unsigned char at_com_scen_stm_sc(unsigned char *cnt,unsigned char *rp)
+at_com_scen_stm_sc:
+        CFI Block cfiBlock7 Using cfiCommon0
+        CFI Function at_com_scen_stm_sc
+//  654 {
+        MOV	R21, R27
+        MOV	R22, R26
+//  655   if(fl_at_com.tx_en==1)return(0);
+        LDI	R30, LOW(cnt_com)
+        LDI	R31, (cnt_com) >> 8
+        LDD	R20, Z+4
+        SBRS	R20, 3
+        RJMP	??at_com_scen_stm_sc_0
+??at_com_scen_stm_sc_1:
+        LDI	R16, 0
+??at_com_scen_stm_sc_2:
+        MOV	R26, R22
+        MOV	R27, R21
+        RET
+//  656   if(fl_at_com.rx_en==1)return(0);
+??at_com_scen_stm_sc_0:
+        LDD	R20, Z+4
+        SBRC	R20, 4
+        RJMP	??at_com_scen_stm_sc_1
+//  657   if(fl_at_com.rx_rec==1)return(0);
+        LDD	R20, Z+4
+        SBRC	R20, 5
+        RJMP	??at_com_scen_stm_sc_1
+//  658   
+//  659   switch(At_com.list_com[*cnt])
+        MOVW	R27:R26, R17:R16
+        LD	R16, X
+        LDI	R17, 0
+        MOVW	R27:R26, R17:R16
+        SUBI	R26, LOW((-(At_com + 43) & 0xFFFF))
+        SBCI	R27, HIGH((-(At_com + 43) & 0xFFFF))
+        LD	R16, X
+        SUBI	R16, 12
+        BRNE	??at_com_scen_stm_sc_3
+//  660   {
+//  661 
+//  662   case cATDGPRS:
+//  663            if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+        LDD	R16, Z+4
+        SBRS	R16, 0
+        RJMP	??at_com_scen_stm_sc_4
+        LDI	R16, 2
+        STS	event_modem, R16
+        LDI	R16, 1
+        RJMP	??at_com_scen_stm_sc_2
+//  664            if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+??at_com_scen_stm_sc_4:
+        LDD	R16, Z+4
+        ANDI	R16, 0x06
+        BREQ	??at_com_scen_stm_sc_3
+//  665            {
+//  666            (*rp)++;
+        MOVW	R27:R26, R19:R18
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+//  667            if(*rp>=4){event_modem=EVM_AT_ERR;return(2);}
+        LD	R16, X
+        CPI	R16, 4
+        BRCS	??at_com_scen_stm_sc_5
+        LDI	R16, 3
+        STS	event_modem, R16
+        LDI	R16, 2
+        RJMP	??at_com_scen_stm_sc_2
+//  668            fl_at_com.tx_en=1;
+??at_com_scen_stm_sc_5:
+        LDD	R16, Z+4
+        ORI	R16, 0x08
+        STD	Z+4, R16
+//  669            }
+//  670        break; 
+//  671   }
+//  672   
+//  673  fl_at_com.ok=0; 
+//  674  fl_at_com.tm_out=0;
+//  675  fl_at_com.err=0;
+??at_com_scen_stm_sc_3:
+        LDD	R16, Z+4
+        ANDI	R16, 0xF8
+        STD	Z+4, R16
+        RJMP	??at_com_scen_stm_sc_1
+        CFI EndBlock cfiBlock7
+//  676  return(0);
+//  677 }
+//  678 
+//  679 
+//  680 /*
+//  681 void init_scen_stm_dc(void)
+//  682 {
+//  683 
+//  684 cnt_com=0;
+//  685 rep=0;
+//  686 
+//  687 At_com.list_com[0]=PAUSA1;
+//  688 At_com.list_com[1]=PLUS;
+//  689 At_com.list_com[2]=PAUSA2;
+//  690 At_com.list_com[3]=cATH;
+//  691 At_com.ln_list=4;
+//  692 At_com.cnt_rx=0;
+//  693 At_com.cnt_tm_out=0;
+//  694 fl_at_com.rx_en=0;
+//  695 fl_at_com.tx_en=1;
+//  696 }
+//  697 
+//  698 
+//  699 unsigned char at_com_scen_stm_dc(unsigned char *cnt,unsigned char *rp)
+//  700 {
+//  701 if(fl_at_com.tx_en==1)return(0);
+//  702   if(fl_at_com.rx_en==1)return(0);
+//  703   if(fl_at_com.rx_rec==1)return(0);
+//  704   
+//  705   switch(At_com.list_com[*cnt])
+//  706   {
+//  707   case PAUSA1:
+//  708   case PLUS:
+//  709   case PAUSA2:
+//  710           (*cnt)++;*rp=0;
+//  711            fl_at_com.tx_en=1; 
+//  712            break;
+//  713         
+//  714   case cATH:
+//  715        if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+//  716            if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+//  717            {
+//  718            (*rp)++;
+//  719            if(*rp>=6){event_modem=EVM_AT_ERR;return(2);}
+//  720            fl_at_com.tx_en=1;
+//  721            }
+//  722        break; 
+//  723   }
+//  724   
+//  725  fl_at_com.ok=0; 
+//  726  fl_at_com.tm_out=0;
+//  727  fl_at_com.err=0;
+//  728  return(0);
+//  729 }
+//  730 
+//  731 */
+//  732 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  733 void init_scen_stm_dc_1(void)
+init_scen_stm_dc_1:
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI Function init_scen_stm_dc_1
+//  734 {
+        MOV	R17, R27
+        MOV	R18, R26
+//  735 
+//  736 cnt_com=0;
+        LDI	R26, LOW(cnt_com)
+        LDI	R27, (cnt_com) >> 8
+        LDI	R16, 0
+        ST	X, R16
+//  737 rep=0;
+        ADIW	R27:R26, 1
+        ST	X, R16
+        SBIW	R27:R26, 1
+//  738 
+//  739 At_com.list_com[0]=PAUSA1;
+        LDI	R30, LOW(At_com)
+        LDI	R31, (At_com) >> 8
+        LDI	R16, 16
+        STD	Z+43, R16
+//  740 At_com.list_com[1]=PLUS;
+        LDI	R16, 15
+        STD	Z+44, R16
+//  741 At_com.list_com[2]=PAUSA2;
+        LDI	R16, 17
+        STD	Z+45, R16
+//  742 At_com.list_com[3]=cATH;
+        LDI	R16, 13
+        STD	Z+46, R16
+//  743 //At_com.list_com[4]=PAUSA4;
+//  744 //At_com.list_com[5]=cATCGATT0;
+//  745 //At_com.list_com[6]=PAUSA3;
+//  746 //At_com.list_com[7]=cATCGATT;
+//  747 At_com.ln_list=4;
+        LDI	R16, 4
+        STD	Z+56, R16
+//  748 At_com.cnt_rx=0;
+        LDI	R16, 0
+        STD	Z+41, R16
+//  749 At_com.cnt_tm_out=0;
+        STD	Z+58, R16
+        STD	Z+59, R16
+//  750 fl_at_com.rx_en=0;
+//  751 fl_at_com.tx_en=1;
+        ADIW	R27:R26, 4
+        LD	R16, X
+        SBIW	R27:R26, 4
+        ANDI	R16, 0xEF
+        ORI	R16, 0x08
+        ADIW	R27:R26, 4
+        ST	X, R16
+//  752 }
+        MOV	R26, R18
+        MOV	R27, R17
+        RET
+        CFI EndBlock cfiBlock8
+//  753 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  754 unsigned char at_com_scen_stm_dc_1(unsigned char *cnt,unsigned char *rp)
+at_com_scen_stm_dc_1:
+        CFI Block cfiBlock9 Using cfiCommon0
+        CFI Function at_com_scen_stm_dc_1
+//  755 {
+        MOVW	R1:R0, R27:R26
+//  756 if(fl_at_com.tx_en==1)return(0);
+        LDI	R30, LOW(cnt_com)
+        LDI	R31, (cnt_com) >> 8
+        LDD	R20, Z+4
+        SBRS	R20, 3
+        RJMP	??at_com_scen_stm_dc_1_0
+??at_com_scen_stm_dc_1_1:
+        LDI	R16, 0
+??at_com_scen_stm_dc_1_2:
+        MOVW	R27:R26, R1:R0
+        RET
+//  757   if(fl_at_com.rx_en==1)return(0);
+??at_com_scen_stm_dc_1_0:
+        LDD	R20, Z+4
+        SBRC	R20, 4
+        RJMP	??at_com_scen_stm_dc_1_1
+//  758   if(fl_at_com.rx_rec==1)return(0);
+        LDD	R20, Z+4
+        SBRC	R20, 5
+        RJMP	??at_com_scen_stm_dc_1_1
+//  759   
+//  760   switch(At_com.list_com[*cnt])
+        LDD	R20, Z+4
+        ANDI	R20, 0x06
+        MOVW	R27:R26, R17:R16
+        LD	R22, X
+        LDI	R23, 0
+        MOVW	R27:R26, R23:R22
+        SUBI	R26, LOW((-(At_com + 43) & 0xFFFF))
+        SBCI	R27, HIGH((-(At_com + 43) & 0xFFFF))
+        LD	R21, X
+        SUBI	R21, 10
+        BREQ	??at_com_scen_stm_dc_1_3
+        SUBI	R21, 3
+        BREQ	??at_com_scen_stm_dc_1_4
+        DEC	R21
+        BREQ	??at_com_scen_stm_dc_1_5
+        SUBI	R21, 1
+        BRCS	??at_com_scen_stm_dc_1_6
+        SUBI	R21, 4
+        BRCS	??at_com_scen_stm_dc_1_7
+        BREQ	??at_com_scen_stm_dc_1_8
+        RJMP	??at_com_scen_stm_dc_1_6
+//  761   {
+//  762   case PAUSA1:
+//  763   case PLUS:
+//  764   case PAUSA2:
+//  765   case PAUSA3:
+//  766           (*cnt)++;*rp=0;
+??at_com_scen_stm_dc_1_7:
+        MOVW	R27:R26, R17:R16
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+        MOVW	R27:R26, R19:R18
+        ST	X, R23
+//  767            fl_at_com.tx_en=1; 
+//  768            break;
+//  769   
+//  770   case PAUSA4:
+//  771            if((PINE & DCD0)==0){event_modem=EVM_AT_OK;return(1);}else{event_modem=EVM_AT_ERR;return(3);}
+//  772          //  (*cnt)++;*rp=0;
+//  773          //  fl_at_com.tx_en=1; 
+//  774         //   break;
+//  775    /*     
+//  776   case cATH:
+//  777           
+//  778          if((fl_at_com.err==1)||(fl_at_com.tm_out==1)||fl_at_com.ok==1)
+//  779            {
+//  780            (*rp)++;
+//  781            if(*rp>=5)
+//  782                      {
+//  783                        
+//  784                      
+//  785                      (*cnt)++;*rp=0;
+//  786                     // if)(PIND & DCD=)==0){event_modem=EVM_AT_OK;return(1);}
+//  787                     
+//  788                     // if((PIND & DCD)==0){SVD1_1_ON;*cnt=*cnt+2; *rp=0;}
+//  789                     //   else {(*cnt)++;*rp=0;}
+//  790                      }
+//  791            fl_at_com.tx_en=1;
+//  792            }
+//  793        break; */
+//  794  
+//  795  case cATH:
+//  796           
+//  797    //  if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}
+//  798                 
+//  799          if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+//  800            if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+//  801            {
+//  802            (*rp)++;
+//  803            if(*rp>=6){event_modem=EVM_AT_ERR;return(2);}
+//  804            fl_at_com.tx_en=1;
+??at_com_scen_stm_dc_1_9:
+        LDD	R16, Z+4
+        ORI	R16, 0x08
+        STD	Z+4, R16
+//  805            }
+//  806          
+//  807        break;       
+//  808        
+//  809  case cATCGATT0:
+//  810            if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+//  811            {
+//  812             (*cnt)++;
+//  813             fl_at_com.tx_en=1; 
+//  814            }
+//  815        break;
+//  816        
+//  817   case cATCGATT:
+//  818        if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+//  819            if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+//  820            {
+//  821            (*rp)++;
+//  822            //if(*rp>=1){event_modem=EVM_AT_ERR;return(3);}
+//  823            if(*rp>=2){event_modem=EVM_AT_ERR;return(3);}
+//  824            fl_at_com.tx_en=1;
+//  825            }
+//  826        break;              
+//  827   }
+//  828   
+//  829  fl_at_com.ok=0; 
+//  830  fl_at_com.tm_out=0;
+//  831  fl_at_com.err=0;
+??at_com_scen_stm_dc_1_6:
+        LDD	R16, Z+4
+        ANDI	R16, 0xF8
+        STD	Z+4, R16
+        RJMP	??at_com_scen_stm_dc_1_1
+??at_com_scen_stm_dc_1_8:
+        SBIC	0x0C, 0x06
+        RJMP	??at_com_scen_stm_dc_1_10
+??at_com_scen_stm_dc_1_11:
+        LDI	R16, 2
+        STS	event_modem, R16
+        LDI	R16, 1
+        RJMP	??at_com_scen_stm_dc_1_2
+??at_com_scen_stm_dc_1_4:
+        LDD	R16, Z+4
+        SBRC	R16, 0
+        RJMP	??at_com_scen_stm_dc_1_11
+        TST	R20
+        BREQ	??at_com_scen_stm_dc_1_6
+        MOVW	R27:R26, R19:R18
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+        LD	R16, X
+        CPI	R16, 6
+        BRCS	??at_com_scen_stm_dc_1_9
+        LDI	R16, 3
+        STS	event_modem, R16
+        LDI	R16, 2
+        RJMP	??at_com_scen_stm_dc_1_2
+??at_com_scen_stm_dc_1_5:
+        TST	R20
+        BREQ	??at_com_scen_stm_dc_1_6
+        MOVW	R27:R26, R17:R16
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+        RJMP	??at_com_scen_stm_dc_1_9
+??at_com_scen_stm_dc_1_3:
+        LDD	R16, Z+4
+        SBRC	R16, 0
+        RJMP	??at_com_scen_stm_dc_1_11
+        TST	R20
+        BREQ	??at_com_scen_stm_dc_1_6
+        MOVW	R27:R26, R19:R18
+        LD	R16, X
+        INC	R16
+        ST	X, R16
+        LD	R16, X
+        CPI	R16, 2
+        BRCS	??at_com_scen_stm_dc_1_9
+??at_com_scen_stm_dc_1_10:
+        LDI	R16, 3
+        STS	event_modem, R16
+        RJMP	??at_com_scen_stm_dc_1_2
+        CFI EndBlock cfiBlock9
+//  832  return(0);
+//  833 }
+//  834 
+//  835 
+//  836 
+//  837 
+//  838 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  839 unsigned char modem_com_init(void)
+modem_com_init:
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI Function modem_com_init
+//  840 {
+        FUNCALL modem_com_init, init_scen_stm_si
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL modem_com_init, at_com_tx
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL modem_com_init, at_com_rx
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL modem_com_init, at_com_scen_init
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        SBIW	R29:R28, 2
+        CFI CFA_Y Y+2
+//  841 unsigned char res_return;
+//  842 unsigned char cnt_com=0;
+        LDI	R16, 0
+        ST	Y, R16
+//  843 unsigned char rep=0;
+        STD	Y+1, R16
+//  844 
+//  845 init_scen_stm_si();
+        RCALL	init_scen_stm_si
+//  846 
+//  847 while(1)
+//  848      {
+//  849      at_com_tx(cnt_com);
+??modem_com_init_0:
+        LD	R16, Y
+        RCALL	at_com_tx
+//  850      at_com_rx(cnt_com);
+        LD	R16, Y
+        RCALL	at_com_rx
+//  851      res_return=at_com_scen_init(&cnt_com,&rep);
+//  852        switch (res_return)
+        MOVW	R19:R18, R29:R28
+        SUBI	R18, 255
+        SBCI	R19, 255
+        MOVW	R17:R16, R29:R28
+        RCALL	at_com_scen_init
+        SUBI	R16, 1
+        BREQ	??modem_com_init_1
+        DEC	R16
+        BREQ	??modem_com_init_2
+        DEC	R16
+        BREQ	??modem_com_init_3
+        RJMP	??modem_com_init_0
+//  853            {
+//  854            case 1: return(1);//сценарий закончен корректно
+??modem_com_init_1:
+        LDI	R16, 1
+        RJMP	??modem_com_init_4
+//  855            case 2: return(2);// неответом на AT комманду
+??modem_com_init_2:
+        LDI	R16, 2
+        RJMP	??modem_com_init_4
+//  856            case 3: return(3);// неответом на присоединение контекста
+??modem_com_init_3:
+        LDI	R16, 3
+??modem_com_init_4:
+        ADIW	R29:R28, 2
+        CFI CFA_Y Y+0
+        RET
+        CFI EndBlock cfiBlock10
+//  857            }
+//  858    
+//  859     // if(at_com_scen_init(&cnt_com,&rep)>0) while(1);
+//  860      //if (at_com_scen_init(&cnt_com,&rep)==1)return(1);
+//  861      } 
+//  862 }
+//  863 
+//  864 
+//  865 
+//  866 
+//  867 
+//  868 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  869 void delay_modem_on(void)
+delay_modem_on:
+        CFI Block cfiBlock11 Using cfiCommon0
+        CFI Function delay_modem_on
+//  870     {
+        FUNCALL delay_modem_on, delay
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+//  871      //  set_rts_232;       
+//  872     //   modem_on;
+//  873        flag=0;
+        LDI	R26, LOW(Cnt_modem_on_off)
+        LDI	R27, (Cnt_modem_on_off) >> 8
+        LDI	R16, 0
+        ADIW	R27:R26, 1
+        ST	X, R16
+        SBIW	R27:R26, 1
+//  874        Cnt_modem_on_off=6;
+        LDI	R16, 6
+        ST	X, R16
+//  875 
+//  876        while(1)
+//  877         {
+//  878         delay(1);
+??delay_modem_on_0:
+        LDI	R16, 1
+        LDI	R17, 0
+        CALL	delay
+//  879         if(flag==1)return;
+        ADIW	R27:R26, 1
+        LD	R16, X
+        SBIW	R27:R26, 1
+        CPI	R16, 1
+        BRNE	??delay_modem_on_0
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RET
+        CFI EndBlock cfiBlock11
+//  880         }
+//  881        
+//  882     
+//  883     }
+//  884     
+
+        RSEG CODE:CODE:NOROOT(1)
+//  885     void delay_modem_off(void)
+delay_modem_off:
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI Function delay_modem_off
+//  886     {     
+        FUNCALL delay_modem_off, delay
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+//  887        //modem_off;
+//  888        flag=0;
+        LDI	R26, LOW(Cnt_modem_on_off)
+        LDI	R27, (Cnt_modem_on_off) >> 8
+        LDI	R16, 0
+        ADIW	R27:R26, 1
+        ST	X, R16
+        SBIW	R27:R26, 1
+//  889        Cnt_modem_on_off=3;
+        LDI	R16, 3
+        ST	X, R16
+//  890        while(1)
+//  891         {
+//  892         delay(1);
+??delay_modem_off_0:
+        LDI	R16, 1
+        LDI	R17, 0
+        CALL	delay
+//  893         if(flag==1)return;
+        ADIW	R27:R26, 1
+        LD	R16, X
+        SBIW	R27:R26, 1
+        CPI	R16, 1
+        BRNE	??delay_modem_off_0
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RET
+        CFI EndBlock cfiBlock12
+//  894         }
+//  895        
+//  896     
+//  897     }
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for <Constant "ate0v0">>`:
+        DB "ate0v0"
+`?<Initializer for <Constant "at+ipr=57600">>`:
+        DB "at+ipr=57600"
+`?<Initializer for <Constant "at+ipr=115200">>`:
+        DB "at+ipr=115200"
+`?<Initializer for <Constant "at+ifc=2,2">>`:
+        DB "at+ifc=2,2"
+`?<Initializer for <Constant "at&c">>`:
+        DB "at&c"
+`?<Initializer for <Constant "at&d">>`:
+        DB "at&d"
+`?<Initializer for <Constant "at&w">>`:
+        DB "at&w"
+`?<Initializer for <Constant "at+creg?">>`:
+        DB "at+creg?"
+`?<Initializer for <Constant "at+cgatt=1">>`:
+        DB "at+cgatt=1"
+`?<Initializer for <Constant "at+cgdcont=1,">>`:
+        DB "at+cgdcont=1,"
+`?<Initializer for <Constant "at+creg=0">>`:
+        DB "at+creg=0"
+`?<Initializer for <Constant "atd*99***1#">>`:
+        DB "atd*99***1#"
+`?<Initializer for <Constant "ath">>`:
+        DB "ath"
+`?<Initializer for <Constant "at+cgatt=0">>`:
+        DB "at+cgatt=0"
+`?<Initializer for <Constant "at+cpin=">>`:
+        DB "at+cpin="
+`?<Initializer for <Constant "+++">>`:
+        DB "+++"
+`?<Initializer for <Constant "at^sgauth=1">>`:
+        DB "at^sgauth=1"
+`?<Initializer for <Constant "at">>`:
+        DB "at"
+`?<Initializer for <Constant "ate0">>`:
+        DB "ate0"
+`?<Initializer for <Constant "atv0">>`:
+        DB "atv0"
+`?<Initializer for <Constant "at+cgreg?">>`:
+        DB "at+cgreg?"
+`?<Initializer for <Constant "at+ipr=9600">>`:
+        DB "at+ipr=9600"
+`?<Initializer for <Constant "at+ipr=19200">>`:
+        DB "at+ipr=19200"
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_I>`:
+        DW	SFE(NEAR_I) - SFB(NEAR_I)
+        DW	SFB(NEAR_I)
+        DP	SFB(NEAR_ID)
+        REQUIRE ?need_segment_init
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_Z>`:
+        DW	SFE(NEAR_Z) - SFB(NEAR_Z)
+        DW	SFB(NEAR_Z)
+        DP	0
+        REQUIRE ?need_segment_init
+
+        RSEG SWITCH:CODE:NOROOT(1)
+`?<Jumptable for at_com_tx>_0`:
+        DB	0
+        DB	0
+        DW	(??at_com_tx_0) /2
+        DW	26
+        DW	(??at_com_tx_1) /2
+        DW	(??at_com_tx_3) /2
+        DW	(??at_com_tx_4) /2
+        DW	(??at_com_tx_5) /2
+        DW	(??at_com_tx_6) /2
+        DW	(??at_com_tx_13) /2
+        DW	(??at_com_tx_14) /2
+        DW	(??at_com_tx_15) /2
+        DW	(??at_com_tx_16) /2
+        DW	(??at_com_tx_17) /2
+        DW	(??at_com_tx_18) /2
+        DW	(??at_com_tx_19) /2
+        DW	(??at_com_tx_24) /2
+        DW	(??at_com_tx_25) /2
+        DW	(??at_com_tx_26) /2
+        DW	(??at_com_tx_30) /2
+        DW	(??at_com_tx_34) /2
+        DW	(??at_com_tx_32) /2
+        DW	(??at_com_tx_37) /2
+        DW	(??at_com_tx_35) /2
+        DW	(??at_com_tx_38) /2
+        DW	(??at_com_tx_39) /2
+        DW	(??at_com_tx_32) /2
+        DW	(??at_com_tx_27) /2
+        DW	(??at_com_tx_23) /2
+        DW	(??at_com_tx_35) /2
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+`?<Constant "ate0v0">`:
+        DS 7
+        REQUIRE `?<Initializer for <Constant "ate0v0">>`
+        DS 13
+        REQUIRE `?<Initializer for <Constant "at+ipr=57600">>`
+        DS 14
+        REQUIRE `?<Initializer for <Constant "at+ipr=115200">>`
+        DS 11
+        REQUIRE `?<Initializer for <Constant "at+ifc=2,2">>`
+        DS 5
+        REQUIRE `?<Initializer for <Constant "at&c">>`
+        DS 5
+        REQUIRE `?<Initializer for <Constant "at&d">>`
+        DS 5
+        REQUIRE `?<Initializer for <Constant "at&w">>`
+        DS 9
+        REQUIRE `?<Initializer for <Constant "at+creg?">>`
+        DS 11
+        REQUIRE `?<Initializer for <Constant "at+cgatt=1">>`
+        DS 14
+        REQUIRE `?<Initializer for <Constant "at+cgdcont=1,">>`
+        DS 10
+        REQUIRE `?<Initializer for <Constant "at+creg=0">>`
+        DS 12
+        REQUIRE `?<Initializer for <Constant "atd*99***1#">>`
+        DS 4
+        REQUIRE `?<Initializer for <Constant "ath">>`
+        DS 11
+        REQUIRE `?<Initializer for <Constant "at+cgatt=0">>`
+        DS 9
+        REQUIRE `?<Initializer for <Constant "at+cpin=">>`
+        DS 4
+        REQUIRE `?<Initializer for <Constant "+++">>`
+        DS 12
+        REQUIRE `?<Initializer for <Constant "at^sgauth=1">>`
+        DS 3
+        REQUIRE `?<Initializer for <Constant "at">>`
+        DS 5
+        REQUIRE `?<Initializer for <Constant "ate0">>`
+        DS 5
+        REQUIRE `?<Initializer for <Constant "atv0">>`
+        DS 10
+        REQUIRE `?<Initializer for <Constant "at+cgreg?">>`
+        DS 12
+        REQUIRE `?<Initializer for <Constant "at+ipr=9600">>`
+        DS 13
+        REQUIRE `?<Initializer for <Constant "at+ipr=19200">>`
+
+        END
+//  898     
+//  899 
+//  900 
+//  901 
+// 
+//     5 bytes in segment ABSOLUTE
+// 2 810 bytes in segment CODE
+//    14 bytes in segment INITTAB
+//    62 bytes in segment NEAR_F
+//   204 bytes in segment NEAR_I
+//   204 bytes in segment NEAR_ID
+//    73 bytes in segment NEAR_Z
+//    58 bytes in segment SWITCH
+// 
+// 3 134 bytes of CODE memory (+ 14 bytes shared)
+//   277 bytes of DATA memory (+  5 bytes shared)
+//
+//Errors: none
+//Warnings: 4

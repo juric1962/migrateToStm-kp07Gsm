@@ -1,0 +1,559 @@
+##############################################################################
+#                                                                            #
+#                                                      09/Aug/2007  12:40:07 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  D:\PRJIAR\KP7(260707)\func.c                            #
+#    Command line =  "D:\PRJIAR\KP7(260707)\func.c" --cpu=m1280 -ms -o       #
+#                    "D:\PRJIAR\KP7(260707)\Debug\Obj\" -lCN                 #
+#                    "D:\PRJIAR\KP7(260707)\Debug\List\" -y                  #
+#                    --initializers_in_flash -z6 --no_inline                 #
+#                    --no_cross_call --no_tbaa --debug -e -I "D:\Program     #
+#                    Files\IAR Systems\Embedded Workbench 4.0                #
+#                    Evaluation\avr\INC\" -I "D:\Program Files\IAR           #
+#                    Systems\Embedded Workbench 4.0                          #
+#                    Evaluation\avr\INC\DLIB\" --eeprom_size 4096            #
+#                    --dlib_config "D:\Program Files\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-3s-ec-n.h"  #
+#    List file    =  D:\PRJIAR\KP7(260707)\Debug\List\func.lst               #
+#    Object file  =  D:\PRJIAR\KP7(260707)\Debug\Obj\func.r90                #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\PRJIAR\KP7(260707)\func.c
+      1          #include <iom1280.h> 
+
+   \                                 In segment ABSOLUTE, at 0xd6
+   \   union <unnamed> volatile __io _A_UDR2
+   \                     _A_UDR2:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xd0
+   \   union <unnamed> volatile __io _A_UCSR2A
+   \                     _A_UCSR2A:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x34
+   \   union <unnamed> volatile __io _A_PORTG
+   \                     _A_PORTG:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x28
+   \   union <unnamed> volatile __io _A_PORTC
+   \                     _A_PORTC:
+   \   00000000                      DS 1
+      2          #include "dfpin.h"
+      3          
+      4          
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+      5          __flash  unsigned char auchCRCHi[] ={
+   \                     auchCRCHi:
+   \   00000000   C1004081C001       DB 0, 193, 129, 64, 1, 192, 128, 65, 1, 192, 128, 65, 0, 193, 129, 64
+   \              4180C0014180
+   \              C1004081    
+   \   00000010   C0014180C100       DB 1, 192, 128, 65, 0, 193, 129, 64, 0, 193, 129, 64, 1, 192, 128, 65
+   \              4081C1004081
+   \              C0014180    
+   \   00000020   C0014180C100       DB 1, 192, 128, 65, 0, 193, 129, 64, 0, 193, 129, 64, 1, 192, 128, 65
+   \              4081C1004081
+   \              C0014180    
+   \   00000030   C1004081C001       DB 0, 193, 129, 64, 1, 192, 128, 65, 1, 192, 128, 65, 0, 193, 129, 64
+   \              4180C0014180
+   \              C1004081    
+   \   00000040   C0014180C100       DB 1, 192, 128, 65, 0, 193, 129, 64, 0, 193, 129, 64, 1, 192, 128, 65
+   \              4081C1004081
+   \              C0014180    
+   \   00000050   C1004081C001       DB 0, 193, 129, 64, 1, 192, 128, 65, 1, 192, 128, 65, 0, 193, 129, 64
+   \              4180C0014180
+   \              C1004081    
+   \   00000060   C1004081C001       DB 0, 193, 129, 64, 1, 192, 128, 65, 1, 192, 128, 65, 0, 193, 129, 64
+   \              4180C0014180
+   \              C1004081    
+   \   00000070   C0014180C100       DB 1, 192, 128, 65, 0, 193, 129, 64, 0, 193, 129, 64, 1, 192, 128, 65
+   \              4081C1004081
+   \              C0014180    
+   \   00000080   C0014180C100       DB 1, 192, 128, 65, 0, 193, 129, 64, 0, 193, 129, 64, 1, 192, 128, 65
+   \              4081C1004081
+   \              C0014180    
+   \   00000090   C1004081C001       DB 0, 193, 129, 64, 1, 192, 128, 65, 1, 192, 128, 65, 0, 193, 129, 64
+   \              4180C0014180
+   \              C1004081    
+   \   000000A0   C1004081C001       DB 0, 193, 129, 64, 1, 192, 128, 65, 1, 192, 128, 65, 0, 193, 129, 64
+   \              4180C0014180
+   \              C1004081    
+   \   000000B0   C0014180C100       DB 1, 192, 128, 65, 0, 193, 129, 64, 0, 193, 129, 64, 1, 192, 128, 65
+   \              4081C1004081
+   \              C0014180    
+   \   000000C0   C1004081C001       DB 0, 193, 129, 64, 1, 192, 128, 65, 1, 192, 128, 65, 0, 193, 129, 64
+   \              4180C0014180
+   \              C1004081    
+   \   000000D0   C0014180C100       DB 1, 192, 128, 65, 0, 193, 129, 64, 0, 193, 129, 64, 1, 192, 128, 65
+   \              4081C1004081
+   \              C0014180    
+   \   000000E0   C0014180C100       DB 1, 192, 128, 65, 0, 193, 129, 64, 0, 193, 129, 64, 1, 192, 128, 65
+   \              4081C1004081
+   \              C0014180    
+   \   000000F0   C1004081C001       DB 0, 193, 129, 64, 1, 192, 128, 65, 1, 192, 128, 65, 0, 193, 129, 64
+   \              4180C0014180
+   \              C1004081    
+      6            0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,0x41,0x01,0xC0,0x80,0x41,0x00,
+      7            0xC1,0x81,0x40,0x01,0xC0,0x80,0x41,0x00,0xC1,0x81,0x40,0x00,0xC1,
+      8            0x81,0x40,0x01,0xC0,0x80,0x41,0x01,0xC0,0x80,0x41,0x00,0xC1,0x81,
+      9            0x40,0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,0x41,0x00,0xC1,0x81,0x40,
+     10            0x01,0xC0,0x80,0x41,0x01,0xC0,0x80,0x41,0x00,0xC1,0x81,0x40,0x01,
+     11            0xC0,0x80,0x41,0x00,0xC1,0x81,0x40,0x00,0xC1,0x81,0x40,0x01,0xC0,
+     12            0x80,0x41,0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,0x41,0x01,0xC0,0x80,
+     13            0x41,0x00,0xC1,0x81,0x40,0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,0x41,
+     14            0x01,0xC0,0x80,0x41,0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,0x41,0x00,
+     15            0xC1,0x81,0x40,0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,0x41,0x01,0xC0,
+     16            0x80,0x41,0x00,0xC1,0x81,0x40,0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,
+     17            0x41,0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,0x41,0x01,0xC0,0x80,0x41,
+     18            0x00,0xC1,0x81,0x40,0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,0x41,0x01,
+     19            0xC0,0x80,0x41,0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,0x41,0x00,0xC1,
+     20            0x81,0x40,0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,0x41,0x00,0xC1,0x81,
+     21            0x40,0x01,0xC0,0x80,0x41,0x01,0xC0,0x80,0x41,0x00,0xC1,0x81,0x40,
+     22            0x01,0xC0,0x80,0x41,0x00,0xC1,0x81,0x40,0x00,0xC1,0x81,0x40,0x01,
+     23            0xC0,0x80,0x41,0x01,0xC0,0x80,0x41,0x00,0xC1,0x81,0x40,0x00,0xC1,
+     24            0x81,0x40,0x01,0xC0,0x80,0x41,0x00,0xC1,0x81,0x40,0x01,0xC0,0x80,
+     25            0x41,0x01,0xC0,0x80,0x41,0x00,0xC1,0x81,0x40};
+     26            
+     27              
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+     28          __flash   unsigned  char auchCRCLo[] = {
+   \                     auchCRCLo:
+   \   00000000   C00001C103C3       DB 0, 192, 193, 1, 195, 3, 2, 194, 198, 6, 7, 199, 5, 197, 196, 4, 204
+   \              C20206C6C707
+   \              C50504C4CC  
+   \   00000011   0D0C0FCDCECF       DB 12, 13, 205, 15, 207, 206, 14, 10, 202, 203, 11, 201, 9, 8, 200, 216
+   \              0A0ECBCAC90B
+   \              0809D8C8    
+   \   00000021   19181BD9DADB       DB 24, 25, 217, 27, 219, 218, 26, 30, 222, 223, 31, 221, 29, 28, 220
+   \              1E1ADFDEDD1F
+   \              1C1DDC      
+   \   00000030   D41415D517D7       DB 20, 212, 213, 21, 215, 23, 22, 214, 210, 18, 19, 211, 17, 209, 208
+   \              D61612D2D313
+   \              D111D0      
+   \   0000003F   F010313033F1       DB 16, 240, 48, 49, 241, 51, 243, 242, 50, 54, 246, 247, 55, 245, 53
+   \              F2F33632F7F6
+   \              F53735      
+   \   0000004E   F434FC3C3DFD       DB 52, 244, 60, 252, 253, 61, 255, 63, 62, 254, 250, 58, 59, 251, 57
+   \              3FFFFE3E3AFA
+   \              FB3B39      
+   \   0000005D   F8F92838E9E8       DB 249, 248, 56, 40, 232, 233, 41, 235, 43, 42, 234, 238, 46, 47, 239
+   \              EB292A2BEEEA
+   \              2F2EEF      
+   \   0000006C   ED2D2CEC24E4       DB 45, 237, 236, 44, 228, 36, 37, 229, 39, 231, 230, 38, 34, 226, 227
+   \              E525E72726E6
+   \              E222E3      
+   \   0000007B   E1232021A0E0       DB 35, 225, 33, 32, 224, 160, 96, 97, 161, 99, 163, 162, 98, 102, 166
+   \              616063A1A2A3
+   \              6662A6      
+   \   0000008A   67A765A5A464       DB 167, 103, 165, 101, 100, 164, 108, 172, 173, 109, 175, 111, 110, 174
+   \              AC6C6DAD6FAF
+   \              AE6E        
+   \   00000098   6AAAAB6BA969       DB 170, 106, 107, 171, 105, 169, 168, 104, 120, 184, 185, 121, 187, 123
+   \              68A8B87879B9
+   \              7BBB        
+   \   000000A6   BA7A7EBEBF7F       DB 122, 186, 190, 126, 127, 191, 125, 189, 188, 124, 180, 116, 117, 181
+   \              BD7D7CBC74B4
+   \              B575        
+   \   000000B4   B77776B6B272       DB 119, 183, 182, 118, 114, 178, 179, 115, 177, 113, 112, 176, 80, 144
+   \              73B371B1B070
+   \              9050        
+   \   000000C2   519153939252       DB 145, 81, 147, 83, 82, 146, 150, 86, 87, 151, 85, 149, 148, 84, 156
+   \              569697579555
+   \              54949C      
+   \   000000D1   5D5C5F9D9E9F       DB 92, 93, 157, 95, 159, 158, 94, 90, 154, 155, 91, 153, 89, 88, 152
+   \              5A5E9B9A995B
+   \              585998      
+   \   000000E0   488889498B4B       DB 136, 72, 73, 137, 75, 139, 138, 74, 78, 142, 143, 79, 141, 77, 76
+   \              4A8A8E4E4F8F
+   \              4D8D4C      
+   \   000000EF   448C85848745       DB 140, 68, 132, 133, 69, 135, 71, 70, 134, 130, 66, 67, 131, 65, 129
+   \              464782864342
+   \              418381      
+   \   000000FE   4080               DB 128, 64
+     29          0x00,0xC0,0xC1,0x01,0xC3,0x03,0x02,0xC2,0xC6,0x06,0x07,0xC7,0x05,
+     30          0xC5,0xC4,0x04,0xCC,0x0C,0x0D,0xCD,0x0F,0xCF,0xCE,0x0E,0x0A,0xCA,
+     31          0xCB,0x0B,0xC9,0x09,0x08,0xC8,0xD8,0x18,0x19,0xD9,0x1B,0xDB,0xDA,
+     32          0x1A,0x1E,0xDE,0xDF,0x1F,0xDD,0x1D,0x1C,0xDC,0x14,0xD4,0xD5,0x15,
+     33          0xD7,0x17,0x16,0xD6,0xD2,0x12,0x13,0xD3,0x11,0xD1,0xD0,0x10,0xF0,
+     34          0x30,0x31,0xF1,0x33,0xF3,0xF2,0x32,0x36,0xF6,0xF7,0x37,0xF5,0x35,
+     35          0x34,0xF4,0x3C,0xFC,0xFD,0x3D,0xFF,0x3F,0x3E,0xFE,0xFA,0x3A,0x3B,
+     36          0xFB,0x39,0xF9,0xF8,0x38,0x28,0xE8,0xE9,0x29,0xEB,0x2B,0x2A,0xEA,
+     37          0xEE,0x2E,0x2F,0xEF,0x2D,0xED,0xEC,0x2C,0xE4,0x24,0x25,0xE5,0x27,
+     38          0xE7,0xE6,0x26,0x22,0xE2,0xE3,0x23,0xE1,0x21,0x20,0xE0,0xA0,0x60,
+     39          0x61,0xA1,0x63,0xA3,0xA2,0x62,0x66,0xA6,0xA7,0x67,0xA5,0x65,0x64,
+     40          0xA4,0x6C,0xAC,0xAD,0x6D,0xAF,0x6F,0x6E,0xAE,0xAA,0x6A,0x6B,0xAB,
+     41          0x69,0xA9,0xA8,0x68,0x78,0xB8,0xB9,0x79,0xBB,0x7B,0x7A,0xBA,0xBE,
+     42          0x7E,0x7F,0xBF,0x7D,0xBD,0xBC,0x7C,0xB4,0x74,0x75,0xB5,0x77,0xB7,
+     43          0xB6,0x76,0x72,0xB2,0xB3,0x73,0xB1,0x71,0x70,0xB0,0x50,0x90,0x91,
+     44          0x51,0x93,0x53,0x52,0x92,0x96,0x56,0x57,0x97,0x55,0x95,0x94,0x54,
+     45          0x9C,0x5C,0x5D,0x9D,0x5F,0x9F,0x9E,0x5E,0x5A,0x9A,0x9B,0x5B,0x99,
+     46          0x59,0x58,0x98,0x88,0x48,0x49,0x89,0x4B,0x8B,0x8A,0x4A,0x4E,0x8E,
+     47          0x8F,0x4F,0x8D,0x4D,0x4C,0x8C,0x44,0x84,0x85,0x45,0x87,0x47,0x46,
+     48          0x86,0x82,0x42,0x43,0x83,0x41,0x81,0x80,0x40
+     49               };
+     50          
+     51          
+
+   \                                 In segment CODE, align 2, keep-with-next
+     52          void delay(unsigned int period)
+   \                     delay:
+   \                     ??delay_0:
+     53            {
+     54            bad:
+     55            period--;
+   \   00000000   5001               SUBI    R16, 1
+   \   00000002   4010               SBCI    R17, 0
+     56            if(period !=0) goto bad;
+   \   00000004   2F20               MOV     R18, R16
+   \   00000006   2B21               OR      R18, R17
+   \   00000008   F7D9               BRNE    ??delay_0
+     57            }
+   \   0000000A   9508               RET
+     58          
+
+   \                                 In segment CODE, align 2, keep-with-next
+     59          void long_delay(unsigned long int period)
+   \                     long_delay:
+   \                     ??long_delay_0:
+     60          {
+     61            bad1:
+     62            period--;
+   \   00000000   5001               SUBI    R16, 1
+   \   00000002   4010               SBCI    R17, 0
+   \   00000004   4020               SBCI    R18, 0
+   \   00000006   4030               SBCI    R19, 0
+     63            if(period !=0) goto bad1;
+   \   00000008   2F40               MOV     R20, R16
+   \   0000000A   2B41               OR      R20, R17
+   \   0000000C   2B42               OR      R20, R18
+   \   0000000E   2B43               OR      R20, R19
+   \   00000010   F7B9               BRNE    ??long_delay_0
+     64          }
+   \   00000012   9508               RET
+     65          
+     66          
+
+   \                                 In segment CODE, align 2, keep-with-next
+     67          void delay_on_contr(void)
+   \                     delay_on_contr:
+     68          {
+   \   00000000   938A               ST      -Y, R24
+     69          unsigned char delay_count;
+     70          
+     71          delay_count=18;
+   \   00000002   E182               LDI     R24, 18
+     72          
+     73          S1_RD;
+   \   00000004   9AA0               SBI     0x14, 0x00
+   \   00000006   98A1               CBI     0x14, 0x01
+     74          S2_RD;
+   \   00000008   9A40               SBI     0x08, 0x00
+   \   0000000A   9841               CBI     0x08, 0x01
+     75          S3_RD;
+   \   0000000C   9A42               SBI     0x08, 0x02
+   \   0000000E   9843               CBI     0x08, 0x03
+     76          S4_RD;
+   \   00000010   9A44               SBI     0x08, 0x04
+   \   00000012   9845               CBI     0x08, 0x05
+     77          S5_RD;
+   \   00000014   9A46               SBI     0x08, 0x06
+   \   00000016   9847               CBI     0x08, 0x07
+     78          
+     79                              
+     80                                do
+     81                                    {   
+     82                                       // __watchdog_reset();
+     83                                        delay(60000);
+   \                     ??delay_on_contr_0:
+   \   00000018   E600               LDI     R16, 96
+   \   0000001A   EE1A               LDI     R17, 234
+   \   0000001C   ....               RCALL   delay
+     84                                        delay(60000);
+   \   0000001E   E600               LDI     R16, 96
+   \   00000020   EE1A               LDI     R17, 234
+   \   00000022   ....               RCALL   delay
+     85                                        delay(60000);
+   \   00000024   E600               LDI     R16, 96
+   \   00000026   EE1A               LDI     R17, 234
+   \   00000028   ....               RCALL   delay
+     86                                        delay(60000);
+   \   0000002A   E600               LDI     R16, 96
+   \   0000002C   EE1A               LDI     R17, 234
+   \   0000002E   ....               RCALL   delay
+     87                                        delay(60000);
+   \   00000030   E600               LDI     R16, 96
+   \   00000032   EE1A               LDI     R17, 234
+   \   00000034   ....               RCALL   delay
+     88                                       // __watchdog_reset();
+     89                                        S1_CH;
+   \   00000036   E001               LDI     R16, 1
+   \   00000038   B314               IN      R17, 0x14
+   \   0000003A   2710               EOR     R17, R16
+   \   0000003C   BB14               OUT     0x14, R17
+   \   0000003E   E002               LDI     R16, 2
+   \   00000040   B314               IN      R17, 0x14
+   \   00000042   2710               EOR     R17, R16
+   \   00000044   BB14               OUT     0x14, R17
+     90                                        S2_CH;
+   \   00000046   E001               LDI     R16, 1
+   \   00000048   B118               IN      R17, 0x08
+   \   0000004A   2710               EOR     R17, R16
+   \   0000004C   B918               OUT     0x08, R17
+   \   0000004E   E002               LDI     R16, 2
+   \   00000050   B118               IN      R17, 0x08
+   \   00000052   2710               EOR     R17, R16
+   \   00000054   B918               OUT     0x08, R17
+     91                                        S3_CH;
+   \   00000056   E004               LDI     R16, 4
+   \   00000058   B118               IN      R17, 0x08
+   \   0000005A   2710               EOR     R17, R16
+   \   0000005C   B918               OUT     0x08, R17
+   \   0000005E   E008               LDI     R16, 8
+   \   00000060   B118               IN      R17, 0x08
+   \   00000062   2710               EOR     R17, R16
+   \   00000064   B918               OUT     0x08, R17
+     92                                        S4_CH;
+   \   00000066   E100               LDI     R16, 16
+   \   00000068   B118               IN      R17, 0x08
+   \   0000006A   2710               EOR     R17, R16
+   \   0000006C   B918               OUT     0x08, R17
+   \   0000006E   E200               LDI     R16, 32
+   \   00000070   B118               IN      R17, 0x08
+   \   00000072   2710               EOR     R17, R16
+   \   00000074   B918               OUT     0x08, R17
+     93                                        S5_CH;
+   \   00000076   E400               LDI     R16, 64
+   \   00000078   B118               IN      R17, 0x08
+   \   0000007A   2710               EOR     R17, R16
+   \   0000007C   B918               OUT     0x08, R17
+   \   0000007E   E800               LDI     R16, 128
+   \   00000080   B118               IN      R17, 0x08
+   \   00000082   2710               EOR     R17, R16
+   \   00000084   B918               OUT     0x08, R17
+     94                                        delay_count--;
+   \   00000086   958A               DEC     R24
+     95                                     } while(delay_count!=0);
+   \   00000088   F639               BRNE    ??delay_on_contr_0
+     96          
+     97          S1_OFF;
+   \   0000008A   98A0               CBI     0x14, 0x00
+   \   0000008C   98A1               CBI     0x14, 0x01
+     98          S2_OFF;
+   \   0000008E   9840               CBI     0x08, 0x00
+   \   00000090   9841               CBI     0x08, 0x01
+     99          S3_OFF;
+   \   00000092   9842               CBI     0x08, 0x02
+   \   00000094   9843               CBI     0x08, 0x03
+    100          S4_OFF;
+   \   00000096   9844               CBI     0x08, 0x04
+   \   00000098   9845               CBI     0x08, 0x05
+    101          S5_OFF;
+   \   0000009A   9846               CBI     0x08, 0x06
+   \   0000009C   9847               CBI     0x08, 0x07
+    102          }
+   \   0000009E   9189               LD      R24, Y+
+   \   000000A0   9508               RET
+    103          
+    104          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    105           unsigned int crc_m1(unsigned char *ka,unsigned int num,unsigned int crc)   
+   \                     crc_m1:
+    106          
+    107               {
+   \   00000000   2F79               MOV     R23, R25
+   \   00000002   2E28               MOV     R2, R24
+    108                unsigned char uchCRCHi,uIndex;
+    109                unsigned char uchCRCLo;
+    110                unsigned int ii;      
+    111                uchCRCLo=crc;  
+   \   00000004   2F64               MOV     R22, R20
+    112                uchCRCHi=crc>>8;
+   \   00000006   2F45               MOV     R20, R21
+    113             
+    114                
+    115                             for (ii=0;ii<num;ii++)
+   \   00000008   E080               LDI     R24, 0
+   \   0000000A   E090               LDI     R25, 0
+   \   0000000C   C011               RJMP    ??crc_m1_0
+    116                            {
+    117              
+    118                 uIndex = uchCRCHi ^ *ka++;
+   \                     ??crc_m1_1:
+   \   0000000E   01F8               MOVW    R31:R30, R17:R16
+   \   00000010   9001               LD      R0, Z+
+   \   00000012   018F               MOVW    R17:R16, R31:R30
+   \   00000014   2604               EOR     R0, R20
+    119          
+    120                 uchCRCHi = uchCRCLo ^ auchCRCHi[uIndex];
+   \   00000016   2411               CLR     R1
+   \   00000018   ....               LDI     R30, LOW(auchCRCHi)
+   \   0000001A   ....               LDI     R31, (auchCRCHi) >> 8
+   \   0000001C   0DE0               ADD     R30, R0
+   \   0000001E   1DF1               ADC     R31, R1
+   \   00000020   9144               LPM     R20, Z
+   \   00000022   2746               EOR     R20, R22
+    121          
+    122                 uchCRCLo = auchCRCLo[uIndex];
+   \   00000024   ....               LDI     R30, LOW(auchCRCLo)
+   \   00000026   ....               LDI     R31, (auchCRCLo) >> 8
+   \   00000028   0DE0               ADD     R30, R0
+   \   0000002A   1DF1               ADC     R31, R1
+   \   0000002C   9164               LPM     R22, Z
+    123                 
+    124                }
+   \   0000002E   9601               ADIW    R25:R24, 1
+   \                     ??crc_m1_0:
+   \   00000030   1782               CP      R24, R18
+   \   00000032   0793               CPC     R25, R19
+   \   00000034   F360               BRCS    ??crc_m1_1
+    125          
+    126               return (uchCRCHi << 8  | uchCRCLo);
+   \   00000036   2F06               MOV     R16, R22
+   \   00000038   2F14               MOV     R17, R20
+   \   0000003A   2D82               MOV     R24, R2
+   \   0000003C   2F97               MOV     R25, R23
+   \   0000003E   9508               RET
+    127          
+    128               }
+    129          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    130          void s_port(unsigned char ch)
+   \                     s_port:
+   \                     ??s_port_0:
+    131                {                             
+    132                wawa: 
+    133                if((UCSR2A & 0x20) ==0) goto wawa;
+   \   00000000   911000D0           LDS     R17, 208
+   \   00000004   2F21               MOV     R18, R17
+   \   00000006   FF25               SBRS    R18, 5
+   \   00000008   CFFB               RJMP    ??s_port_0
+    134                UDR2=ch;
+   \   0000000A   930000D6           STS     214, R16
+    135                }
+   \   0000000E   9508               RET
+    136          
+    137          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    138           void    mov_s (char size, char __flash *p)
+   \                     mov_s:
+    139                {     
+   \   00000000   ........           CALL    ?PROLOGUE3_L09
+   \   00000004   2FA0               MOV     R26, R16
+   \   00000006   01C9               MOVW    R25:R24, R19:R18
+   \   00000008   C004               RJMP    ??mov_s_0
+    140                 while(size--) s_port(*p++);
+   \                     ??mov_s_1:
+   \   0000000A   01FC               MOVW    R31:R30, R25:R24
+   \   0000000C   9105               LPM     R16, Z+
+   \   0000000E   01CF               MOVW    R25:R24, R31:R30
+   \   00000010   ....               RCALL   s_port
+   \                     ??mov_s_0:
+   \   00000012   2F0A               MOV     R16, R26
+   \   00000014   95AA               DEC     R26
+   \   00000016   2300               TST     R16
+   \   00000018   F7C1               BRNE    ??mov_s_1
+    141                } 
+   \   0000001A   E0E3               LDI     R30, 3
+   \   0000001C   ........           JMP     ?EPILOGUE_B3_L09
+    142           
+    143          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    144           void    mov_buf (char size,unsigned char * p)
+   \                     mov_buf:
+    145                {     
+   \   00000000   ........           CALL    ?PROLOGUE4_L09
+   \   00000004   2F80               MOV     R24, R16
+   \   00000006   01D9               MOVW    R27:R26, R19:R18
+   \   00000008   C002               RJMP    ??mov_buf_0
+    146                 while(size--) s_port(*p++);
+   \                     ??mov_buf_1:
+   \   0000000A   910D               LD      R16, X+
+   \   0000000C   ....               RCALL   s_port
+   \                     ??mov_buf_0:
+   \   0000000E   2F08               MOV     R16, R24
+   \   00000010   958A               DEC     R24
+   \   00000012   2300               TST     R16
+   \   00000014   F7D1               BRNE    ??mov_buf_1
+    147                }
+   \   00000016   E0E4               LDI     R30, 4
+   \   00000018   ........           JMP     ?EPILOGUE_B4_L09
+    148          
+    149          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    150          void    mov_lf (void)
+   \                     mov_lf:
+    151               {     
+    152               s_port(0xd);
+   \   00000000   E00D               LDI     R16, 13
+   \   00000002   ....               RCALL   s_port
+    153               s_port(0xa);
+   \   00000004   E00A               LDI     R16, 10
+   \   00000006   ....               RCALL   s_port
+    154               }    
+   \   00000008   9508               RET
+    155          
+
+   Maximum stack usage in bytes:
+
+     Function       CSTACK RSTACK
+     --------       ------ ------
+     crc_m1             0      2
+     delay              0      2
+     delay_on_contr     1      2
+       -> delay         1      2
+       -> delay         1      2
+       -> delay         1      2
+       -> delay         1      2
+       -> delay         1      2
+     long_delay         0      2
+     mov_buf            4      2
+       -> s_port        4      2
+     mov_lf             0      2
+       -> s_port        0      2
+       -> s_port        0      2
+     mov_s              3      2
+       -> s_port        3      2
+     s_port             0      2
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     _A_UDR2           1
+     _A_UCSR2A         1
+     _A_PORTG          1
+     _A_PORTC          1
+     auchCRCHi       256
+     auchCRCLo       256
+     ??delay_0        12
+     ??long_delay_0   20
+     delay_on_contr  162
+     crc_m1           64
+     ??s_port_0       16
+     mov_s            32
+     mov_buf          28
+     mov_lf           10
+
+ 
+   4 bytes in segment ABSOLUTE
+ 344 bytes in segment CODE
+ 512 bytes in segment NEAR_F
+ 
+ 856 bytes of CODE memory
+   0 bytes of DATA memory (+ 4 bytes shared)
+
+Errors: none
+Warnings: none

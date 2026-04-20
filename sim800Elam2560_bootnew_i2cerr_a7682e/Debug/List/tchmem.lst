@@ -1,0 +1,1104 @@
+##############################################################################
+#                                                                            #
+#                                                      24/Oct/2025  13:27:56 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\tchmem.c        #
+#    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\tchmem.c        #
+#                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a76 #
+#                    82e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_a7 #
+#                    682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cerr_a #
+#                    7682e\Debug\List\ -y --initializers_in_flash -z9        #
+#                    --no_inline --no_tbaa --cross_call_passes=1 --debug -e  #
+#                    -I "E:\box\IAR Systems\Embedded Workbench 4.0           #
+#                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size   #
+#                    4096 --dlib_config "E:\box\IAR Systems\Embedded         #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h"  #
+#    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\tchm #
+#                    em.lst                                                  #
+#    Object file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\tchme #
+#                    m.r90                                                   #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+E:\sim800Elam2560_bootnew_i2cerr_a7682e\tchmem.c
+      1          #include <iom2560.h>                     
+
+   \                                 In segment ABSOLUTE, at 0x108
+   \   union <unnamed> volatile __ext_io _A_PORTK
+   \                     _A_PORTK:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x106
+   \   union <unnamed> volatile __ext_io _A_PINK
+   \                     _A_PINK:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x6d
+   \   union <unnamed> volatile __io _A_PCMSK2
+   \                     _A_PCMSK2:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x3c
+   \   union <unnamed> volatile __io _A_EIFR
+   \                     _A_EIFR:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x3b
+   \   union <unnamed> volatile __io _A_PCIFR
+   \                     _A_PCIFR:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x22
+   \   union <unnamed> volatile __io _A_PORTA
+   \                     _A_PORTA:
+   \   00000000                      DS 1
+      2          #include <inavr.h> 
+      3          #include "dfpin.h"
+      4          
+      5          #include "dfcnst.h"
+      6          #include "map_ef.h"
+      7          
+      8          void delay(unsigned int period);
+      9          
+     10          void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,unsigned int num);
+     11          
+     12          extern __flash unsigned char tab_crc[];
+     13          
+     14          /*
+     15          __flash char tab_proxy[]={0x16,0x31,0x49,00,
+     16                            0x30,0xaf,0x4c,00,
+     17                            0xd1,0x55,0x4c,00,
+     18                            0x6f,0x9b,0x4c,00,
+     19                            0x65,0x8e,0x47,00,
+     20                            0x83,0x2e,0x4c,00,
+     21                            0x24,0x71,0x4c,00,
+     22                            0xef,0x64,0x4c,00,
+     23                            0x39,0xaf,0x4c,00,
+     24                            0x12,0x29,0x4c,00 };
+     25          */
+     26          
+     27          extern unsigned char sel_modul;
+     28          
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     29          char bit_registr1;
+     30          unsigned char arr_ds[8],nomer_tab;
+   \                     arr_ds:
+   \   00000000                      DS 8
+     31          unsigned int glutch6;
+     32          unsigned char kod_tab[4];
+   \                     kod_tab:
+   \   00000008                      DS 4
+     33          char podnos,kodec[4];
+   \                     kodec:
+   \   0000000C                      DS 4
+   \                     glutch6:
+   \   00000010                      DS 2
+     34          unsigned char prihod_uhod;
+     35          int glutch5,tim_prihod_uhod,window_prihod_uhod;
+   \                     glutch5:
+   \   00000012                      DS 2
+   \                     window_prihod_uhod:
+   \   00000014                      DS 2
+   \                     bit_registr1:
+   \   00000016                      DS 1
+   \                     nomer_tab:
+   \   00000017                      DS 1
+   \                     podnos:
+   \   00000018                      DS 1
+   \                     prihod_uhod:
+   \   00000019                      DS 1
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+   \                     tim_prihod_uhod:
+   \   00000000                      DS 2
+     36          extern unsigned int sost;
+     37          
+     38          void s_port(unsigned char ch);
+     39          
+     40           //  будем записывать только 4 байта в базу
+     41           // базу храним во внешнем флеше
+     42           //  1 2 3 4 5 6 7 8
+     43           //  в базу пишем 2 3 4 5 байты
+     44           //
+     45           /*
+     46           char   test_tabletka(void )
+     47                         {
+     48                         int point_pos,i ;
+     49          
+     50           WrArrayToFlesh(A_TCHMEM+76,&buf1[0],4,0,0);              
+     51          RdFromFleshToArr(A_TOTAL_EN1,&buf[0],10);
+     52          
+     53                            for(point_pos=0;point_pos<(4*10);point_pos=point_pos+4)
+     54                                {
+     55                                       RdFromFleshToArr(A_TOTAL_EN1,&buf[0],4);
+     56                                       for(i=0;i<4;i++)
+     57                                        {
+     58                                        // EEARH=0;
+     59                                        // EEARL=point_pos+i;
+     60          
+     61                                        // сравниваем поднесенной таблеткой
+     62          
+     63                                        if(tab_proxy[(point_pos+i)] !=arr_ds[i+1]) goto next_tabl;
+     64          
+     65                                        }
+     66                                     return((point_pos/4)+1);
+     67                                next_tabl:;
+     68          
+     69                                }
+     70                           return(0);
+     71                           }
+     72          */
+     73           
+     74           
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     75            char   test_tabletka2(void )
+   \                     test_tabletka2:
+     76                         {
+   \   00000000   ........           CALL    ?PROLOGUE4_L09
+   \   00000004   9724               SBIW    R29:R28, 4
+     77                         int point_pos,i ;
+     78                         unsigned char buf[4];
+     79                         
+     80                            for(point_pos=0;point_pos<(4*253);point_pos=point_pos+4)
+   \   00000006   E080               LDI     R24, 0
+   \   00000008   E090               LDI     R25, 0
+   \   0000000A   C005               RJMP    ??test_tabletka2_0
+     81                                {
+     82          
+     83                                     RdFromFleshToArr(A_SEG6+point_pos,&buf[0],4);  
+     84                                     for(i=0;i<4;i++)
+     85                                        {
+     86                                        // сравниваем поднесенной таблеткой
+     87                                        if(buf[i] !=arr_ds[i+1]) goto next_tab2;
+   \                     ??test_tabletka2_1:
+   \   0000000C   9604               ADIW    R25:R24, 4
+   \   0000000E   3F84               CPI     R24, 244
+   \   00000010   E003               LDI     R16, 3
+   \   00000012   0790               CPC     R25, R16
+   \   00000014   F524               BRGE    ??test_tabletka2_2
+   \                     ??test_tabletka2_0:
+   \   00000016   E044               LDI     R20, 4
+   \   00000018   E050               LDI     R21, 0
+   \   0000001A   019E               MOVW    R19:R18, R29:R28
+   \   0000001C   018C               MOVW    R17:R16, R25:R24
+   \   0000001E   5D10               SUBI    R17, 208
+   \   00000020   ........           CALL    RdFromFleshToArr
+   \   00000024   E000               LDI     R16, 0
+   \   00000026   E010               LDI     R17, 0
+   \   00000028   ....               LDI     R26, LOW(arr_ds)
+   \   0000002A   ....               LDI     R27, (arr_ds) >> 8
+   \                     ??test_tabletka2_3:
+   \   0000002C   01FE               MOVW    R31:R30, R29:R28
+   \   0000002E   0FE0               ADD     R30, R16
+   \   00000030   1FF1               ADC     R31, R17
+   \   00000032   8120               LD      R18, Z
+   \   00000034   01FD               MOVW    R31:R30, R27:R26
+   \   00000036   9631               ADIW    R31:R30, 1
+   \   00000038   0FE0               ADD     R30, R16
+   \   0000003A   1FF1               ADC     R31, R17
+   \   0000003C   8130               LD      R19, Z
+   \   0000003E   1723               CP      R18, R19
+   \   00000040   F729               BRNE    ??test_tabletka2_1
+     88                                        }
+   \   00000042   5F0F               SUBI    R16, 255
+   \   00000044   4F1F               SBCI    R17, 255
+   \   00000046   3004               CPI     R16, 4
+   \   00000048   E020               LDI     R18, 0
+   \   0000004A   0712               CPC     R17, R18
+   \   0000004C   F37C               BRLT    ??test_tabletka2_3
+     89                                     
+     90                                     kod_tab[0]=arr_ds[1];
+   \   0000004E   ....               RCALL   ?Subroutine0
+     91                                     kod_tab[1]=arr_ds[2];
+     92                                     kod_tab[2]=arr_ds[3];                 
+     93                                     kod_tab[3]=arr_ds[4];
+     94                                     
+     95                                     return((point_pos/4)+1);
+   \                     ??CrossCallReturnLabel_0:
+   \   00000050   018C               MOVW    R17:R16, R25:R24
+   \   00000052   E044               LDI     R20, 4
+   \   00000054   E050               LDI     R21, 0
+   \   00000056   ........           CALL    ?SS_DIVMOD_L02
+   \   0000005A   9503               INC     R16
+   \   0000005C   C002               RJMP    ??test_tabletka2_4
+     96                                next_tab2:;
+     97          
+     98                                }
+     99                           
+    100                            kod_tab[0]=arr_ds[1];
+   \                     ??test_tabletka2_2:
+   \   0000005E   ....               RCALL   ?Subroutine0
+    101                            kod_tab[1]=arr_ds[2];
+    102                            kod_tab[2]=arr_ds[3];                 
+    103                            kod_tab[3]=arr_ds[4];
+    104                            
+    105                            return(254);
+   \                     ??CrossCallReturnLabel_1:
+   \   00000060   EF0E               LDI     R16, 254
+   \                     ??test_tabletka2_4:
+   \   00000062                      REQUIRE ?Subroutine8
+   \   00000062                      ;               // Fall through to label ?Subroutine8
+    106                           }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine8:
+   \   00000000   9624               ADIW    R29:R28, 4
+   \   00000002   E0E4               LDI     R30, 4
+   \   00000004   ........           JMP     ?EPILOGUE_B4_L09
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine0:
+   \   00000000   01FD               MOVW    R31:R30, R27:R26
+   \   00000002   8101               LDD     R16, Z+1
+   \   00000004   8700               STD     Z+8, R16
+   \   00000006   8102               LDD     R16, Z+2
+   \   00000008   8701               STD     Z+9, R16
+   \   0000000A   8103               LDD     R16, Z+3
+   \   0000000C   8702               STD     Z+10, R16
+   \   0000000E   8104               LDD     R16, Z+4
+   \   00000010   8703               STD     Z+11, R16
+   \   00000012   9508               RET
+    107           
+    108          /*
+    109          unsigned long int hash_tabletka2(void )
+    110                         {
+    111                         int point_pos;
+    112                         
+    113                         unsigned long int hash_kod;
+    114                         union {
+    115                               unsigned long int kod;
+    116                               unsigned char b_kod[4];
+    117                                } hash; 
+    118                         
+    119                    
+    120                            hash_kod=0;
+    121                             
+    122                            for(point_pos=0;point_pos<(4*253);point_pos=point_pos+4)
+    123                                {
+    124          
+    125                                     RdFromFleshToArr(A_SEG6+point_pos,&hash.b_kod[0],4);  
+    126                                     hash_kod= hash_kod ^ hash.kod;
+    127          
+    128                                }
+    129                           return(hash_kod);
+    130                           }
+    131           */
+    132          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    133           void send_pin(char comand)
+   \                     send_pin:
+    134          //;
+    135          //;               БРОСАЮ КОД
+    136          //;               МЛАДШИМИ ВПЕРЕД
+    137          {
+   \   00000000   939A               ST      -Y, R25
+   \   00000002   938A               ST      -Y, R24
+   \   00000004   2F90               MOV     R25, R16
+    138                          char countds;
+    139                           
+    140                          for(countds=0;countds<8;countds++)
+   \   00000006   E088               LDI     R24, 8
+    141                          {
+    142          
+    143                          __disable_interrupt();
+   \                     ??send_pin_0:
+   \   00000008   ....               RCALL   ?Subroutine3
+    144                          TCH_O_ONE;               //+r
+    145                          delay(6);
+   \                     ??CrossCallReturnLabel_6:
+   \   0000000A   E006               LDI     R16, 6
+   \   0000000C   ....               RCALL   ??Subroutine2_0
+    146                        // delay(4);
+    147                          if( comand & 1)  TCH_O_ZERO;     //+r
+   \                     ??CrossCallReturnLabel_19:
+   \   0000000E   FB90               BST     R25, 0
+   \   00000010   F40E               BRTC    ??CrossCallReturnLabel_11
+   \   00000012   ....               RCALL   ?Subroutine9
+    148          
+    149          
+    150          
+    151                           delay(108);
+   \                     ??CrossCallReturnLabel_11:
+   \   00000014   E60C               LDI     R16, 108
+   \   00000016   ....               RCALL   ?Subroutine1
+    152                         //  delay(74);
+    153                           TCH_O_ZERO;              //+r
+    154                           __enable_interrupt();
+   \                     ??CrossCallReturnLabel_9:
+   \   00000018   9478               SEI
+    155                          delay(108);
+   \   0000001A   E60C               LDI     R16, 108
+   \   0000001C   ....               RCALL   ??Subroutine2_0
+    156                           //delay(74);
+    157                             comand =comand >> 1;
+   \                     ??CrossCallReturnLabel_18:
+   \   0000001E   9596               LSR     R25
+    158                          }
+   \   00000020   958A               DEC     R24
+   \   00000022   F791               BRNE    ??send_pin_0
+    159          }
+   \   00000024                      REQUIRE ?Subroutine10
+   \   00000024                      ;               // Fall through to label ?Subroutine10
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine10:
+   \   00000000   9189               LD      R24, Y+
+   \   00000002   9199               LD      R25, Y+
+   \   00000004   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine3:
+   \   00000000   94F8               CLI
+   \   00000002   91000108           LDS     R16, 264
+   \   00000006   6400               ORI     R16, 0x40
+   \   00000008   ....               RJMP    ??Subroutine9_0
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine1:
+   \   00000000   E010               LDI     R17, 0
+   \   00000002   ........           CALL    delay
+   \   00000006                      REQUIRE ?Subroutine9
+   \   00000006                      ;               // Fall through to label ?Subroutine9
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine9:
+   \   00000000   91000108           LDS     R16, 264
+   \   00000004   7B0F               ANDI    R16, 0xBF
+   \                     ??Subroutine9_0:
+   \   00000006   93000108           STS     264, R16
+   \   0000000A   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine11:
+   \   00000000   ........           JMP     delay
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine2:
+   \   00000000   E103               LDI     R16, 19
+   \                     ??Subroutine2_0:
+   \   00000002   E010               LDI     R17, 0
+   \   00000004   ....               RJMP    ?Subroutine11
+    160          
+    161          
+    162          //;
+    163          //;               ЧТЕНИЕ БАЙТА
+    164          //;
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    165                          char read_pin(void)
+   \                     read_pin:
+    166          {
+   \   00000000   939A               ST      -Y, R25
+   \   00000002   938A               ST      -Y, R24
+    167                          char countds,data_ds;
+    168                            
+    169                          for(countds=0;countds<8;countds++)
+   \   00000004   E088               LDI     R24, 8
+    170                          {
+    171                          data_ds =  data_ds >> 1;
+   \                     ??read_pin_0:
+   \   00000006   9596               LSR     R25
+    172          
+    173                          __disable_interrupt();
+   \   00000008   ....               RCALL   ?Subroutine3
+    174                          TCH_O_ONE;                //+r
+    175                          delay(12);
+   \                     ??CrossCallReturnLabel_7:
+   \   0000000A   E00C               LDI     R16, 12
+   \   0000000C   ....               RCALL   ?Subroutine1
+    176                          
+    177                         // delay(8);
+    178                           TCH_O_ZERO;              //+r
+    179                          delay(19);       // 7 jura
+   \                     ??CrossCallReturnLabel_10:
+   \   0000000E   ....               RCALL   ?Subroutine2
+    180                          //delay(13);
+    181          //
+    182          //              read pin
+    183          //
+    184          //
+    185                          if(PINK & TCH_I) data_ds=data_ds | 0x80;     //ravil
+   \                     ??CrossCallReturnLabel_21:
+   \   00000010   ....               RCALL   ?Subroutine6
+   \                     ??CrossCallReturnLabel_2:
+   \   00000012   FD07               SBRC    R16, 7
+   \   00000014   6890               ORI     R25, 0x80
+    186                          else data_ds=data_ds & ~0x80;
+    187          
+    188          
+    189          
+    190                          //delay(100);
+    191                           __enable_interrupt();
+   \                     ??read_pin_1:
+   \   00000016   9478               SEI
+    192                             delay(401);
+   \   00000018   E901               LDI     R16, 145
+   \   0000001A   ....               RCALL   ?Subroutine7
+    193                          //delay(276);
+    194                          }
+   \                     ??CrossCallReturnLabel_15:
+   \   0000001C   958A               DEC     R24
+   \   0000001E   F799               BRNE    ??read_pin_0
+    195          
+    196          
+    197          
+    198                          return(data_ds);
+   \   00000020   2F09               MOV     R16, R25
+   \   00000022   ....               RJMP    ?Subroutine10
+    199          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine6:
+   \   00000000   91000106           LDS     R16, 262
+   \   00000004   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine7:
+   \   00000000   E011               LDI     R17, 1
+   \   00000002   ....               RJMP    ?Subroutine11
+    200          
+    201          /*
+    202           char sbros(void)
+    203              {
+    204              char we;
+    205               
+    206                          __disable_interrupt();
+    207                          TCH_O_ONE;        //+r
+    208                           __enable_interrupt();
+    209                          delay(1871);
+    210                         //   delay(1290);
+    211                          __disable_interrupt();
+    212                           TCH_O_ZERO;        //+r
+    213                          __enable_interrupt();
+    214          //
+    215          //    wait_low
+    216          //
+    217              for (we=0;we<150;we++)
+    218                {
+    219                            delay(19);
+    220                            //delay(13);
+    221                if ((PINK & TCH_I)==0) goto present_lo;           //ravil
+    222                }
+    223              goto bad_ds;
+    224          present_lo:
+    225          
+    226          //
+    227          //    wait_hi
+    228          //
+    229              for (we=0;we<150;we++)
+    230                {
+    231                            delay(19);
+    232                       //  delay(13);
+    233                if ((PINK & TCH_I)) goto present_hi;         //ravil
+    234                }
+    235          //
+    236          //    no ds detected
+    237          //
+    238          //
+    239          bad_ds:
+    240                     return(0);    // нет таблетки !!!!
+    241                
+    242          present_hi:
+    243            
+    244                return(1);
+    245              //_NOP();
+    246          
+    247              }
+    248           
+    249           */
+    250           
+    251          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    252          char sbros(void)
+   \                     sbros:
+    253              {
+   \   00000000   ........           CALL    ?PROLOGUE3_L09
+    254              char we;
+    255              struct {
+    256                char sost;
+    257                unsigned char count_0;
+    258              } sbr;
+    259                          delay(1871);
+   \   00000004   ....               RCALL   ?Subroutine4
+    260               
+    261                          __disable_interrupt();
+   \                     ??CrossCallReturnLabel_25:
+   \   00000006   ....               RCALL   ?Subroutine3
+    262                          TCH_O_ONE;        //+r
+    263                           __enable_interrupt();
+   \                     ??CrossCallReturnLabel_8:
+   \   00000008   9478               SEI
+    264                          delay(1871);
+   \   0000000A   ....               RCALL   ?Subroutine4
+    265                         //   delay(1290);
+    266                          __disable_interrupt();
+   \                     ??CrossCallReturnLabel_24:
+   \   0000000C   94F8               CLI
+    267                           TCH_O_ZERO;        //+r
+   \   0000000E   ....               RCALL   ?Subroutine9
+    268                          __enable_interrupt();
+   \                     ??CrossCallReturnLabel_12:
+   \   00000010   9478               SEI
+    269          //
+    270          //    wait_low
+    271          //
+    272                          delay(40);
+   \   00000012   E208               LDI     R16, 40
+   \   00000014   ....               RCALL   ??Subroutine2_0
+    273                          sbr.sost=0;
+   \                     ??CrossCallReturnLabel_17:
+   \   00000016   E090               LDI     R25, 0
+    274                          sbr.count_0=0;
+   \   00000018   E080               LDI     R24, 0
+    275              for (we=0;we<150;we++)
+   \   0000001A   E0A0               LDI     R26, 0
+   \   0000001C   C007               RJMP    ??sbros_0
+    276                {
+    277                            delay(19);
+    278          // находим хот€бы два нулевых отсчета пор€д  
+    279                            switch(sbr.sost)
+    280                            {
+    281                            case 0: {
+    282                              if (PINK & TCH_I) break;
+   \                     ??sbros_1:
+   \   0000001E   ....               RCALL   ?Subroutine6
+   \                     ??CrossCallReturnLabel_3:
+   \   00000020   FD07               SBRC    R16, 7
+   \   00000022   C01D               RJMP    ??sbros_2
+    283                              else sbr.sost=1;
+   \   00000024   E091               LDI     R25, 1
+    284                              break;
+    285                            }
+   \                     ??sbros_3:
+   \   00000026   95A3               INC     R26
+   \   00000028   39A6               CPI     R26, 150
+   \   0000002A   F500               BRCC    ??sbros_4
+   \                     ??sbros_0:
+   \   0000002C   ....               RCALL   ?Subroutine2
+   \                     ??CrossCallReturnLabel_20:
+   \   0000002E   2F09               MOV     R16, R25
+   \   00000030   2399               TST     R25
+   \   00000032   F3A9               BREQ    ??sbros_1
+   \   00000034   950A               DEC     R16
+   \   00000036   F019               BREQ    ??sbros_5
+   \   00000038   5002               SUBI    R16, 2
+   \   0000003A   F059               BREQ    ??sbros_6
+   \   0000003C   C010               RJMP    ??sbros_2
+    286                            case 1: {
+    287                              if ((PINK & TCH_I)==0) { sbr.count_0++;break;}
+   \                     ??sbros_5:
+   \   0000003E   ....               RCALL   ?Subroutine6
+   \                     ??CrossCallReturnLabel_4:
+   \   00000040   FD07               SBRC    R16, 7
+   \   00000042   C002               RJMP    ??sbros_7
+   \   00000044   9583               INC     R24
+   \   00000046   C00B               RJMP    ??sbros_2
+    288                              else {  if(sbr.count_0 < 3) sbr.sost=2;
+   \                     ??sbros_7:
+   \   00000048   3083               CPI     R24, 3
+   \   0000004A   F058               BRCS    ??sbros_8
+    289                                      else {sbr.sost=3;sbr.count_0=0;}
+   \   0000004C   E093               LDI     R25, 3
+   \   0000004E   E080               LDI     R24, 0
+   \   00000050   CFEA               RJMP    ??sbros_3
+    290                                   }
+    291                              break;
+    292                              }
+    293                             case 3: {
+    294                              if (PINK & TCH_I) { sbr.count_0++; if(sbr.count_0 > 10) sbr.sost=4; break;}
+   \                     ??sbros_6:
+   \   00000052   ....               RCALL   ?Subroutine6
+   \                     ??CrossCallReturnLabel_5:
+   \   00000054   FF07               SBRS    R16, 7
+   \   00000056   C005               RJMP    ??sbros_8
+   \   00000058   9583               INC     R24
+   \   0000005A   308B               CPI     R24, 11
+   \   0000005C   F438               BRCC    ??sbros_4
+    295                              else  sbr.sost=2;
+    296                                     
+    297                              break;
+    298                              }
+    299                            
+    300                            default: break;
+    301                            }
+    302           
+    303                            
+    304                            if( sbr.sost==2)  {delay(1871);return(0);}  // сбой при инициализации 
+   \                     ??sbros_2:
+   \   0000005E   3092               CPI     R25, 2
+   \   00000060   F419               BRNE    ??sbros_9
+   \                     ??sbros_8:
+   \   00000062   ....               RCALL   ?Subroutine4
+   \                     ??CrossCallReturnLabel_23:
+   \   00000064   E000               LDI     R16, 0
+   \   00000066   C004               RJMP    ??sbros_10
+    305                            if( sbr.sost==4)  {delay(1871);return(1);}
+   \                     ??sbros_9:
+   \   00000068   3094               CPI     R25, 4
+   \   0000006A   F6E9               BRNE    ??sbros_3
+   \                     ??sbros_4:
+   \   0000006C   ....               RCALL   ?Subroutine4
+   \                     ??CrossCallReturnLabel_22:
+   \   0000006E   E001               LDI     R16, 1
+   \                     ??sbros_10:
+   \   00000070   E0E3               LDI     R30, 3
+   \   00000072   ........           JMP     ?EPILOGUE_B3_L09
+    306                }
+    307              
+    308                      delay(1871);
+    309                      return(1);
+    310              }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine4:
+   \   00000000   E40F               LDI     R16, 79
+   \   00000002   E017               LDI     R17, 7
+   \   00000004                      REQUIRE ?Subroutine11
+   \   00000004                      ;               // Fall through to label ?Subroutine11
+    311          
+    312          
+    313          
+    314          
+    315          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    316                            char zamer( void)
+   \                     zamer:
+    317          {
+   \   00000000   939A               ST      -Y, R25
+   \   00000002   938A               ST      -Y, R24
+    318                            char cc;
+    319          
+    320            cc= sbros();
+    321                       if(cc==0) return(0);
+   \   00000004   ....               RCALL   sbros
+   \   00000006   2300               TST     R16
+   \   00000008   F411               BRNE    ??zamer_0
+   \   0000000A   E000               LDI     R16, 0
+   \   0000000C   C00F               RJMP    ??zamer_1
+    322          
+    323          
+    324                          delay(187);
+   \                     ??zamer_0:
+   \   0000000E   EB0B               LDI     R16, 187
+   \   00000010   ....               RCALL   ??Subroutine2_0
+    325                         // delay(129);
+    326                          
+    327                          send_pin(0x33);
+   \                     ??CrossCallReturnLabel_16:
+   \   00000012   E303               LDI     R16, 51
+   \   00000014   ....               RCALL   send_pin
+    328          
+    329          //
+    330          //              read pin
+    331          //
+    332                          for (cc=0;cc<8;cc++) arr_ds[cc]=read_pin();
+   \   00000016   E080               LDI     R24, 0
+   \                     ??zamer_2:
+   \   00000018   ....               RCALL   read_pin
+   \   0000001A   E090               LDI     R25, 0
+   \   0000001C   01FC               MOVW    R31:R30, R25:R24
+   \   0000001E   ....               SUBI    R30, LOW((-(arr_ds) & 0xFFFF))
+   \   00000020   ....               SBCI    R31, (-(arr_ds) & 0xFFFF) >> 8
+   \   00000022   8300               ST      Z, R16
+   \   00000024   9583               INC     R24
+   \   00000026   3088               CPI     R24, 8
+   \   00000028   F3B8               BRCS    ??zamer_2
+    333          
+    334          
+    335          
+    336          
+    337          
+    338              return(1);
+   \   0000002A   E001               LDI     R16, 1
+   \                     ??zamer_1:
+   \   0000002C   ....               RJMP    ?Subroutine10
+    339          } 
+    340           
+    341           
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    342          void ds_handler(void)
+   \                     ds_handler:
+    343          { 
+   \   00000000   ........           CALL    ?PROLOGUE4_L09
+   \   00000004   9724               SBIW    R29:R28, 4
+    344           
+    345           char ii,i,ds_crc;
+    346           int ak;
+    347           union {
+    348             unsigned long int kod;
+    349             unsigned char by[4];
+    350           } tosch;
+    351           
+    352           if(sel_modul!=1)return;
+   \   00000006   9100....           LDS     R16, sel_modul
+   \   0000000A   3001               CPI     R16, 1
+   \   0000000C   F009               BREQ    $+2+2
+   \   0000000E   C09B               RJMP    ??ds_handler_0
+    353           
+    354           if(bit_registr1 & DS_DETECT)
+   \   00000010   ....               LDI     R26, LOW(arr_ds)
+   \   00000012   ....               LDI     R27, (arr_ds) >> 8
+   \   00000014   01FD               MOVW    R31:R30, R27:R26
+   \   00000016   8906               LDD     R16, Z+22
+   \   00000018   FF02               SBRS    R16, 2
+   \   0000001A   C095               RJMP    ??ds_handler_0
+    355          
+    356                           {
+    357                
+    358             //            SOUND_ON;    !!!!!!!!!!!!!!!!!
+    359                             
+    360                           bit_registr1=bit_registr1 & ~DS_DETECT;
+   \   0000001C   7F0B               ANDI    R16, 0xFB
+   \   0000001E   8B06               STD     Z+22, R16
+    361           
+    362                           
+    363                              if(bit_registr1 & BLOCK_TABLETKA) goto end_ds;
+   \   00000020   FD04               SBRC    R16, 4
+   \   00000022   C086               RJMP    ??ds_handler_1
+    364          
+    365                for (ii=0;ii<7;ii++)
+   \   00000024   E080               LDI     R24, 0
+    366                           {
+    367                                       if( zamer()==0) continue;
+   \                     ??ds_handler_2:
+   \   00000026   ....               RCALL   zamer
+   \   00000028   2300               TST     R16
+   \   0000002A   F409               BRNE    $+2+2
+   \   0000002C   C07D               RJMP    ??ds_handler_3
+    368                             
+    369                                     //   zamer();
+    370                                        ds_crc=0;
+   \   0000002E   E020               LDI     R18, 0
+    371                                        ak=0;
+   \   00000030   E040               LDI     R20, 0
+   \   00000032   E050               LDI     R21, 0
+    372                                                    for (i=0;i<7;i++){
+   \   00000034   E000               LDI     R16, 0
+    373                                                                  ak+=arr_ds[i];
+   \                     ??ds_handler_4:
+   \   00000036   E010               LDI     R17, 0
+   \   00000038   01FD               MOVW    R31:R30, R27:R26
+   \   0000003A   0FE0               ADD     R30, R16
+   \   0000003C   1FF1               ADC     R31, R17
+   \   0000003E   8160               LD      R22, Z
+   \   00000040   0F46               ADD     R20, R22
+   \   00000042   1F51               ADC     R21, R17
+    374                                                                  ds_crc=tab_crc[ds_crc ^ arr_ds[i]];
+   \   00000044   ....               LDI     R30, LOW(tab_crc)
+   \   00000046   ....               LDI     R31, (tab_crc) >> 8
+   \   00000048   2726               EOR     R18, R22
+   \   0000004A   0FE2               ADD     R30, R18
+   \   0000004C   1FF1               ADC     R31, R17
+   \   0000004E   9124               LPM     R18, Z
+    375                                                                        }
+   \   00000050   9503               INC     R16
+   \   00000052   3007               CPI     R16, 7
+   \   00000054   F380               BRCS    ??ds_handler_4
+    376          
+    377           
+    378                                                    tosch.by[0]=arr_ds[1];
+   \   00000056   01FD               MOVW    R31:R30, R27:R26
+   \   00000058   8101               LDD     R16, Z+1
+   \   0000005A   8308               ST      Y, R16
+    379                                                    tosch.by[1]=arr_ds[2];
+   \   0000005C   8102               LDD     R16, Z+2
+   \   0000005E   8309               STD     Y+1, R16
+    380                                                    tosch.by[2]=arr_ds[3];
+   \   00000060   8103               LDD     R16, Z+3
+   \   00000062   830A               STD     Y+2, R16
+    381                                                    tosch.by[3]=arr_ds[4];
+   \   00000064   8104               LDD     R16, Z+4
+   \   00000066   830B               STD     Y+3, R16
+    382                                                    
+    383                                                    
+    384          if ( (arr_ds[4]==0xff) || ( ak==1785) || ( ak==0 ) || ( tosch.kod > 1000000000 )) continue;   // по просьбе “ощевикова
+   \   00000068   3F0F               CPI     R16, 255
+   \   0000006A   F409               BRNE    $+2+2
+   \   0000006C   C05D               RJMP    ??ds_handler_3
+   \   0000006E   3F49               CPI     R20, 249
+   \   00000070   E006               LDI     R16, 6
+   \   00000072   0750               CPC     R21, R16
+   \   00000074   F409               BRNE    $+2+2
+   \   00000076   C058               RJMP    ??ds_handler_3
+   \   00000078   2B45               OR      R20, R21
+   \   0000007A   F409               BRNE    $+2+2
+   \   0000007C   C055               RJMP    ??ds_handler_3
+   \   0000007E   8148               LD      R20, Y
+   \   00000080   8159               LDD     R21, Y+1
+   \   00000082   816A               LDD     R22, Y+2
+   \   00000084   817B               LDD     R23, Y+3
+   \   00000086   3041               CPI     R20, 1
+   \   00000088   4C5A               SBCI    R21, 202
+   \   0000008A   496A               SBCI    R22, 154
+   \   0000008C   437B               SBCI    R23, 59
+   \   0000008E   F008               BRCS    $+2+2
+   \   00000090   C04B               RJMP    ??ds_handler_3
+    385                          
+    386                           
+    387                          
+    388                      if((ds_crc==arr_ds[7]) )
+   \   00000092   8107               LDD     R16, Z+7
+   \   00000094   1720               CP      R18, R16
+   \   00000096   F009               BREQ    $+2+2
+   \   00000098   C047               RJMP    ??ds_handler_3
+    389                                              { 
+    390                                                
+    391                                                SOUND_ON;    //probe
+   \   0000009A   9A13               SBI     0x02, 0x03
+    392                                                
+    393                                                nomer_tab=test_tabletka2();
+   \   0000009C   ....               RCALL   test_tabletka2
+   \   0000009E   01FD               MOVW    R31:R30, R27:R26
+   \   000000A0   8B07               STD     Z+23, R16
+    394                                                glutch6=1000; // автодекрементный таймер дл€ разблокировки считывани€ таблетки
+   \   000000A2   EE08               LDI     R16, 232
+   \   000000A4   E013               LDI     R17, 3
+   \   000000A6   8B00               STD     Z+16, R16
+   \   000000A8   8B11               STD     Z+17, R17
+    395                                                bit_registr1=bit_registr1 | BLOCK_TABLETKA;
+   \   000000AA   8906               LDD     R16, Z+22
+   \   000000AC   6100               ORI     R16, 0x10
+   \   000000AE   8B06               STD     Z+22, R16
+    396                                                if ((nomer_tab !=254) && (sost==4)) 
+   \   000000B0   8907               LDD     R16, Z+23
+   \   000000B2   3F0E               CPI     R16, 254
+   \   000000B4   F061               BREQ    ??ds_handler_5
+   \   000000B6   ....               LDI     R30, LOW(sost)
+   \   000000B8   ....               LDI     R31, (sost) >> 8
+   \   000000BA   8100               LD      R16, Z
+   \   000000BC   8111               LDD     R17, Z+1
+   \   000000BE   3004               CPI     R16, 4
+   \   000000C0   4010               SBCI    R17, 0
+   \   000000C2   F429               BRNE    ??ds_handler_5
+    397                                                    {
+    398                                                    bit_registr1=bit_registr1 | TABLETKA;
+   \   000000C4   01FD               MOVW    R31:R30, R27:R26
+   \   000000C6   8906               LDD     R16, Z+22
+   \   000000C8   6008               ORI     R16, 0x08
+   \   000000CA   8B06               STD     Z+22, R16
+    399                                                    //timer_samovzatia=0; ???????
+    400                                                    //flag_sam_sam=0;   ???????
+    401                                                    //TIFR=TIFR | 0x20; ???????
+    402                                                    //TIMSK=TIMSK | 0x20;   // ICR enable  ??????
+    403                                                      goto end_ds;
+   \   000000CC   C031               RJMP    ??ds_handler_1
+    404                                                    
+    405                                                     // delay(184);
+    406                                                      //TCH_O_ZERO;
+    407                                                      //EIFR=EIFR   | 0x02;  
+    408                                                      //EIMSK=EIMSK | 0x02;   // INT1 enable
+    409                                                      //SOUND_OFF;  
+    410                                                      // return;
+    411                                                      }
+    412                                                
+    413                                            //    if(nomer_tab==0) goto end_ds;
+    414                                            //    bit_registr1=bit_registr1 | TABLETKA;
+    415                                            //    goto end_ds;
+    416                                                
+    417                                              // проверка повторного поднесени€ ключа
+    418                                                
+    419                                                if (podnos !=0) 
+   \                     ??ds_handler_5:
+   \   000000CE   01FD               MOVW    R31:R30, R27:R26
+   \   000000D0   8104               LDD     R16, Z+4
+   \   000000D2   8113               LDD     R17, Z+3
+   \   000000D4   8122               LDD     R18, Z+2
+   \   000000D6   8131               LDD     R19, Z+1
+   \   000000D8   8D40               LDD     R20, Z+24
+   \   000000DA   2344               TST     R20
+   \   000000DC   F0A1               BREQ    ??ds_handler_6
+    420                                                        {
+    421                                                          if(kodec[0]!=arr_ds[1]) { podnos=0;goto bad_pod;}
+   \   000000DE   8544               LDD     R20, Z+12
+   \   000000E0   1743               CP      R20, R19
+   \   000000E2   F489               BRNE    ??ds_handler_6
+    422                                                          if(kodec[1]!=arr_ds[2]) { podnos=0;goto bad_pod;}
+   \   000000E4   8545               LDD     R20, Z+13
+   \   000000E6   1742               CP      R20, R18
+   \   000000E8   F471               BRNE    ??ds_handler_6
+    423                                                          if(kodec[2]!=arr_ds[3]) { podnos=0;goto bad_pod;}
+   \   000000EA   8546               LDD     R20, Z+14
+   \   000000EC   1741               CP      R20, R17
+   \   000000EE   F459               BRNE    ??ds_handler_6
+    424                                                          if(kodec[3]!=arr_ds[4]) { podnos=0;goto bad_pod;}
+   \   000000F0   8547               LDD     R20, Z+15
+   \   000000F2   1740               CP      R20, R16
+   \   000000F4   F441               BRNE    ??ds_handler_6
+    425                                                          podnos++;
+   \   000000F6   8D00               LDD     R16, Z+24
+   \   000000F8   9503               INC     R16
+   \   000000FA   8F00               STD     Z+24, R16
+    426                                                          window_prihod_uhod=40;
+   \   000000FC   E208               LDI     R16, 40
+   \   000000FE   E010               LDI     R17, 0
+   \   00000100   8B04               STD     Z+20, R16
+   \   00000102   8B15               STD     Z+21, R17
+    427                                                          goto end_ds;
+   \   00000104   C015               RJMP    ??ds_handler_1
+    428                                                         }
+    429                                              
+    430                                              bad_pod:                    
+    431                                                if( podnos==0) { 
+    432                                                                 kodec[0]=arr_ds[1];
+   \                     ??ds_handler_6:
+   \   00000106   8734               STD     Z+12, R19
+    433                                                                 kodec[1]=arr_ds[2];
+   \   00000108   8725               STD     Z+13, R18
+    434                                                                 kodec[2]=arr_ds[3];
+   \   0000010A   8716               STD     Z+14, R17
+    435                                                                 kodec[3]=arr_ds[4];
+   \   0000010C   8707               STD     Z+15, R16
+    436                                                                 podnos=1;
+   \   0000010E   E001               LDI     R16, 1
+   \   00000110   8F00               STD     Z+24, R16
+    437                                                                 window_prihod_uhod=5440;
+   \   00000112   E400               LDI     R16, 64
+   \   00000114   E115               LDI     R17, 21
+   \   00000116   8B04               STD     Z+20, R16
+   \   00000118   8B15               STD     Z+21, R17
+    438                                                                 prihod_uhod=3;
+   \   0000011A   E003               LDI     R16, 3
+   \   0000011C   8F01               STD     Z+25, R16
+    439                                                                 glutch5=2040;
+   \   0000011E   EF08               LDI     R16, 248
+   \   00000120   E017               LDI     R17, 7
+   \   00000122   8B02               STD     Z+18, R16
+   \   00000124   8B13               STD     Z+19, R17
+    440                                                                 goto end_ds;
+   \   00000126   C004               RJMP    ??ds_handler_1
+    441                                                                 }
+    442                                              
+    443                                              
+    444                                              
+    445                                              
+    446                                              
+    447                                              }
+    448          
+    449                                         }// к фор
+   \                     ??ds_handler_3:
+   \   00000128   9583               INC     R24
+   \   0000012A   3087               CPI     R24, 7
+   \   0000012C   F408               BRCC    $+2+2
+   \   0000012E   CF7B               RJMP    ??ds_handler_2
+    450          
+    451          
+    452                           
+    453                         
+    454          end_ds:
+    455                                delay(267);
+   \                     ??ds_handler_1:
+   \   00000130   E00B               LDI     R16, 11
+   \   00000132   ....               RCALL   ?Subroutine7
+    456                              //  delay(184);
+    457                                
+    458                                TCH_O_ZERO;
+   \                     ??CrossCallReturnLabel_14:
+   \   00000134   ....               RCALL   ?Subroutine9
+    459                                EIFR=EIFR   | 0x02;  
+   \                     ??CrossCallReturnLabel_13:
+   \   00000136   9AE1               SBI     0x1C, 0x01
+    460                               // EIMSK=EIMSK | 0x02;   // INT1 enable
+    461                                PCIFR=PCIFR | 0x04;
+   \   00000138   9ADA               SBI     0x1B, 0x02
+    462                                PCMSK2=PCMSK2 | 0x80;
+   \   0000013A   9100006D           LDS     R16, 109
+   \   0000013E   6800               ORI     R16, 0x80
+   \   00000140   9300006D           STS     109, R16
+    463                                //_NOP();
+    464          
+    465          SOUND_OFF;  
+   \   00000144   9813               CBI     0x02, 0x03
+   \                     ??ds_handler_0:
+   \   00000146   ....               RJMP    ?Subroutine8
+    466          
+    467          
+    468                      }
+    469                      
+    470          }
+
+   Maximum stack usage in bytes:
+
+     Function              CSTACK RSTACK
+     --------              ------ ------
+     ds_handler                8      3
+       -> zamer                8      3
+       -> test_tabletka2       8      3
+       -> delay                8      3
+     read_pin                  2      3
+       -> delay                2      3
+       -> delay                2      3
+       -> delay                2      3
+     sbros                     3      3
+       -> delay                3      3
+       -> delay                3      3
+       -> delay                3      3
+       -> delay                3      3
+       -> delay                3      3
+       -> delay                3      3
+     send_pin                  2      3
+       -> delay                2      3
+       -> delay                2      3
+       -> delay                2      3
+     test_tabletka2            8      6
+       -> RdFromFleshToArr     8      3
+     zamer                     2      3
+       -> sbros                2      3
+       -> delay                2      3
+       -> send_pin             2      3
+       -> read_pin             2      3
+
+
+   Segment part sizes:
+
+     Function/Label  Bytes
+     --------------  -----
+     _A_PORTK           1
+     _A_PINK            1
+     _A_PCMSK2          1
+     _A_EIFR            1
+     _A_PCIFR           1
+     _A_PORTA           1
+     arr_ds            26
+     tim_prihod_uhod    2
+     test_tabletka2    98
+     ?Subroutine8       8
+     ?Subroutine0      20
+     send_pin          36
+     ?Subroutine10      6
+     ?Subroutine3      10
+     ?Subroutine1       6
+     ?Subroutine9      12
+     ?Subroutine11      4
+     ?Subroutine2       6
+     read_pin          36
+     ?Subroutine6       6
+     ?Subroutine7       4
+     sbros            118
+     ?Subroutine4       4
+     zamer             46
+     ds_handler       328
+      Others            7
+
+ 
+   6 bytes in segment ABSOLUTE
+ 748 bytes in segment FARCODE
+   7 bytes in segment INITTAB
+  28 bytes in segment NEAR_Z
+ 
+ 748 bytes of CODE memory (+ 7 bytes shared)
+  28 bytes of DATA memory (+ 6 bytes shared)
+
+Errors: none
+Warnings: none

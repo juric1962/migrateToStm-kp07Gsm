@@ -1,0 +1,117 @@
+#include "inc.h"
+
+PUBLIC read_boot_ver
+EXTERN buf_boot_ver      ; массив 10 байт куда скидивается название секции boot описан в idterm1.c
+
+SPMEN   EQU  0
+PGERS   EQU  1
+PGWRT   EQU  2
+BLBSET  EQU  3
+RWWSRE  EQU  4
+RWWSB   EQU  6
+SPMIE   EQU  7
+
+
+EEWE    EQU  1  
+
+
+sfrb SPMCR = 0x37;
+sfrb SREG = 0x3F;   
+sfrb EECR = 0x1F; 
+sfrb RAMPZ = 59 
+sfrb EIND = 0x3C;
+ 
+RSEG BOOTLOADER:CODE
+point_loader:
+#ifdef version_s_zagruzchk
+db 'BOOT128'
+#endif
+
+RSEG CODE
+
+       
+ Do_spm_pp:
+             ; check for previous SPM complete
+ Wait_spm_pp:
+ ;lds  r16, SPMCR
+ in r16, SPMCR
+ sbrc r16, SPMEN
+ rjmp Wait_spm_pp
+              ; input: r20 determines SPM action
+              ; disable interrupts if enabled, store status
+ in r17, SREG
+ cli
+    
+              ; check that no EEPROM write access is present
+ 
+  
+ Wait_ee_pp:
+ sbic EECR, EEWE
+ rjmp Wait_ee_pp
+              ; SPM timed sequence
+ //sts SPMCR, r20
+ ;DW 0x95e8
+ out SPMCR, r20
+ spm            ; restore SREG (to enable interrupts if originally enabled)
+ out SREG, r17
+ ret        
+
+read_boot_ver:
+
+    push r16
+    push r17
+    push r30
+    push r31
+    push r28
+    push r29
+    push r20
+    push r0
+    push r1
+    push r24
+    push r25
+    push r21
+
+
+
+;------ похоже этого не надо для чтения из памяти
+;ldi r20, (1<<RWWSRE) | (1<<SPMEN)
+;call Do_spm_pp
+;------ похоже этого не надо для чтения из памяти
+; адрес строки версии лодера
+;  ldi r30,low(point_loader)
+;  ldi r31,high(point_loader>>8)
+
+  ldi r30,0xE0       ; FFFE адрес boota
+  ldi r31,0xFF
+  
+; куда скинуть даныые в память
+   ldi r28, low(buf_boot_ver)  
+   ldi r29, high(buf_boot_ver) 
+   ldi r24,3
+   out RAMPZ,r24    ; четвертая страница
+   ldi r24,7       ; десять символов
+ Rdloop2_pp:
+   elpm 
+   adiw r30,1
+   st  Y+,r0;
+   subi r24, 1 
+   brne Rdloop2_pp
+   
+   pop r21 
+   pop r25
+   pop r24
+   pop r1
+   pop r0
+   pop r20
+   pop r29
+   pop r28
+   pop r31
+   pop r30
+   pop r17
+   pop r16
+   
+   
+   
+   ret
+
+end

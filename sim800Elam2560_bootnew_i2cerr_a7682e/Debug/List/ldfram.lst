@@ -1,0 +1,1654 @@
+##############################################################################
+#                                                                            #
+#                                                      07/Aug/2007  17:25:03 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  D:\PRJIAR\KP7(260707)\ldfram.c                          #
+#    Command line =  "D:\PRJIAR\KP7(260707)\ldfram.c" --cpu=m1280 -ms -o     #
+#                    "D:\PRJIAR\KP7(260707)\Debug\Obj\" -lCN                 #
+#                    "D:\PRJIAR\KP7(260707)\Debug\List\" -y                  #
+#                    --initializers_in_flash -z6 --no_inline                 #
+#                    --no_cross_call --no_tbaa --debug -e -I "D:\Program     #
+#                    Files\IAR Systems\Embedded Workbench 4.0                #
+#                    Evaluation\avr\INC\" -I "D:\Program Files\IAR           #
+#                    Systems\Embedded Workbench 4.0                          #
+#                    Evaluation\avr\INC\DLIB\" --eeprom_size 4096            #
+#                    --dlib_config "D:\Program Files\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-3s-ec-n.h"  #
+#    List file    =  D:\PRJIAR\KP7(260707)\Debug\List\ldfram.lst             #
+#    Object file  =  D:\PRJIAR\KP7(260707)\Debug\Obj\ldfram.r90              #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\PRJIAR\KP7(260707)\ldfram.c
+      1          //#include <iom128.h>
+      2          //#include <string.h>
+      3          //#include <stdio.h>
+      4          //#include <inavr.h>
+      5          //#include <stdlib.h>
+      6          //#include "ozu_map.h"
+      7          //#include "def_pin.h"
+      8          #include "map_ef.h"
+      9          #include "def_conf.h"
+     10          //#include "def_link.h"
+     11          //#include "def_log.h"
+     12          
+     13          extern void WrArrayToFlesh(unsigned int adres_flesh,  unsigned char *adres_ozu, unsigned int num,unsigned char flag,unsigned char znach);
+     14          extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,unsigned int num);
+     15          extern unsigned long int burst_ds_r(void);
+     16          extern unsigned int crc_m1(unsigned char *ka,unsigned int num,unsigned int crc);
+     17          
+     18          
+     19          #ifdef VERS_BASE
+     20          __flash char ozu_vers[]  =   {'O','K','0','1','.','0','1',':','1','4','0','5','0','7'};
+     21          #endif
+     22          
+     23          #ifdef VERS_LUFKIN
+     24          __flash char ozu_vers[]  =   {'O','K','0','2','.','0','1',':','1','4','0','5','0','7'};
+     25          #endif
+     26          
+     27          #ifdef VERS_UNKNOWN
+     28          __flash char ozu_vers[]  =   {'O','K','0','0','.','0','1',':','1','4','0','5','0','7'};
+     29          #endif
+     30          
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+     31          __flash char err_t[] = {0xd,0xa,'E','R','R'};
+   \                     err_t:
+   \   00000000   0A0D524552         DB 13, 10, 69, 82, 82
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+     32          __flash char ok_t[] = {0xd,0xa,'O','K'};
+   \                     ok_t:
+   \   00000000   0A0D4B4F           DB 13, 10, 79, 75
+     33          
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+     34          __flash char map_vers[]  =   {'F','K','0','1','.','0','1',':','0','6','0','4','0','7'};
+   \                     map_vers:
+   \   00000000   4B463130302E       DB 70, 75, 48, 49, 46, 48, 49, 58, 48, 54, 48, 52, 48, 55
+   \              3A3136303430
+   \              3730        
+     35          __flash char versia[] = {'V','K','0','1','.','0','1',':','0','2','0','7','0','7'};
+     36          
+     37          __flash char zp_udp[] =        {'U','D','P','p','o','r','t','-','>'};
+     38          __flash char zp_num[]  =       {'N','u','m','-','>'};
+     39          __flash char zp_nat[]  =       {'T','m',' ','s','e','s','-','>'};
+     40          __flash char zp_link[]  =      {'T','m',' ','c','c','h','-','>'};
+     41          __flash char zp_tm_link[]  =   {'T','m',' ','a','n','s','-','>'};
+     42          __flash char zp_tm_vz[]    =   {'T','m',' ','s','e','q','-','>'};
+     43          __flash char zp_tm_cl[]    =   {'T','m',' ','c','l','-','>'};
+     44          __flash char zp_num_seq[]   =  {'C','l',' ','s','e','q','-','>'};
+     45          __flash char zp_des_seq[]   =  {'D','e','s',' ','s','e','q','-','>'};
+     46          __flash char zp_des_gprs[]   =  {'D','e','s',' ','g','p','r','s','-','>'};
+     47          __flash char zp_gprs_s[]   =     {'S','.','r','s','2','3','2','-','>'};
+     48          __flash char zp_ts1[]=         {'T','S','1','-','8','-','-','>'};
+     49          __flash char zp_ts2[]=         {'T','S','9','-','1','6','-','>'};
+     50          __flash char zp_vosst[]=       {'S','e','t',' ','d','e','f','-','>'};
+     51          
+     52          __flash char zp_time[]=       {'T','i','m','e','-','>'};
+     53          __flash char zp_date[]=       {'D','a','t','e','-','>'};
+     54          __flash char zp_log_file[]=    {'L','o','g',' ','f','i','l','e','-','>'};
+     55          
+     56          
+     57          __flash unsigned char def_apn[] = {'i','n','t','e','r','n','e','t','.','m','t','s','.','r','u',0x00};
+   \                     def_apn:
+   \   0000000E   6E6965746E72       DB 105, 110, 116, 101, 114, 110, 101, 116, 46, 109, 116, 115, 46, 114
+   \              74656D2E7374
+   \              722E        
+   \   0000001C   0075               DB 117, 0
+     58          __flash unsigned char def_usname[] = {0x00};   
+     59          __flash unsigned char def_uspsw[] = {0x00}; 
+     60          
+     61          
+     62          __flash unsigned char def_apn1[] = {'i','n','t','e','r','n','e','t','.','m','t','s','.','r','u',0x00};
+     63          __flash unsigned char def_usname1[] = {0x00};   
+     64          __flash unsigned char def_uspsw1[] = {0x00}; 
+     65          
+     66          __flash unsigned char def_apn2[] = {'i','n','t','e','r','n','e','t','.','b','e','e','l','i','n','e','.','r','u',0x00};
+     67          __flash unsigned char def_usname2[] = {'b','e','e','l','i','n','e',0x00};   
+   \                     def_usname2:
+   \   0000001E   65626C656E69       DB 98, 101, 101, 108, 105, 110, 101, 0
+   \              0065        
+     68          __flash unsigned char def_uspsw2[] = {'b','e','e','l','i','n','e',0x00}; 
+   \                     def_uspsw2:
+   \   00000026   65626C656E69       DB 98, 101, 101, 108, 105, 110, 101, 0
+   \              0065        
+     69          
+     70          __flash unsigned char def_apn3[] = {'i','n','t','e','r','n','e','t',0x00};
+   \                     def_apn3:
+   \   0000002E   6E6965746E72       DB 105, 110, 116, 101, 114, 110, 101, 116, 0
+   \              746500      
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     versia:
+   \   00000000   4B563130302E       DB 86, 75, 48, 49, 46, 48, 49, 58, 48, 50, 48, 55, 48, 55
+   \              3A3132303730
+   \              3730        
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_udp:
+   \   00000000   44557050726F       DB 85, 68, 80, 112, 111, 114, 116, 45, 62
+   \              2D743E      
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_num:
+   \   00000000   754E2D6D3E         DB 78, 117, 109, 45, 62
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_nat:
+   \   00000000   6D5473207365       DB 84, 109, 32, 115, 101, 115, 45, 62
+   \              3E2D        
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_link:
+   \   00000000   6D5463206863       DB 84, 109, 32, 99, 99, 104, 45, 62
+   \              3E2D        
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_tm_link:
+   \   00000000   6D546120736E       DB 84, 109, 32, 97, 110, 115, 45, 62
+   \              3E2D        
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_tm_vz:
+   \   00000000   6D5473207165       DB 84, 109, 32, 115, 101, 113, 45, 62
+   \              3E2D        
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_tm_cl:
+   \   00000000   6D5463202D6C       DB 84, 109, 32, 99, 108, 45, 62
+   \              3E          
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_num_seq:
+   \   00000000   6C4373207165       DB 67, 108, 32, 115, 101, 113, 45, 62
+   \              3E2D        
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_des_seq:
+   \   00000000   654420736573       DB 68, 101, 115, 32, 115, 101, 113, 45, 62
+   \              2D713E      
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_des_gprs:
+   \   00000000   654420737067       DB 68, 101, 115, 32, 103, 112, 114, 115, 45, 62
+   \              73723E2D    
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_gprs_s:
+   \   00000000   2E5373723332       DB 83, 46, 114, 115, 50, 51, 50, 45, 62
+   \              2D323E      
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_ts1:
+   \   00000000   53542D312D38       DB 84, 83, 49, 45, 56, 45, 45, 62
+   \              3E2D        
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_ts2:
+   \   00000000   53542D393631       DB 84, 83, 57, 45, 49, 54, 45, 62
+   \              3E2D        
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_vosst:
+   \   00000000   655320746564       DB 83, 101, 116, 32, 100, 101, 102, 45, 62
+   \              2D663E      
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_time:
+   \   00000000   6954656D3E2D       DB 84, 105, 109, 101, 45, 62
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_date:
+   \   00000000   614465743E2D       DB 68, 97, 116, 101, 45, 62
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     zp_log_file:
+   \   00000000   6F4C20676966       DB 76, 111, 103, 32, 102, 105, 108, 101, 45, 62
+   \              656C3E2D    
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     def_usname:
+   \   00000000   00                 DB 0
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     def_uspsw:
+   \   00000000   00                 DB 0
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     def_apn1:
+   \   00000000   6E6965746E72       DB 105, 110, 116, 101, 114, 110, 101, 116, 46, 109, 116, 115, 46, 114
+   \              74656D2E7374
+   \              722E        
+   \   0000000E   0075               DB 117, 0
+   \                     def_apn2:
+   \   00000010   6E6965746E72       DB 105, 110, 116, 101, 114, 110, 101, 116, 46, 98, 101, 101, 108, 105
+   \              7465622E6565
+   \              696C        
+   \   0000001E   656E722E0075       DB 110, 101, 46, 114, 117, 0
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     def_usname1:
+   \   00000000   00                 DB 0
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+   \                     def_uspsw1:
+   \   00000000   00                 DB 0
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+     71          __flash unsigned char def_usname3[] = {0x00};   
+   \                     def_usname3:
+   \   00000000   00                 DB 0
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+     72          __flash unsigned char def_uspsw3[] = {0x00}; 
+   \                     def_uspsw3:
+   \   00000000   00                 DB 0
+     73          
+     74          
+     75          
+     76          
+
+   \                                 In segment CODE, align 2, keep-with-next
+     77          void vosstan_memory(void)
+   \                     vosstan_memory:
+     78          {
+   \   00000000   93BA               ST      -Y, R27
+   \   00000002   93AA               ST      -Y, R26
+   \   00000004   97EF               SBIW    R29:R28, 63
+   \   00000006   9727               SBIW    R29:R28, 7
+     79          unsigned char i,j,buf[70],temp;
+     80          
+     81          
+     82             j=sizeof(map_vers);
+     83             for(i=0;i<j;i++)buf[i]=map_vers[i];
+   \   00000008   E000               LDI     R16, 0
+   \   0000000A   C00C               RJMP    ??vosstan_memory_0
+   \                     ??vosstan_memory_1:
+   \   0000000C   2F20               MOV     R18, R16
+   \   0000000E   E030               LDI     R19, 0
+   \   00000010   ....               LDI     R30, LOW(map_vers)
+   \   00000012   ....               LDI     R31, (map_vers) >> 8
+   \   00000014   0FE2               ADD     R30, R18
+   \   00000016   1FF3               ADC     R31, R19
+   \   00000018   9114               LPM     R17, Z
+   \   0000001A   01FE               MOVW    R31:R30, R29:R28
+   \   0000001C   0FE2               ADD     R30, R18
+   \   0000001E   1FF3               ADC     R31, R19
+   \   00000020   8310               ST      Z, R17
+   \   00000022   9503               INC     R16
+   \                     ??vosstan_memory_0:
+   \   00000024   300E               CPI     R16, 14
+   \   00000026   F390               BRCS    ??vosstan_memory_1
+     84             *(unsigned int*)&buf[j]=crc_m1(&buf[0],j,0xffff);
+   \   00000028   EF4F               LDI     R20, 255
+   \   0000002A   EF5F               LDI     R21, 255
+   \   0000002C   E02E               LDI     R18, 14
+   \   0000002E   E030               LDI     R19, 0
+   \   00000030   018E               MOVW    R17:R16, R29:R28
+   \   00000032   ........           CALL    crc_m1
+   \   00000036   870E               STD     Y+14, R16
+   \   00000038   871F               STD     Y+15, R17
+     85             WrArrayToFlesh(A_VER_MAP, &buf[0],j+2,0,0);
+   \   0000003A   E070               LDI     R23, 0
+   \   0000003C   E060               LDI     R22, 0
+   \   0000003E   E140               LDI     R20, 16
+   \   00000040   E050               LDI     R21, 0
+   \   00000042   019E               MOVW    R19:R18, R29:R28
+   \   00000044   E000               LDI     R16, 0
+   \   00000046   E010               LDI     R17, 0
+   \   00000048   ........           CALL    WrArrayToFlesh
+     86          
+     87          
+     88          //загрузка поумолчанию
+     89               temp=sizeof(def_apn)-1;
+     90               j=0;
+     91               buf[0]=temp;
+   \   0000004C   E00F               LDI     R16, 15
+   \   0000004E   8308               ST      Y, R16
+     92               j=1;
+   \   00000050   E021               LDI     R18, 1
+     93               for(i=0;i<temp;i++){buf[j]=def_apn[i];j++;}
+   \   00000052   E000               LDI     R16, 0
+   \   00000054   C009               RJMP    ??vosstan_memory_2
+   \                     ??vosstan_memory_3:
+   \   00000056   ....               LDI     R30, LOW((map_vers + 14))
+   \   00000058   ....               LDI     R31, HIGH((map_vers + 14))
+   \   0000005A   0FE0               ADD     R30, R16
+   \   0000005C   1FF3               ADC     R31, R19
+   \   0000005E   9114               LPM     R17, Z
+   \   00000060   01FD               MOVW    R31:R30, R27:R26
+   \   00000062   8310               ST      Z, R17
+   \   00000064   9523               INC     R18
+   \   00000066   9503               INC     R16
+   \                     ??vosstan_memory_2:
+   \   00000068   01DE               MOVW    R27:R26, R29:R28
+   \   0000006A   E030               LDI     R19, 0
+   \   0000006C   0FA2               ADD     R26, R18
+   \   0000006E   1FB3               ADC     R27, R19
+   \   00000070   300F               CPI     R16, 15
+   \   00000072   F388               BRCS    ??vosstan_memory_3
+     94               
+     95               temp=sizeof(def_usname)-1;
+     96               buf[j]=temp;
+   \   00000074   E000               LDI     R16, 0
+   \   00000076   933C               ST      X, R19
+     97               j++;
+   \   00000078   9523               INC     R18
+     98               for(i=0;i<temp;i++){buf[j]=def_usname[i];j++;} 
+     99               
+    100               temp=sizeof(def_uspsw)-1;
+    101               buf[j]=temp;
+   \   0000007A   01FE               MOVW    R31:R30, R29:R28
+   \   0000007C   0FE2               ADD     R30, R18
+   \   0000007E   1FF3               ADC     R31, R19
+   \   00000080   8330               ST      Z, R19
+    102               j++;
+   \   00000082   9523               INC     R18
+    103               for(i=0;i<temp;i++){buf[j]=def_uspsw[i];j++;}
+    104               
+    105               for(i=0;i<L_C_GPRS_MAX;i++){buf[j]=0;j++;}
+   \   00000084   C006               RJMP    ??vosstan_memory_4
+   \                     ??vosstan_memory_5:
+   \   00000086   01FE               MOVW    R31:R30, R29:R28
+   \   00000088   0FE2               ADD     R30, R18
+   \   0000008A   1FF3               ADC     R31, R19
+   \   0000008C   8330               ST      Z, R19
+   \   0000008E   9523               INC     R18
+   \   00000090   9503               INC     R16
+   \                     ??vosstan_memory_4:
+   \   00000092   330C               CPI     R16, 60
+   \   00000094   F3C0               BRCS    ??vosstan_memory_5
+    106               *(unsigned int*)&buf[L_C_GPRS_MAX-2]=crc_m1(&buf[0],L_C_GPRS_MAX-2,0xffff);
+   \   00000096   EF4F               LDI     R20, 255
+   \   00000098   EF5F               LDI     R21, 255
+   \   0000009A   E32A               LDI     R18, 58
+   \   0000009C   018E               MOVW    R17:R16, R29:R28
+   \   0000009E   ........           CALL    crc_m1
+   \   000000A2   AF0A               STD     Y+58, R16
+   \   000000A4   AF1B               STD     Y+59, R17
+    107               WrArrayToFlesh(A_C_GPRS, &buf[0],L_C_GPRS_MAX,0,0);
+   \   000000A6   E070               LDI     R23, 0
+   \   000000A8   E060               LDI     R22, 0
+   \   000000AA   E34C               LDI     R20, 60
+   \   000000AC   E050               LDI     R21, 0
+   \   000000AE   019E               MOVW    R19:R18, R29:R28
+   \   000000B0   E104               LDI     R16, 20
+   \   000000B2   E010               LDI     R17, 0
+   \   000000B4   ........           CALL    WrArrayToFlesh
+    108               
+    109               buf[OFS_IP]=DEF_IP_SRV_0;
+   \   000000B8   E508               LDI     R16, 88
+   \   000000BA   8308               ST      Y, R16
+    110               buf[OFS_IP+1]=DEF_IP_SRV_1;
+   \   000000BC   E502               LDI     R16, 82
+   \   000000BE   8309               STD     Y+1, R16
+    111               buf[OFS_IP+2]=DEF_IP_SRV_2;
+   \   000000C0   E405               LDI     R16, 69
+   \   000000C2   830A               STD     Y+2, R16
+    112               buf[OFS_IP+3]=DEF_IP_SRV_3;
+   \   000000C4   EE04               LDI     R16, 228
+   \   000000C6   830B               STD     Y+3, R16
+    113             *(unsigned int*)&buf[OFS_PORT]=DEF_UDP_PORT;//UDP порт
+   \   000000C8   E808               LDI     R16, 136
+   \   000000CA   E113               LDI     R17, 19
+   \   000000CC   830C               STD     Y+4, R16
+   \   000000CE   831D               STD     Y+5, R17
+    114             *(unsigned int*)&buf[OFS_NUM]=DEF_NUM_SELF;//свой номер по умолчанию  
+   \   000000D0   E002               LDI     R16, 2
+   \   000000D2   E010               LDI     R17, 0
+   \   000000D4   830E               STD     Y+6, R16
+   \   000000D6   831F               STD     Y+7, R17
+    115             *(unsigned int*)&buf[OFS_IP_PAR_CRC]=crc_m1(&buf[0],L_IP_PAR-2,0xffff);
+   \   000000D8   EF4F               LDI     R20, 255
+   \   000000DA   EF5F               LDI     R21, 255
+   \   000000DC   E028               LDI     R18, 8
+   \   000000DE   E030               LDI     R19, 0
+   \   000000E0   018E               MOVW    R17:R16, R29:R28
+   \   000000E2   ........           CALL    crc_m1
+   \   000000E6   8708               STD     Y+8, R16
+   \   000000E8   8719               STD     Y+9, R17
+    116               WrArrayToFlesh(A_IP_PAR, &buf[0],L_IP_PAR,0,0);
+   \   000000EA   E070               LDI     R23, 0
+   \   000000EC   E060               LDI     R22, 0
+   \   000000EE   E04A               LDI     R20, 10
+   \   000000F0   E050               LDI     R21, 0
+   \   000000F2   019E               MOVW    R19:R18, R29:R28
+   \   000000F4   E500               LDI     R16, 80
+   \   000000F6   E010               LDI     R17, 0
+   \   000000F8   ........           CALL    WrArrayToFlesh
+    117               
+    118               
+    119             *(unsigned int*)&buf[OFS_NAT]=DEF_CNTR_NAT;
+   \   000000FC   E20D               LDI     R16, 45
+   \   000000FE   E010               LDI     R17, 0
+   \   00000100   8308               ST      Y, R16
+   \   00000102   8319               STD     Y+1, R17
+    120             *(unsigned int*)&buf[OFS_CCH]=DEF_CNTR_LINK;
+   \   00000104   E708               LDI     R16, 120
+   \   00000106   830A               STD     Y+2, R16
+   \   00000108   831B               STD     Y+3, R17
+    121             *(unsigned int*)&buf[OFS_TM_CH]=DEF_TM_CNTR_LINK;
+   \   0000010A   E30E               LDI     R16, 62
+   \   0000010C   830C               STD     Y+4, R16
+   \   0000010E   831D               STD     Y+5, R17
+    122             *(unsigned int*)&buf[OFS_C_PAR_CRC]=crc_m1(&buf[0],L_C_PAR-2,0xffff);
+   \   00000110   EF4F               LDI     R20, 255
+   \   00000112   EF5F               LDI     R21, 255
+   \   00000114   E026               LDI     R18, 6
+   \   00000116   E030               LDI     R19, 0
+   \   00000118   018E               MOVW    R17:R16, R29:R28
+   \   0000011A   ........           CALL    crc_m1
+   \   0000011E   830E               STD     Y+6, R16
+   \   00000120   831F               STD     Y+7, R17
+    123               WrArrayToFlesh(A_C_PAR, &buf[0],L_C_PAR,0,0);
+   \   00000122   E070               LDI     R23, 0
+   \   00000124   E060               LDI     R22, 0
+   \   00000126   E048               LDI     R20, 8
+   \   00000128   E050               LDI     R21, 0
+   \   0000012A   019E               MOVW    R19:R18, R29:R28
+   \   0000012C   E50A               LDI     R16, 90
+   \   0000012E   E010               LDI     R17, 0
+   \   00000130   ........           CALL    WrArrayToFlesh
+    124               
+    125                buf[OFS_DES_SEQ]=~DEF_DES_SEQ; 
+   \   00000134   EF0E               LDI     R16, 254
+   \   00000136   8308               ST      Y, R16
+    126             *(unsigned int*)&buf[OFS_NUM_CL]=DEF_NUM_DST_SEQ;
+   \   00000138   EF0F               LDI     R16, 255
+   \   0000013A   8309               STD     Y+1, R16
+   \   0000013C   830A               STD     Y+2, R16
+    127             *(unsigned int*)&buf[OFS_TM_VZ]=DEF_VOL_TM_VZAT;
+   \   0000013E   E10E               LDI     R16, 30
+   \   00000140   E010               LDI     R17, 0
+   \   00000142   830B               STD     Y+3, R16
+   \   00000144   831C               STD     Y+4, R17
+    128             *(unsigned int*)&buf[OFS_TM_CL]=DEF_TM_CNTR_CL;
+   \   00000146   E00A               LDI     R16, 10
+   \   00000148   830D               STD     Y+5, R16
+   \   0000014A   831E               STD     Y+6, R17
+    129             *(unsigned int*)&buf[OFS_SEQ_PAR_CRC]=crc_m1(&buf[0],L_SEQ_PAR-2,0xffff);
+   \   0000014C   EF4F               LDI     R20, 255
+   \   0000014E   EF5F               LDI     R21, 255
+   \   00000150   E027               LDI     R18, 7
+   \   00000152   E030               LDI     R19, 0
+   \   00000154   018E               MOVW    R17:R16, R29:R28
+   \   00000156   ........           CALL    crc_m1
+   \   0000015A   830F               STD     Y+7, R16
+   \   0000015C   8718               STD     Y+8, R17
+    130               WrArrayToFlesh(A_SEQ_PAR, &buf[0],L_SEQ_PAR,0,0);
+   \   0000015E   E070               LDI     R23, 0
+   \   00000160   E060               LDI     R22, 0
+   \   00000162   E049               LDI     R20, 9
+   \   00000164   E050               LDI     R21, 0
+   \   00000166   019E               MOVW    R19:R18, R29:R28
+   \   00000168   E602               LDI     R16, 98
+   \   0000016A   E010               LDI     R17, 0
+   \   0000016C   ........           CALL    WrArrayToFlesh
+    131               
+    132               buf[OFS_GPRS_DES]=~DEF_DES_PORT_GPRS; 
+   \   00000170   EF0E               LDI     R16, 254
+   \   00000172   8308               ST      Y, R16
+    133             *(unsigned long int*)&buf[OFS_GPRS_S]=DEF_PORT_GPRS_S;
+   \   00000174   E800               LDI     R16, 128
+   \   00000176   E215               LDI     R17, 37
+   \   00000178   E030               LDI     R19, 0
+   \   0000017A   8309               STD     Y+1, R16
+   \   0000017C   831A               STD     Y+2, R17
+   \   0000017E   833B               STD     Y+3, R19
+   \   00000180   833C               STD     Y+4, R19
+    134             *(unsigned int*)&buf[OFS_PORT_GPRS_CRC]=crc_m1(&buf[0],L_PORT_GPRS-2,0xffff);
+   \   00000182   EF4F               LDI     R20, 255
+   \   00000184   EF5F               LDI     R21, 255
+   \   00000186   E025               LDI     R18, 5
+   \   00000188   018E               MOVW    R17:R16, R29:R28
+   \   0000018A   ........           CALL    crc_m1
+   \   0000018E   830D               STD     Y+5, R16
+   \   00000190   831E               STD     Y+6, R17
+    135               WrArrayToFlesh(A_PORT_GPRS, &buf[0],L_PORT_GPRS,0,0);
+   \   00000192   E070               LDI     R23, 0
+   \   00000194   E060               LDI     R22, 0
+   \   00000196   E047               LDI     R20, 7
+   \   00000198   E050               LDI     R21, 0
+   \   0000019A   019E               MOVW    R19:R18, R29:R28
+   \   0000019C   E60B               LDI     R16, 107
+   \   0000019E   E010               LDI     R17, 0
+   \   000001A0   ........           CALL    WrArrayToFlesh
+    136           
+    137               j=0;
+    138               temp=sizeof(def_apn1)-1;    
+    139               buf[0]=temp;
+   \   000001A4   E00F               LDI     R16, 15
+   \   000001A6   8308               ST      Y, R16
+    140               j=1;
+   \   000001A8   E021               LDI     R18, 1
+    141               for(i=0;i<temp;i++){buf[j]=def_apn1[i];j++;}
+   \   000001AA   E000               LDI     R16, 0
+   \   000001AC   C009               RJMP    ??vosstan_memory_6
+   \                     ??vosstan_memory_7:
+   \   000001AE   ....               LDI     R30, LOW(def_apn1)
+   \   000001B0   ....               LDI     R31, (def_apn1) >> 8
+   \   000001B2   0FE0               ADD     R30, R16
+   \   000001B4   1FF3               ADC     R31, R19
+   \   000001B6   9114               LPM     R17, Z
+   \   000001B8   01FD               MOVW    R31:R30, R27:R26
+   \   000001BA   8310               ST      Z, R17
+   \   000001BC   9523               INC     R18
+   \   000001BE   9503               INC     R16
+   \                     ??vosstan_memory_6:
+   \   000001C0   01DE               MOVW    R27:R26, R29:R28
+   \   000001C2   E030               LDI     R19, 0
+   \   000001C4   0FA2               ADD     R26, R18
+   \   000001C6   1FB3               ADC     R27, R19
+   \   000001C8   300F               CPI     R16, 15
+   \   000001CA   F388               BRCS    ??vosstan_memory_7
+    142              
+    143               temp=sizeof(def_usname1)-1;
+    144               buf[j]=temp;
+   \   000001CC   E000               LDI     R16, 0
+   \   000001CE   933C               ST      X, R19
+    145               j++;
+   \   000001D0   9523               INC     R18
+    146               for(i=0;i<temp;i++){buf[j]=def_usname1[i];j++;} 
+    147              
+    148               temp=sizeof(def_uspsw1)-1;
+    149               buf[j]=temp;
+   \   000001D2   01FE               MOVW    R31:R30, R29:R28
+   \   000001D4   0FE2               ADD     R30, R18
+   \   000001D6   1FF3               ADC     R31, R19
+   \   000001D8   8330               ST      Z, R19
+    150               j++;
+   \   000001DA   9523               INC     R18
+    151               for(i=0;i<temp;i++){buf[j]=def_uspsw1[i];j++;}
+    152              
+    153               for(i=0;i<L_C1_GPRS_MAX;i++){buf[j]=0;j++;}
+   \   000001DC   C006               RJMP    ??vosstan_memory_8
+   \                     ??vosstan_memory_9:
+   \   000001DE   01FE               MOVW    R31:R30, R29:R28
+   \   000001E0   0FE2               ADD     R30, R18
+   \   000001E2   1FF3               ADC     R31, R19
+   \   000001E4   8330               ST      Z, R19
+   \   000001E6   9523               INC     R18
+   \   000001E8   9503               INC     R16
+   \                     ??vosstan_memory_8:
+   \   000001EA   330C               CPI     R16, 60
+   \   000001EC   F3C0               BRCS    ??vosstan_memory_9
+    154               *(unsigned int*)&buf[L_C1_GPRS_MAX-2]=crc_m1(&buf[0],L_C1_GPRS_MAX-2,0xffff);
+   \   000001EE   EF4F               LDI     R20, 255
+   \   000001F0   EF5F               LDI     R21, 255
+   \   000001F2   E32A               LDI     R18, 58
+   \   000001F4   018E               MOVW    R17:R16, R29:R28
+   \   000001F6   ........           CALL    crc_m1
+   \   000001FA   AF0A               STD     Y+58, R16
+   \   000001FC   AF1B               STD     Y+59, R17
+    155               WrArrayToFlesh(A_C1_GPRS, &buf[0],L_C1_GPRS_MAX,0,0);
+   \   000001FE   E070               LDI     R23, 0
+   \   00000200   E060               LDI     R22, 0
+   \   00000202   E34C               LDI     R20, 60
+   \   00000204   E050               LDI     R21, 0
+   \   00000206   019E               MOVW    R19:R18, R29:R28
+   \   00000208   EC08               LDI     R16, 200
+   \   0000020A   E010               LDI     R17, 0
+   \   0000020C   ........           CALL    WrArrayToFlesh
+    156           
+    157               j=0;
+    158               temp=sizeof(def_apn2)-1;
+    159               buf[0]=temp;
+   \   00000210   E103               LDI     R16, 19
+   \   00000212   8308               ST      Y, R16
+    160               j=1;
+   \   00000214   E021               LDI     R18, 1
+    161               for(i=0;i<temp;i++){buf[j]=def_apn2[i];j++;}
+   \   00000216   E000               LDI     R16, 0
+   \   00000218   C009               RJMP    ??vosstan_memory_10
+   \                     ??vosstan_memory_11:
+   \   0000021A   ....               LDI     R30, LOW((def_apn1 + 16))
+   \   0000021C   ....               LDI     R31, HIGH((def_apn1 + 16))
+   \   0000021E   0FE0               ADD     R30, R16
+   \   00000220   1FF3               ADC     R31, R19
+   \   00000222   9114               LPM     R17, Z
+   \   00000224   01FD               MOVW    R31:R30, R27:R26
+   \   00000226   8310               ST      Z, R17
+   \   00000228   9523               INC     R18
+   \   0000022A   9503               INC     R16
+   \                     ??vosstan_memory_10:
+   \   0000022C   01DE               MOVW    R27:R26, R29:R28
+   \   0000022E   E030               LDI     R19, 0
+   \   00000230   0FA2               ADD     R26, R18
+   \   00000232   1FB3               ADC     R27, R19
+   \   00000234   3103               CPI     R16, 19
+   \   00000236   F388               BRCS    ??vosstan_memory_11
+    162               
+    163               temp=sizeof(def_usname2)-1;
+    164               buf[j]=temp;
+   \   00000238   E007               LDI     R16, 7
+   \   0000023A   930C               ST      X, R16
+    165               j++;
+   \   0000023C   9523               INC     R18
+    166               for(i=0;i<temp;i++){buf[j]=def_usname2[i];j++;} 
+   \   0000023E   E000               LDI     R16, 0
+   \   00000240   C009               RJMP    ??vosstan_memory_12
+   \                     ??vosstan_memory_13:
+   \   00000242   ....               LDI     R30, LOW((map_vers + 30))
+   \   00000244   ....               LDI     R31, HIGH((map_vers + 30))
+   \   00000246   0FE0               ADD     R30, R16
+   \   00000248   1FF3               ADC     R31, R19
+   \   0000024A   9114               LPM     R17, Z
+   \   0000024C   01FD               MOVW    R31:R30, R27:R26
+   \   0000024E   8310               ST      Z, R17
+   \   00000250   9523               INC     R18
+   \   00000252   9503               INC     R16
+   \                     ??vosstan_memory_12:
+   \   00000254   01DE               MOVW    R27:R26, R29:R28
+   \   00000256   0FA2               ADD     R26, R18
+   \   00000258   1FB3               ADC     R27, R19
+   \   0000025A   3007               CPI     R16, 7
+   \   0000025C   F390               BRCS    ??vosstan_memory_13
+    167               
+    168               temp=sizeof(def_uspsw2)-1;
+    169               buf[j]=temp;
+   \   0000025E   E007               LDI     R16, 7
+   \   00000260   930C               ST      X, R16
+    170               j++;
+   \   00000262   9523               INC     R18
+    171               for(i=0;i<temp;i++){buf[j]=def_uspsw2[i];j++;}
+   \   00000264   E000               LDI     R16, 0
+   \   00000266   C00B               RJMP    ??vosstan_memory_14
+   \                     ??vosstan_memory_15:
+   \   00000268   ....               LDI     R30, LOW((map_vers + 38))
+   \   0000026A   ....               LDI     R31, HIGH((map_vers + 38))
+   \   0000026C   0FE0               ADD     R30, R16
+   \   0000026E   1FF3               ADC     R31, R19
+   \   00000270   9114               LPM     R17, Z
+   \   00000272   01FE               MOVW    R31:R30, R29:R28
+   \   00000274   0FE2               ADD     R30, R18
+   \   00000276   1FF3               ADC     R31, R19
+   \   00000278   8310               ST      Z, R17
+   \   0000027A   9523               INC     R18
+   \   0000027C   9503               INC     R16
+   \                     ??vosstan_memory_14:
+   \   0000027E   3007               CPI     R16, 7
+   \   00000280   F398               BRCS    ??vosstan_memory_15
+    172               
+    173               for(i=0;i<L_C2_GPRS_MAX;i++){buf[j]=0;j++;}
+   \   00000282   E000               LDI     R16, 0
+   \   00000284   C006               RJMP    ??vosstan_memory_16
+   \                     ??vosstan_memory_17:
+   \   00000286   01FE               MOVW    R31:R30, R29:R28
+   \   00000288   0FE2               ADD     R30, R18
+   \   0000028A   1FF3               ADC     R31, R19
+   \   0000028C   8330               ST      Z, R19
+   \   0000028E   9523               INC     R18
+   \   00000290   9503               INC     R16
+   \                     ??vosstan_memory_16:
+   \   00000292   330C               CPI     R16, 60
+   \   00000294   F3C0               BRCS    ??vosstan_memory_17
+    174               *(unsigned int*)&buf[L_C2_GPRS_MAX-2]=crc_m1(&buf[0],L_C2_GPRS_MAX-2,0xffff);
+   \   00000296   EF4F               LDI     R20, 255
+   \   00000298   EF5F               LDI     R21, 255
+   \   0000029A   E32A               LDI     R18, 58
+   \   0000029C   018E               MOVW    R17:R16, R29:R28
+   \   0000029E   ........           CALL    crc_m1
+   \   000002A2   AF0A               STD     Y+58, R16
+   \   000002A4   AF1B               STD     Y+59, R17
+    175               WrArrayToFlesh(A_C2_GPRS, &buf[0],L_C2_GPRS_MAX,0,0);
+   \   000002A6   E070               LDI     R23, 0
+   \   000002A8   E060               LDI     R22, 0
+   \   000002AA   E34C               LDI     R20, 60
+   \   000002AC   E050               LDI     R21, 0
+   \   000002AE   019E               MOVW    R19:R18, R29:R28
+   \   000002B0   E004               LDI     R16, 4
+   \   000002B2   E011               LDI     R17, 1
+   \   000002B4   ........           CALL    WrArrayToFlesh
+    176           
+    177           
+    178               j=0;
+    179               temp=sizeof(def_apn3)-1;
+    180               buf[0]=temp;
+   \   000002B8   E008               LDI     R16, 8
+   \   000002BA   8308               ST      Y, R16
+    181               j=1;
+   \   000002BC   E021               LDI     R18, 1
+    182               for(i=0;i<temp;i++){buf[j]=def_apn3[i];j++;}
+   \   000002BE   E000               LDI     R16, 0
+   \   000002C0   C009               RJMP    ??vosstan_memory_18
+   \                     ??vosstan_memory_19:
+   \   000002C2   ....               LDI     R30, LOW((map_vers + 46))
+   \   000002C4   ....               LDI     R31, HIGH((map_vers + 46))
+   \   000002C6   0FE0               ADD     R30, R16
+   \   000002C8   1FF3               ADC     R31, R19
+   \   000002CA   9114               LPM     R17, Z
+   \   000002CC   01FD               MOVW    R31:R30, R27:R26
+   \   000002CE   8310               ST      Z, R17
+   \   000002D0   9523               INC     R18
+   \   000002D2   9503               INC     R16
+   \                     ??vosstan_memory_18:
+   \   000002D4   01DE               MOVW    R27:R26, R29:R28
+   \   000002D6   E030               LDI     R19, 0
+   \   000002D8   0FA2               ADD     R26, R18
+   \   000002DA   1FB3               ADC     R27, R19
+   \   000002DC   3008               CPI     R16, 8
+   \   000002DE   F388               BRCS    ??vosstan_memory_19
+    183               
+    184               temp=sizeof(def_usname3)-1;
+    185               buf[j]=temp;
+   \   000002E0   E000               LDI     R16, 0
+   \   000002E2   933C               ST      X, R19
+    186               j++;
+   \   000002E4   9523               INC     R18
+    187               for(i=0;i<temp;i++){buf[j]=def_usname3[i];j++;} 
+    188               
+    189               temp=sizeof(def_uspsw3)-1;
+    190               buf[j]=temp;
+   \   000002E6   01FE               MOVW    R31:R30, R29:R28
+   \   000002E8   0FE2               ADD     R30, R18
+   \   000002EA   1FF3               ADC     R31, R19
+   \   000002EC   8330               ST      Z, R19
+    191               j++;
+   \   000002EE   9523               INC     R18
+    192               for(i=0;i<temp;i++){buf[j]=def_uspsw3[i];j++;}
+    193               
+    194               for(i=0;i<L_C3_GPRS_MAX;i++){buf[j]=0;j++;}
+   \   000002F0   C006               RJMP    ??vosstan_memory_20
+   \                     ??vosstan_memory_21:
+   \   000002F2   01FE               MOVW    R31:R30, R29:R28
+   \   000002F4   0FE2               ADD     R30, R18
+   \   000002F6   1FF3               ADC     R31, R19
+   \   000002F8   8330               ST      Z, R19
+   \   000002FA   9523               INC     R18
+   \   000002FC   9503               INC     R16
+   \                     ??vosstan_memory_20:
+   \   000002FE   330C               CPI     R16, 60
+   \   00000300   F3C0               BRCS    ??vosstan_memory_21
+    195               *(unsigned int*)&buf[L_C3_GPRS_MAX-2]=crc_m1(&buf[0],L_C3_GPRS_MAX-2,0xffff);
+   \   00000302   EF4F               LDI     R20, 255
+   \   00000304   EF5F               LDI     R21, 255
+   \   00000306   E32A               LDI     R18, 58
+   \   00000308   018E               MOVW    R17:R16, R29:R28
+   \   0000030A   ........           CALL    crc_m1
+   \   0000030E   AF0A               STD     Y+58, R16
+   \   00000310   AF1B               STD     Y+59, R17
+    196               WrArrayToFlesh(A_C3_GPRS, &buf[0],L_C3_GPRS_MAX,0,0);
+   \   00000312   E070               LDI     R23, 0
+   \   00000314   E060               LDI     R22, 0
+   \   00000316   E34C               LDI     R20, 60
+   \   00000318   E050               LDI     R21, 0
+   \   0000031A   019E               MOVW    R19:R18, R29:R28
+   \   0000031C   E400               LDI     R16, 64
+   \   0000031E   E011               LDI     R17, 1
+   \   00000320   ........           CALL    WrArrayToFlesh
+    197          }
+   \   00000324   96EF               ADIW    R29:R28, 63
+   \   00000326   9627               ADIW    R29:R28, 7
+   \   00000328   91A9               LD      R26, Y+
+   \   0000032A   91B9               LD      R27, Y+
+   \   0000032C   9508               RET
+    198          
+    199          
+    200          
+    201          
+    202          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    203          unsigned char check_memory_map(void)
+   \                     check_memory_map:
+    204          {
+   \   00000000   ........           CALL    ?PROLOGUE4_L09
+   \   00000004   97EF               SBIW    R29:R28, 63
+   \   00000006   9727               SBIW    R29:R28, 7
+    205          unsigned char i,j,buf[70],temp;
+    206          
+    207          
+    208          j=sizeof(map_vers);
+    209           
+    210          RdFromFleshToArr(A_VER_MAP,&buf[0],j+2);
+   \   00000008   E140               LDI     R20, 16
+   \   0000000A   E050               LDI     R21, 0
+   \   0000000C   019E               MOVW    R19:R18, R29:R28
+   \   0000000E   E000               LDI     R16, 0
+   \   00000010   E010               LDI     R17, 0
+   \   00000012   ........           CALL    RdFromFleshToArr
+    211          if(*(unsigned int*)&buf[j]!=crc_m1(&buf[0],j,0xffff))return(1);
+   \   00000016   858E               LDD     R24, Y+14
+   \   00000018   859F               LDD     R25, Y+15
+   \   0000001A   EF4F               LDI     R20, 255
+   \   0000001C   EF5F               LDI     R21, 255
+   \   0000001E   E02E               LDI     R18, 14
+   \   00000020   E030               LDI     R19, 0
+   \   00000022   018E               MOVW    R17:R16, R29:R28
+   \   00000024   ........           CALL    crc_m1
+   \   00000028   1780               CP      R24, R16
+   \   0000002A   0791               CPC     R25, R17
+   \   0000002C   F011               BREQ    ??check_memory_map_0
+   \                     ??check_memory_map_1:
+   \   0000002E   E001               LDI     R16, 1
+   \   00000030   C216               RJMP    ??check_memory_map_2
+    212          for(i=0;i<j;i++)if(buf[i]==map_vers[i])continue;else return(1);
+   \                     ??check_memory_map_0:
+   \   00000032   E000               LDI     R16, 0
+   \   00000034   C00E               RJMP    ??check_memory_map_3
+   \                     ??check_memory_map_4:
+   \   00000036   2F20               MOV     R18, R16
+   \   00000038   E030               LDI     R19, 0
+   \   0000003A   01FE               MOVW    R31:R30, R29:R28
+   \   0000003C   0FE2               ADD     R30, R18
+   \   0000003E   1FF3               ADC     R31, R19
+   \   00000040   8110               LD      R17, Z
+   \   00000042   ....               LDI     R30, LOW(map_vers)
+   \   00000044   ....               LDI     R31, (map_vers) >> 8
+   \   00000046   0FE2               ADD     R30, R18
+   \   00000048   1FF3               ADC     R31, R19
+   \   0000004A   9124               LPM     R18, Z
+   \   0000004C   1712               CP      R17, R18
+   \   0000004E   F779               BRNE    ??check_memory_map_1
+   \   00000050   9503               INC     R16
+   \                     ??check_memory_map_3:
+   \   00000052   300E               CPI     R16, 14
+   \   00000054   F380               BRCS    ??check_memory_map_4
+    213          
+    214          
+    215           
+    216            
+    217          RdFromFleshToArr(A_C_GPRS,&buf[0],L_C_GPRS_MAX);
+   \   00000056   E34C               LDI     R20, 60
+   \   00000058   E050               LDI     R21, 0
+   \   0000005A   019E               MOVW    R19:R18, R29:R28
+   \   0000005C   E104               LDI     R16, 20
+   \   0000005E   E010               LDI     R17, 0
+   \   00000060   ........           CALL    RdFromFleshToArr
+    218          if(*(unsigned int*)&buf[L_C_GPRS_MAX-2]!=crc_m1(&buf[0],L_C_GPRS_MAX-2,0xffff))
+   \   00000064   AD8A               LDD     R24, Y+58
+   \   00000066   AD9B               LDD     R25, Y+59
+   \   00000068   EF4F               LDI     R20, 255
+   \   0000006A   EF5F               LDI     R21, 255
+   \   0000006C   E32A               LDI     R18, 58
+   \   0000006E   E030               LDI     R19, 0
+   \   00000070   018E               MOVW    R17:R16, R29:R28
+   \   00000072   ........           CALL    crc_m1
+   \   00000076   1780               CP      R24, R16
+   \   00000078   0791               CPC     R25, R17
+   \   0000007A   F1B1               BREQ    ??check_memory_map_5
+    219              {
+    220            
+    221              
+    222              //загрузка поумолчанию
+    223               j=0;
+    224               temp=sizeof(def_apn)-1;
+    225               buf[0]=temp;
+   \   0000007C   E00F               LDI     R16, 15
+   \   0000007E   8308               ST      Y, R16
+    226               j=1;
+   \   00000080   E021               LDI     R18, 1
+    227               for(i=0;i<temp;i++){buf[j]=def_apn[i];j++;}
+   \   00000082   E000               LDI     R16, 0
+   \   00000084   C009               RJMP    ??check_memory_map_6
+   \                     ??check_memory_map_7:
+   \   00000086   ....               LDI     R30, LOW((map_vers + 14))
+   \   00000088   ....               LDI     R31, HIGH((map_vers + 14))
+   \   0000008A   0FE0               ADD     R30, R16
+   \   0000008C   1FF3               ADC     R31, R19
+   \   0000008E   9114               LPM     R17, Z
+   \   00000090   01FD               MOVW    R31:R30, R27:R26
+   \   00000092   8310               ST      Z, R17
+   \   00000094   9523               INC     R18
+   \   00000096   9503               INC     R16
+   \                     ??check_memory_map_6:
+   \   00000098   01DE               MOVW    R27:R26, R29:R28
+   \   0000009A   E030               LDI     R19, 0
+   \   0000009C   0FA2               ADD     R26, R18
+   \   0000009E   1FB3               ADC     R27, R19
+   \   000000A0   300F               CPI     R16, 15
+   \   000000A2   F388               BRCS    ??check_memory_map_7
+    228          
+    229               temp=sizeof(def_usname)-1;
+    230               buf[j]=temp;
+   \   000000A4   E000               LDI     R16, 0
+   \   000000A6   933C               ST      X, R19
+    231               j++;
+   \   000000A8   9523               INC     R18
+    232               for(i=0;i<temp;i++){buf[j]=def_usname[i];j++;}
+    233               
+    234               temp=sizeof(def_uspsw)-1;
+    235               buf[j]=temp;
+   \   000000AA   01FE               MOVW    R31:R30, R29:R28
+   \   000000AC   0FE2               ADD     R30, R18
+   \   000000AE   1FF3               ADC     R31, R19
+   \   000000B0   8330               ST      Z, R19
+    236               j++;
+   \   000000B2   9523               INC     R18
+    237               for(i=0;i<temp;i++){buf[j]=def_uspsw[i];j++;}
+    238          
+    239               for(i=0;i<L_C_GPRS_MAX;i++){buf[j]=0;j++;}
+   \   000000B4   C006               RJMP    ??check_memory_map_8
+   \                     ??check_memory_map_9:
+   \   000000B6   01FE               MOVW    R31:R30, R29:R28
+   \   000000B8   0FE2               ADD     R30, R18
+   \   000000BA   1FF3               ADC     R31, R19
+   \   000000BC   8330               ST      Z, R19
+   \   000000BE   9523               INC     R18
+   \   000000C0   9503               INC     R16
+   \                     ??check_memory_map_8:
+   \   000000C2   330C               CPI     R16, 60
+   \   000000C4   F3C0               BRCS    ??check_memory_map_9
+    240          
+    241               *(unsigned int*)&buf[L_C_GPRS_MAX-2]=crc_m1(&buf[0],L_C_GPRS_MAX-2,0xffff);
+   \   000000C6   EF4F               LDI     R20, 255
+   \   000000C8   EF5F               LDI     R21, 255
+   \   000000CA   E32A               LDI     R18, 58
+   \   000000CC   018E               MOVW    R17:R16, R29:R28
+   \   000000CE   ........           CALL    crc_m1
+   \   000000D2   AF0A               STD     Y+58, R16
+   \   000000D4   AF1B               STD     Y+59, R17
+    242               WrArrayToFlesh(A_C_GPRS, &buf[0],L_C_GPRS_MAX,0,0);
+   \   000000D6   E070               LDI     R23, 0
+   \   000000D8   E060               LDI     R22, 0
+   \   000000DA   E34C               LDI     R20, 60
+   \   000000DC   E050               LDI     R21, 0
+   \   000000DE   019E               MOVW    R19:R18, R29:R28
+   \   000000E0   E104               LDI     R16, 20
+   \   000000E2   E010               LDI     R17, 0
+   \   000000E4   ........           CALL    WrArrayToFlesh
+    243              }
+    244          
+    245          
+    246          RdFromFleshToArr(A_IP_PAR,&buf[0],L_IP_PAR);
+   \                     ??check_memory_map_5:
+   \   000000E8   E04A               LDI     R20, 10
+   \   000000EA   E050               LDI     R21, 0
+   \   000000EC   019E               MOVW    R19:R18, R29:R28
+   \   000000EE   E500               LDI     R16, 80
+   \   000000F0   E010               LDI     R17, 0
+   \   000000F2   ........           CALL    RdFromFleshToArr
+    247          if(*(unsigned int*)&buf[OFS_IP_PAR_CRC]!=crc_m1(&buf[0],L_IP_PAR-2,0xffff))
+   \   000000F6   8588               LDD     R24, Y+8
+   \   000000F8   8599               LDD     R25, Y+9
+   \   000000FA   EF4F               LDI     R20, 255
+   \   000000FC   EF5F               LDI     R21, 255
+   \   000000FE   E028               LDI     R18, 8
+   \   00000100   E030               LDI     R19, 0
+   \   00000102   018E               MOVW    R17:R16, R29:R28
+   \   00000104   ........           CALL    crc_m1
+   \   00000108   1780               CP      R24, R16
+   \   0000010A   0791               CPC     R25, R17
+   \   0000010C   F101               BREQ    ??check_memory_map_10
+    248            {
+    249           
+    250            
+    251             buf[OFS_IP]=DEF_IP_SRV_0;
+   \   0000010E   E508               LDI     R16, 88
+   \   00000110   8308               ST      Y, R16
+    252             buf[OFS_IP+1]=DEF_IP_SRV_1;
+   \   00000112   E502               LDI     R16, 82
+   \   00000114   8309               STD     Y+1, R16
+    253             buf[OFS_IP+2]=DEF_IP_SRV_2;
+   \   00000116   E405               LDI     R16, 69
+   \   00000118   830A               STD     Y+2, R16
+    254             buf[OFS_IP+3]=DEF_IP_SRV_3;
+   \   0000011A   EE04               LDI     R16, 228
+   \   0000011C   830B               STD     Y+3, R16
+    255             
+    256             *(unsigned int*)&buf[OFS_PORT]=DEF_UDP_PORT;//UDP порт
+   \   0000011E   E808               LDI     R16, 136
+   \   00000120   E113               LDI     R17, 19
+   \   00000122   830C               STD     Y+4, R16
+   \   00000124   831D               STD     Y+5, R17
+    257             *(unsigned int*)&buf[OFS_NUM]=//свой номер по умолчанию
+    258             
+    259             *(unsigned int*)&buf[OFS_IP_PAR_CRC]=crc_m1(&buf[0],L_IP_PAR-2,0xffff);
+   \   00000126   EF4F               LDI     R20, 255
+   \   00000128   EF5F               LDI     R21, 255
+   \   0000012A   E028               LDI     R18, 8
+   \   0000012C   E030               LDI     R19, 0
+   \   0000012E   018E               MOVW    R17:R16, R29:R28
+   \   00000130   ........           CALL    crc_m1
+   \   00000134   8708               STD     Y+8, R16
+   \   00000136   8719               STD     Y+9, R17
+   \   00000138   830E               STD     Y+6, R16
+   \   0000013A   831F               STD     Y+7, R17
+    260               WrArrayToFlesh(A_IP_PAR, &buf[0],L_IP_PAR,0,0);
+   \   0000013C   E070               LDI     R23, 0
+   \   0000013E   E060               LDI     R22, 0
+   \   00000140   E04A               LDI     R20, 10
+   \   00000142   E050               LDI     R21, 0
+   \   00000144   019E               MOVW    R19:R18, R29:R28
+   \   00000146   E500               LDI     R16, 80
+   \   00000148   E010               LDI     R17, 0
+   \   0000014A   ........           CALL    WrArrayToFlesh
+    261            }
+    262          
+    263          
+    264          RdFromFleshToArr(A_C_PAR,&buf[0],L_C_PAR);
+   \                     ??check_memory_map_10:
+   \   0000014E   E048               LDI     R20, 8
+   \   00000150   E050               LDI     R21, 0
+   \   00000152   019E               MOVW    R19:R18, R29:R28
+   \   00000154   E50A               LDI     R16, 90
+   \   00000156   E010               LDI     R17, 0
+   \   00000158   ........           CALL    RdFromFleshToArr
+    265          if(*(unsigned int*)&buf[OFS_C_PAR_CRC]!=crc_m1(&buf[0],L_C_PAR-2,0xffff))
+   \   0000015C   818E               LDD     R24, Y+6
+   \   0000015E   819F               LDD     R25, Y+7
+   \   00000160   EF4F               LDI     R20, 255
+   \   00000162   EF5F               LDI     R21, 255
+   \   00000164   E026               LDI     R18, 6
+   \   00000166   E030               LDI     R19, 0
+   \   00000168   018E               MOVW    R17:R16, R29:R28
+   \   0000016A   ........           CALL    crc_m1
+   \   0000016E   1780               CP      R24, R16
+   \   00000170   0791               CPC     R25, R17
+   \   00000172   F0E1               BREQ    ??check_memory_map_11
+    266            {
+    267            
+    268            
+    269          
+    270             *(unsigned int*)&buf[OFS_NAT]=DEF_CNTR_NAT;
+   \   00000174   E20D               LDI     R16, 45
+   \   00000176   E010               LDI     R17, 0
+   \   00000178   8308               ST      Y, R16
+   \   0000017A   8319               STD     Y+1, R17
+    271             *(unsigned int*)&buf[OFS_CCH]=DEF_CNTR_LINK;
+   \   0000017C   E708               LDI     R16, 120
+   \   0000017E   830A               STD     Y+2, R16
+   \   00000180   831B               STD     Y+3, R17
+    272             *(unsigned int*)&buf[OFS_TM_CH]=DEF_TM_CNTR_LINK;
+   \   00000182   E30E               LDI     R16, 62
+   \   00000184   830C               STD     Y+4, R16
+   \   00000186   831D               STD     Y+5, R17
+    273             
+    274             *(unsigned int*)&buf[OFS_C_PAR_CRC]=crc_m1(&buf[0],L_C_PAR-2,0xffff);
+   \   00000188   EF4F               LDI     R20, 255
+   \   0000018A   EF5F               LDI     R21, 255
+   \   0000018C   E026               LDI     R18, 6
+   \   0000018E   E030               LDI     R19, 0
+   \   00000190   018E               MOVW    R17:R16, R29:R28
+   \   00000192   ........           CALL    crc_m1
+   \   00000196   830E               STD     Y+6, R16
+   \   00000198   831F               STD     Y+7, R17
+    275               WrArrayToFlesh(A_C_PAR, &buf[0],L_C_PAR,0,0);
+   \   0000019A   E070               LDI     R23, 0
+   \   0000019C   E060               LDI     R22, 0
+   \   0000019E   E048               LDI     R20, 8
+   \   000001A0   E050               LDI     R21, 0
+   \   000001A2   019E               MOVW    R19:R18, R29:R28
+   \   000001A4   E50A               LDI     R16, 90
+   \   000001A6   E010               LDI     R17, 0
+   \   000001A8   ........           CALL    WrArrayToFlesh
+    276            }
+    277          
+    278          
+    279          
+    280          RdFromFleshToArr(A_SEQ_PAR,&buf[0],L_SEQ_PAR);
+   \                     ??check_memory_map_11:
+   \   000001AC   E049               LDI     R20, 9
+   \   000001AE   E050               LDI     R21, 0
+   \   000001B0   019E               MOVW    R19:R18, R29:R28
+   \   000001B2   E602               LDI     R16, 98
+   \   000001B4   E010               LDI     R17, 0
+   \   000001B6   ........           CALL    RdFromFleshToArr
+    281          if(*(unsigned int*)&buf[OFS_SEQ_PAR_CRC]!=crc_m1(&buf[0],L_SEQ_PAR-2,0xffff))
+   \   000001BA   818F               LDD     R24, Y+7
+   \   000001BC   8598               LDD     R25, Y+8
+   \   000001BE   EF4F               LDI     R20, 255
+   \   000001C0   EF5F               LDI     R21, 255
+   \   000001C2   E027               LDI     R18, 7
+   \   000001C4   E030               LDI     R19, 0
+   \   000001C6   018E               MOVW    R17:R16, R29:R28
+   \   000001C8   ........           CALL    crc_m1
+   \   000001CC   1780               CP      R24, R16
+   \   000001CE   0791               CPC     R25, R17
+   \   000001D0   F0F1               BREQ    ??check_memory_map_12
+    282            {
+    283            
+    284            
+    285             buf[OFS_DES_SEQ]=~DEF_DES_SEQ; 
+   \   000001D2   EF0E               LDI     R16, 254
+   \   000001D4   8308               ST      Y, R16
+    286             *(unsigned int*)&buf[OFS_NUM_CL]=DEF_NUM_DST_SEQ;
+   \   000001D6   EF0F               LDI     R16, 255
+   \   000001D8   8309               STD     Y+1, R16
+   \   000001DA   830A               STD     Y+2, R16
+    287             *(unsigned int*)&buf[OFS_TM_VZ]=DEF_VOL_TM_VZAT;
+   \   000001DC   E10E               LDI     R16, 30
+   \   000001DE   E010               LDI     R17, 0
+   \   000001E0   830B               STD     Y+3, R16
+   \   000001E2   831C               STD     Y+4, R17
+    288             *(unsigned int*)&buf[OFS_TM_CL]=DEF_TM_CNTR_CL;
+   \   000001E4   E00A               LDI     R16, 10
+   \   000001E6   830D               STD     Y+5, R16
+   \   000001E8   831E               STD     Y+6, R17
+    289             *(unsigned int*)&buf[OFS_SEQ_PAR_CRC]=crc_m1(&buf[0],L_SEQ_PAR-2,0xffff);
+   \   000001EA   EF4F               LDI     R20, 255
+   \   000001EC   EF5F               LDI     R21, 255
+   \   000001EE   E027               LDI     R18, 7
+   \   000001F0   E030               LDI     R19, 0
+   \   000001F2   018E               MOVW    R17:R16, R29:R28
+   \   000001F4   ........           CALL    crc_m1
+   \   000001F8   830F               STD     Y+7, R16
+   \   000001FA   8718               STD     Y+8, R17
+    290               WrArrayToFlesh(A_SEQ_PAR, &buf[0],L_SEQ_PAR,0,0);
+   \   000001FC   E070               LDI     R23, 0
+   \   000001FE   E060               LDI     R22, 0
+   \   00000200   E049               LDI     R20, 9
+   \   00000202   E050               LDI     R21, 0
+   \   00000204   019E               MOVW    R19:R18, R29:R28
+   \   00000206   E602               LDI     R16, 98
+   \   00000208   E010               LDI     R17, 0
+   \   0000020A   ........           CALL    WrArrayToFlesh
+    291            }
+    292          
+    293          
+    294          
+    295          RdFromFleshToArr(A_PORT_GPRS,&buf[0],L_PORT_GPRS);
+   \                     ??check_memory_map_12:
+   \   0000020E   E047               LDI     R20, 7
+   \   00000210   E050               LDI     R21, 0
+   \   00000212   019E               MOVW    R19:R18, R29:R28
+   \   00000214   E60B               LDI     R16, 107
+   \   00000216   E010               LDI     R17, 0
+   \   00000218   ........           CALL    RdFromFleshToArr
+    296          if(*(unsigned int*)&buf[OFS_PORT_GPRS_CRC]!=crc_m1(&buf[0],L_PORT_GPRS-2,0xffff))
+   \   0000021C   818D               LDD     R24, Y+5
+   \   0000021E   819E               LDD     R25, Y+6
+   \   00000220   EF4F               LDI     R20, 255
+   \   00000222   EF5F               LDI     R21, 255
+   \   00000224   E025               LDI     R18, 5
+   \   00000226   E030               LDI     R19, 0
+   \   00000228   018E               MOVW    R17:R16, R29:R28
+   \   0000022A   ........           CALL    crc_m1
+   \   0000022E   1780               CP      R24, R16
+   \   00000230   0791               CPC     R25, R17
+   \   00000232   F0D1               BREQ    ??check_memory_map_13
+    297            {
+    298           
+    299            
+    300             buf[OFS_GPRS_DES]=~DEF_DES_PORT_GPRS; 
+   \   00000234   EF0E               LDI     R16, 254
+   \   00000236   8308               ST      Y, R16
+    301             *(unsigned long int*)&buf[OFS_GPRS_S]=DEF_PORT_GPRS_S;
+   \   00000238   E800               LDI     R16, 128
+   \   0000023A   E215               LDI     R17, 37
+   \   0000023C   E030               LDI     R19, 0
+   \   0000023E   8309               STD     Y+1, R16
+   \   00000240   831A               STD     Y+2, R17
+   \   00000242   833B               STD     Y+3, R19
+   \   00000244   833C               STD     Y+4, R19
+    302          
+    303             *(unsigned int*)&buf[OFS_PORT_GPRS_CRC]=crc_m1(&buf[0],L_PORT_GPRS-2,0xffff);
+   \   00000246   EF4F               LDI     R20, 255
+   \   00000248   EF5F               LDI     R21, 255
+   \   0000024A   E025               LDI     R18, 5
+   \   0000024C   018E               MOVW    R17:R16, R29:R28
+   \   0000024E   ........           CALL    crc_m1
+   \   00000252   830D               STD     Y+5, R16
+   \   00000254   831E               STD     Y+6, R17
+    304               WrArrayToFlesh(A_PORT_GPRS, &buf[0],L_PORT_GPRS,0,0);
+   \   00000256   E070               LDI     R23, 0
+   \   00000258   E060               LDI     R22, 0
+   \   0000025A   E047               LDI     R20, 7
+   \   0000025C   E050               LDI     R21, 0
+   \   0000025E   019E               MOVW    R19:R18, R29:R28
+   \   00000260   E60B               LDI     R16, 107
+   \   00000262   E010               LDI     R17, 0
+   \   00000264   ........           CALL    WrArrayToFlesh
+    305            }
+    306          
+    307          
+    308          
+    309          RdFromFleshToArr(A_C1_GPRS,&buf[0],L_C1_GPRS_MAX);
+   \                     ??check_memory_map_13:
+   \   00000268   E34C               LDI     R20, 60
+   \   0000026A   E050               LDI     R21, 0
+   \   0000026C   019E               MOVW    R19:R18, R29:R28
+   \   0000026E   EC08               LDI     R16, 200
+   \   00000270   E010               LDI     R17, 0
+   \   00000272   ........           CALL    RdFromFleshToArr
+    310          if(*(unsigned int*)&buf[L_C1_GPRS_MAX-2]!=crc_m1(&buf[0],L_C1_GPRS_MAX-2,0xffff))
+   \   00000276   AD8A               LDD     R24, Y+58
+   \   00000278   AD9B               LDD     R25, Y+59
+   \   0000027A   EF4F               LDI     R20, 255
+   \   0000027C   EF5F               LDI     R21, 255
+   \   0000027E   E32A               LDI     R18, 58
+   \   00000280   E030               LDI     R19, 0
+   \   00000282   018E               MOVW    R17:R16, R29:R28
+   \   00000284   ........           CALL    crc_m1
+   \   00000288   1780               CP      R24, R16
+   \   0000028A   0791               CPC     R25, R17
+   \   0000028C   F1B1               BREQ    ??check_memory_map_14
+    311              {
+    312              
+    313              
+    314              
+    315              //загрузка поумолчанию
+    316               j=0;
+    317               temp=sizeof(def_apn1)-1;
+    318               buf[0]=temp;
+   \   0000028E   E00F               LDI     R16, 15
+   \   00000290   8308               ST      Y, R16
+    319               j=1;
+   \   00000292   E021               LDI     R18, 1
+    320               for(i=0;i<temp;i++){buf[j]=def_apn1[i];j++;}
+   \   00000294   E000               LDI     R16, 0
+   \   00000296   C009               RJMP    ??check_memory_map_15
+   \                     ??check_memory_map_16:
+   \   00000298   ....               LDI     R30, LOW(def_apn1)
+   \   0000029A   ....               LDI     R31, (def_apn1) >> 8
+   \   0000029C   0FE0               ADD     R30, R16
+   \   0000029E   1FF3               ADC     R31, R19
+   \   000002A0   9114               LPM     R17, Z
+   \   000002A2   01FD               MOVW    R31:R30, R27:R26
+   \   000002A4   8310               ST      Z, R17
+   \   000002A6   9523               INC     R18
+   \   000002A8   9503               INC     R16
+   \                     ??check_memory_map_15:
+   \   000002AA   01DE               MOVW    R27:R26, R29:R28
+   \   000002AC   E030               LDI     R19, 0
+   \   000002AE   0FA2               ADD     R26, R18
+   \   000002B0   1FB3               ADC     R27, R19
+   \   000002B2   300F               CPI     R16, 15
+   \   000002B4   F388               BRCS    ??check_memory_map_16
+    321          
+    322               temp=sizeof(def_usname1)-1;
+    323               buf[j]=temp;
+   \   000002B6   E000               LDI     R16, 0
+   \   000002B8   933C               ST      X, R19
+    324               j++;
+   \   000002BA   9523               INC     R18
+    325               for(i=0;i<temp;i++){buf[j]=def_usname1[i];j++;}
+    326               
+    327               temp=sizeof(def_uspsw1)-1;
+    328               buf[j]=temp;
+   \   000002BC   01FE               MOVW    R31:R30, R29:R28
+   \   000002BE   0FE2               ADD     R30, R18
+   \   000002C0   1FF3               ADC     R31, R19
+   \   000002C2   8330               ST      Z, R19
+    329               j++;
+   \   000002C4   9523               INC     R18
+    330               for(i=0;i<temp;i++){buf[j]=def_uspsw1[i];j++;}
+    331          
+    332               for(i=0;i<L_C1_GPRS_MAX;i++){buf[j]=0;j++;}
+   \   000002C6   C006               RJMP    ??check_memory_map_17
+   \                     ??check_memory_map_18:
+   \   000002C8   01FE               MOVW    R31:R30, R29:R28
+   \   000002CA   0FE2               ADD     R30, R18
+   \   000002CC   1FF3               ADC     R31, R19
+   \   000002CE   8330               ST      Z, R19
+   \   000002D0   9523               INC     R18
+   \   000002D2   9503               INC     R16
+   \                     ??check_memory_map_17:
+   \   000002D4   330C               CPI     R16, 60
+   \   000002D6   F3C0               BRCS    ??check_memory_map_18
+    333          
+    334               *(unsigned int*)&buf[L_C1_GPRS_MAX-2]=crc_m1(&buf[0],L_C1_GPRS_MAX-2,0xffff);
+   \   000002D8   EF4F               LDI     R20, 255
+   \   000002DA   EF5F               LDI     R21, 255
+   \   000002DC   E32A               LDI     R18, 58
+   \   000002DE   018E               MOVW    R17:R16, R29:R28
+   \   000002E0   ........           CALL    crc_m1
+   \   000002E4   AF0A               STD     Y+58, R16
+   \   000002E6   AF1B               STD     Y+59, R17
+    335               WrArrayToFlesh(A_C1_GPRS, &buf[0],L_C1_GPRS_MAX,0,0);
+   \   000002E8   E070               LDI     R23, 0
+   \   000002EA   E060               LDI     R22, 0
+   \   000002EC   E34C               LDI     R20, 60
+   \   000002EE   E050               LDI     R21, 0
+   \   000002F0   019E               MOVW    R19:R18, R29:R28
+   \   000002F2   EC08               LDI     R16, 200
+   \   000002F4   E010               LDI     R17, 0
+   \   000002F6   ........           CALL    WrArrayToFlesh
+    336              }
+    337          
+    338          RdFromFleshToArr(A_C2_GPRS,&buf[0],L_C2_GPRS_MAX);
+   \                     ??check_memory_map_14:
+   \   000002FA   E34C               LDI     R20, 60
+   \   000002FC   E050               LDI     R21, 0
+   \   000002FE   019E               MOVW    R19:R18, R29:R28
+   \   00000300   E004               LDI     R16, 4
+   \   00000302   E011               LDI     R17, 1
+   \   00000304   ........           CALL    RdFromFleshToArr
+    339          if(*(unsigned int*)&buf[L_C2_GPRS_MAX-2]!=crc_m1(&buf[0],L_C2_GPRS_MAX-2,0xffff))
+   \   00000308   AD8A               LDD     R24, Y+58
+   \   0000030A   AD9B               LDD     R25, Y+59
+   \   0000030C   EF4F               LDI     R20, 255
+   \   0000030E   EF5F               LDI     R21, 255
+   \   00000310   E32A               LDI     R18, 58
+   \   00000312   E030               LDI     R19, 0
+   \   00000314   018E               MOVW    R17:R16, R29:R28
+   \   00000316   ........           CALL    crc_m1
+   \   0000031A   1780               CP      R24, R16
+   \   0000031C   0791               CPC     R25, R17
+   \   0000031E   F409               BRNE    $+2+2
+   \   00000320   C054               RJMP    ??check_memory_map_19
+    340              {
+    341              
+    342              
+    343              
+    344              //загрузка поумолчанию
+    345               j=0;
+    346               temp=sizeof(def_apn2)-1;
+    347               buf[0]=temp;
+   \   00000322   E103               LDI     R16, 19
+   \   00000324   8308               ST      Y, R16
+    348               j=1;
+   \   00000326   E021               LDI     R18, 1
+    349               for(i=0;i<temp;i++){buf[j]=def_apn2[i];j++;}
+   \   00000328   E000               LDI     R16, 0
+   \   0000032A   C009               RJMP    ??check_memory_map_20
+   \                     ??check_memory_map_21:
+   \   0000032C   ....               LDI     R30, LOW((def_apn1 + 16))
+   \   0000032E   ....               LDI     R31, HIGH((def_apn1 + 16))
+   \   00000330   0FE0               ADD     R30, R16
+   \   00000332   1FF3               ADC     R31, R19
+   \   00000334   9114               LPM     R17, Z
+   \   00000336   01FD               MOVW    R31:R30, R27:R26
+   \   00000338   8310               ST      Z, R17
+   \   0000033A   9523               INC     R18
+   \   0000033C   9503               INC     R16
+   \                     ??check_memory_map_20:
+   \   0000033E   01DE               MOVW    R27:R26, R29:R28
+   \   00000340   E030               LDI     R19, 0
+   \   00000342   0FA2               ADD     R26, R18
+   \   00000344   1FB3               ADC     R27, R19
+   \   00000346   3103               CPI     R16, 19
+   \   00000348   F388               BRCS    ??check_memory_map_21
+    350          
+    351               temp=sizeof(def_usname2)-1;
+    352               buf[j]=temp;
+   \   0000034A   E007               LDI     R16, 7
+   \   0000034C   930C               ST      X, R16
+    353               j++;
+   \   0000034E   9523               INC     R18
+    354               for(i=0;i<temp;i++){buf[j]=def_usname2[i];j++;}
+   \   00000350   E000               LDI     R16, 0
+   \   00000352   C009               RJMP    ??check_memory_map_22
+   \                     ??check_memory_map_23:
+   \   00000354   ....               LDI     R30, LOW((map_vers + 30))
+   \   00000356   ....               LDI     R31, HIGH((map_vers + 30))
+   \   00000358   0FE0               ADD     R30, R16
+   \   0000035A   1FF3               ADC     R31, R19
+   \   0000035C   9114               LPM     R17, Z
+   \   0000035E   01FD               MOVW    R31:R30, R27:R26
+   \   00000360   8310               ST      Z, R17
+   \   00000362   9523               INC     R18
+   \   00000364   9503               INC     R16
+   \                     ??check_memory_map_22:
+   \   00000366   01DE               MOVW    R27:R26, R29:R28
+   \   00000368   0FA2               ADD     R26, R18
+   \   0000036A   1FB3               ADC     R27, R19
+   \   0000036C   3007               CPI     R16, 7
+   \   0000036E   F390               BRCS    ??check_memory_map_23
+    355               
+    356               temp=sizeof(def_uspsw2)-1;
+    357               buf[j]=temp;
+   \   00000370   E007               LDI     R16, 7
+   \   00000372   930C               ST      X, R16
+    358               j++;
+   \   00000374   9523               INC     R18
+    359               for(i=0;i<temp;i++){buf[j]=def_uspsw2[i];j++;}
+   \   00000376   E000               LDI     R16, 0
+   \   00000378   C00B               RJMP    ??check_memory_map_24
+   \                     ??check_memory_map_25:
+   \   0000037A   ....               LDI     R30, LOW((map_vers + 38))
+   \   0000037C   ....               LDI     R31, HIGH((map_vers + 38))
+   \   0000037E   0FE0               ADD     R30, R16
+   \   00000380   1FF3               ADC     R31, R19
+   \   00000382   9114               LPM     R17, Z
+   \   00000384   01FE               MOVW    R31:R30, R29:R28
+   \   00000386   0FE2               ADD     R30, R18
+   \   00000388   1FF3               ADC     R31, R19
+   \   0000038A   8310               ST      Z, R17
+   \   0000038C   9523               INC     R18
+   \   0000038E   9503               INC     R16
+   \                     ??check_memory_map_24:
+   \   00000390   3007               CPI     R16, 7
+   \   00000392   F398               BRCS    ??check_memory_map_25
+    360          
+    361               for(i=0;i<L_C2_GPRS_MAX;i++){buf[j]=0;j++;}
+   \   00000394   E000               LDI     R16, 0
+   \   00000396   C006               RJMP    ??check_memory_map_26
+   \                     ??check_memory_map_27:
+   \   00000398   01FE               MOVW    R31:R30, R29:R28
+   \   0000039A   0FE2               ADD     R30, R18
+   \   0000039C   1FF3               ADC     R31, R19
+   \   0000039E   8330               ST      Z, R19
+   \   000003A0   9523               INC     R18
+   \   000003A2   9503               INC     R16
+   \                     ??check_memory_map_26:
+   \   000003A4   330C               CPI     R16, 60
+   \   000003A6   F3C0               BRCS    ??check_memory_map_27
+    362          
+    363               *(unsigned int*)&buf[L_C2_GPRS_MAX-2]=crc_m1(&buf[0],L_C2_GPRS_MAX-2,0xffff);
+   \   000003A8   EF4F               LDI     R20, 255
+   \   000003AA   EF5F               LDI     R21, 255
+   \   000003AC   E32A               LDI     R18, 58
+   \   000003AE   018E               MOVW    R17:R16, R29:R28
+   \   000003B0   ........           CALL    crc_m1
+   \   000003B4   AF0A               STD     Y+58, R16
+   \   000003B6   AF1B               STD     Y+59, R17
+    364               WrArrayToFlesh(A_C2_GPRS, &buf[0],L_C2_GPRS_MAX,0,0);
+   \   000003B8   E070               LDI     R23, 0
+   \   000003BA   E060               LDI     R22, 0
+   \   000003BC   E34C               LDI     R20, 60
+   \   000003BE   E050               LDI     R21, 0
+   \   000003C0   019E               MOVW    R19:R18, R29:R28
+   \   000003C2   E004               LDI     R16, 4
+   \   000003C4   E011               LDI     R17, 1
+   \   000003C6   ........           CALL    WrArrayToFlesh
+    365              }
+    366          
+    367          
+    368          RdFromFleshToArr(A_C3_GPRS,&buf[0],L_C3_GPRS_MAX);
+   \                     ??check_memory_map_19:
+   \   000003CA   E34C               LDI     R20, 60
+   \   000003CC   E050               LDI     R21, 0
+   \   000003CE   019E               MOVW    R19:R18, R29:R28
+   \   000003D0   E400               LDI     R16, 64
+   \   000003D2   E011               LDI     R17, 1
+   \   000003D4   ........           CALL    RdFromFleshToArr
+    369          if(*(unsigned int*)&buf[L_C3_GPRS_MAX-2]!=crc_m1(&buf[0],L_C3_GPRS_MAX-2,0xffff))
+   \   000003D8   AD8A               LDD     R24, Y+58
+   \   000003DA   AD9B               LDD     R25, Y+59
+   \   000003DC   EF4F               LDI     R20, 255
+   \   000003DE   EF5F               LDI     R21, 255
+   \   000003E0   E32A               LDI     R18, 58
+   \   000003E2   E030               LDI     R19, 0
+   \   000003E4   018E               MOVW    R17:R16, R29:R28
+   \   000003E6   ........           CALL    crc_m1
+   \   000003EA   1780               CP      R24, R16
+   \   000003EC   0791               CPC     R25, R17
+   \   000003EE   F1B1               BREQ    ??check_memory_map_28
+    370              {
+    371              
+    372              //загрузка поумолчанию
+    373               j=0;
+    374               temp=sizeof(def_apn3)-1;
+    375               buf[0]=temp;
+   \   000003F0   E008               LDI     R16, 8
+   \   000003F2   8308               ST      Y, R16
+    376               j=1;
+   \   000003F4   E021               LDI     R18, 1
+    377               for(i=0;i<temp;i++){buf[j]=def_apn3[i];j++;}
+   \   000003F6   E000               LDI     R16, 0
+   \   000003F8   C009               RJMP    ??check_memory_map_29
+   \                     ??check_memory_map_30:
+   \   000003FA   ....               LDI     R30, LOW((map_vers + 46))
+   \   000003FC   ....               LDI     R31, HIGH((map_vers + 46))
+   \   000003FE   0FE0               ADD     R30, R16
+   \   00000400   1FF3               ADC     R31, R19
+   \   00000402   9114               LPM     R17, Z
+   \   00000404   01FD               MOVW    R31:R30, R27:R26
+   \   00000406   8310               ST      Z, R17
+   \   00000408   9523               INC     R18
+   \   0000040A   9503               INC     R16
+   \                     ??check_memory_map_29:
+   \   0000040C   01DE               MOVW    R27:R26, R29:R28
+   \   0000040E   E030               LDI     R19, 0
+   \   00000410   0FA2               ADD     R26, R18
+   \   00000412   1FB3               ADC     R27, R19
+   \   00000414   3008               CPI     R16, 8
+   \   00000416   F388               BRCS    ??check_memory_map_30
+    378          
+    379               temp=sizeof(def_usname3)-1;
+    380               buf[j]=temp;
+   \   00000418   E000               LDI     R16, 0
+   \   0000041A   933C               ST      X, R19
+    381               j++;
+   \   0000041C   9523               INC     R18
+    382               for(i=0;i<temp;i++){buf[j]=def_usname3[i];j++;}
+    383               
+    384               temp=sizeof(def_uspsw3)-1;
+    385               buf[j]=temp;
+   \   0000041E   01FE               MOVW    R31:R30, R29:R28
+   \   00000420   0FE2               ADD     R30, R18
+   \   00000422   1FF3               ADC     R31, R19
+   \   00000424   8330               ST      Z, R19
+    386               j++;
+   \   00000426   9523               INC     R18
+    387               for(i=0;i<temp;i++){buf[j]=def_uspsw3[i];j++;}
+    388          
+    389               for(i=0;i<L_C3_GPRS_MAX;i++){buf[j]=0;j++;}
+   \   00000428   C006               RJMP    ??check_memory_map_31
+   \                     ??check_memory_map_32:
+   \   0000042A   01FE               MOVW    R31:R30, R29:R28
+   \   0000042C   0FE2               ADD     R30, R18
+   \   0000042E   1FF3               ADC     R31, R19
+   \   00000430   8330               ST      Z, R19
+   \   00000432   9523               INC     R18
+   \   00000434   9503               INC     R16
+   \                     ??check_memory_map_31:
+   \   00000436   330C               CPI     R16, 60
+   \   00000438   F3C0               BRCS    ??check_memory_map_32
+    390          
+    391               *(unsigned int*)&buf[L_C3_GPRS_MAX-2]=crc_m1(&buf[0],L_C3_GPRS_MAX-2,0xffff);
+   \   0000043A   EF4F               LDI     R20, 255
+   \   0000043C   EF5F               LDI     R21, 255
+   \   0000043E   E32A               LDI     R18, 58
+   \   00000440   018E               MOVW    R17:R16, R29:R28
+   \   00000442   ........           CALL    crc_m1
+   \   00000446   AF0A               STD     Y+58, R16
+   \   00000448   AF1B               STD     Y+59, R17
+    392               WrArrayToFlesh(A_C3_GPRS, &buf[0],L_C3_GPRS_MAX,0,0);
+   \   0000044A   E070               LDI     R23, 0
+   \   0000044C   E060               LDI     R22, 0
+   \   0000044E   E34C               LDI     R20, 60
+   \   00000450   E050               LDI     R21, 0
+   \   00000452   019E               MOVW    R19:R18, R29:R28
+   \   00000454   E400               LDI     R16, 64
+   \   00000456   E011               LDI     R17, 1
+   \   00000458   ........           CALL    WrArrayToFlesh
+    393              }
+    394          return(0);  
+   \                     ??check_memory_map_28:
+   \   0000045C   E000               LDI     R16, 0
+   \                     ??check_memory_map_2:
+   \   0000045E   96EF               ADIW    R29:R28, 63
+   \   00000460   9627               ADIW    R29:R28, 7
+   \   00000462   E0E4               LDI     R30, 4
+   \   00000464   ........           JMP     ?EPILOGUE_B4_L09
+    395          }
+
+   Maximum stack usage in bytes:
+
+     Function              CSTACK RSTACK
+     --------              ------ ------
+     check_memory_map         74      2
+       -> RdFromFleshToArr    74      2
+       -> crc_m1              74      2
+       -> RdFromFleshToArr    74      2
+       -> crc_m1              74      2
+       -> crc_m1              74      2
+       -> WrArrayToFlesh      74      2
+       -> RdFromFleshToArr    74      2
+       -> crc_m1              74      2
+       -> crc_m1              74      2
+       -> WrArrayToFlesh      74      2
+       -> RdFromFleshToArr    74      2
+       -> crc_m1              74      2
+       -> crc_m1              74      2
+       -> WrArrayToFlesh      74      2
+       -> RdFromFleshToArr    74      2
+       -> crc_m1              74      2
+       -> crc_m1              74      2
+       -> WrArrayToFlesh      74      2
+       -> RdFromFleshToArr    74      2
+       -> crc_m1              74      2
+       -> crc_m1              74      2
+       -> WrArrayToFlesh      74      2
+       -> RdFromFleshToArr    74      2
+       -> crc_m1              74      2
+       -> crc_m1              74      2
+       -> WrArrayToFlesh      74      2
+       -> RdFromFleshToArr    74      2
+       -> crc_m1              74      2
+       -> crc_m1              74      2
+       -> WrArrayToFlesh      74      2
+       -> RdFromFleshToArr    74      2
+       -> crc_m1              74      2
+       -> crc_m1              74      2
+       -> WrArrayToFlesh      74      2
+     vosstan_memory           72      2
+       -> crc_m1              72      2
+       -> WrArrayToFlesh      72      2
+       -> crc_m1              72      2
+       -> WrArrayToFlesh      72      2
+       -> crc_m1              72      2
+       -> WrArrayToFlesh      72      2
+       -> crc_m1              72      2
+       -> WrArrayToFlesh      72      2
+       -> crc_m1              72      2
+       -> WrArrayToFlesh      72      2
+       -> crc_m1              72      2
+       -> WrArrayToFlesh      72      2
+       -> crc_m1              72      2
+       -> WrArrayToFlesh      72      2
+       -> crc_m1              72      2
+       -> WrArrayToFlesh      72      2
+       -> crc_m1              72      2
+       -> WrArrayToFlesh      72      2
+
+
+   Segment part sizes:
+
+     Function/Label   Bytes
+     --------------   -----
+     err_t               5
+     ok_t                4
+     map_vers           55
+     versia             14
+     zp_udp              9
+     zp_num              5
+     zp_nat              8
+     zp_link             8
+     zp_tm_link          8
+     zp_tm_vz            8
+     zp_tm_cl            7
+     zp_num_seq          8
+     zp_des_seq          9
+     zp_des_gprs        10
+     zp_gprs_s           9
+     zp_ts1              8
+     zp_ts2              8
+     zp_vosst            9
+     zp_time             6
+     zp_date             6
+     zp_log_file        10
+     def_usname          1
+     def_uspsw           1
+     def_apn1           36
+     def_usname1         1
+     def_uspsw1          1
+     def_usname3         1
+     def_uspsw3          1
+     vosstan_memory    814
+     check_memory_map 1128
+
+ 
+ 1 942 bytes in segment CODE
+   256 bytes in segment NEAR_F
+ 
+ 2 198 bytes of CODE memory
+
+Errors: none
+Warnings: none

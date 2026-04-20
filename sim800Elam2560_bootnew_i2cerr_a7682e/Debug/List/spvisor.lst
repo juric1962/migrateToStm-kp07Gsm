@@ -1,0 +1,119 @@
+##############################################################################
+#                                                                            #
+#                                                      24/Oct/2025  13:27:17 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\spvisor.c       #
+#    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\spvisor.c       #
+#                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a76 #
+#                    82e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_a7 #
+#                    682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cerr_a #
+#                    7682e\Debug\List\ -y --initializers_in_flash -z9        #
+#                    --no_inline --no_tbaa --cross_call_passes=1 --debug -e  #
+#                    -I "E:\box\IAR Systems\Embedded Workbench 4.0           #
+#                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size   #
+#                    4096 --dlib_config "E:\box\IAR Systems\Embedded         #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h"  #
+#    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\spvi #
+#                    sor.lst                                                 #
+#    Object file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\spvis #
+#                    or.r90                                                  #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+E:\sim800Elam2560_bootnew_i2cerr_a7682e\spvisor.c
+      1          
+      2          #include <iom2560.h> 
+      3          #include <inavr.h> 
+      4          #include "def_log.h"
+      5          
+      6          # define DEF_SUPERVISOR 3600
+      7          
+      8          extern void s_port(unsigned char ch);
+      9          void write_log_info(unsigned char sost,unsigned char mesto);
+     10          void lock_it(void);
+     11          void send_info(char size,char __flash *p,unsigned char fl_id,unsigned char id);
+     12          
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     13          unsigned int cnt_supervosor;
+   \                     cnt_supervosor:
+   \   00000000                      DS 2
+     14          
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+     15          __flash char evc_rld_sv[]=       {'E','V','C',':','r','l','d',' ','s','v',};
+   \                     evc_rld_sv:
+   \   00000000   56453A436C72       DB 69, 86, 67, 58, 114, 108, 100, 32, 115, 118
+   \              20647673    
+     16          
+     17          
+     18          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     19          void supervisorwdt(void)
+   \                     supervisorwdt:
+     20          {
+     21            if(cnt_supervosor >= DEF_SUPERVISOR) 
+   \   00000000   ....               LDI     R30, LOW(cnt_supervosor)
+   \   00000002   ....               LDI     R31, (cnt_supervosor) >> 8
+   \   00000004   8100               LD      R16, Z
+   \   00000006   8111               LDD     R17, Z+1
+   \   00000008   3100               CPI     R16, 16
+   \   0000000A   401E               SBCI    R17, 14
+   \   0000000C   F068               BRCS    ??supervisorwdt_0
+     22            {
+     23              send_info(sizeof(evc_rld_sv),evc_rld_sv,0,0);
+   \   0000000E   E040               LDI     R20, 0
+   \   00000010   E010               LDI     R17, 0
+   \   00000012   ....               LDI     R18, LOW(evc_rld_sv)
+   \   00000014   ....               LDI     R19, (evc_rld_sv) >> 8
+   \   00000016   E00A               LDI     R16, 10
+   \   00000018   ........           CALL    send_info
+     24              write_log_info(ST_ERROR,ERR7);
+   \   0000001C   E017               LDI     R17, 7
+   \   0000001E   E002               LDI     R16, 2
+   \   00000020   ........           CALL    write_log_info
+     25               //s_port(0x58);
+     26              lock_it();
+   \   00000024   ........           CALL    lock_it
+     27            }
+     28          }
+   \                     ??supervisorwdt_0:
+   \   00000028   9508               RET
+     29          
+
+   Maximum stack usage in bytes:
+
+     Function            CSTACK RSTACK
+     --------            ------ ------
+     supervisorwdt           0      3
+       -> send_info          0      3
+       -> write_log_info     0      3
+       -> lock_it            0      3
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     cnt_supervosor    2
+     evc_rld_sv       10
+     supervisorwdt    42
+      Others           7
+
+ 
+ 42 bytes in segment FARCODE
+  7 bytes in segment INITTAB
+ 10 bytes in segment NEAR_F
+  2 bytes in segment NEAR_Z
+ 
+ 52 bytes of CODE memory (+ 7 bytes shared)
+  2 bytes of DATA memory
+
+Errors: none
+Warnings: none

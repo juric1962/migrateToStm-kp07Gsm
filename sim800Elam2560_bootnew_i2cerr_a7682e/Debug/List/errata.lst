@@ -1,0 +1,68 @@
+###############################################################################
+#                                                                             #
+#     IAR Systems AVR Assembler V4.12A/W32 24/Oct/2025  13:28:04              #
+#     Copyright 2005 IAR Systems. All rights reserved.                        #
+#                                                                             #
+#           Target option =  Relative jumps do not wrap                       #
+#           Source file   =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\errata.s90#
+#           List file     =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\errata.lst#
+#           Object file   =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\errata.r90#
+#           Command line  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\errata.s90 #
+#                            -v5                                              #
+#                            -OE:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\ #
+#                            -s+ -w+ -r -M<>                                  #
+#                            -LE:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\ #
+#                            -t8 -u_enhancedCore -D__HAS_ENHANCED_CORE__=1    #
+#                            -D__HAS_MUL__=1                                  #
+#                            -IE:\box\IAR Systems\Embedded Workbench 4.0 Evaluation\avr\INC\ #
+#                            -D__MEMORY_MODEL__=2 -D__ATmega2560__=1          #
+#                            -D__HAS_ELPM__=1                                 #
+#                                                                             #
+###############################################################################
+
+      1    00000000              #include "inc.h"
+      2    00000000              ;RSEG nn:CODE
+      3    00000000              ;db  0x55
+      4    00000000              ;    db  0x55
+      5    00000000              ;    db  0x55
+      6    00000000               
+      7    00000000              ; ASEGN ERRATA:CODE , 0x1C48
+      8    00000000              RSEG ERRATA:CODE
+      9    00000000              ;RSEG CODE
+     10    00000000              
+     11    00000000                PUBLIC  point_debug
+     12    00000000               ; ORG 0x1C48
+     13    00000000                  point_debug:   
+     14    00000000 91FF            pop r31
+     15    00000002 91EF            pop r30
+     16    00000004 9508            ret
+     17    00000006              
+     18    00000006              ;    db  0x55
+     19    00000006              ;    db  0x55
+     20    00000006              ;    db  0x55
+     21    00000000              RSEG ERRATA1:CODE
+     22    00000000              ;RSEG CODE
+     23    00000000              
+     24    00000000                
+     25    00000000 91FF            pop r31
+     26    00000002 91EF            pop r30
+     27    00000004 9508            ret
+     28    00000006              
+     29    00000006               
+     30    00000006              ;RSEG BOOTLOADER:CODE
+     31    00000006              ;point_loader:
+     32    00000006              ;#ifdef version_s_zagruzchk
+     33    00000006              ;db 'BOOT128'
+     34    00000006              ;#endif
+     35    00000006              
+     36    00000006              end
+##############################
+#          CRC:A416          #
+#        Errors:   0         #
+#        Warnings: 0         #
+#         Bytes: 12          #
+##############################
+
+
+
+

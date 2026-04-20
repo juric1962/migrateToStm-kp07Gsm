@@ -1,0 +1,796 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+//                                                     02/Oct/2007  14:56:16 /
+// IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version               /
+// Copyright 1996-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Source file  =  D:\PRJIAR\NSS270907\KP7(270907)\prov.c                 /
+//    Command line =  "D:\PRJIAR\NSS270907\KP7(270907)\prov.c" --cpu=m1280   /
+//                    -ms -o "D:\PRJIAR\NSS270907\KP7(270907)\Debug\Obj\"    /
+//                    -lCN "D:\PRJIAR\NSS270907\KP7(270907)\Debug\List\"     /
+//                    -lA "D:\PRJIAR\NSS270907\KP7(270907)\Debug\List\" -y   /
+//                    --initializers_in_flash -z6 --no_inline                /
+//                    --no_cross_call --no_tbaa --debug -e -I "D:\Program    /
+//                    Files\IAR Systems\Embedded Workbench 4.0               /
+//                    Evaluation\avr\INC\" -I "D:\Program Files\IAR          /
+//                    Systems\Embedded Workbench 4.0                         /
+//                    Evaluation\avr\INC\DLIB\" --eeprom_size 4096           /
+//                    --dlib_config "D:\Program Files\IAR Systems\Embedded   /
+//                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-3s-ec-n.h" /
+//    List file    =  D:\PRJIAR\NSS270907\KP7(270907)\Debug\List\prov.s90    /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME prov
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "3"
+        RTMODEL "__cpu_name", "ATmega1280"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?EPILOGUE_B4_L09
+        EXTERN ?PROLOGUE4_L09
+        EXTERN ?need_segment_init
+
+        PUBWEAK `?<Segment init: NEAR_Z>`
+        PUBWEAK _A_PORTD
+        PUBWEAK _A_PORTH
+        PUBWEAK _A_PORTJ
+        PUBWEAK _A_UBRR1
+        PUBWEAK _A_UBRR2
+        PUBWEAK _A_UBRR3
+        PUBWEAK _A_UCSR1B
+        PUBWEAK _A_UCSR2B
+        PUBWEAK _A_UCSR3B
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBLIC proverka
+        PUBLIC test_fram
+        FUNCTION test_fram,021203H
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC tx_rs232_2
+        FUNCTION tx_rs232_2,0203H
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC tx_rs232_time
+        FUNCTION tx_rs232_time,021203H
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC tx_rs485_1
+        FUNCTION tx_rs485_1,0203H
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC tx_rs485_2
+        FUNCTION tx_rs485_2,0203H
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 2, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetHigh:8, ?RetLow:8, ?Ret:17
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+2
+        CFI ?RetPad 0
+        CFI ?RetHigh and(load(1, DATA, sub(CFA_SP, 1)), ?RetHighByteMask)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+        EXTERN burst
+        FUNCTION burst,0202H
+        EXTERN RdFromFleshToArr
+        FUNCTION RdFromFleshToArr,0202H
+        EXTERN Rs232_2
+        EXTERN Rs232_2_buf_rx_tx
+        EXTERN Rs485_1
+        EXTERN Rs485_1_buf_rx_tx
+        EXTERN Rs485_2
+        EXTERN Rs485_2_buf_rx_tx
+
+// D:\PRJIAR\NSS270907\KP7(270907)\prov.c
+//    1 #include <iom1280.h> 
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0134H
+// union <unnamed> volatile __ext_io _A_UBRR3
+_A_UBRR3:
+        DS 2
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0131H
+// union <unnamed> volatile __ext_io _A_UCSR3B
+_A_UCSR3B:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0105H
+// union <unnamed> volatile __ext_io _A_PORTJ
+_A_PORTJ:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0102H
+// union <unnamed> volatile __ext_io _A_PORTH
+_A_PORTH:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0d4H
+// union <unnamed> volatile __io _A_UBRR2
+_A_UBRR2:
+        DS 2
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0d1H
+// union <unnamed> volatile __io _A_UCSR2B
+_A_UCSR2B:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0ccH
+// union <unnamed> volatile __io _A_UBRR1
+_A_UBRR1:
+        DS 2
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0c9H
+// union <unnamed> volatile __io _A_UCSR1B
+_A_UCSR1B:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,02bH
+// union <unnamed> volatile __io _A_PORTD
+_A_PORTD:
+        DS 1
+//    2 #include "dfpin.h"
+//    3 #include "dfproc.h"
+//    4 #include "ozu_map.h"
+//    5 
+//    6 extern unsigned char Rs485_1_buf_rx_tx[MAX_BUF_RS485_1];
+//    7 extern unsigned char Rs485_2_buf_rx_tx[MAX_BUF_RS485_2];
+//    8 extern unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
+//    9 extern struct
+//   10         { // в двоичном коде
+//   11           char r_sec;
+//   12           char r_min;
+//   13           char r_hor;
+//   14           char r_day;
+//   15           char r_date;
+//   16           char r_month;
+//   17           char r_year;
+//   18           char r_control;
+//   19         }  real_time; 
+//   20 
+//   21 
+//   22 
+//   23 extern struct                   //структура описывающая работу порта "RS485_1" 
+//   24   {
+//   25   unsigned int  cnt_bt_rx_tx;       // счетчик байтов на прием-передачу
+//   26   unsigned int  cnt_tm_tx_out;    // счетчик времени на удержание rts после передачи
+//   27   unsigned int  cnt_tm_pre_tx;    // счетчик времени на удержание rts перед передачи
+//   28   unsigned int  vol_tm_tx_out;    // предел счетчик времени на удержание rts после передачи
+//   29   unsigned int  cnt_tm_rx_out;   //  счетчик времени на определение конца приема
+//   30   unsigned int  vol_tm_rx_out;   //  предел времени на определение конца приема
+//   31   unsigned int  cnt_tm_out;     // счетчик времени на прием 
+//   32   unsigned int  vol_tm_out;     // предел счетчика времени на прием 
+//   33   unsigned char *p_data485;   // указатель на буфер передачи
+//   34   }Rs485_1,Rs485_2,Rs232_2;
+//   35   
+//   36 extern struct
+//   37  {
+//   38  unsigned char busy : 1;
+//   39  unsigned char rec : 1;
+//   40  unsigned char tm_out : 1;
+//   41  unsigned char tx : 1;
+//   42  unsigned char over : 1;
+//   43  unsigned char buffed : 1;
+//   44  } fl_485_1,fl_485_2,fl_232_2;
+//   45 
+//   46 extern unsigned long int burst(void);
+//   47 extern unsigned long int burst_ds_r(void);
+//   48 extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,unsigned int num);  
+//   49 extern void WrArrayToFlesh(unsigned int adres_flesh,  unsigned char *adres_ozu, unsigned int num,unsigned char flag,unsigned char znach);  //запись конфигурации кп во флеш
+//   50 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   51 unsigned char proverka;
+proverka:
+        DS 1
+//   52 
+//   53 
+//   54 
+
+        RSEG CODE:CODE:NOROOT(1)
+//   55 void tx_rs485_1(void)
+tx_rs485_1:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function tx_rs485_1
+//   56 {
+        CALL	?PROLOGUE4_L09
+        CFI R27 Frame(CFA_Y, -1)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+//   57   unsigned int i;
+//   58  
+//   59     Rs485_1.cnt_bt_rx_tx=10;
+        LDI	R30, LOW(Rs485_1)
+        LDI	R31, (Rs485_1) >> 8
+        LDI	R16, 10
+        LDI	R17, 0
+        ST	Z, R16
+        STD	Z+1, R17
+//   60     for(i=0;i<Rs485_1.cnt_bt_rx_tx;i++)Rs485_1_buf_rx_tx[i]=i;
+        LDI	R24, 0
+        LDI	R25, 0
+        RJMP	??tx_rs485_1_0
+??tx_rs485_1_1:
+        MOV	R16, R24
+        MOVW	R27:R26, R25:R24
+        SUBI	R26, LOW((-(Rs485_1_buf_rx_tx) & 0xFFFF))
+        SBCI	R27, (-(Rs485_1_buf_rx_tx) & 0xFFFF) >> 8
+        ST	X, R16
+        ADIW	R25:R24, 1
+??tx_rs485_1_0:
+        LD	R16, Z
+        LDD	R17, Z+1
+        CP	R24, R16
+        CPC	R25, R17
+        BRCS	??tx_rs485_1_1
+//   61     Rs485_1.p_data485=&Rs485_1_buf_rx_tx[0];
+        LDI	R16, LOW(Rs485_1_buf_rx_tx)
+        LDI	R17, (Rs485_1_buf_rx_tx) >> 8
+        STD	Z+16, R16
+        STD	Z+17, R17
+//   62     //здесь должна быть функция настройки порта по контексту.
+//   63  
+//   64     UBRR3H=R2400_H;
+        LDI	R16, 1
+        STS	309, R16
+//   65     UBRR3L=R2400_L;
+        LDI	R16, 159
+        STS	308, R16
+//   66     
+//   67     UCSR3B=UCSR3B & ~(RXCIE | RXEN);      
+        LDS	R16, 305
+        ANDI	R16, 0x6F
+        STS	305, R16
+//   68     
+//   69     Rs485_1.cnt_tm_tx_out=0;
+        LDI	R16, 0
+        LDI	R17, 0
+        STD	Z+2, R16
+        STD	Z+3, R16
+//   70     Rs485_1.vol_tm_tx_out=15; 
+        LDI	R16, 15
+        STD	Z+6, R16
+        STD	Z+7, R17
+//   71     
+//   72     Rs485_1.cnt_tm_pre_tx=20;// 20 миллисекунд
+        LDI	R16, 20
+        STD	Z+4, R16
+        STD	Z+5, R17
+//   73     
+//   74     Rs485_1.cnt_tm_rx_out=0;
+        STD	Z+8, R17
+        STD	Z+9, R17
+//   75     Rs485_1.vol_tm_rx_out=10;// 5 миллисекунд
+        LDI	R16, 10
+        STD	Z+10, R16
+        STD	Z+11, R17
+//   76     
+//   77     
+//   78     Rs485_1.cnt_tm_out=0;
+        STD	Z+12, R17
+        STD	Z+13, R17
+//   79     Rs485_1.vol_tm_out=600; // 600 миллисекунд
+        LDI	R16, 88
+        LDI	R17, 2
+        STD	Z+14, R16
+        STD	Z+15, R17
+//   80   
+//   81     SET_RTS1;  //rts на передачу
+        LDS	R16, 261
+        ORI	R16, 0x04
+        STS	261, R16
+//   82      
+//   83 }
+        LDI	R30, 4
+        JMP	?EPILOGUE_B4_L09
+        CFI EndBlock cfiBlock0
+//   84 
+//   85 
+
+        RSEG CODE:CODE:NOROOT(1)
+//   86 void tx_rs485_2(void)
+tx_rs485_2:
+        CFI Block cfiBlock1 Using cfiCommon0
+        CFI Function tx_rs485_2
+//   87 {
+        CALL	?PROLOGUE4_L09
+        CFI R27 Frame(CFA_Y, -1)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+//   88   unsigned int i;
+//   89  
+//   90     Rs485_2.cnt_bt_rx_tx=10;
+        LDI	R30, LOW(Rs485_2)
+        LDI	R31, (Rs485_2) >> 8
+        LDI	R16, 10
+        LDI	R17, 0
+        ST	Z, R16
+        STD	Z+1, R17
+//   91     for(i=0;i<Rs485_2.cnt_bt_rx_tx;i++)Rs485_2_buf_rx_tx[i]=i;
+        LDI	R24, 0
+        LDI	R25, 0
+        RJMP	??tx_rs485_2_0
+??tx_rs485_2_1:
+        MOV	R16, R24
+        MOVW	R27:R26, R25:R24
+        SUBI	R26, LOW((-(Rs485_2_buf_rx_tx) & 0xFFFF))
+        SBCI	R27, (-(Rs485_2_buf_rx_tx) & 0xFFFF) >> 8
+        ST	X, R16
+        ADIW	R25:R24, 1
+??tx_rs485_2_0:
+        LD	R16, Z
+        LDD	R17, Z+1
+        CP	R24, R16
+        CPC	R25, R17
+        BRCS	??tx_rs485_2_1
+//   92     Rs485_2.p_data485=&Rs485_2_buf_rx_tx[0];
+        LDI	R16, LOW(Rs485_2_buf_rx_tx)
+        LDI	R17, (Rs485_2_buf_rx_tx) >> 8
+        STD	Z+16, R16
+        STD	Z+17, R17
+//   93     //здесь должна быть функция настройки порта по контексту.
+//   94  
+//   95     UBRR1H=R2400_H;
+        LDI	R16, 1
+        STS	205, R16
+//   96     UBRR1L=R2400_L;
+        LDI	R16, 159
+        STS	204, R16
+//   97     
+//   98     UCSR1B=UCSR1B & ~(RXCIE | RXEN);      
+        LDS	R16, 201
+        ANDI	R16, 0x6F
+        STS	201, R16
+//   99     
+//  100     Rs485_2.cnt_tm_tx_out=0;
+        LDI	R16, 0
+        LDI	R17, 0
+        STD	Z+2, R16
+        STD	Z+3, R16
+//  101     Rs485_2.vol_tm_tx_out=15; 
+        LDI	R16, 15
+        STD	Z+6, R16
+        STD	Z+7, R17
+//  102     
+//  103     Rs485_2.cnt_tm_pre_tx=20;// 20 миллисекунд
+        LDI	R16, 20
+        STD	Z+4, R16
+        STD	Z+5, R17
+//  104     
+//  105     Rs485_2.cnt_tm_rx_out=0;
+        STD	Z+8, R17
+        STD	Z+9, R17
+//  106     Rs485_2.vol_tm_rx_out=10;// 5 миллисекунд
+        LDI	R16, 10
+        STD	Z+10, R16
+        STD	Z+11, R17
+//  107     
+//  108     
+//  109     Rs485_2.cnt_tm_out=0;
+        STD	Z+12, R17
+        STD	Z+13, R17
+//  110     Rs485_2.vol_tm_out=600; // 600 миллисекунд
+        LDI	R16, 88
+        LDI	R17, 2
+        STD	Z+14, R16
+        STD	Z+15, R17
+//  111   
+//  112     SET_RTS3;  //rts на передачу
+        SBI	0x0B, 0x04
+//  113      
+//  114 }
+        LDI	R30, 4
+        JMP	?EPILOGUE_B4_L09
+        CFI EndBlock cfiBlock1
+//  115 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  116 void tx_rs232_2(void)
+tx_rs232_2:
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI Function tx_rs232_2
+//  117 {
+        CALL	?PROLOGUE4_L09
+        CFI R27 Frame(CFA_Y, -1)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+//  118   unsigned int i;
+//  119  
+//  120     Rs232_2.cnt_bt_rx_tx=10;
+        LDI	R30, LOW(Rs232_2)
+        LDI	R31, (Rs232_2) >> 8
+        LDI	R16, 10
+        LDI	R17, 0
+        ST	Z, R16
+        STD	Z+1, R17
+//  121     for(i=0;i<Rs232_2.cnt_bt_rx_tx;i++)Rs232_2_buf_rx_tx[i]=i;
+        LDI	R24, 0
+        LDI	R25, 0
+        RJMP	??tx_rs232_2_0
+??tx_rs232_2_1:
+        MOV	R16, R24
+        MOVW	R27:R26, R25:R24
+        SUBI	R26, LOW((-(Rs232_2_buf_rx_tx) & 0xFFFF))
+        SBCI	R27, (-(Rs232_2_buf_rx_tx) & 0xFFFF) >> 8
+        ST	X, R16
+        ADIW	R25:R24, 1
+??tx_rs232_2_0:
+        LD	R16, Z
+        LDD	R17, Z+1
+        CP	R24, R16
+        CPC	R25, R17
+        BRCS	??tx_rs232_2_1
+//  122     Rs232_2.p_data485=&Rs232_2_buf_rx_tx[0];
+        LDI	R16, LOW(Rs232_2_buf_rx_tx)
+        LDI	R17, (Rs232_2_buf_rx_tx) >> 8
+        STD	Z+16, R16
+        STD	Z+17, R17
+//  123     //здесь должна быть функция настройки порта по контексту.
+//  124  
+//  125     UBRR2H=R2400_H;
+        LDI	R16, 1
+        STS	213, R16
+//  126     UBRR2L=R2400_L;
+        LDI	R16, 159
+        STS	212, R16
+//  127     
+//  128     UCSR2B=UCSR2B & ~(RXCIE | RXEN);      
+        LDS	R16, 209
+        ANDI	R16, 0x6F
+        STS	209, R16
+//  129     
+//  130     Rs232_2.cnt_tm_tx_out=0;
+        LDI	R16, 0
+        LDI	R17, 0
+        STD	Z+2, R16
+        STD	Z+3, R16
+//  131     Rs232_2.vol_tm_tx_out=15; 
+        LDI	R16, 15
+        STD	Z+6, R16
+        STD	Z+7, R17
+//  132     
+//  133     Rs232_2.cnt_tm_pre_tx=20;// 20 миллисекунд
+        LDI	R16, 20
+        STD	Z+4, R16
+        STD	Z+5, R17
+//  134     
+//  135     Rs232_2.cnt_tm_rx_out=0;
+        STD	Z+8, R17
+        STD	Z+9, R17
+//  136     Rs232_2.vol_tm_rx_out=10;// 5 миллисекунд
+        LDI	R16, 10
+        STD	Z+10, R16
+        STD	Z+11, R17
+//  137     
+//  138     
+//  139     Rs232_2.cnt_tm_out=0;
+        STD	Z+12, R17
+        STD	Z+13, R17
+//  140     Rs232_2.vol_tm_out=600; // 600 миллисекунд
+        LDI	R16, 88
+        LDI	R17, 2
+        STD	Z+14, R16
+        STD	Z+15, R17
+//  141   
+//  142     SET_RTS2;  //rts на передачу
+        LDS	R16, 258
+        ANDI	R16, 0xFB
+        STS	258, R16
+//  143      
+//  144 }
+        LDI	R30, 4
+        JMP	?EPILOGUE_B4_L09
+        CFI EndBlock cfiBlock2
+//  145 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  146 void tx_rs232_time(void)
+tx_rs232_time:
+        CFI Block cfiBlock3 Using cfiCommon0
+        CFI Function tx_rs232_time
+//  147 {
+//  148    // if (proverka!=1)return;
+//  149    // proverka=0;
+//  150     proverka++;
+        FUNCALL tx_rs232_time, burst
+        LOCFRAME RSTACK, 2, STACK
+        LDI	R30, LOW(proverka)
+        LDI	R31, (proverka) >> 8
+        LD	R16, Z
+        INC	R16
+        ST	Z, R16
+//  151   
+//  152     UCSR2B=UCSR2B & ~(RXCIE | RXEN); 
+        LDS	R16, 209
+        ANDI	R16, 0x6F
+        STS	209, R16
+//  153     
+//  154  //   burst_ds_r();
+//  155     burst();
+        CALL	burst
+//  156     Rs232_2.cnt_bt_rx_tx=13;
+        LDI	R30, LOW(Rs232_2)
+        LDI	R31, (Rs232_2) >> 8
+        LDI	R16, 13
+        LDI	R17, 0
+        ST	Z, R16
+        STD	Z+1, R17
+//  157    // Rs232_2.cnt_bt_rx_tx=7;
+//  158    // Rs232_2_buf_rx_tx[1]=real_time.r_sec;
+//  159    // Rs232_2_buf_rx_tx[2]=real_time.r_min;
+//  160    // Rs232_2_buf_rx_tx[3]=real_time.r_hor;
+//  161    // Rs232_2_buf_rx_tx[4]=real_time.r_date;
+//  162    // Rs232_2_buf_rx_tx[5]=real_time.r_month;
+//  163    // Rs232_2_buf_rx_tx[6]=real_time.r_year;
+//  164     Rs232_2_buf_rx_tx[0]=proverka;
+        LDS	R16, proverka
+        STS	Rs232_2_buf_rx_tx, R16
+//  165     Rs232_2.p_data485=&Rs232_2_buf_rx_tx[0];
+        LDI	R16, LOW(Rs232_2_buf_rx_tx)
+        LDI	R17, (Rs232_2_buf_rx_tx) >> 8
+        STD	Z+16, R16
+        STD	Z+17, R17
+//  166     //здесь должна быть функция настройки порта по контексту.
+//  167     
+//  168     
+//  169     UBRR2H=R2400_H;
+        LDI	R16, 1
+        STS	213, R16
+//  170     UBRR2L=R2400_L;
+        LDI	R16, 159
+        STS	212, R16
+//  171     
+//  172          
+//  173     Rs232_2.cnt_tm_tx_out=0;
+        LDI	R16, 0
+        LDI	R17, 0
+        STD	Z+2, R16
+        STD	Z+3, R16
+//  174     Rs232_2.vol_tm_tx_out=5; 
+        LDI	R16, 5
+        STD	Z+6, R16
+        STD	Z+7, R17
+//  175     
+//  176     Rs232_2.cnt_tm_pre_tx=5;// 20 миллисекунд
+        STD	Z+4, R16
+        STD	Z+5, R17
+//  177     
+//  178     Rs232_2.cnt_tm_rx_out=0;
+        STD	Z+8, R17
+        STD	Z+9, R17
+//  179     Rs232_2.vol_tm_rx_out=10;// 5 миллисекунд
+        LDI	R16, 10
+        STD	Z+10, R16
+        STD	Z+11, R17
+//  180     
+//  181     
+//  182     Rs232_2.cnt_tm_out=0;
+        STD	Z+12, R17
+        STD	Z+13, R17
+//  183     Rs232_2.vol_tm_out=10; // 600 миллисекунд
+        STD	Z+14, R16
+        STD	Z+15, R17
+//  184   
+//  185     SET_RTS2;  //rts на передачу 
+        LDS	R16, 258
+        ANDI	R16, 0xFB
+        STS	258, R16
+//  186 }
+        RET
+        CFI EndBlock cfiBlock3
+//  187 
+//  188 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  189 void test_fram(void)
+test_fram:
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI Function test_fram
+//  190 {
+        FUNCALL test_fram, RdFromFleshToArr
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 2, STACK
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+//  191 
+//  192     UCSR2B=UCSR2B & ~(RXCIE | RXEN); 
+        LDS	R16, 209
+        ANDI	R16, 0x6F
+        STS	209, R16
+//  193     
+//  194     Rs232_2.cnt_bt_rx_tx=10;
+        LDI	R26, LOW(Rs232_2)
+        LDI	R27, (Rs232_2) >> 8
+        LDI	R16, 10
+        LDI	R17, 0
+        ST	X+, R16
+        ST	X, R17
+        SBIW	R27:R26, 1
+//  195     RdFromFleshToArr(10,&Rs232_2_buf_rx_tx[0],Rs232_2.cnt_bt_rx_tx);
+        LDI	R20, 10
+        LDI	R21, 0
+        LDI	R18, LOW(Rs232_2_buf_rx_tx)
+        LDI	R19, (Rs232_2_buf_rx_tx) >> 8
+        CALL	RdFromFleshToArr
+//  196     Rs232_2.p_data485=&Rs232_2_buf_rx_tx[0];
+        LDI	R16, LOW(Rs232_2_buf_rx_tx)
+        LDI	R17, (Rs232_2_buf_rx_tx) >> 8
+        ADIW	R27:R26, 16
+        ST	X+, R16
+        ST	X, R17
+        SBIW	R27:R26, 17
+//  197     //здесь должна быть функция настройки порта по контексту.
+//  198     
+//  199     
+//  200     UBRR2H=R2400_H;
+        LDI	R16, 1
+        STS	213, R16
+//  201     UBRR2L=R2400_L;
+        LDI	R16, 159
+        STS	212, R16
+//  202     
+//  203          
+//  204     Rs232_2.cnt_tm_tx_out=0;
+        LDI	R16, 0
+        LDI	R17, 0
+        ADIW	R27:R26, 2
+        ST	X+, R16
+        ST	X, R16
+        SBIW	R27:R26, 3
+//  205     Rs232_2.vol_tm_tx_out=5; 
+        LDI	R16, 5
+        ADIW	R27:R26, 6
+        ST	X+, R16
+        ST	X, R17
+        SBIW	R27:R26, 7
+//  206     
+//  207     Rs232_2.cnt_tm_pre_tx=5;// 20 миллисекунд
+        ADIW	R27:R26, 4
+        ST	X+, R16
+        ST	X, R17
+        SBIW	R27:R26, 5
+//  208     
+//  209     Rs232_2.cnt_tm_rx_out=0;
+        ADIW	R27:R26, 8
+        ST	X+, R17
+        ST	X, R17
+        SBIW	R27:R26, 9
+//  210     Rs232_2.vol_tm_rx_out=10;// 5 миллисекунд
+        LDI	R16, 10
+        ADIW	R27:R26, 10
+        ST	X+, R16
+        ST	X, R17
+        SBIW	R27:R26, 11
+//  211     
+//  212     
+//  213     Rs232_2.cnt_tm_out=0;
+        ADIW	R27:R26, 12
+        ST	X+, R17
+        ST	X, R17
+        SBIW	R27:R26, 13
+//  214     Rs232_2.vol_tm_out=10; // 600 миллисекунд
+        ADIW	R27:R26, 14
+        ST	X+, R16
+        ST	X, R17
+//  215   
+//  216     SET_RTS2;  //rts на передачу 
+        LDS	R16, 258
+        ANDI	R16, 0xFB
+        STS	258, R16
+//  217 }
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RET
+        CFI EndBlock cfiBlock4
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_Z>`:
+        DW	SFE(NEAR_Z) - SFB(NEAR_Z)
+        DW	SFB(NEAR_Z)
+        DP	0
+        REQUIRE ?need_segment_init
+
+        END
+// 
+//  12 bytes in segment ABSOLUTE
+// 642 bytes in segment CODE
+//   7 bytes in segment INITTAB
+//   1 byte  in segment NEAR_Z
+// 
+// 642 bytes of CODE memory (+  7 bytes shared)
+//   1 byte  of DATA memory (+ 12 bytes shared)
+//
+//Errors: none
+//Warnings: none

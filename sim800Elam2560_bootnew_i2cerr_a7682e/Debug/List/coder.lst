@@ -1,0 +1,378 @@
+##############################################################################
+#                                                                            #
+#                                                      24/Oct/2025  13:27:16 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\coder.c         #
+#    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\coder.c         #
+#                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a76 #
+#                    82e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_a7 #
+#                    682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cerr_a #
+#                    7682e\Debug\List\ -y --initializers_in_flash -z9        #
+#                    --no_inline --no_tbaa --cross_call_passes=1 --debug -e  #
+#                    -I "E:\box\IAR Systems\Embedded Workbench 4.0           #
+#                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size   #
+#                    4096 --dlib_config "E:\box\IAR Systems\Embedded         #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h"  #
+#    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\code #
+#                    r.lst                                                   #
+#    Object file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\coder #
+#                    .r90                                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+E:\sim800Elam2560_bootnew_i2cerr_a7682e\coder.c
+      1          #include "ozu_map.h"
+      2          #include "def_prot.h"
+      3          #include <stdlib.h>
+      4          
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+      5          __flash unsigned char s1[] = {0,15,1,14,2,13,3,12,4,11,5,10,6,9,7,8};
+   \                     s1:
+   \   00000000   0F000E010D02       DB 0, 15, 1, 14, 2, 13, 3, 12, 4, 11, 5, 10, 6, 9, 7, 8
+   \              0C030B040A05
+   \              09060807    
+      6          __flash unsigned char s2[] = {1,9,2,10,3,11,4,12,5,13,6,14,7,15,8,0};
+   \                     s2:
+   \   00000010   09010A020B03       DB 1, 9, 2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15, 8, 0
+   \              0C040D050E06
+   \              0F070008    
+      7          extern unsigned char keys[10];
+      8          extern unsigned char buf_tx_232[VOL_TX_PPP];
+      9          //##################################
+     10            //##################################  функции кодировки
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     11             unsigned char shl (unsigned char n)
+   \                     `shl`:
+     12              {
+     13               unsigned char n1,count;
+     14               for(count=0;count<3;count++)
+   \   00000000   E013               LDI     R17, 3
+     15                  {
+     16                   n1=n&(0x80);
+     17                   n1=n1>>7;
+     18                   n=n<<1; 
+     19                   n=n|n1; 
+   \                     ??shl_0:
+   \   00000002   2F30               MOV     R19, R16
+   \   00000004   0F33               LSL     R19
+   \   00000006   E000               LDI     R16, 0
+   \   00000008   1F00               ROL     R16
+   \   0000000A   2B03               OR      R16, R19
+     20                  }
+   \   0000000C   951A               DEC     R17
+   \   0000000E   F7C9               BRNE    ??shl_0
+     21               return n; 
+   \   00000010   9508               RET
+     22              } 
+     23             
+     24             
+     25             
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     26              unsigned char zamena (unsigned char i)
+   \                     zamena:
+     27              {
+     28               unsigned char i1,i2;
+     29               i1=i&0x0f;
+     30               i2=i&0xf0;
+     31               i2=i2>>4;
+     32               i1=s1[i1];
+     33               i2=s2[i2];
+     34               i2=i2<<4;
+     35               i=0;
+     36               i=i|i1;
+     37               i=i|i2; 
+     38               return i; 
+   \   00000000   ....               LDI     R30, LOW(s1)
+   \   00000002   ....               LDI     R31, (s1) >> 8
+   \   00000004   2F20               MOV     R18, R16
+   \   00000006   702F               ANDI    R18, 0x0F
+   \   00000008   E030               LDI     R19, 0
+   \   0000000A   0FE2               ADD     R30, R18
+   \   0000000C   1FF3               ADC     R31, R19
+   \   0000000E   9124               LPM     R18, Z
+   \   00000010   ....               LDI     R30, LOW((s1 + 16))
+   \   00000012   ....               LDI     R31, HIGH((s1 + 16))
+   \   00000014   9502               SWAP    R16
+   \   00000016   700F               ANDI    R16, 0x0F
+   \   00000018   0FE0               ADD     R30, R16
+   \   0000001A   1FF3               ADC     R31, R19
+   \   0000001C   9104               LPM     R16, Z
+   \   0000001E   9502               SWAP    R16
+   \   00000020   7F00               ANDI    R16, 0xF0
+   \   00000022   2B02               OR      R16, R18
+   \   00000024   9508               RET
+     39              }
+     40              
+     41           
+     42             
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     43               void  transform_buf(unsigned char *p,unsigned int kol_byte,unsigned int s_rand)
+   \                     transform_buf:
+     44              { 
+   \   00000000   ........           CALL    ?PROLOGUE12_L09
+   \   00000004                      REQUIRE ?Register_R4_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R5_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R6_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R7_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R8_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R9_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R10_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R11_is_cg_reg
+   \   00000004   9722               SBIW    R29:R28, 2
+   \   00000006   0138               MOVW    R7:R6, R17:R16
+     45              unsigned char N1,N2,N3,N4;  
+     46              unsigned char C1,C2;
+     47              union
+     48               {
+     49                unsigned char bytes[2]; 
+     50                unsigned int word;
+     51               }S;
+     52              unsigned char N,Z; 
+     53              unsigned char i,j;
+     54              unsigned int count_byte;          //kol_byte - четное число
+     55              
+     56              C1=0xa3;
+     57              C2=0x23;
+     58              S.word=s_rand;
+   \   00000008   8348               ST      Y, R20
+   \   0000000A   8359               STD     Y+1, R21
+     59              N1=S.bytes[0]; 
+   \   0000000C   2FA4               MOV     R26, R20
+     60              N2=S.bytes[1];
+   \   0000000E   2E45               MOV     R4, R21
+     61              count_byte=0;
+   \   00000010   E080               LDI     R24, 0
+   \   00000012   E090               LDI     R25, 0
+   \   00000014   5021               SUBI    R18, 1
+   \   00000016   4030               SBCI    R19, 0
+   \   00000018   0159               MOVW    R11:R10, R19:R18
+   \   0000001A   C005               RJMP    ??transform_buf_0
+     62              while(count_byte<=kol_byte-1)
+     63                 {       
+     64                   for(j=0;j<3;j++)
+     65                      for(i=0;i<8;i++)
+     66                      {
+     67                      N=N1+keys[i];
+     68                      Z=zamena(N);
+     69                      N=shl(Z);
+     70                      Z=N^N2;
+     71                      N2=N1;
+     72                      N1=Z;
+     73                      }
+     74          
+     75                   for(i=0;i<8;i++)
+     76                      {
+     77                       N=N1+keys[7-i];
+     78                      Z=zamena(N);
+     79                      N=shl(Z);
+     80                      Z=N^N2;
+     81                      N2=N1;
+     82                      N1=Z;
+     83                      }
+     84                     N=N1+keys[0]; 
+     85                     Z=zamena(N);
+     86                     N=shl(Z);
+     87                     Z=N^N2;
+     88                     N2=Z;
+     89                     N3=N1;
+     90                     N4=N2;
+     91                     N1=N3+C2;
+     92                     
+     93                     N2=(N4+C1)%(0xff);
+     94                     
+     95                     *p=*p^N2; 
+     96                      p++;
+     97                     
+     98                     if((count_byte+1)<=(kol_byte-1))
+     99                     {
+    100                     *p=*p^N1;  
+   \                     ??transform_buf_1:
+   \   0000001C   01F3               MOVW    R31:R30, R7:R6
+   \   0000001E   8100               LD      R16, Z
+   \   00000020   270A               EOR     R16, R26
+   \   00000022   ....               RCALL   ?Subroutine1
+    101                      p++;
+    102                     count_byte=count_byte+2; 
+   \                     ??CrossCallReturnLabel_2:
+   \   00000024   9602               ADIW    R25:R24, 2
+    103                     } 
+   \                     ??transform_buf_0:
+   \   00000026   16A8               CP      R10, R24
+   \   00000028   06B9               CPC     R11, R25
+   \   0000002A   F188               BRCS    ??transform_buf_2
+   \   0000002C   E003               LDI     R16, 3
+   \   0000002E   2E50               MOV     R5, R16
+   \                     ??transform_buf_3:
+   \   00000030   E0B0               LDI     R27, 0
+   \   00000032   ....               LDI     R16, LOW(keys)
+   \   00000034   2E80               MOV     R8, R16
+   \   00000036   ....               LDI     R16, (keys) >> 8
+   \   00000038   2E90               MOV     R9, R16
+   \                     ??transform_buf_4:
+   \   0000003A   E010               LDI     R17, 0
+   \   0000003C   01F4               MOVW    R31:R30, R9:R8
+   \   0000003E   0FEB               ADD     R30, R27
+   \   00000040   ....               RCALL   ?Subroutine0
+   \                     ??CrossCallReturnLabel_0:
+   \   00000042   F3D8               BRCS    ??transform_buf_4
+   \   00000044   945A               DEC     R5
+   \   00000046   F7A1               BRNE    ??transform_buf_3
+   \   00000048   E0B0               LDI     R27, 0
+   \                     ??transform_buf_5:
+   \   0000004A   01F4               MOVW    R31:R30, R9:R8
+   \   0000004C   9637               ADIW    R31:R30, 7
+   \   0000004E   2F0B               MOV     R16, R27
+   \   00000050   E010               LDI     R17, 0
+   \   00000052   9501               NEG     R16
+   \   00000054   4010               SBCI    R17, 0
+   \   00000056   0FE0               ADD     R30, R16
+   \   00000058   ....               RCALL   ?Subroutine0
+   \                     ??CrossCallReturnLabel_1:
+   \   0000005A   F3B8               BRCS    ??transform_buf_5
+   \   0000005C   ....               LDI     R30, LOW(keys)
+   \   0000005E   ....               LDI     R31, (keys) >> 8
+   \   00000060   8100               LD      R16, Z
+   \   00000062   0F0A               ADD     R16, R26
+   \   00000064   ....               RCALL   zamena
+   \   00000066   ....               RCALL   `shl`
+   \   00000068   5DAD               SUBI    R26, 221
+   \   0000006A   2504               EOR     R16, R4
+   \   0000006C   E010               LDI     R17, 0
+   \   0000006E   550D               SUBI    R16, 93
+   \   00000070   4F1F               SBCI    R17, 255
+   \   00000072   EF4F               LDI     R20, 255
+   \   00000074   E050               LDI     R21, 0
+   \   00000076   ........           CALL    ?SS_DIVMOD_L02
+   \   0000007A   2E44               MOV     R4, R20
+   \   0000007C   01F3               MOVW    R31:R30, R7:R6
+   \   0000007E   8100               LD      R16, Z
+   \   00000080   2704               EOR     R16, R20
+   \   00000082   ....               RCALL   ?Subroutine1
+   \                     ??CrossCallReturnLabel_3:
+   \   00000084   01FC               MOVW    R31:R30, R25:R24
+   \   00000086   9631               ADIW    R31:R30, 1
+   \   00000088   16AE               CP      R10, R30
+   \   0000008A   06BF               CPC     R11, R31
+   \   0000008C   F638               BRCC    ??transform_buf_1
+    104                     else count_byte++;
+    105                      
+    106                     
+    107                     
+    108                 }//while
+    109              
+    110              } 
+   \                     ??transform_buf_2:
+   \   0000008E   9622               ADIW    R29:R28, 2
+   \   00000090   E0EC               LDI     R30, 12
+   \   00000092   ........           JMP     ?EPILOGUE_B12_L09
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine1:
+   \   00000000   8300               ST      Z, R16
+   \   00000002   E001               LDI     R16, 1
+   \   00000004   0E60               ADD     R6, R16
+   \   00000006   E000               LDI     R16, 0
+   \   00000008   1E70               ADC     R7, R16
+   \   0000000A   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine0:
+   \   00000000   1FF1               ADC     R31, R17
+   \   00000002   8100               LD      R16, Z
+   \   00000004   0F0A               ADD     R16, R26
+   \   00000006   ....               RCALL   zamena
+   \   00000008   ....               RCALL   `shl`
+   \   0000000A   2504               EOR     R16, R4
+   \   0000000C   2E4A               MOV     R4, R26
+   \   0000000E   2FA0               MOV     R26, R16
+   \   00000010   95B3               INC     R27
+   \   00000012   30B8               CPI     R27, 8
+   \   00000014   9508               RET
+    111              
+    112             
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    113              void kodirovka(unsigned int kol_send_byte)
+   \                     kodirovka:
+    114              {
+   \   00000000   ........           CALL    ?PROLOGUE6_L09
+   \   00000004                      REQUIRE ?Register_R4_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R5_is_cg_reg
+   \   00000004   0128               MOVW    R5:R4, R17:R16
+    115               
+    116             
+    117              unsigned int kod;
+    118              kod=rand();
+   \   00000006   ........           CALL    rand
+   \   0000000A   01D8               MOVW    R27:R26, R17:R16
+    119              transform_buf(&buf_tx_232[TR_ID],kol_send_byte-7,kod);  
+   \   0000000C   ....               LDI     R24, LOW(buf_tx_232)
+   \   0000000E   ....               LDI     R25, (buf_tx_232) >> 8
+   \   00000010   01A8               MOVW    R21:R20, R17:R16
+   \   00000012   EF09               LDI     R16, 249
+   \   00000014   0E40               ADD     R4, R16
+   \   00000016   EF0F               LDI     R16, 255
+   \   00000018   1E50               ADC     R5, R16
+   \   0000001A   0192               MOVW    R19:R18, R5:R4
+   \   0000001C   018C               MOVW    R17:R16, R25:R24
+   \   0000001E   5D0B               SUBI    R16, 219
+   \   00000020   4F1F               SBCI    R17, 255
+   \   00000022   ....               RCALL   transform_buf
+    120              *(unsigned int*)&buf_tx_232[TR_KOD]=kod;
+   \   00000024   01FC               MOVW    R31:R30, R25:R24
+   \   00000026   A3A2               STD     Z+34, R26
+   \   00000028   A3B3               STD     Z+35, R27
+    121              }
+   \   0000002A   E0E6               LDI     R30, 6
+   \   0000002C   ........           JMP     ?EPILOGUE_B6_L09
+    122              
+    123            
+    124            //##################################
+    125            //################################## 
+
+   Maximum stack usage in bytes:
+
+     Function           CSTACK RSTACK
+     --------           ------ ------
+     kodirovka              6      3
+       -> rand              6      3
+       -> transform_buf     6      3
+     shl                    0      3
+     transform_buf         14      6
+       -> zamena           14      3
+       -> shl              14      3
+       -> zamena           14      3
+       -> shl              14      3
+       -> zamena           14      3
+       -> shl              14      3
+     zamena                 0      3
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     s1               32
+     shl              18
+     zamena           38
+     transform_buf   150
+     ?Subroutine1     12
+     ?Subroutine0     22
+     kodirovka        48
+
+ 
+ 288 bytes in segment FARCODE
+  32 bytes in segment NEAR_F
+ 
+ 320 bytes of CODE memory
+
+Errors: none
+Warnings: none

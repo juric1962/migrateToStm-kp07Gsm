@@ -1,0 +1,197 @@
+##############################################################################
+#                                                                            #
+#                                                      24/Oct/2025  13:29:10 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\ledmd.c         #
+#    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\ledmd.c         #
+#                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a76 #
+#                    82e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_a7 #
+#                    682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cerr_a #
+#                    7682e\Debug\List\ -y --initializers_in_flash -z9        #
+#                    --no_inline --no_tbaa --cross_call_passes=1 --debug -e  #
+#                    -I "E:\box\IAR Systems\Embedded Workbench 4.0           #
+#                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size   #
+#                    4096 --dlib_config "E:\box\IAR Systems\Embedded         #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h"  #
+#    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\ledm #
+#                    d.lst                                                   #
+#    Object file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\ledmd #
+#                    .r90                                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+E:\sim800Elam2560_bootnew_i2cerr_a7682e\ledmd.c
+      1          
+      2          #include <iom2560.h> 
+
+   \                                 In segment ABSOLUTE, at 0x34
+   \   union <unnamed> volatile __io _A_PORTG
+   \                     _A_PORTG:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x28
+   \   union <unnamed> volatile __io _A_PORTC
+   \                     _A_PORTC:
+   \   00000000                      DS 1
+      3          #include "dfpin.h"
+      4          #include "dfcnst.h"
+      5          
+      6          
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+      7          unsigned char state_led_md; 
+      8          unsigned int count_led;
+   \                     count_led:
+   \   00000000                      DS 2
+   \                     state_led_md:
+   \   00000002                      DS 1
+      9          
+     10          extern unsigned char simka; //dobavka
+     11          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     12          void fun_state_md(void)
+   \                     fun_state_md:
+     13          {
+     14            count_led++;
+   \   00000000   ....               LDI     R30, LOW(count_led)
+   \   00000002   ....               LDI     R31, (count_led) >> 8
+   \   00000004   8100               LD      R16, Z
+   \   00000006   8111               LDD     R17, Z+1
+   \   00000008   5F0F               SUBI    R16, 255
+   \   0000000A   4F1F               SBCI    R17, 255
+   \   0000000C   8300               ST      Z, R16
+   \   0000000E   8311               STD     Z+1, R17
+     15            switch(state_led_md)
+   \   00000010   8102               LDD     R16, Z+2
+   \   00000012   950A               DEC     R16
+   \   00000014   F049               BREQ    ??fun_state_md_0
+   \   00000016   950A               DEC     R16
+   \   00000018   F061               BREQ    ??fun_state_md_1
+   \   0000001A   950A               DEC     R16
+   \   0000001C   F0A1               BREQ    ??fun_state_md_2
+   \   0000001E   950A               DEC     R16
+   \   00000020   F101               BREQ    ??fun_state_md_3
+   \   00000022   950A               DEC     R16
+   \   00000024   F119               BREQ    ??fun_state_md_4
+   \   00000026   C028               RJMP    ??fun_state_md_5
+     16            {
+     17            case LED_MD_OFF: S1_OFF; S5_OFF; break;
+   \                     ??fun_state_md_0:
+   \   00000028   98A0               CBI     0x14, 0x00
+   \   0000002A   98A1               CBI     0x14, 0x01
+   \   0000002C   9846               CBI     0x08, 0x06
+   \   0000002E   9847               CBI     0x08, 0x07
+   \   00000030   C023               RJMP    ??fun_state_md_5
+     18            case LED_MD_NO_CREG:  if(count_led<500){if(simka==SIM_BASE){S1_GR;}else {S1_RD;}}else {S1_YL;}break; //dobavka
+   \                     ??fun_state_md_1:
+   \   00000032   8100               LD      R16, Z
+   \   00000034   3F04               CPI     R16, 244
+   \   00000036   4011               SBCI    R17, 1
+   \   00000038   F418               BRCC    ??fun_state_md_6
+   \                     ??fun_state_md_7:
+   \   0000003A   ....               RCALL   ?Subroutine0
+   \                     ??CrossCallReturnLabel_0:
+   \   0000003C   F469               BRNE    ??fun_state_md_8
+   \   0000003E   C009               RJMP    ??fun_state_md_9
+   \                     ??fun_state_md_6:
+   \   00000040   9AA0               SBI     0x14, 0x00
+   \                     ??fun_state_md_10:
+   \   00000042   9AA1               SBI     0x14, 0x01
+   \   00000044   C019               RJMP    ??fun_state_md_5
+     19            case LED_MD_YES_CREG: if(count_led<100){if(simka==SIM_BASE){S1_GR;}else {S1_RD;}}else {S1_OFF;}break;//dobavka
+   \                     ??fun_state_md_2:
+   \   00000046   8100               LD      R16, Z
+   \   00000048   3604               CPI     R16, 100
+   \   0000004A   4010               SBCI    R17, 0
+   \   0000004C   F440               BRCC    ??fun_state_md_11
+   \   0000004E   ....               RCALL   ?Subroutine0
+   \                     ??CrossCallReturnLabel_1:
+   \   00000050   F419               BRNE    ??fun_state_md_8
+   \                     ??fun_state_md_9:
+   \   00000052   98A0               CBI     0x14, 0x00
+   \   00000054   9AA1               SBI     0x14, 0x01
+   \   00000056   9508               RET
+   \                     ??fun_state_md_8:
+   \   00000058   9AA0               SBI     0x14, 0x00
+   \   0000005A   98A1               CBI     0x14, 0x01
+   \   0000005C   9508               RET
+   \                     ??fun_state_md_11:
+   \   0000005E   98A0               CBI     0x14, 0x00
+   \   00000060   C00A               RJMP    ??fun_state_md_12
+     20            case LED_MD_GPRS:if(count_led<500){if(simka==SIM_BASE){S1_GR;}else {S1_RD;}}else {S1_OFF;}break;//dobavka
+   \                     ??fun_state_md_3:
+   \   00000062   8100               LD      R16, Z
+   \   00000064   3F04               CPI     R16, 244
+   \   00000066   4011               SBCI    R17, 1
+   \   00000068   F7D0               BRCC    ??fun_state_md_11
+   \   0000006A   CFE7               RJMP    ??fun_state_md_7
+     21            case LED_MD_PPP: if(simka==SIM_BASE){S1_GR;}else {S1_RD;};break;                                //dobavka
+   \                     ??fun_state_md_4:
+   \   0000006C   ....               RCALL   ?Subroutine0
+   \                     ??CrossCallReturnLabel_2:
+   \   0000006E   F411               BRNE    ??fun_state_md_13
+   \   00000070   98A0               CBI     0x14, 0x00
+   \   00000072   CFE7               RJMP    ??fun_state_md_10
+   \                     ??fun_state_md_13:
+   \   00000074   9AA0               SBI     0x14, 0x00
+   \                     ??fun_state_md_12:
+   \   00000076   98A1               CBI     0x14, 0x01
+     22               
+     23            }
+     24            if(count_led>=1000)count_led=0;
+   \                     ??fun_state_md_5:
+   \   00000078   8100               LD      R16, Z
+   \   0000007A   8111               LDD     R17, Z+1
+   \   0000007C   3E08               CPI     R16, 232
+   \   0000007E   4013               SBCI    R17, 3
+   \   00000080   F018               BRCS    ??fun_state_md_14
+   \   00000082   E000               LDI     R16, 0
+   \   00000084   8300               ST      Z, R16
+   \   00000086   8301               STD     Z+1, R16
+     25          }
+   \                     ??fun_state_md_14:
+   \   00000088   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine0:
+   \   00000000   9100....           LDS     R16, simka
+   \   00000004   2300               TST     R16
+   \   00000006   9508               RET
+     26          
+     27          
+
+   Maximum stack usage in bytes:
+
+     Function     CSTACK RSTACK
+     --------     ------ ------
+     fun_state_md     0      3
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     _A_PORTG          1
+     _A_PORTC          1
+     count_led         3
+     fun_state_md    138
+     ?Subroutine0      8
+      Others           7
+
+ 
+   2 bytes in segment ABSOLUTE
+ 146 bytes in segment FARCODE
+   7 bytes in segment INITTAB
+   3 bytes in segment NEAR_Z
+ 
+ 146 bytes of CODE memory (+ 7 bytes shared)
+   3 bytes of DATA memory (+ 2 bytes shared)
+
+Errors: none
+Warnings: none

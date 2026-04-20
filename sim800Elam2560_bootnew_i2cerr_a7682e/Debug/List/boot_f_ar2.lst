@@ -1,0 +1,73 @@
+###############################################################################
+#                                                                             #
+#     IAR Systems AVR Assembler V4.12A/W32 24/Oct/2025  13:28:02              #
+#     Copyright 2005 IAR Systems. All rights reserved.                        #
+#                                                                             #
+#           Target option =  Relative jumps do not wrap                       #
+#           Source file   =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\boot_f_ar2.s90#
+#           List file     =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\boot_f_ar2.lst#
+#           Object file   =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\boot_f_ar2.r90#
+#           Command line  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\boot_f_ar2.s90 #
+#                            -v5                                              #
+#                            -OE:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\ #
+#                            -s+ -w+ -r -M<>                                  #
+#                            -LE:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\ #
+#                            -t8 -u_enhancedCore -D__HAS_ENHANCED_CORE__=1    #
+#                            -D__HAS_MUL__=1                                  #
+#                            -IE:\box\IAR Systems\Embedded Workbench 4.0 Evaluation\avr\INC\ #
+#                            -D__MEMORY_MODEL__=2 -D__ATmega2560__=1          #
+#                            -D__HAS_ELPM__=1                                 #
+#                                                                             #
+###############################################################################
+
+      1    00000000              #include "ver_api.h"
+      2    00000000              #include "inc.h"
+      3    00000100              PAGESIZEB  EQU  256    
+      4    00000000              
+      5    00000000              SPMEN   EQU  0
+      6    00000001              PGERS   EQU  1
+      7    00000002              PGWRT   EQU  2
+      8    00000003              BLBSET  EQU  3
+      9    00000004              RWWSRE  EQU  4
+     10    00000006              RWWSB   EQU  6
+     11    00000007              SPMIE   EQU  7
+     12    00000000              
+     13    00000000              
+     14    00000001              EEWE    EQU  1  
+     15    00000000              
+     16    00000055              C_GLUK1  EQU  0x55   
+     17    000000AA              C_GLUK2  EQU  0xaa
+     18    00000000              
+     19    00000000                                          
+     20    00000000                
+     21    00000000              
+     22    00000000              sfrb SPMCR = 0x37;
+     23    00000000              sfrb SREG = 0x3F;   
+     24    00000000              sfrb EECR = 0x1F; 
+     25    00000000              sfrb RAMPZ = 59 
+     26    00000000              sfrb EIND = 0x3C;
+     27    00000000              
+     28    00000000              EXTERN array_in_232,pagee,off_buf,total_kol_pa
+                                 ge,contr_gluk1,contr_gluk2
+     29    00000000              
+     30    00000000              EXTERN buf_tx_232 
+     31    00000000              
+     32    00000000               NAME my_boot 
+     33    00000000               
+     34    00000000               ASEG 
+     35    00000000                
+     36    00000000                #ifdef version_s_zagruzchk
+    433    00000000              #endif
+    434    00000000              
+    435    00000000              
+    436    00000000              end
+##############################
+#          CRC:7998          #
+#        Errors:   0         #
+#        Warnings: 0         #
+#          Bytes: 0          #
+##############################
+
+
+
+

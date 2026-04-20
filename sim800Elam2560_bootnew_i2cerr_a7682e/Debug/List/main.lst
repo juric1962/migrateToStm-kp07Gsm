@@ -1,0 +1,438 @@
+##############################################################################
+#                                                                            #
+#                                                      24/Oct/2025  13:29:19 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\main.c          #
+#    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\main.c          #
+#                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a76 #
+#                    82e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_a7 #
+#                    682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cerr_a #
+#                    7682e\Debug\List\ -y --initializers_in_flash -z9        #
+#                    --no_inline --no_tbaa --cross_call_passes=1 --debug -e  #
+#                    -I "E:\box\IAR Systems\Embedded Workbench 4.0           #
+#                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size   #
+#                    4096 --dlib_config "E:\box\IAR Systems\Embedded         #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h"  #
+#    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\main #
+#                    .lst                                                    #
+#    Object file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\main. #
+#                    r90                                                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+E:\sim800Elam2560_bootnew_i2cerr_a7682e\main.c
+      1          #include <iom2560.h>              
+
+   \                                 In segment ABSOLUTE, at 0x60
+   \   union <unnamed> volatile __io _A_WDTCSR
+   \                     _A_WDTCSR:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x34
+   \   union <unnamed> volatile __io _A_PORTG
+   \                     _A_PORTG:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x28
+   \   union <unnamed> volatile __io _A_PORTC
+   \                     _A_PORTC:
+   \   00000000                      DS 1
+      2          #include <inavr.h>
+      3          #include <stdlib.h> 
+      4          #include <string.h>
+      5          #include "dfpin.h"
+      6          #include "dfcnst.h"
+      7          #include "ozu_map.h"
+      8          #include "map_ef.h"
+      9          
+     10          extern unsigned char sel_modul;
+     11          void begin_kd_2(void);
+     12          unsigned long int burst_ds_r(void);
+     13          extern void s_port(unsigned char ch);
+     14          extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,unsigned int num);
+     15          unsigned char check_keys(void);
+     16          
+     17          void begin_ts(void);
+     18          void load_par_first_flash(void);
+     19          
+     20          void load_sel_modul(void);
+     21          void init_pins_mkd_mod(void);
+     22          void init_pins_ts_mod(void);
+     23          
+     24          void begin_ts_mb(void);
+     25          void start_a(void);
+     26          void check_sim(void);
+     27          
+     28          void init_pins(void);
+     29          void init_proc_state(void);
+     30          void delay(unsigned int period);
+     31          void long_delay(unsigned long int period);
+     32          void delay_on_contr(void);
+     33          void init_proc_state(void);
+     34          void init_modem_only(void);
+     35          void start_time(void);
+     36          void WrArrayToFlesh(unsigned int adres_flesh,  unsigned char *adres_ozu, unsigned int num,unsigned char flag,unsigned char znach);
+     37          void tx_rs232_time(void);
+     38          void load_par_first(void);
+     39          void serch_point_log(void);
+     40          unsigned int crc_ozu(void);
+     41          void monitor_rst(void);
+     42          
+     43          extern unsigned char Regim;
+     44          extern unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
+     45          extern unsigned int prov_ozu;
+     46          
+     47          unsigned char check_memory_map(void);
+     48          void vosstan_memory(void);
+     49          void monitor_terminal(void); // проверка терминала 
+     50          void load_par_from_memory(void);
+     51          void load_rw_pdp(void);
+     52          void load_rw_pdp_r(void);
+     53          void monitor_beg_state_seq(unsigned char zad);
+     54          void modem_engine(void);
+     55          void init_ports_debug(void);
+     56          void init_modem_call(void);
+     57          
+     58          //#pragma dataseg=MY_SEG
+     59          //__no_init unsigned char var3;
+     60          //#pragma dataseg=default
+     61          
+     62          //#pragma location=0x600
+     63          //__no_init unsigned char var1 @ 0xe60;
+     64          //#pragma location=0x601
+     65          //__no_init unsigned char var2 @ 0xe62;
+     66          
+     67          
+     68          
+     69          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     70          void main(void)
+   \                     main:
+     71           {
+   \   00000000   938A               ST      -Y, R24
+   \   00000002   9721               SBIW    R29:R28, 1
+     72           // unsigned char buf[11];
+     73            unsigned char bufalo,I123; 
+     74           
+     75            init_pins();
+   \   00000004   ........           CALL    init_pins
+     76             
+     77            //if(Regim !=MODEM_ONLY) 
+     78              init_proc_state();
+   \   00000008   ........           CALL    init_proc_state
+     79              
+     80              
+     81              /////////////////////////  Для отладки потом убрать 
+     82            //  UBRR2H=R9600_H;
+     83            //  UBRR2L=R9600_L; 
+     84              ////////////////////////
+     85              
+     86              
+     87              
+     88            
+     89            WDTCSR=0x18; 
+   \   0000000C   E108               LDI     R16, 24
+   \   0000000E   93000060           STS     96, R16
+     90            WDTCSR=0x0f;
+   \   00000012   E00F               LDI     R16, 15
+   \   00000014   93000060           STS     96, R16
+     91           
+     92            long_delay(1000000); //для внешней флешки
+   \   00000018   E400               LDI     R16, 64
+   \   0000001A   E412               LDI     R17, 66
+   \   0000001C   E02F               LDI     R18, 15
+   \   0000001E   ....               RCALL   ??Subroutine0_0
+     93            __watchdog_reset();
+   \                     ??CrossCallReturnLabel_1:
+   \   00000020   95A8               WDR
+     94           
+     95           
+     96            
+     97            start_time();
+   \   00000022   ........           CALL    start_time
+     98            
+     99            //
+    100            //
+    101            // засинхронизировать часы 19 01 2024
+    102            //  после синхронизации в unix появляется значение времени
+    103            // переменная errRealTime.predUnix принимает значение unix
+    104            
+    105            
+    106            for (I123=0; I123 <20 ; I123++ )
+   \   00000026   E184               LDI     R24, 20
+    107            {
+    108             long_delay(100);
+   \                     ??main_0:
+   \   00000028   E604               LDI     R16, 100
+   \   0000002A   E010               LDI     R17, 0
+   \   0000002C   E020               LDI     R18, 0
+   \   0000002E   ....               RCALL   ??Subroutine0_0
+    109            burst_ds_r();
+   \                     ??CrossCallReturnLabel_0:
+   \   00000030   ........           CALL    burst_ds_r
+    110           }
+   \   00000034   958A               DEC     R24
+   \   00000036   F7C1               BRNE    ??main_0
+    111            
+    112            
+    113            load_par_first();
+   \   00000038   ........           CALL    load_par_first
+    114            if (check_memory_map()==1) vosstan_memory();
+   \   0000003C   ........           CALL    check_memory_map
+   \   00000040   3001               CPI     R16, 1
+   \   00000042   F411               BRNE    ??main_1
+   \   00000044   ........           CALL    vosstan_memory
+    115            
+    116            //s_port(dbbb++);  // dbg
+    117            load_sel_modul();
+   \                     ??main_1:
+   \   00000048   ........           CALL    load_sel_modul
+    118            if(sel_modul==1)init_pins_mkd_mod();
+   \   0000004C   9100....           LDS     R16, sel_modul
+   \   00000050   3001               CPI     R16, 1
+   \   00000052   F411               BRNE    ??main_2
+   \   00000054   ........           CALL    init_pins_mkd_mod
+    119            if(sel_modul==0) init_pins_ts_mod();
+   \                     ??main_2:
+   \   00000058   9100....           LDS     R16, sel_modul
+   \   0000005C   2300               TST     R16
+   \   0000005E   F411               BRNE    ??main_3
+   \   00000060   ........           CALL    init_pins_ts_mod
+    120            bufalo=1;
+   \                     ??main_3:
+   \   00000064   E001               LDI     R16, 1
+   \   00000066   8308               ST      Y, R16
+    121            if(sel_modul>1)  {sel_modul=1; WrArrayToFlesh(A_SEL_MODUL, &bufalo,1,0,0);init_pins_mkd_mod();}
+   \   00000068   9100....           LDS     R16, sel_modul
+   \   0000006C   3002               CPI     R16, 2
+   \   0000006E   F070               BRCS    ??main_4
+   \   00000070   E001               LDI     R16, 1
+   \   00000072   9300....           STS     sel_modul, R16
+   \   00000076   E070               LDI     R23, 0
+   \   00000078   E060               LDI     R22, 0
+   \   0000007A   E041               LDI     R20, 1
+   \   0000007C   E050               LDI     R21, 0
+   \   0000007E   019E               MOVW    R19:R18, R29:R28
+   \   00000080   EF06               LDI     R16, 246
+   \   00000082   E010               LDI     R17, 0
+   \   00000084   ........           CALL    WrArrayToFlesh
+   \   00000088   ........           CALL    init_pins_mkd_mod
+    122            //s_port(dbbb++);  // dbg
+    123            __watchdog_reset();
+   \                     ??main_4:
+   \   0000008C   95A8               WDR
+    124            
+    125             monitor_terminal(); // проверка терминала  13 05 2015!!!!!!!!!!!
+   \   0000008E   ........           CALL    monitor_terminal
+    126            //s_port(dbbb++);  // dbg
+    127             __watchdog_reset();
+   \   00000092   95A8               WDR
+    128            
+    129          
+    130           
+    131            if(check_keys()==1)
+   \   00000094   ........           CALL    check_keys
+   \   00000098   3001               CPI     R16, 1
+   \   0000009A   F461               BRNE    ??main_5
+    132                { 
+    133                 while(1){__watchdog_reset();S1_YL;S2_YL;S3_YL;S4_YL;S5_YL;}
+   \                     ??main_6:
+   \   0000009C   95A8               WDR
+   \   0000009E   9AA0               SBI     0x14, 0x00
+   \   000000A0   9AA1               SBI     0x14, 0x01
+   \   000000A2   9A40               SBI     0x08, 0x00
+   \   000000A4   9A41               SBI     0x08, 0x01
+   \   000000A6   9A44               SBI     0x08, 0x04
+   \   000000A8   9A45               SBI     0x08, 0x05
+   \   000000AA   9A42               SBI     0x08, 0x02
+   \   000000AC   9A43               SBI     0x08, 0x03
+   \   000000AE   9A46               SBI     0x08, 0x06
+   \   000000B0   9A47               SBI     0x08, 0x07
+   \   000000B2   CFF4               RJMP    ??main_6
+    134                }
+    135            //s_port(dbbb++);  // dbg
+    136            
+    137           // start_time();
+    138            delay_on_contr();
+   \                     ??main_5:
+   \   000000B4   ........           CALL    delay_on_contr
+    139            //s_port(dbbb++);  // dbg
+    140            
+    141            //var1=RG_DEBAG;
+    142           // var2=RG_DEBAG;
+    143          //  var3=RG_DEBAG;
+    144           //   Regim=RG_DEBAG;
+    145            
+    146            
+    147           //Regim=MODEM_ONLY; // проверка терминала  13 05 2015!!!!!!!!!!!
+    148           
+    149           
+    150          //  if((Regim==MODEM_ONLY)||(Regim==MODEM_ONLY_R)){init_modem_only();} //dobavka 01 09 25
+    151            
+    152            
+    153            
+    154          //  if(Regim==MODEM_CALL) {init_modem_call();}     25 04 2013
+    155            
+    156            if(Regim==RG_DEBAG){init_ports_debug();}
+   \   000000B8   9100....           LDS     R16, Regim
+   \   000000BC   3001               CPI     R16, 1
+   \   000000BE   F411               BRNE    ??main_7
+   \   000000C0   ........           CALL    init_ports_debug
+    157            
+    158           //s_port(dbbb++);  // dbg
+    159            
+    160            
+    161            
+    162            load_rw_pdp();
+   \                     ??main_7:
+   \   000000C4   ........           CALL    load_rw_pdp
+    163           /// s_port(dbbb++);  // dbg
+    164            load_rw_pdp_r();
+   \   000000C8   ........           CALL    load_rw_pdp_r
+    165           //s_port(dbbb++);  // dbg
+    166            __watchdog_reset();
+   \   000000CC   95A8               WDR
+    167            serch_point_log();
+   \   000000CE   ........           CALL    serch_point_log
+    168           // s_port(dbbb++);  // dbg
+    169             __watchdog_reset(); 
+   \   000000D2   95A8               WDR
+    170             
+    171            
+    172            load_par_first_flash();
+   \   000000D4   ........           CALL    load_par_first_flash
+    173           //s_port(dbbb++);  // dbg
+    174             
+    175            load_par_from_memory();
+   \   000000D8   ........           CALL    load_par_from_memory
+    176           // s_port(dbbb++);  // dbg
+    177            monitor_rst();
+   \   000000DC   ........           CALL    monitor_rst
+    178           // s_port(dbbb++);  // dbg
+    179            
+    180            begin_ts();
+   \   000000E0   ........           CALL    begin_ts
+    181           //s_port(dbbb++);  // dbg
+    182            
+    183            prov_ozu=crc_ozu();
+   \   000000E4   ........           CALL    crc_ozu
+   \   000000E8   ....               LDI     R30, LOW(prov_ozu)
+   \   000000EA   ....               LDI     R31, (prov_ozu) >> 8
+   \   000000EC   8300               ST      Z, R16
+   \   000000EE   8311               STD     Z+1, R17
+    184           // s_port(dbbb++);  // dbg
+    185            
+    186              start_a();
+   \   000000F0   ........           CALL    start_a
+    187             // s_port(dbbb++);  // dbg
+    188            
+    189            __enable_interrupt();
+   \   000000F4   9478               SEI
+    190          
+    191            
+    192          long_delay(700000); 
+   \   000000F6   ....               RCALL   ?Subroutine0
+    193          long_delay(700000); 
+   \                     ??CrossCallReturnLabel_3:
+   \   000000F8   ....               RCALL   ?Subroutine0
+    194          
+    195            
+    196          
+    197          //s_port(dbbb++);  // dbg
+    198          
+    199          monitor_beg_state_seq(0);  
+   \                     ??CrossCallReturnLabel_2:
+   \   000000FA   E000               LDI     R16, 0
+   \   000000FC   ........           CALL    monitor_beg_state_seq
+    200          
+    201          
+    202          //s_port(dbbb++);  // dbg
+    203          begin_ts_mb();
+   \   00000100   ........           CALL    begin_ts_mb
+    204          //s_port(dbbb++);  // dbg
+    205            
+    206          begin_kd_2(); 
+   \   00000104   ........           CALL    begin_kd_2
+    207          //s_port(dbbb++);  // dbg
+    208          
+    209          modem_engine();
+   \   00000108   ........           CALL    modem_engine
+    210            
+    211          }
+   \   0000010C   9621               ADIW    R29:R28, 1
+   \   0000010E   9189               LD      R24, Y+
+   \   00000110   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine0:
+   \   00000000   E600               LDI     R16, 96
+   \   00000002   EA1E               LDI     R17, 174
+   \   00000004   E02A               LDI     R18, 10
+   \                     ??Subroutine0_0:
+   \   00000006   E030               LDI     R19, 0
+   \   00000008   ........           JMP     long_delay
+
+   Maximum stack usage in bytes:
+
+     Function                   CSTACK RSTACK
+     --------                   ------ ------
+     main                           2      3
+       -> init_pins                 2      3
+       -> init_proc_state           2      3
+       -> long_delay                2      3
+       -> start_time                2      3
+       -> long_delay                2      3
+       -> burst_ds_r                2      3
+       -> load_par_first            2      3
+       -> check_memory_map          2      3
+       -> vosstan_memory            2      3
+       -> load_sel_modul            2      3
+       -> init_pins_mkd_mod         2      3
+       -> init_pins_ts_mod          2      3
+       -> WrArrayToFlesh            2      3
+       -> init_pins_mkd_mod         2      3
+       -> monitor_terminal          2      3
+       -> check_keys                2      3
+       -> delay_on_contr            2      3
+       -> init_ports_debug          2      3
+       -> load_rw_pdp               2      3
+       -> load_rw_pdp_r             2      3
+       -> serch_point_log           2      3
+       -> load_par_first_flash      2      3
+       -> load_par_from_memory      2      3
+       -> monitor_rst               2      3
+       -> begin_ts                  2      3
+       -> crc_ozu                   2      3
+       -> start_a                   2      3
+       -> long_delay                2      3
+       -> long_delay                2      3
+       -> monitor_beg_state_seq     2      3
+       -> begin_ts_mb               2      3
+       -> begin_kd_2                2      3
+       -> modem_engine              2      3
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     _A_WDTCSR         1
+     _A_PORTG          1
+     _A_PORTC          1
+     main            274
+     ?Subroutine0     12
+
+ 
+   3 bytes in segment ABSOLUTE
+ 286 bytes in segment FARCODE
+ 
+ 286 bytes of CODE memory
+   0 bytes of DATA memory (+ 3 bytes shared)
+
+Errors: none
+Warnings: none

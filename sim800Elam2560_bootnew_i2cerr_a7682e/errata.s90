@@ -1,0 +1,36 @@
+#include "inc.h"
+;RSEG nn:CODE
+;db  0x55
+;    db  0x55
+;    db  0x55
+ 
+; ASEGN ERRATA:CODE , 0x1C48
+RSEG ERRATA:CODE
+;RSEG CODE
+
+  PUBLIC  point_debug
+ ; ORG 0x1C48
+    point_debug:   
+   pop r31
+   pop r30
+   ret
+
+;    db  0x55
+;    db  0x55
+;    db  0x55
+RSEG ERRATA1:CODE
+;RSEG CODE
+
+  
+   pop r31
+   pop r30
+   ret
+
+ 
+;RSEG BOOTLOADER:CODE
+;point_loader:
+;#ifdef version_s_zagruzchk
+;db 'BOOT128'
+;#endif
+
+end

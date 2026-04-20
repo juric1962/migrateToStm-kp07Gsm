@@ -1,0 +1,220 @@
+##############################################################################
+#                                                                            #
+#                                                      24/Oct/2025  13:27:55 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\bpa.c           #
+#    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\bpa.c           #
+#                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a76 #
+#                    82e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_a7 #
+#                    682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cerr_a #
+#                    7682e\Debug\List\ -y --initializers_in_flash -z9        #
+#                    --no_inline --no_tbaa --cross_call_passes=1 --debug -e  #
+#                    -I "E:\box\IAR Systems\Embedded Workbench 4.0           #
+#                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size   #
+#                    4096 --dlib_config "E:\box\IAR Systems\Embedded         #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h"  #
+#    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\bpa. #
+#                    lst                                                     #
+#    Object file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\bpa.r #
+#                    90                                                      #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+E:\sim800Elam2560_bootnew_i2cerr_a7682e\bpa.c
+      1          #include <iom2560.h> 
+
+   \                                 In segment ABSOLUTE, at 0x22
+   \   union <unnamed> volatile __io _A_PORTA
+   \                     _A_PORTA:
+   \   00000000                      DS 1
+      2          #include <inavr.h> 
+      3          #include "dfpin.h"
+      4          #include "bpa.h"
+      5          #include "map_mbus.h"
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+      6          BPA bpa;
+   \                     bpa:
+   \   00000000                      DS 3
+      7          
+      8          
+      9          extern union {
+     10                 unsigned char mb[SEG3*2];//байтовый массив 
+     11                 } c2_byte; //1я страница конфигурации 
+     12          
+     13          //tii_moto.config=c2_byte.mb[8<<1]; время
+     14          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     15          void bpa_avtomat(void)
+   \                     bpa_avtomat:
+     16          {
+   \   00000000   93BA               ST      -Y, R27
+   \   00000002   93AA               ST      -Y, R26
+     17            switch(bpa.sost) 
+   \   00000004   ....               LDI     R26, LOW(bpa)
+   \   00000006   ....               LDI     R27, (bpa) >> 8
+   \   00000008   910C               LD      R16, X
+   \   0000000A   2300               TST     R16
+   \   0000000C   F159               BREQ    ??bpa_avtomat_0
+   \   0000000E   950A               DEC     R16
+   \   00000010   F039               BREQ    ??bpa_avtomat_1
+   \   00000012   950A               DEC     R16
+   \   00000014   F059               BREQ    ??bpa_avtomat_2
+   \   00000016   950A               DEC     R16
+   \   00000018   F0A1               BREQ    ??bpa_avtomat_3
+   \   0000001A   950A               DEC     R16
+   \   0000001C   F0C1               BREQ    ??bpa_avtomat_4
+   \   0000001E   C020               RJMP    ??bpa_avtomat_5
+     18            {
+     19            case 0: break;
+     20            case 1: 
+     21              {
+     22               TU2_ON ;
+   \                     ??bpa_avtomat_1:
+   \   00000020   ....               RCALL   ?Subroutine0
+     23               bpa.time_on = TestUstBpa();
+   \                     ??CrossCallReturnLabel_1:
+   \   00000022   9611               ADIW    R27:R26, 1
+   \   00000024   930C               ST      X, R16
+     24               bpa.sost=2;
+   \   00000026   E002               LDI     R16, 2
+   \   00000028   930E               ST      -X, R16
+     25               break;
+   \   0000002A   C01C               RJMP    ??bpa_avtomat_0
+     26              }
+     27            case 2:
+     28              {
+     29                if(bpa.time_on) {bpa.time_on--;break;} 
+   \                     ??bpa_avtomat_2:
+   \   0000002C   9611               ADIW    R27:R26, 1
+   \   0000002E   910C               LD      R16, X
+   \   00000030   9711               SBIW    R27:R26, 1
+   \   00000032   2300               TST     R16
+   \   00000034   F019               BREQ    ??bpa_avtomat_6
+   \   00000036   9611               ADIW    R27:R26, 1
+   \                     ??bpa_avtomat_7:
+   \   00000038   950A               DEC     R16
+   \   0000003A   C013               RJMP    ??bpa_avtomat_8
+     30                TU2_OFF;
+   \                     ??bpa_avtomat_6:
+   \   0000003C   9813               CBI     0x02, 0x03
+     31                TU1_OFF;
+   \   0000003E   9814               CBI     0x02, 0x04
+   \   00000040   C00F               RJMP    ??bpa_avtomat_5
+     32                bpa.sost=0;
+     33                break;
+     34              }
+     35               case 3:   // выключить
+     36              {
+     37               TU2_ON ;
+   \                     ??bpa_avtomat_3:
+   \   00000042   ....               RCALL   ?Subroutine0
+     38               bpa.time_off = TestUstBpa();
+   \                     ??CrossCallReturnLabel_0:
+   \   00000044   9612               ADIW    R27:R26, 2
+   \   00000046   930C               ST      X, R16
+   \   00000048   9712               SBIW    R27:R26, 2
+     39               bpa.sost=4;
+   \   0000004A   E004               LDI     R16, 4
+   \   0000004C   C00A               RJMP    ??bpa_avtomat_8
+     40               break;  
+     41              }
+     42               case 4:
+     43              {
+     44                if(bpa.time_off) {bpa.time_off--;break;} 
+   \                     ??bpa_avtomat_4:
+   \   0000004E   9612               ADIW    R27:R26, 2
+   \   00000050   910C               LD      R16, X
+   \   00000052   9712               SBIW    R27:R26, 2
+   \   00000054   2300               TST     R16
+   \   00000056   F011               BREQ    ??bpa_avtomat_9
+   \   00000058   9612               ADIW    R27:R26, 2
+   \   0000005A   CFEE               RJMP    ??bpa_avtomat_7
+     45                TU2_OFF;
+   \                     ??bpa_avtomat_9:
+   \   0000005C   9813               CBI     0x02, 0x03
+     46                TU1_ON;
+   \   0000005E   9A14               SBI     0x02, 0x04
+     47                bpa.sost=0;
+     48                break;  
+     49              }
+     50              
+     51            default: bpa.sost=0;break;
+   \                     ??bpa_avtomat_5:
+   \   00000060   E000               LDI     R16, 0
+   \                     ??bpa_avtomat_8:
+   \   00000062   930C               ST      X, R16
+     52            }
+     53          }
+   \                     ??bpa_avtomat_0:
+   \   00000064   91A9               LD      R26, Y+
+   \   00000066   91B9               LD      R27, Y+
+   \   00000068   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine0:
+   \   00000000   9A13               SBI     0x02, 0x03
+   \   00000002   ....               RJMP    TestUstBpa
+     54          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     55          char TestUstBpa(void)
+   \                     TestUstBpa:
+     56          {
+   \   00000000   9100....           LDS     R16, (c2_byte + 16)
+   \   00000004   3005               CPI     R16, 5
+   \   00000006   F410               BRCC    ??TestUstBpa_0
+     57            
+     58            if( c2_byte.mb[16] < 5 ) return(30);
+   \                     ??TestUstBpa_1:
+   \   00000008   E10E               LDI     R16, 30
+   \   0000000A   9508               RET
+     59            if( c2_byte.mb[16] > 50 ) return(30);
+   \                     ??TestUstBpa_0:
+   \   0000000C   3303               CPI     R16, 51
+   \   0000000E   F7E0               BRCC    ??TestUstBpa_1
+     60            return( c2_byte.mb[16] );
+   \   00000010   9508               RET
+     61            
+     62           
+     63          }
+     64          
+
+   Maximum stack usage in bytes:
+
+     Function        CSTACK RSTACK
+     --------        ------ ------
+     TestUstBpa          0      3
+     bpa_avtomat         2      3
+       -> TestUstBpa     2      3
+       -> TestUstBpa     2      3
+
+
+   Segment part sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     _A_PORTA          1
+     bpa               3
+     bpa_avtomat     106
+     ?Subroutine0      4
+     TestUstBpa       18
+      Others           7
+
+ 
+   1 byte  in segment ABSOLUTE
+ 128 bytes in segment FARCODE
+   7 bytes in segment INITTAB
+   3 bytes in segment NEAR_Z
+ 
+ 128 bytes of CODE memory (+ 7 bytes shared)
+   3 bytes of DATA memory (+ 1 byte  shared)
+
+Errors: none
+Warnings: none

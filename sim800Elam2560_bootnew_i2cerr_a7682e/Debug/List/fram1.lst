@@ -1,0 +1,1868 @@
+##############################################################################
+#                                                                            #
+#                                                      24/Oct/2025  13:27:54 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\fram1.c         #
+#    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\fram1.c         #
+#                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a76 #
+#                    82e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_a7 #
+#                    682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cerr_a #
+#                    7682e\Debug\List\ -y --initializers_in_flash -z9        #
+#                    --no_inline --no_tbaa --cross_call_passes=1 --debug -e  #
+#                    -I "E:\box\IAR Systems\Embedded Workbench 4.0           #
+#                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size   #
+#                    4096 --dlib_config "E:\box\IAR Systems\Embedded         #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h"  #
+#    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\fram #
+#                    1.lst                                                   #
+#    Object file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\fram1 #
+#                    .r90                                                    #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+E:\sim800Elam2560_bootnew_i2cerr_a7682e\fram1.c
+      1          #include <iom2560.h> 
+
+   \                                 In segment ABSOLUTE, at 0x2b
+   \   union <unnamed> volatile __io _A_PORTD
+   \                     _A_PORTD:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x2a
+   \   union <unnamed> volatile __io _A_DDRD
+   \                     _A_DDRD:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x29
+   \   union <unnamed> volatile __io _A_PIND
+   \                     _A_PIND:
+   \   00000000                      DS 1
+      2          #include <inavr.h>
+      3          #include "dfpin.h"
+      4          #include "ozu_map.h"
+      5          #include "map_mbus.h"
+      6          extern unsigned long int unix;
+      7          extern unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
+      8          extern void delay(unsigned int period);
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+      9          char erri2c;
+   \                     erri2c:
+   \   00000000                      DS 1
+     10          struct
+     11                  { // в двоичном коде
+     12                    char r_sec;
+     13                    char r_min;
+     14                    char r_hor;
+     15                    char r_day;
+     16                    char r_date;
+     17                    char r_month;
+     18                    char r_year;
+     19                    char r_control;
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     20                  }  real_time; 
+     21          
+     22          extern unsigned int modbus_mem1[SEG1];
+     23           
+     24          
+     25          struct
+     26                  { 
+     27                    unsigned long int predUnix;
+     28                    unsigned long int currrentUnix;
+     29                    char errL;
+     30                    char errH;
+     31                  }  errRealTime; 
+   \                     errRealTime:
+   \   00000000                      DS 10
+   \                     real_time:
+   \   0000000A                      DS 8
+     32          //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     33          ///////////////////////////////  функции для работы с последовательной флеш
+     34           
+     35           
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     36            void start_cond(void)   
+   \                     start_cond:
+     37            {
+     38             SET_SCL;
+   \   00000000   9A58               SBI     0x0B, 0x00
+     39             SET_SDA;
+   \   00000002   9A59               SBI     0x0B, 0x01
+     40             SDA_OUT;
+   \   00000004   ....               RCALL   ?Subroutine2
+     41             delay(10);
+     42             CLR_SDA;
+   \                     ??CrossCallReturnLabel_68:
+   \   00000006   9859               CBI     0x0B, 0x01
+     43             delay(10);
+   \   00000008   ....               RCALL   ?Subroutine31
+     44             CLR_SCL;
+   \                     ??CrossCallReturnLabel_66:
+   \   0000000A   9858               CBI     0x0B, 0x00
+     45             delay(10);
+   \   0000000C   ....               RJMP    ?Subroutine31
+     46            }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine2:
+   \   00000000   9A51               SBI     0x0A, 0x01
+   \   00000002   ....               RJMP    ?Subroutine31
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine31:
+   \   00000000   E00A               LDI     R16, 10
+   \                     ??Subroutine31_0:
+   \   00000002   E010               LDI     R17, 0
+   \   00000004   ........           JMP     delay
+     47          
+     48          
+     49           
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     50            void stop_cond(void)      
+   \                     stop_cond:
+     51            { 
+     52             CLR_SCL; 
+   \   00000000   9858               CBI     0x0B, 0x00
+     53             CLR_SDA;
+   \   00000002   9859               CBI     0x0B, 0x01
+     54             SDA_OUT;
+   \   00000004   ....               RCALL   ?Subroutine2
+     55             delay(10);
+     56             SET_SCL; 
+   \                     ??CrossCallReturnLabel_67:
+   \   00000006   9A58               SBI     0x0B, 0x00
+     57             delay(10);
+   \   00000008   ....               RCALL   ?Subroutine31
+     58             SET_SDA;
+   \                     ??CrossCallReturnLabel_65:
+   \   0000000A   9A59               SBI     0x0B, 0x01
+     59             delay(10);
+   \   0000000C   ....               RJMP    ?Subroutine31
+     60            }
+     61          
+     62           
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     63           void cloc_scl(void)  
+   \                     cloc_scl:
+     64            {
+     65             CLR_SCL;
+   \   00000000   ....               RCALL   ?Subroutine1
+     66             delay(3);
+     67             SET_SCL;
+     68             delay(3);
+     69             CLR_SCL;
+   \                     ??CrossCallReturnLabel_64:
+   \   00000002   9858               CBI     0x0B, 0x00
+     70             delay(3);
+   \   00000004                      REQUIRE ?Subroutine38
+   \   00000004                      ;               // Fall through to label ?Subroutine38
+     71            }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine38:
+   \   00000000   E003               LDI     R16, 3
+   \   00000002   ....               RJMP    ??Subroutine31_0
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine1:
+   \   00000000   9858               CBI     0x0B, 0x00
+   \   00000002   E003               LDI     R16, 3
+   \   00000004   E010               LDI     R17, 0
+   \   00000006   ........           CALL    delay
+   \                     ??Subroutine1_0:
+   \   0000000A   9A58               SBI     0x0B, 0x00
+   \   0000000C   ....               RJMP    ?Subroutine38
+     72          
+     73           
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     74              void out(char tt)      // записать символ
+   \                     `out`:
+     75            {
+   \   00000000   939A               ST      -Y, R25
+   \   00000002   938A               ST      -Y, R24
+   \   00000004   2F90               MOV     R25, R16
+     76             char i;
+     77             for(i=0;i<8;i++)
+   \   00000006   E088               LDI     R24, 8
+     78              {
+     79                if(tt & 0x80)    {SET_SDA;}    
+   \                     ??out_0:
+   \   00000008   FB97               BST     R25, 7
+   \   0000000A   F416               BRTC    ??out_1
+   \   0000000C   9A59               SBI     0x0B, 0x01
+   \   0000000E   C001               RJMP    ??out_2
+     80                   else  CLR_SDA;     
+   \                     ??out_1:
+   \   00000010   9859               CBI     0x0B, 0x01
+     81               cloc_scl();
+   \                     ??out_2:
+   \   00000012   ....               RCALL   cloc_scl
+     82               tt=tt<<1;
+   \   00000014   0F99               LSL     R25
+     83              }
+   \   00000016   958A               DEC     R24
+   \   00000018   F7B9               BRNE    ??out_0
+     84            /*   11 03 23
+     85             SDA_IN;  
+     86             SET_SDA;    
+     87             delay(3);
+     88             cloc_scl();
+     89             CLR_SDA; 
+     90             SDA_OUT; 
+     91             */
+     92             SDA_IN;  
+   \   0000001A   9851               CBI     0x0A, 0x01
+     93             SET_SDA;    
+   \   0000001C   9A59               SBI     0x0B, 0x01
+     94             delay(3);
+   \   0000001E   ....               RCALL   ?Subroutine38
+     95             
+     96              CLR_SCL;
+   \                     ??CrossCallReturnLabel_60:
+   \   00000020   ....               RCALL   ?Subroutine1
+     97             delay(3);
+     98             SET_SCL;     // установить scl
+     99             delay(3);
+    100             if(PIND & SDA) { erri2c=1;  modbus_mem1[AD_TII1 + 8]++; } // если на линии ack высокий уровень это ошибка
+   \                     ??CrossCallReturnLabel_63:
+   \   00000022   9B49               SBIS    0x09, 0x01
+   \   00000024   C004               RJMP    ??CrossCallReturnLabel_4
+   \   00000026   E001               LDI     R16, 1
+   \   00000028   9300....           STS     erri2c, R16
+   \   0000002C   ....               RCALL   ?Subroutine8
+    101             CLR_SCL;
+   \                     ??CrossCallReturnLabel_4:
+   \   0000002E   9858               CBI     0x0B, 0x00
+    102             delay(3);
+   \   00000030   ....               RCALL   ?Subroutine38
+    103             
+    104             CLR_SDA; 
+   \                     ??CrossCallReturnLabel_59:
+   \   00000032   9859               CBI     0x0B, 0x01
+    105             SDA_OUT; 
+   \   00000034   9A51               SBI     0x0A, 0x01
+    106             
+    107            }
+   \   00000036   ....               RJMP    ?Subroutine32
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine32:
+   \   00000000   9189               LD      R24, Y+
+   \   00000002   9199               LD      R25, Y+
+   \   00000004   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine8:
+   \   00000000   ....               LDI     R30, LOW(modbus_mem1)
+   \   00000002   ....               LDI     R31, (modbus_mem1) >> 8
+   \   00000004   8900               LDD     R16, Z+16
+   \   00000006   8911               LDD     R17, Z+17
+   \   00000008   5F0F               SUBI    R16, 255
+   \   0000000A   4F1F               SBCI    R17, 255
+   \   0000000C   8B00               STD     Z+16, R16
+   \   0000000E   8B11               STD     Z+17, R17
+   \   00000010   9508               RET
+    108           
+    109           
+    110          
+    111           
+    112           
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    113           char read_byte(void)         
+   \                     read_byte:
+    114            {
+   \   00000000   ....               RCALL   ?Subroutine13
+    115             char i,data; 
+    116             SDA_IN;   
+    117             SET_SDA; 
+    118             for(i=0;i<8;i++)
+    119             {
+    120               data=data<<1;
+   \                     ??CrossCallReturnLabel_10:
+   \   00000002   0F99               LSL     R25
+    121               SET_SCL;     
+   \   00000004   ....               RCALL   ??Subroutine1_0
+    122               delay(3);
+    123               if(PIND & SDA)   data=data | 0x01;      //+r
+   \                     ??CrossCallReturnLabel_62:
+   \   00000006   9B49               SBIS    0x09, 0x01
+   \   00000008   C002               RJMP    ??read_byte_0
+   \   0000000A   6091               ORI     R25, 0x01
+   \   0000000C   C001               RJMP    ??read_byte_1
+    124                  else data=data & ~1;
+   \                     ??read_byte_0:
+   \   0000000E   7F9E               ANDI    R25, 0xFE
+    125               CLR_SCL;              //+r
+   \                     ??read_byte_1:
+   \   00000010   ....               RCALL   ?Subroutine4
+    126               delay(3);
+    127             }
+   \                     ??CrossCallReturnLabel_0:
+   \   00000012   F7B9               BRNE    ??CrossCallReturnLabel_10
+    128          //
+    129          //        при произвольном чтении
+    130          //        после приема последнего бита порт на вывод
+    131          //        и удерживается в 1 нет подтверждения
+    132          //
+    133              CLR_SDA; 
+   \   00000014   9859               CBI     0x0B, 0x01
+    134              SDA_OUT;
+   \   00000016   ....               RJMP    ?Subroutine3
+    135              cloc_scl();
+    136              return(data);
+    137            }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine13:
+   \   00000000   939A               ST      -Y, R25
+   \   00000002   938A               ST      -Y, R24
+   \   00000004   9851               CBI     0x0A, 0x01
+   \   00000006   9A59               SBI     0x0B, 0x01
+   \   00000008   E088               LDI     R24, 8
+   \   0000000A   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine4:
+   \   00000000   9858               CBI     0x0B, 0x00
+   \   00000002   E003               LDI     R16, 3
+   \   00000004   E010               LDI     R17, 0
+   \   00000006   ........           CALL    delay
+   \   0000000A   958A               DEC     R24
+   \   0000000C   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine3:
+   \   00000000   9A51               SBI     0x0A, 0x01
+   \   00000002   ....               RCALL   cloc_scl
+   \   00000004   2F09               MOV     R16, R25
+   \   00000006                      REQUIRE ?Subroutine32
+   \   00000006                      ;               // Fall through to label ?Subroutine32
+    138            
+    139            
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    140            char read_last_byte(void)         
+   \                     read_last_byte:
+    141            {
+   \   00000000   ....               RCALL   ?Subroutine13
+    142             char i,data; 
+    143             SDA_IN;   
+    144             SET_SDA; 
+    145             for(i=0;i<8;i++)
+    146             {
+    147               data=data<<1;
+   \                     ??CrossCallReturnLabel_11:
+   \   00000002   0F99               LSL     R25
+    148               SET_SCL;     
+   \   00000004   ....               RCALL   ??Subroutine1_0
+    149               delay(3);
+    150               if(PIND & SDA)   data=data | 0x01;      //+r
+   \                     ??CrossCallReturnLabel_61:
+   \   00000006   9B49               SBIS    0x09, 0x01
+   \   00000008   C002               RJMP    ??read_last_byte_0
+   \   0000000A   6091               ORI     R25, 0x01
+   \   0000000C   C001               RJMP    ??read_last_byte_1
+    151                  else data=data & ~1;
+   \                     ??read_last_byte_0:
+   \   0000000E   7F9E               ANDI    R25, 0xFE
+    152               CLR_SCL;              //+r
+   \                     ??read_last_byte_1:
+   \   00000010   ....               RCALL   ?Subroutine4
+    153               delay(3);
+    154             }
+   \                     ??CrossCallReturnLabel_1:
+   \   00000012   F7B9               BRNE    ??CrossCallReturnLabel_11
+    155          //
+    156          //        при произвольном чтении
+    157          //        после приема последнего бита порт на вывод
+    158          //        и удерживается в 1 нет подтверждения
+    159          //
+    160              SET_SDA; 
+   \   00000014   9A59               SBI     0x0B, 0x01
+    161              SDA_OUT;
+   \   00000016   ....               RJMP    ?Subroutine3
+    162              cloc_scl();
+    163              return(data);
+    164            } 
+    165           ///////////////////////////////  функции для работы с последовательной флеш
+    166          
+    167          
+    168          //EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
+    169          
+    170          
+    171          
+    172          
+    173          //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    174          //Функции работы с реальным временем
+    175          
+    176           
+    177           
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    178           unsigned long int wd_time_as(void)
+   \                     wd_time_as:
+    179          { unsigned long int sek_32;
+   \   00000000   ....               RCALL   ?Subroutine18
+    180             
+    181             
+    182             sek_32 = ( ( (unsigned long int)real_time.r_year * 365 ) + (real_time.r_year>>2) );
+   \                     ??CrossCallReturnLabel_18:
+   \   00000002   ....               LDI     R30, LOW(errRealTime)
+   \   00000004   ....               LDI     R31, (errRealTime) >> 8
+   \   00000006   8980               LDD     R24, Z+16
+   \   00000008   2F48               MOV     R20, R24
+   \   0000000A   E050               LDI     R21, 0
+   \   0000000C   E060               LDI     R22, 0
+   \   0000000E   E070               LDI     R23, 0
+   \   00000010   E60D               LDI     R16, 109
+   \   00000012   E011               LDI     R17, 1
+   \   00000014   E020               LDI     R18, 0
+   \   00000016   E030               LDI     R19, 0
+   \   00000018   ........           CALL    ?L_EC_MUL_L03
+   \   0000001C   9546               LSR     R20
+   \   0000001E   9546               LSR     R20
+   \   00000020   ....               RCALL   ?Subroutine19
+   \                     ??CrossCallReturnLabel_21:
+   \   00000022   8506               LDD     R16, Z+14
+   \   00000024   E010               LDI     R17, 0
+   \   00000026   E030               LDI     R19, 0
+   \   00000028   8597               LDD     R25, Z+15
+   \   0000002A   2FE9               MOV     R30, R25
+   \   0000002C   50E2               SUBI    R30, 2
+   \   0000002E   F0B9               BREQ    ??wd_time_as_0
+   \   00000030   95EA               DEC     R30
+   \   00000032   F0C1               BREQ    ??wd_time_as_1
+   \   00000034   95EA               DEC     R30
+   \   00000036   F0C1               BREQ    ??wd_time_as_2
+   \   00000038   95EA               DEC     R30
+   \   0000003A   F0C1               BREQ    ??wd_time_as_3
+   \   0000003C   95EA               DEC     R30
+   \   0000003E   F0C1               BREQ    ??wd_time_as_4
+   \   00000040   95EA               DEC     R30
+   \   00000042   F0C1               BREQ    ??wd_time_as_5
+   \   00000044   95EA               DEC     R30
+   \   00000046   F0C1               BREQ    ??wd_time_as_6
+   \   00000048   95EA               DEC     R30
+   \   0000004A   F0C1               BREQ    ??wd_time_as_7
+   \   0000004C   95EA               DEC     R30
+   \   0000004E   F0C1               BREQ    ??wd_time_as_8
+   \   00000050   95EA               DEC     R30
+   \   00000052   F0C1               BREQ    ??wd_time_as_9
+   \   00000054   95EA               DEC     R30
+   \   00000056   F0C1               BREQ    ??wd_time_as_10
+    183             
+    184               switch ( real_time.r_month )
+    185                   {
+    186                    case 1: sek_32 = (sek_32 + real_time.r_date); break;
+   \   00000058   0F40               ADD     R20, R16
+   \   0000005A   1F53               ADC     R21, R19
+   \   0000005C   C019               RJMP    ??wd_time_as_11
+    187                    case 2: sek_32 = (sek_32 + real_time.r_date + 31); break;
+   \                     ??wd_time_as_0:
+   \   0000005E   5E01               SUBI    R16, 225
+   \                     ??wd_time_as_12:
+   \   00000060   4F1F               SBCI    R17, 255
+   \   00000062   C014               RJMP    ??wd_time_as_13
+    188                    case 3: sek_32 = (sek_32 + real_time.r_date + 59); break;
+   \                     ??wd_time_as_1:
+   \   00000064   5C05               SUBI    R16, 197
+   \   00000066   CFFC               RJMP    ??wd_time_as_12
+    189                    case 4: sek_32 = (sek_32 + real_time.r_date + 90); break;
+   \                     ??wd_time_as_2:
+   \   00000068   5A06               SUBI    R16, 166
+   \   0000006A   CFFA               RJMP    ??wd_time_as_12
+    190                    case 5: sek_32 = (sek_32 + real_time.r_date + 120); break;
+   \                     ??wd_time_as_3:
+   \   0000006C   5808               SUBI    R16, 136
+   \   0000006E   CFF8               RJMP    ??wd_time_as_12
+    191                    case 6: sek_32 = (sek_32 + real_time.r_date + 151); break;
+   \                     ??wd_time_as_4:
+   \   00000070   5609               SUBI    R16, 105
+   \   00000072   CFF6               RJMP    ??wd_time_as_12
+    192                    case 7: sek_32 = (sek_32 + real_time.r_date + 181); break;
+   \                     ??wd_time_as_5:
+   \   00000074   540B               SUBI    R16, 75
+   \   00000076   CFF4               RJMP    ??wd_time_as_12
+    193                    case 8: sek_32 = (sek_32 + real_time.r_date + 212); break;
+   \                     ??wd_time_as_6:
+   \   00000078   520C               SUBI    R16, 44
+   \   0000007A   CFF2               RJMP    ??wd_time_as_12
+    194                    case 9: sek_32 = (sek_32 + real_time.r_date + 243); break;
+   \                     ??wd_time_as_7:
+   \   0000007C   500D               SUBI    R16, 13
+   \   0000007E   CFF0               RJMP    ??wd_time_as_12
+    195                    case 10: sek_32 = (sek_32 + real_time.r_date + 273); break;
+   \                     ??wd_time_as_8:
+   \   00000080   5E0F               SUBI    R16, 239
+   \   00000082   C003               RJMP    ??wd_time_as_14
+    196                    case 11: sek_32 = (sek_32 + real_time.r_date + 304); break;
+   \                     ??wd_time_as_9:
+   \   00000084   5D00               SUBI    R16, 208
+   \   00000086   C001               RJMP    ??wd_time_as_14
+    197                    case 12: sek_32 = (sek_32 + real_time.r_date + 334); break;
+   \                     ??wd_time_as_10:
+   \   00000088   5B02               SUBI    R16, 178
+   \                     ??wd_time_as_14:
+   \   0000008A   4F1E               SBCI    R17, 254
+   \                     ??wd_time_as_13:
+   \   0000008C   0F40               ADD     R20, R16
+   \   0000008E   1F51               ADC     R21, R17
+   \                     ??wd_time_as_11:
+   \   00000090   1F63               ADC     R22, R19
+   \   00000092   1F73               ADC     R23, R19
+    198                    default:
+    199                    sek_32 = (sek_32 + real_time.r_date);
+    200                   }
+    201              if ( (real_time.r_year & 0x03) == 0 )
+   \   00000094   7083               ANDI    R24, 0x03
+   \   00000096   F431               BRNE    ??wd_time_as_15
+    202                   {
+    203                    if (real_time.r_month < 3) sek_32--;
+   \   00000098   3093               CPI     R25, 3
+   \   0000009A   F420               BRCC    ??wd_time_as_15
+   \   0000009C   5041               SUBI    R20, 1
+   \   0000009E   4050               SBCI    R21, 0
+   \   000000A0   4060               SBCI    R22, 0
+   \   000000A2   4070               SBCI    R23, 0
+    204                   }
+    205           // sek_32 = ((sek_32 * 86400)+((unsigned long int)real_time.r_hor * 3600)+((unsigned long int)real_time.r_min * 60)+real_time.r_sec + 946684800);
+    206           
+    207              sek_32 = ((sek_32 * 86400)+((unsigned long int)real_time.r_hor * 3600)+((unsigned long int)real_time.r_min * 60)+real_time.r_sec);
+    208           // cek_Unix_2000 = 946684800   
+    209              return sek_32;
+   \                     ??wd_time_as_15:
+   \   000000A4   E800               LDI     R16, 128
+   \   000000A6   E511               LDI     R17, 81
+   \   000000A8   E021               LDI     R18, 1
+   \   000000AA   ........           CALL    ?L_EC_MUL_L03
+   \   000000AE   01C8               MOVW    R25:R24, R17:R16
+   \   000000B0   01D9               MOVW    R27:R26, R19:R18
+   \   000000B2   ....               LDI     R30, LOW(errRealTime)
+   \   000000B4   8544               LDD     R20, Z+12
+   \   000000B6   E050               LDI     R21, 0
+   \   000000B8   E060               LDI     R22, 0
+   \   000000BA   E070               LDI     R23, 0
+   \   000000BC   E100               LDI     R16, 16
+   \   000000BE   E01E               LDI     R17, 14
+   \   000000C0   ....               RCALL   ?Subroutine16
+   \                     ??CrossCallReturnLabel_14:
+   \   000000C2   01C8               MOVW    R25:R24, R17:R16
+   \   000000C4   01D9               MOVW    R27:R26, R19:R18
+   \   000000C6   8543               LDD     R20, Z+11
+   \   000000C8   E30C               LDI     R16, 60
+   \   000000CA   E010               LDI     R17, 0
+   \   000000CC   ....               RCALL   ?Subroutine16
+   \                     ??CrossCallReturnLabel_15:
+   \   000000CE   8542               LDD     R20, Z+10
+   \   000000D0   ....               RCALL   ?Subroutine19
+   \                     ??CrossCallReturnLabel_22:
+   \   000000D2   018A               MOVW    R17:R16, R21:R20
+   \   000000D4   019B               MOVW    R19:R18, R23:R22
+   \   000000D6                      REQUIRE ?Subroutine33
+   \   000000D6                      ;               // Fall through to label ?Subroutine33
+    210          } 
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine33:
+   \   00000000   E0E4               LDI     R30, 4
+   \   00000002   ........           JMP     ?EPILOGUE_B4_L09
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine19:
+   \   00000000   0F40               ADD     R20, R16
+   \   00000002   1F51               ADC     R21, R17
+   \   00000004   1F62               ADC     R22, R18
+   \   00000006   1F73               ADC     R23, R19
+   \   00000008   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine16:
+   \   00000000   E020               LDI     R18, 0
+   \   00000002   E030               LDI     R19, 0
+   \   00000004   ........           CALL    ?L_EC_MUL_L03
+   \   00000008   0F08               ADD     R16, R24
+   \   0000000A   1F19               ADC     R17, R25
+   \   0000000C   1F2A               ADC     R18, R26
+   \   0000000E   1F3B               ADC     R19, R27
+   \   00000010   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine18:
+   \   00000000   ........           JMP     ?PROLOGUE4_L09
+    211          
+    212          
+    213          
+    214          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    215          char daa_to_hex(char b)
+   \                     daa_to_hex:
+    216          {
+    217          return( (b & 0xf) + ((b>>4)*10) );
+   \   00000000   2F10               MOV     R17, R16
+   \   00000002   701F               ANDI    R17, 0x0F
+   \   00000004   9502               SWAP    R16
+   \   00000006   700F               ANDI    R16, 0x0F
+   \   00000008   E02A               LDI     R18, 10
+   \   0000000A   9F02               MUL     R16, R18
+   \   0000000C   2D00               MOV     R16, R0
+   \   0000000E   0F01               ADD     R16, R17
+   \   00000010   9508               RET
+    218          }
+    219          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    220          char hex_to_daa(char b)
+   \                     hex_to_daa:
+    221          {
+   \   00000000   2F19               MOV     R17, R25
+   \   00000002   2F28               MOV     R18, R24
+   \   00000004   2F90               MOV     R25, R16
+    222          return( ((b/10)<<4) + (b%10) );
+   \   00000006   ....               RCALL   ?Subroutine20
+   \                     ??CrossCallReturnLabel_23:
+   \   00000008   2F80               MOV     R24, R16
+   \   0000000A   9582               SWAP    R24
+   \   0000000C   7F80               ANDI    R24, 0xF0
+   \   0000000E   2F09               MOV     R16, R25
+   \   00000010   ....               RCALL   ?Subroutine20
+   \                     ??CrossCallReturnLabel_24:
+   \   00000012   2F04               MOV     R16, R20
+   \   00000014   0F08               ADD     R16, R24
+   \   00000016   2F82               MOV     R24, R18
+   \   00000018   2F91               MOV     R25, R17
+   \   0000001A   9508               RET
+    223          }   
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine20:
+   \   00000000   E04A               LDI     R20, 10
+   \   00000002   ........           JMP     ?UC_DIVMOD_L01
+    224           
+    225          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    226          void set_rlt_poi(void)
+   \                     set_rlt_poi:
+    227            {
+   \   00000000   C001               RJMP    ??CrossCallReturnLabel_58
+    228            wasa_i2c:
+    229              erri2c=0;
+    230             start_cond();
+    231             out(0xd0);
+    232             out(2);
+    233          // 11 03 23   stop_cond();
+    234             
+    235               start_cond(); // 11 03 23
+    236               out(0xd1);    // 11 03 23 
+    237               if( erri2c==0) return;
+    238               else {
+    239                 delay(100);
+   \                     ??set_rlt_poi_0:
+   \   00000002   ....               RCALL   ?Subroutine0
+    240                 stop_cond();
+    241                 delay(100);
+    242                 goto wasa_i2c;
+    243               }
+   \                     ??CrossCallReturnLabel_58:
+   \   00000004   ....               RCALL   ?Subroutine11
+   \                     ??CrossCallReturnLabel_87:
+   \   00000006   E002               LDI     R16, 2
+   \   00000008   ....               RCALL   ?Subroutine34
+   \                     ??CrossCallReturnLabel_76:
+   \   0000000A   ....               RCALL   ?Subroutine21
+   \                     ??CrossCallReturnLabel_25:
+   \   0000000C   F7D1               BRNE    ??set_rlt_poi_0
+   \   0000000E   9508               RET
+    244            } 
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine21:
+   \   00000000   ....               RCALL   start_cond
+   \   00000002   ED01               LDI     R16, 209
+   \                     ??Subroutine21_0:
+   \   00000004   ....               RCALL   `out`
+   \   00000006   9100....           LDS     R16, erri2c
+   \   0000000A   2300               TST     R16
+   \   0000000C   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine11:
+   \   00000000   E000               LDI     R16, 0
+   \   00000002   9300....           STS     erri2c, R16
+   \   00000006   ....               RCALL   start_cond
+   \   00000008   ED00               LDI     R16, 208
+   \   0000000A   ....               RJMP    ?Subroutine34
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine34:
+   \   00000000   ....               RJMP    `out`
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine0:
+   \   00000000   E604               LDI     R16, 100
+   \   00000002   E010               LDI     R17, 0
+   \   00000004   ........           CALL    delay
+   \   00000008   ....               RCALL   stop_cond
+   \   0000000A   E604               LDI     R16, 100
+   \   0000000C   ....               RJMP    ??Subroutine31_0
+    245          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    246          void write_byte_rlt(char adres, char data)
+   \                     write_byte_rlt:
+    247            { 
+   \   00000000   ....               RCALL   ?Subroutine12
+   \                     ??CrossCallReturnLabel_9:
+   \   00000002   C001               RJMP    ??CrossCallReturnLabel_57
+    248            wasa_2__i2c:   
+    249              erri2c=0;
+    250             start_cond();
+    251             out(0xd0);
+    252             out(adres);
+    253             if( erri2c)
+    254                {
+    255                 delay(100);
+   \                     ??write_byte_rlt_0:
+   \   00000004   ....               RCALL   ?Subroutine0
+    256                 stop_cond();
+    257                 delay(100);
+    258                 goto wasa_2__i2c;
+    259               }
+   \                     ??CrossCallReturnLabel_57:
+   \   00000006   ....               RCALL   ?Subroutine11
+   \                     ??CrossCallReturnLabel_86:
+   \   00000008   2F09               MOV     R16, R25
+   \   0000000A   ....               RCALL   ??Subroutine21_0
+   \                     ??CrossCallReturnLabel_27:
+   \   0000000C   F7D9               BRNE    ??write_byte_rlt_0
+    260             
+    261             out(data);
+   \   0000000E   2F08               MOV     R16, R24
+   \   00000010   ....               RCALL   ?Subroutine34
+    262             stop_cond();
+   \                     ??CrossCallReturnLabel_75:
+   \   00000012   ....               RCALL   ?Subroutine36
+    263            }
+   \                     ??CrossCallReturnLabel_52:
+   \   00000014   ....               RJMP    ?Subroutine32
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine36:
+   \   00000000   ....               RJMP    stop_cond
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine12:
+   \   00000000   939A               ST      -Y, R25
+   \   00000002   938A               ST      -Y, R24
+   \   00000004   2F90               MOV     R25, R16
+   \   00000006   2F81               MOV     R24, R17
+   \   00000008   9508               RET
+    264          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    265          char read_byte_rlt(char adres)
+   \                     read_byte_rlt:
+    266          {
+   \   00000000   938A               ST      -Y, R24
+   \   00000002   2F80               MOV     R24, R16
+   \   00000004   C001               RJMP    ??CrossCallReturnLabel_56
+    267             char data;
+    268          wasa_1__i2c:
+    269             erri2c=0;
+    270             start_cond();
+    271             out(0xd0);
+    272             out(adres);
+    273             start_cond();
+    274             out(0xd1);
+    275              if( erri2c)
+    276                {
+    277                 delay(100);
+   \                     ??read_byte_rlt_0:
+   \   00000006   ....               RCALL   ?Subroutine0
+    278                 stop_cond();
+    279                 delay(100);
+    280                 goto wasa_1__i2c;
+    281               }
+   \                     ??CrossCallReturnLabel_56:
+   \   00000008   ....               RCALL   ?Subroutine10
+   \                     ??CrossCallReturnLabel_83:
+   \   0000000A   ....               RCALL   ?Subroutine21
+   \                     ??CrossCallReturnLabel_26:
+   \   0000000C   F7E1               BRNE    ??read_byte_rlt_0
+    282             
+    283             
+    284             data=read_last_byte();
+   \   0000000E   ....               RCALL   ?Subroutine27
+   \                     ??CrossCallReturnLabel_35:
+   \   00000010   2F80               MOV     R24, R16
+    285             stop_cond();
+   \   00000012   ....               RCALL   ?Subroutine36
+    286             return(data);
+   \                     ??CrossCallReturnLabel_51:
+   \   00000014   2F08               MOV     R16, R24
+   \   00000016   9189               LD      R24, Y+
+   \   00000018   9508               RET
+    287          }   
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine10:
+   \   00000000   E000               LDI     R16, 0
+   \   00000002   9300....           STS     erri2c, R16
+   \   00000006   ....               RCALL   start_cond
+   \   00000008   ED00               LDI     R16, 208
+   \   0000000A   ....               RCALL   `out`
+   \   0000000C   2F08               MOV     R16, R24
+   \   0000000E                      REQUIRE ?Subroutine34
+   \   0000000E                      ;               // Fall through to label ?Subroutine34
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine27:
+   \   00000000   ....               RJMP    read_last_byte
+    288             
+    289          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    290          void start_rlt(void)
+   \                     start_rlt:
+    291            {
+    292            char data;
+    293            data=read_byte_rlt(1);
+   \   00000000   E001               LDI     R16, 1
+   \   00000002   ....               RCALL   read_byte_rlt
+    294            write_byte_rlt(1, data & ~0x80); 
+   \   00000004   770F               ANDI    R16, 0x7F
+   \   00000006   2F10               MOV     R17, R16
+   \   00000008   E001               LDI     R16, 1
+   \   0000000A   ....               RJMP    ??Subroutine35_0
+    295            }  
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine35:
+   \   00000000   E000               LDI     R16, 0
+   \                     ??Subroutine35_0:
+   \   00000002   ....               RJMP    write_byte_rlt
+    296          
+    297          /*
+    298          unsigned long int burst_ds_r(void)
+    299            {                                                   
+    300             char j,data, *time_keeper;
+    301             time_keeper=(  char*)&real_time;         
+    302             write_byte_rlt(0, 1);  // lock timer
+    303             set_rlt_poi(); 
+    304             start_cond();
+    305             out(0xd1);
+    306              for(j=0;j<7;j++)
+    307               {
+    308               data=read_byte();
+    309               *time_keeper++=daa_to_hex(data & 0x7f);
+    310               }
+    311               
+    312             stop_cond();
+    313             write_byte_rlt(0, 0);  // unlock timer   
+    314             return (wd_time_as());
+    315            }
+    316          
+    317          */
+    318            
+    319            
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    320            unsigned long int burst_ds_r(void)
+   \                     burst_ds_r:
+    321            {                                                   
+   \   00000000   ....               RCALL   ?Subroutine18
+   \                     ??CrossCallReturnLabel_19:
+   \   00000002   9728               SBIW    R29:R28, 8
+    322             char j,data, *time_keeper, *time_keeper_1;
+    323             unsigned char sumak;
+    324             
+    325             
+    326             // создаем временную структуру
+    327             // если все нормально то из временной структуры переписываем в основную
+    328             struct
+    329                  { // в двоичном коде
+    330                    char r_sec;
+    331                    char r_min;
+    332                    char r_hor;
+    333                    char r_day;
+    334                    char r_date;
+    335                    char r_month;
+    336                    char r_year;
+    337                    char r_control;
+    338                  }  real_time_temp; 
+    339             time_keeper=(  char*)&real_time_temp;  
+   \   00000004   01DE               MOVW    R27:R26, R29:R28
+    340                  
+    341             write_byte_rlt(0, 1);  // lock timer
+   \   00000006   E011               LDI     R17, 1
+   \   00000008   ....               RCALL   ?Subroutine35
+    342             set_rlt_poi(); 
+   \                     ??CrossCallReturnLabel_46:
+   \   0000000A   ....               RCALL   set_rlt_poi
+    343           // 11 03 23  start_cond();
+    344           // 11 03 23  out(0xd1);
+    345              for(j=0;j<6;j++)
+   \   0000000C   E086               LDI     R24, 6
+    346               {
+    347               data=read_byte();
+   \                     ??burst_ds_r_0:
+   \   0000000E   ....               RCALL   ?Subroutine29
+    348               *time_keeper++=daa_to_hex(data & 0x7f);
+   \                     ??CrossCallReturnLabel_40:
+   \   00000010   ....               RCALL   ?Subroutine28
+   \                     ??CrossCallReturnLabel_37:
+   \   00000012   930D               ST      X+, R16
+    349               }
+   \   00000014   958A               DEC     R24
+   \   00000016   F7D9               BRNE    ??burst_ds_r_0
+    350             
+    351              data=read_last_byte();
+   \   00000018   ....               RCALL   ?Subroutine27
+    352               *time_keeper++=daa_to_hex(data & 0x7f); 
+   \                     ??CrossCallReturnLabel_34:
+   \   0000001A   ....               RCALL   ?Subroutine28
+   \                     ??CrossCallReturnLabel_36:
+   \   0000001C   930C               ST      X, R16
+    353              
+    354             stop_cond();
+   \   0000001E   ....               RCALL   ?Subroutine5
+    355             write_byte_rlt(0, 0);  // unlock timer 
+    356            
+    357             
+    358             
+    359             // 
+    360             // проверка на допустимость значений
+    361             // если неправильно прочиталось то unix не меняется 
+    362             
+    363             /*
+    364             time_keeper=(  char*)&real_time_temp;              
+    365                        
+    366                          sumak=*time_keeper++;
+    367                          if (sumak >=60) return (unix);
+    368                            sumak=*time_keeper++;
+    369                            if (sumak >=60) return (unix);
+    370                            sumak=*time_keeper++;
+    371                             if (sumak >=24) return (unix);
+    372                               *time_keeper++;  
+    373                                sumak=*time_keeper++; 
+    374                               if (sumak ==0) return (unix);
+    375                               if (sumak > 31) return (unix);
+    376                                  sumak=*time_keeper++;
+    377                                if (sumak ==0) return (unix);
+    378                               if (sumak > 12) return (unix); 
+    379                                    sumak=*time_keeper++;
+    380                                    if (sumak > 99) return (unix);
+    381          
+    382             */
+    383             
+    384             
+    385                                    // переписываем структуру 
+    386                                    time_keeper  =(  char*)&real_time_temp; 
+   \                     ??CrossCallReturnLabel_44:
+   \   00000020   01DE               MOVW    R27:R26, R29:R28
+    387                                    time_keeper_1=(  char*)&real_time;  
+   \   00000022   ....               LDI     R24, LOW(errRealTime)
+   \   00000024   ....               LDI     R25, (errRealTime) >> 8
+   \   00000026   01FC               MOVW    R31:R30, R25:R24
+   \   00000028   963A               ADIW    R31:R30, 10
+    388                                    for(j=0;j<7;j++) *time_keeper_1++ = *time_keeper++;
+   \   0000002A   E007               LDI     R16, 7
+   \                     ??burst_ds_r_1:
+   \   0000002C   911D               LD      R17, X+
+   \   0000002E   9311               ST      Z+, R17
+   \   00000030   950A               DEC     R16
+   \   00000032   F7E1               BRNE    ??burst_ds_r_1
+    389                                 
+    390             
+    391             //                       засинхронизировать часы 19 01 2024
+    392             //   
+    393                                    
+    394                                    errRealTime.currrentUnix = wd_time_as();
+   \   00000034   ....               RCALL   wd_time_as
+   \   00000036   01FC               MOVW    R31:R30, R25:R24
+   \   00000038   8304               STD     Z+4, R16
+   \   0000003A   8315               STD     Z+5, R17
+   \   0000003C   8326               STD     Z+6, R18
+   \   0000003E   8337               STD     Z+7, R19
+    395                                    if( errRealTime.currrentUnix < errRealTime.predUnix) {
+   \   00000040   8140               LD      R20, Z
+   \   00000042   8151               LDD     R21, Z+1
+   \   00000044   8162               LDD     R22, Z+2
+   \   00000046   8173               LDD     R23, Z+3
+   \   00000048   1704               CP      R16, R20
+   \   0000004A   0715               CPC     R17, R21
+   \   0000004C   0726               CPC     R18, R22
+   \   0000004E   0737               CPC     R19, R23
+   \   00000050   F458               BRCC    ??burst_ds_r_2
+    396                                    errRealTime.errL++;
+   \   00000052   8500               LDD     R16, Z+8
+   \   00000054   9503               INC     R16
+   \   00000056   8700               STD     Z+8, R16
+    397                                    modbus_mem1[AD_TII9]++;
+   \   00000058   ....               RCALL   ?Subroutine8
+    398                                    errRealTime.errH = 0;
+   \                     ??CrossCallReturnLabel_5:
+   \   0000005A   E000               LDI     R16, 0
+   \   0000005C   01FC               MOVW    R31:R30, R25:R24
+   \   0000005E   8701               STD     Z+9, R16
+    399                                    } else if ((errRealTime.currrentUnix - errRealTime.predUnix) <=3) {
+    400                                    errRealTime.errL=0;
+    401                                    errRealTime.errH=0;
+    402                                    errRealTime.predUnix = errRealTime.currrentUnix;
+    403                                    unix=wd_time_as();
+    404                                    return (unix);
+    405                                    } else {
+    406                                    errRealTime.errH++;
+    407                                    modbus_mem1[AD_TII9]++;
+    408                                    errRealTime.errL = 0;
+    409                                   }
+    410                          
+    411                                    if ( ( errRealTime.errL >= 10) || ( errRealTime.errH >= 10) )  {
+   \   00000060   8500               LDD     R16, Z+8
+   \   00000062   300A               CPI     R16, 10
+   \   00000064   F4F8               BRCC    ??burst_ds_r_3
+   \   00000066   C024               RJMP    ??burst_ds_r_4
+   \                     ??burst_ds_r_2:
+   \   00000068   0108               MOVW    R1:R0, R17:R16
+   \   0000006A   0119               MOVW    R3:R2, R19:R18
+   \   0000006C   1A04               SUB     R0, R20
+   \   0000006E   0A15               SBC     R1, R21
+   \   00000070   0A26               SBC     R2, R22
+   \   00000072   0A37               SBC     R3, R23
+   \   00000074   E044               LDI     R20, 4
+   \   00000076   1604               CP      R0, R20
+   \   00000078   E040               LDI     R20, 0
+   \   0000007A   0614               CPC     R1, R20
+   \   0000007C   0624               CPC     R2, R20
+   \   0000007E   0634               CPC     R3, R20
+   \   00000080   F440               BRCC    ??burst_ds_r_5
+   \   00000082   8740               STD     Z+8, R20
+   \   00000084   8741               STD     Z+9, R20
+   \   00000086   ....               RCALL   ?Subroutine26
+   \                     ??CrossCallReturnLabel_29:
+   \   00000088   ....               RCALL   wd_time_as
+   \   0000008A   ....               LDI     R30, LOW(unix)
+   \   0000008C   ....               LDI     R31, (unix) >> 8
+   \   0000008E   ....               RCALL   ?Subroutine26
+   \                     ??CrossCallReturnLabel_30:
+   \   00000090   C00F               RJMP    ??burst_ds_r_4
+   \                     ??burst_ds_r_5:
+   \   00000092   8501               LDD     R16, Z+9
+   \   00000094   9503               INC     R16
+   \   00000096   8701               STD     Z+9, R16
+   \   00000098   ....               RCALL   ?Subroutine8
+   \                     ??CrossCallReturnLabel_6:
+   \   0000009A   01FC               MOVW    R31:R30, R25:R24
+   \   0000009C   8740               STD     Z+8, R20
+   \   0000009E   8501               LDD     R16, Z+9
+   \   000000A0   300A               CPI     R16, 10
+   \   000000A2   F030               BRCS    ??burst_ds_r_4
+    412                                    errRealTime.predUnix = errRealTime.currrentUnix;
+   \                     ??burst_ds_r_3:
+   \   000000A4   8104               LDD     R16, Z+4
+   \   000000A6   8115               LDD     R17, Z+5
+   \   000000A8   ....               RCALL   ?Subroutine26
+    413                                    errRealTime.errL = 0;
+   \                     ??CrossCallReturnLabel_31:
+   \   000000AA   E000               LDI     R16, 0
+   \   000000AC   8700               STD     Z+8, R16
+    414                                    errRealTime.errH = 0;
+   \   000000AE   8701               STD     Z+9, R16
+   \                     ??burst_ds_r_4:
+   \   000000B0   9628               ADIW    R29:R28, 8
+   \   000000B2   ....               RJMP    ?Subroutine33
+    415                                   }
+    416                                    
+    417                                   
+    418                                    
+    419             //
+    420             //        эти две строчки надо закоментарить если включена синхронизация
+    421             //   
+    422                                    
+    423             /*
+    424             unix=wd_time_as();
+    425             return (unix);
+    426            */
+    427            }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine28:
+   \   00000000   770F               ANDI    R16, 0x7F
+   \   00000002   ....               RJMP    daa_to_hex
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine26:
+   \   00000000   8300               ST      Z, R16
+   \   00000002   8311               STD     Z+1, R17
+   \   00000004   8322               STD     Z+2, R18
+   \   00000006   8333               STD     Z+3, R19
+   \   00000008   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine5:
+   \   00000000   ....               RCALL   stop_cond
+   \   00000002   E010               LDI     R17, 0
+   \   00000004   ....               RJMP    ?Subroutine35
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine29:
+   \   00000000   ....               RJMP    read_byte
+    428            
+    429           
+    430           
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    431           void set_rlt_prov(void)
+   \                     set_rlt_prov:
+    432            {
+    433             start_cond();
+   \   00000000   ....               RCALL   start_cond
+    434             out(0xd0);
+   \   00000002   ED00               LDI     R16, 208
+   \   00000004   ....               RCALL   ?Subroutine34
+    435             out(0);
+   \                     ??CrossCallReturnLabel_74:
+   \   00000006   E000               LDI     R16, 0
+   \   00000008   ....               RCALL   ?Subroutine34
+    436             stop_cond();
+   \                     ??CrossCallReturnLabel_73:
+   \   0000000A                      REQUIRE ?Subroutine36
+   \   0000000A                      ;               // Fall through to label ?Subroutine36
+    437            } 
+    438          
+    439          /* 
+    440           unsigned long int burst(void)
+    441            {                                                   
+    442             char j;     
+    443             write_byte_rlt(0, 1);  // lock timer
+    444             set_rlt_prov(); 
+    445             start_cond();
+    446             out(0xd1);
+    447             
+    448             //for(j=0;j<1;j++)
+    449              for(j=0;j<12;j++)
+    450               {
+    451               Rs232_2_buf_rx_tx[j+1]=read_byte();
+    452               }    
+    453             stop_cond();
+    454             write_byte_rlt(0, 0);  // unlock timer  
+    455             return(0);
+    456             //  return (wd_time_as());
+    457            }
+    458          */
+    459          
+    460           
+    461           
+    462          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    463          void set_rlt(unsigned char address,unsigned char * data)
+   \                     set_rlt:
+    464            {                      
+   \   00000000   ....               RCALL   ?Subroutine18
+   \                     ??CrossCallReturnLabel_20:
+   \   00000002   2F80               MOV     R24, R16
+   \   00000004   01D9               MOVW    R27:R26, R19:R18
+    465             write_byte_rlt(0, 2);  // lock timer
+   \   00000006   E012               LDI     R17, 2
+   \   00000008   ....               RCALL   ?Subroutine35
+   \                     ??CrossCallReturnLabel_45:
+   \   0000000A   C001               RJMP    ??CrossCallReturnLabel_55
+    466                 
+    467             //////////////////////////////// 
+    468          wasa9_i2c: 
+    469              
+    470             erri2c=0;
+    471             start_cond();
+    472             out(0xd0);
+    473             out(address); 
+    474              if( erri2c)
+    475                {
+    476                 delay(100);
+   \                     ??set_rlt_0:
+   \   0000000C   ....               RCALL   ?Subroutine0
+    477                 stop_cond();
+    478                 delay(100);
+    479                 goto wasa9_i2c;
+    480               }
+   \                     ??CrossCallReturnLabel_55:
+   \   0000000E   ....               RCALL   ?Subroutine10
+   \                     ??CrossCallReturnLabel_82:
+   \   00000010   9100....           LDS     R16, erri2c
+   \   00000014   2300               TST     R16
+   \   00000016   F7D1               BRNE    ??set_rlt_0
+    481             
+    482             out(hex_to_daa(*data++));
+   \   00000018   910D               LD      R16, X+
+   \   0000001A   ....               RCALL   hex_to_daa
+   \   0000001C   ....               RCALL   ?Subroutine23
+    483             out(hex_to_daa(*data++));
+    484             out(hex_to_daa(*data++));
+   \                     ??CrossCallReturnLabel_85:
+   \   0000001E   910D               LD      R16, X+
+   \   00000020   ....               RCALL   ?Subroutine39
+    485             out(0);
+   \                     ??CrossCallReturnLabel_79:
+   \   00000022   E000               LDI     R16, 0
+   \   00000024   ....               RCALL   ?Subroutine23
+    486             out(hex_to_daa(*data++));
+    487             out(hex_to_daa(*data++));
+   \                     ??CrossCallReturnLabel_84:
+   \   00000026   910C               LD      R16, X
+   \   00000028   ....               RCALL   ?Subroutine39
+    488             out(hex_to_daa(*data++));           
+   \                     ??CrossCallReturnLabel_78:
+   \   0000002A   01FD               MOVW    R31:R30, R27:R26
+   \   0000002C   8101               LDD     R16, Z+1
+   \   0000002E   ....               RCALL   ?Subroutine39
+    489             stop_cond();       
+   \                     ??CrossCallReturnLabel_77:
+   \   00000030   ....               RCALL   ?Subroutine5
+    490             write_byte_rlt(0, 0);  // update timer
+    491            } 
+   \                     ??CrossCallReturnLabel_43:
+   \   00000032   ....               RJMP    ?Subroutine33
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine23:
+   \   00000000   ....               RCALL   `out`
+   \   00000002   910D               LD      R16, X+
+   \   00000004                      REQUIRE ?Subroutine39
+   \   00000004                      ;               // Fall through to label ?Subroutine39
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine39:
+   \   00000000   ....               RCALL   hex_to_daa
+   \   00000002   ....               RJMP    ?Subroutine34
+    492          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    493          void start_time(void)
+   \                     start_time:
+    494          {
+    495            stop_cond();
+   \   00000000   ....               RCALL   ?Subroutine36
+    496            start_rlt();
+   \                     ??CrossCallReturnLabel_50:
+   \   00000002   ....               RJMP    start_rlt
+    497          }
+    498          //////////EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+    499          
+    500          
+    501          
+    502          //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+    503          //работа с памятью
+    504          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    505           void set_point_to_read(unsigned int address)
+   \                     set_point_to_read:
+    506            {
+   \   00000000   ....               RCALL   ?Subroutine12
+    507             char address_high,address_low;
+    508             address_low=address;
+    509             address_high=address>>8; 
+   \                     ??CrossCallReturnLabel_7:
+   \   00000002   C001               RJMP    ??CrossCallReturnLabel_54
+    510             
+    511            wasa2_i2c: 
+    512              
+    513             erri2c=0;
+    514             start_cond();
+    515             out(0xa0);
+    516             out(address_high);  
+    517             out(address_low);     
+    518             start_cond();
+    519             out(0xa1);
+    520             
+    521              if( erri2c==0) return;     // долбить пока не будет синхронизации адреса
+    522               else {
+    523                 delay(100);
+   \                     ??set_point_to_read_0:
+   \   00000004   ....               RCALL   ?Subroutine0
+    524                 stop_cond();
+    525                 delay(100);
+    526                 goto wasa2_i2c;
+    527               }
+   \                     ??CrossCallReturnLabel_54:
+   \   00000006   ....               RCALL   ?Subroutine9
+   \                     ??CrossCallReturnLabel_81:
+   \   00000008   ....               RCALL   start_cond
+   \   0000000A   EA01               LDI     R16, 161
+   \   0000000C   ....               RCALL   ??Subroutine21_0
+   \                     ??CrossCallReturnLabel_28:
+   \   0000000E   F7D1               BRNE    ??set_point_to_read_0
+   \   00000010   ....               RJMP    ?Subroutine32
+    528             } 
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine9:
+   \   00000000   E000               LDI     R16, 0
+   \   00000002   9300....           STS     erri2c, R16
+   \   00000006   ....               RCALL   start_cond
+   \   00000008   EA00               LDI     R16, 160
+   \   0000000A   ....               RCALL   `out`
+   \   0000000C   2F08               MOV     R16, R24
+   \   0000000E   ....               RCALL   `out`
+   \   00000010   2F09               MOV     R16, R25
+   \   00000012   ....               RJMP    ?Subroutine34
+    529          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    530          void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,unsigned int num)   
+   \                     RdFromFleshToArr:
+    531          {
+   \   00000000   ........           CALL    ?PROLOGUE6_L09
+   \   00000004                      REQUIRE ?Register_R4_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R5_is_cg_reg
+   \   00000004   ....               RCALL   ?Subroutine17
+    532            unsigned int i;
+    533            unsigned char *ff;
+    534            ff = adres_ozu;
+    535            set_point_to_read(adres_flesh);
+    536            if (num==1) {*ff++=read_last_byte();stop_cond();return;}
+   \                     ??CrossCallReturnLabel_16:
+   \   00000006   F051               BREQ    ??RdFromFleshToArr_0
+    537            
+    538            for (i=0;i<(num-1);i++) *ff++=read_byte();
+   \   00000008   2444               CLR     R4
+   \   0000000A   2455               CLR     R5
+   \   0000000C   C005               RJMP    ??CrossCallReturnLabel_12
+   \                     ??RdFromFleshToArr_1:
+   \   0000000E   ....               RCALL   ?Subroutine29
+   \                     ??CrossCallReturnLabel_39:
+   \   00000010   01FD               MOVW    R31:R30, R27:R26
+   \   00000012   9301               ST      Z+, R16
+   \   00000014   01DF               MOVW    R27:R26, R31:R30
+   \   00000016   ....               RCALL   ?Subroutine14
+   \                     ??CrossCallReturnLabel_12:
+   \   00000018   ....               RCALL   ?Subroutine30
+   \                     ??CrossCallReturnLabel_41:
+   \   0000001A   F3C8               BRCS    ??RdFromFleshToArr_1
+    539            *ff++=read_last_byte();
+   \                     ??RdFromFleshToArr_0:
+   \   0000001C   ....               RCALL   ?Subroutine27
+   \                     ??CrossCallReturnLabel_33:
+   \   0000001E   930C               ST      X, R16
+    540            stop_cond();
+   \   00000020                      REQUIRE ?Subroutine37
+   \   00000020                      ;               // Fall through to label ?Subroutine37
+    541           }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine37:
+   \   00000000   ....               RCALL   ?Subroutine36
+   \                     ??CrossCallReturnLabel_49:
+   \   00000002   E0E6               LDI     R30, 6
+   \   00000004   ........           JMP     ?EPILOGUE_B6_L09
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine30:
+   \   00000000   01FC               MOVW    R31:R30, R25:R24
+   \   00000002   9731               SBIW    R31:R30, 1
+   \   00000004   164E               CP      R4, R30
+   \   00000006   065F               CPC     R5, R31
+   \   00000008   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine17:
+   \   00000000   01CA               MOVW    R25:R24, R21:R20
+   \   00000002   01D9               MOVW    R27:R26, R19:R18
+   \   00000004   ....               RCALL   set_point_to_read
+   \   00000006   3081               CPI     R24, 1
+   \   00000008   E000               LDI     R16, 0
+   \   0000000A   0790               CPC     R25, R16
+   \   0000000C   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine14:
+   \   00000000   E001               LDI     R16, 1
+   \   00000002   0E40               ADD     R4, R16
+   \   00000004   E000               LDI     R16, 0
+   \   00000006   1E50               ADC     R5, R16
+   \   00000008   9508               RET
+    542           
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    543          void RdFromFleshToArrInt(unsigned int adres_flesh, unsigned int *adres_ozu,unsigned int num)   
+   \                     RdFromFleshToArrInt:
+    544          {
+   \   00000000   ........           CALL    ?PROLOGUE6_L09
+   \   00000004                      REQUIRE ?Register_R4_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R5_is_cg_reg
+   \   00000004   ....               RCALL   ?Subroutine17
+    545            unsigned int i,data;
+    546            unsigned int *ff;
+    547            ff = adres_ozu;
+    548            set_point_to_read(adres_flesh);
+    549             if(num==1) { *ff=read_byte(); data=read_last_byte(); *ff=*ff | (data<<8); ff++; stop_cond();return;}
+   \                     ??CrossCallReturnLabel_17:
+   \   00000006   F069               BREQ    ??RdFromFleshToArrInt_0
+    550            
+    551            for (i=0;i<(num-1);i++) 
+   \   00000008   2444               CLR     R4
+   \   0000000A   2455               CLR     R5
+   \   0000000C   C008               RJMP    ??CrossCallReturnLabel_13
+    552            { 
+    553              *ff=read_byte();
+   \                     ??RdFromFleshToArrInt_1:
+   \   0000000E   ....               RCALL   ?Subroutine7
+    554              data=read_byte();
+   \                     ??CrossCallReturnLabel_2:
+   \   00000010   ....               RCALL   ?Subroutine29
+    555              *ff=*ff | (data<<8);
+   \                     ??CrossCallReturnLabel_38:
+   \   00000012   01FD               MOVW    R31:R30, R27:R26
+   \   00000014   8131               LDD     R19, Z+1
+   \   00000016   2B30               OR      R19, R16
+   \   00000018   8331               STD     Z+1, R19
+    556            ff++;
+   \   0000001A   9612               ADIW    R27:R26, 2
+    557            }
+   \   0000001C   ....               RCALL   ?Subroutine14
+   \                     ??CrossCallReturnLabel_13:
+   \   0000001E   ....               RCALL   ?Subroutine30
+   \                     ??CrossCallReturnLabel_42:
+   \   00000020   F3B0               BRCS    ??RdFromFleshToArrInt_1
+    558             *ff=read_byte();
+   \                     ??RdFromFleshToArrInt_0:
+   \   00000022   ....               RCALL   ?Subroutine7
+    559              data=read_last_byte();
+   \                     ??CrossCallReturnLabel_3:
+   \   00000024   ....               RCALL   ?Subroutine27
+    560              *ff=*ff | (data<<8);
+   \                     ??CrossCallReturnLabel_32:
+   \   00000026   9611               ADIW    R27:R26, 1
+   \   00000028   913C               LD      R19, X
+   \   0000002A   2B30               OR      R19, R16
+   \   0000002C   933C               ST      X, R19
+    561            ff++;
+    562            stop_cond();
+   \   0000002E   ....               RJMP    ?Subroutine37
+    563           }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine7:
+   \   00000000   ....               RCALL   read_byte
+   \   00000002   E010               LDI     R17, 0
+   \   00000004   930D               ST      X+, R16
+   \   00000006   931C               ST      X, R17
+   \   00000008   9711               SBIW    R27:R26, 1
+   \   0000000A   9508               RET
+    564           
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    565             void set_point_to_write(int address)
+   \                     set_point_to_write:
+    566            {
+   \   00000000   ....               RCALL   ?Subroutine12
+    567             char address_high,address_low;
+    568             address_low=address;
+    569             address_high=address>>8;
+   \                     ??CrossCallReturnLabel_8:
+   \   00000002   C001               RJMP    ??CrossCallReturnLabel_53
+    570             
+    571            wasa3_i2c:
+    572             erri2c=0; 
+    573             start_cond();
+    574             out(0xa0);
+    575             out(address_high);
+    576             out(address_low); 
+    577             
+    578              if( erri2c==0) return;     // долбить пока не будет синхронизации адреса
+    579               else {
+    580                 delay(100);
+   \                     ??set_point_to_write_0:
+   \   00000004   ....               RCALL   ?Subroutine0
+    581                 stop_cond();
+    582                 delay(100);
+    583                 goto wasa3_i2c;
+    584               }
+   \                     ??CrossCallReturnLabel_53:
+   \   00000006   ....               RCALL   ?Subroutine9
+   \                     ??CrossCallReturnLabel_80:
+   \   00000008   9100....           LDS     R16, erri2c
+   \   0000000C   2300               TST     R16
+   \   0000000E   F7D1               BRNE    ??set_point_to_write_0
+   \   00000010   ....               RJMP    ?Subroutine32
+    585             
+    586            } 
+    587          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    588            void WrArrayToFlesh(unsigned int adres_flesh,  unsigned char *adres_ozu, unsigned int num,unsigned char flag,unsigned char znach)  //запись конфигурации кп во флеш
+   \                     WrArrayToFlesh:
+    589            {
+   \   00000000   ........           CALL    ?PROLOGUE8_L09
+   \   00000004                      REQUIRE ?Register_R4_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R5_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R6_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R7_is_cg_reg
+   \   00000004   01C9               MOVW    R25:R24, R19:R18
+   \   00000006   01DA               MOVW    R27:R26, R21:R20
+   \   00000008   012B               MOVW    R5:R4, R23:R22
+    590              unsigned int i;
+    591              set_point_to_write(adres_flesh);
+   \   0000000A   ....               RCALL   set_point_to_write
+    592              for (i=0;i<num;i++){ if(flag==0)out(*adres_ozu++);else out(znach);}
+   \   0000000C   2466               CLR     R6
+   \   0000000E   2477               CLR     R7
+   \   00000010   C006               RJMP    ??WrArrayToFlesh_0
+   \                     ??WrArrayToFlesh_1:
+   \   00000012   2D05               MOV     R16, R5
+   \                     ??WrArrayToFlesh_2:
+   \   00000014   ....               RCALL   ?Subroutine34
+   \                     ??CrossCallReturnLabel_72:
+   \   00000016   E001               LDI     R16, 1
+   \   00000018   0E60               ADD     R6, R16
+   \   0000001A   E000               LDI     R16, 0
+   \   0000001C   1E70               ADC     R7, R16
+   \                     ??WrArrayToFlesh_0:
+   \   0000001E   166A               CP      R6, R26
+   \   00000020   067B               CPC     R7, R27
+   \   00000022   F430               BRCC    ??WrArrayToFlesh_3
+   \   00000024   2044               TST     R4
+   \   00000026   F7A9               BRNE    ??WrArrayToFlesh_1
+   \   00000028   01FC               MOVW    R31:R30, R25:R24
+   \   0000002A   9101               LD      R16, Z+
+   \   0000002C   01CF               MOVW    R25:R24, R31:R30
+   \   0000002E   CFF2               RJMP    ??WrArrayToFlesh_2
+    593              stop_cond();                                           
+   \                     ??WrArrayToFlesh_3:
+   \   00000030   ....               RCALL   ?Subroutine36
+    594             }
+   \                     ??CrossCallReturnLabel_48:
+   \   00000032   E0E8               LDI     R30, 8
+   \   00000034   ........           JMP     ?EPILOGUE_B8_L09
+    595            
+    596            
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    597              void WrArrayToFleshInt(unsigned int adres_flesh,  unsigned int *adres_ozu, unsigned int num,unsigned char flag,unsigned int znach)  //запись конфигурации кп во флеш
+   \                     WrArrayToFleshInt:
+    598            {
+   \   00000000   ........           CALL    ?PROLOGUE10_L09
+   \   00000004                      REQUIRE ?Register_R4_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R5_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R6_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R8_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R9_is_cg_reg
+   \   00000004   01D9               MOVW    R27:R26, R19:R18
+   \   00000006   01CA               MOVW    R25:R24, R21:R20
+   \   00000008   2E66               MOV     R6, R22
+   \   0000000A   844A               LDD     R4, Y+10
+   \   0000000C   845B               LDD     R5, Y+11
+    599              unsigned int i;
+    600              set_point_to_write(adres_flesh);
+   \   0000000E   ....               RCALL   set_point_to_write
+    601              for (i=0;i<num;i++)
+   \   00000010   2488               CLR     R8
+   \   00000012   2499               CLR     R9
+   \   00000014   C008               RJMP    ??WrArrayToFleshInt_0
+    602                  { 
+    603                     if(flag==0)
+    604                     {
+    605                       out(*adres_ozu);
+    606                       out((*adres_ozu)>>8);
+    607                       adres_ozu++; 
+    608                     }
+    609                     else
+    610                     {
+    611                       out(znach);
+   \                     ??WrArrayToFleshInt_1:
+   \   00000016   2D04               MOV     R16, R4
+   \   00000018   ....               RCALL   ?Subroutine34
+    612                       out(znach>>8);
+   \                     ??CrossCallReturnLabel_71:
+   \   0000001A   2D05               MOV     R16, R5
+   \                     ??WrArrayToFleshInt_2:
+   \   0000001C   ....               RCALL   ?Subroutine34
+    613                     }
+   \                     ??CrossCallReturnLabel_70:
+   \   0000001E   E001               LDI     R16, 1
+   \   00000020   0E80               ADD     R8, R16
+   \   00000022   E000               LDI     R16, 0
+   \   00000024   1E90               ADC     R9, R16
+   \                     ??WrArrayToFleshInt_0:
+   \   00000026   1688               CP      R8, R24
+   \   00000028   0699               CPC     R9, R25
+   \   0000002A   F458               BRCC    ??WrArrayToFleshInt_3
+   \   0000002C   2066               TST     R6
+   \   0000002E   F799               BRNE    ??WrArrayToFleshInt_1
+   \   00000030   910D               LD      R16, X+
+   \   00000032   9711               SBIW    R27:R26, 1
+   \   00000034   ....               RCALL   ?Subroutine34
+   \                     ??CrossCallReturnLabel_69:
+   \   00000036   01FD               MOVW    R31:R30, R27:R26
+   \   00000038   9631               ADIW    R31:R30, 1
+   \   0000003A   9111               LD      R17, Z+
+   \   0000003C   01DF               MOVW    R27:R26, R31:R30
+   \   0000003E   2F01               MOV     R16, R17
+   \   00000040   CFED               RJMP    ??WrArrayToFleshInt_2
+    614                  
+    615                  }
+    616              stop_cond();                                           
+   \                     ??WrArrayToFleshInt_3:
+   \   00000042   ....               RCALL   ?Subroutine36
+    617             }
+   \                     ??CrossCallReturnLabel_47:
+   \   00000044   E0EC               LDI     R30, 12
+   \   00000046   ........           JMP     ?EPILOGUE_B10_L09
+    618          
+    619          //EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+    620           
+    621           
+    622           
+    623           
+    624           
+    625          
+
+   Maximum stack usage in bytes:
+
+     Function                CSTACK RSTACK
+     --------                ------ ------
+     RdFromFleshToArr            6      3
+       -> set_point_to_read      6      3
+       -> read_last_byte         6      3
+       -> stop_cond              6      3
+       -> read_byte              6      3
+       -> read_last_byte         6      3
+       -> stop_cond              6      3
+     RdFromFleshToArrInt         6      3
+       -> set_point_to_read      6      3
+       -> read_byte              6      3
+       -> read_last_byte         6      3
+       -> stop_cond              6      3
+       -> read_byte              6      3
+       -> read_byte              6      3
+       -> read_byte              6      3
+       -> read_last_byte         6      3
+       -> stop_cond              6      3
+     WrArrayToFlesh              8      3
+       -> set_point_to_write     8      3
+       -> out                    8      3
+       -> out                    8      3
+       -> stop_cond              8      3
+     WrArrayToFleshInt          12      3
+       -> set_point_to_write    12      3
+       -> out                   12      3
+       -> out                   12      3
+       -> out                   12      3
+       -> out                   12      3
+       -> stop_cond             12      3
+     burst_ds_r                 12      3
+       -> write_byte_rlt        12      3
+       -> set_rlt_poi           12      3
+       -> read_byte             12      3
+       -> daa_to_hex            12      3
+       -> read_last_byte        12      3
+       -> daa_to_hex            12      3
+       -> stop_cond             12      3
+       -> write_byte_rlt        12      3
+       -> wd_time_as            12      3
+       -> wd_time_as            12      3
+     cloc_scl                    0      3
+       -> delay                  0      3
+       -> delay                  0      3
+       -> delay                  0      3
+     daa_to_hex                  0      3
+     hex_to_daa                  2      6
+     out                         2      3
+       -> cloc_scl               2      3
+       -> delay                  2      3
+       -> delay                  2      3
+       -> delay                  2      3
+       -> delay                  2      3
+     read_byte                   2      3
+       -> delay                  2      3
+       -> delay                  2      3
+       -> cloc_scl               2      3
+     read_byte_rlt               1      3
+       -> delay                  1      3
+       -> stop_cond              1      3
+       -> delay                  1      3
+       -> start_cond             1      3
+       -> out                    1      3
+       -> out                    1      3
+       -> start_cond             1      3
+       -> out                    1      3
+       -> read_last_byte         1      3
+       -> stop_cond              1      3
+     read_last_byte              2      3
+       -> delay                  2      3
+       -> delay                  2      3
+       -> cloc_scl               2      3
+     set_point_to_read           2      3
+       -> delay                  2      3
+       -> stop_cond              2      3
+       -> delay                  2      3
+       -> start_cond             2      3
+       -> out                    2      3
+       -> out                    2      3
+       -> out                    2      3
+       -> start_cond             2      3
+       -> out                    2      3
+     set_point_to_write          2      3
+       -> delay                  2      3
+       -> stop_cond              2      3
+       -> delay                  2      3
+       -> start_cond             2      3
+       -> out                    2      3
+       -> out                    2      3
+       -> out                    2      3
+     set_rlt                     4      3
+       -> write_byte_rlt         4      3
+       -> delay                  4      3
+       -> stop_cond              4      3
+       -> delay                  4      3
+       -> start_cond             4      3
+       -> out                    4      3
+       -> out                    4      3
+       -> hex_to_daa             4      3
+       -> out                    4      3
+       -> hex_to_daa             4      3
+       -> out                    4      3
+       -> hex_to_daa             4      3
+       -> out                    4      3
+       -> out                    4      3
+       -> hex_to_daa             4      3
+       -> out                    4      3
+       -> hex_to_daa             4      3
+       -> out                    4      3
+       -> hex_to_daa             4      3
+       -> out                    4      3
+       -> stop_cond              4      3
+       -> write_byte_rlt         4      3
+     set_rlt_poi                 0      3
+       -> delay                  0      3
+       -> stop_cond              0      3
+       -> delay                  0      3
+       -> start_cond             0      3
+       -> out                    0      3
+       -> out                    0      3
+       -> start_cond             0      3
+       -> out                    0      3
+     set_rlt_prov                0      3
+       -> start_cond             0      3
+       -> out                    0      3
+       -> out                    0      3
+       -> stop_cond              0      3
+     start_cond                  0      3
+       -> delay                  0      3
+       -> delay                  0      3
+       -> delay                  0      3
+     start_rlt                   0      3
+       -> read_byte_rlt          0      3
+       -> write_byte_rlt         0      3
+     start_time                  0      3
+       -> stop_cond              0      3
+       -> start_rlt              0      3
+     stop_cond                   0      3
+       -> delay                  0      3
+       -> delay                  0      3
+       -> delay                  0      3
+     wd_time_as                  6      6
+     write_byte_rlt              2      3
+       -> delay                  2      3
+       -> stop_cond              2      3
+       -> delay                  2      3
+       -> start_cond             2      3
+       -> out                    2      3
+       -> out                    2      3
+       -> out                    2      3
+       -> stop_cond              2      3
+
+
+   Segment part sizes:
+
+     Function/Label      Bytes
+     --------------      -----
+     _A_PORTD               1
+     _A_DDRD                1
+     _A_PIND                1
+     erri2c                 1
+     errRealTime           18
+     start_cond            14
+     ?Subroutine2           4
+     ?Subroutine31          8
+     stop_cond             14
+     cloc_scl               4
+     ?Subroutine38          4
+     ?Subroutine1          14
+     out                   56
+     ?Subroutine32          6
+     ?Subroutine8          18
+     read_byte             24
+     ?Subroutine13         12
+     ?Subroutine4          14
+     ?Subroutine3           6
+     read_last_byte        24
+     wd_time_as           214
+     ?Subroutine33          6
+     ?Subroutine19         10
+     ?Subroutine16         18
+     ?Subroutine18          4
+     daa_to_hex            18
+     hex_to_daa            28
+     ?Subroutine20          6
+     set_rlt_poi           16
+     ?Subroutine21         14
+     ?Subroutine11         12
+     ?Subroutine34          2
+     ?Subroutine0          14
+     write_byte_rlt        22
+     ?Subroutine36          2
+     ?Subroutine12         10
+     read_byte_rlt         26
+     ?Subroutine10         14
+     ?Subroutine27          2
+     start_rlt             12
+     ?Subroutine35          4
+     burst_ds_r           180
+     ?Subroutine28          4
+     ?Subroutine26         10
+     ?Subroutine5           6
+     ?Subroutine29          2
+     set_rlt_prov          10
+     set_rlt               52
+     ?Subroutine23          4
+     ?Subroutine39          4
+     start_time             4
+     set_point_to_read     18
+     ?Subroutine9          20
+     RdFromFleshToArr      32
+     ?Subroutine37          8
+     ?Subroutine30         10
+     ?Subroutine17         14
+     ?Subroutine14         10
+     RdFromFleshToArrInt   48
+     ?Subroutine7          12
+     set_point_to_write    18
+     WrArrayToFlesh        56
+     WrArrayToFleshInt     74
+      Others                7
+
+ 
+     3 bytes in segment ABSOLUTE
+ 1 272 bytes in segment FARCODE
+     7 bytes in segment INITTAB
+    19 bytes in segment NEAR_Z
+ 
+ 1 272 bytes of CODE memory (+ 7 bytes shared)
+    19 bytes of DATA memory (+ 3 bytes shared)
+
+Errors: none
+Warnings: 2

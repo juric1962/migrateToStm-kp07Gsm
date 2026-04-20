@@ -1,0 +1,223 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+//                                                     24/Oct/2025  13:27:17 /
+// IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version               /
+// Copyright 1996-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\spvisor.c      /
+//    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\spvisor.c      /
+//                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a7 /
+//                    682e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_ /
+//                    a7682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cer /
+//                    r_a7682e\Debug\List\ -y --initializers_in_flash -z9    /
+//                    --no_inline --no_tbaa --cross_call_passes=1 --debug    /
+//                    -e -I "E:\box\IAR Systems\Embedded Workbench 4.0       /
+//                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded   /
+//                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size  /
+//                    4096 --dlib_config "E:\box\IAR Systems\Embedded        /
+//                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h" /
+//    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\spv /
+//                    isor.s90                                               /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME spvisor
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "5"
+        RTMODEL "__cpu_name", "ATmega2560"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?need_segment_init
+
+        PUBWEAK `?<Segment init: NEAR_Z>`
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBLIC cnt_supervosor
+        PUBLIC evc_rld_sv
+        PUBLIC supervisorwdt
+        FUNCTION supervisorwdt,021203H
+        LOCFRAME RSTACK, 3, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetByte3:8, ?RetHigh:8, ?RetLow:8
+        CFI VirtualResource ?Ret:25
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetByte3, ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+        EXTERN send_info
+        FUNCTION send_info,0202H
+        EXTERN write_log_info
+        FUNCTION write_log_info,0202H
+        EXTERN lock_it
+        FUNCTION lock_it,0202H
+
+// E:\sim800Elam2560_bootnew_i2cerr_a7682e\spvisor.c
+//    1 
+//    2 #include <iom2560.h> 
+//    3 #include <inavr.h> 
+//    4 #include "def_log.h"
+//    5 
+//    6 # define DEF_SUPERVISOR 3600
+//    7 
+//    8 extern void s_port(unsigned char ch);
+//    9 void write_log_info(unsigned char sost,unsigned char mesto);
+//   10 void lock_it(void);
+//   11 void send_info(char size,char __flash *p,unsigned char fl_id,unsigned char id);
+//   12 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   13 unsigned int cnt_supervosor;
+cnt_supervosor:
+        DS 2
+//   14 
+
+        RSEG NEAR_F:CODE:NOROOT(0)
+//   15 __flash char evc_rld_sv[]=       {'E','V','C',':','r','l','d',' ','s','v',};
+evc_rld_sv:
+        DB 69, 86, 67, 58, 114, 108, 100, 32, 115, 118
+//   16 
+//   17 
+//   18 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   19 void supervisorwdt(void)
+supervisorwdt:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function supervisorwdt
+//   20 {
+//   21   if(cnt_supervosor >= DEF_SUPERVISOR) 
+        FUNCALL supervisorwdt, send_info
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL supervisorwdt, write_log_info
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL supervisorwdt, lock_it
+        LOCFRAME RSTACK, 3, STACK
+        LDI	R30, LOW(cnt_supervosor)
+        LDI	R31, (cnt_supervosor) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        CPI	R16, 16
+        SBCI	R17, 14
+        BRCS	??supervisorwdt_0
+//   22   {
+//   23     send_info(sizeof(evc_rld_sv),evc_rld_sv,0,0);
+        LDI	R20, 0
+        LDI	R17, 0
+        LDI	R18, LOW(evc_rld_sv)
+        LDI	R19, (evc_rld_sv) >> 8
+        LDI	R16, 10
+        CALL	send_info
+//   24     write_log_info(ST_ERROR,ERR7);
+        LDI	R17, 7
+        LDI	R16, 2
+        CALL	write_log_info
+//   25      //s_port(0x58);
+//   26     lock_it();
+        CALL	lock_it
+//   27   }
+//   28 }
+??supervisorwdt_0:
+        RET
+        CFI EndBlock cfiBlock0
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_Z>`:
+        DW	SFE(NEAR_Z) - SFB(NEAR_Z)
+        DW	SFB(NEAR_Z)
+        DP	0
+        REQUIRE ?need_segment_init
+
+        END
+//   29 
+// 
+// 42 bytes in segment FARCODE
+//  7 bytes in segment INITTAB
+// 10 bytes in segment NEAR_F
+//  2 bytes in segment NEAR_Z
+// 
+// 52 bytes of CODE memory (+ 7 bytes shared)
+//  2 bytes of DATA memory
+//
+//Errors: none
+//Warnings: none

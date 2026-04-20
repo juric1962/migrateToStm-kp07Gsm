@@ -1,0 +1,4756 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+//                                                     28/Sep/2007  16:26:16 /
+// IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version               /
+// Copyright 1996-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Source file  =  D:\PRJIAR\NSS270907\KP7(270907)\interr2.c              /
+//    Command line =  "D:\PRJIAR\NSS270907\KP7(270907)\interr2.c"            /
+//                    --cpu=m1280 -ms -o "D:\PRJIAR\NSS270907\KP7(270907)\De /
+//                    bug\Obj\" -lCN "D:\PRJIAR\NSS270907\KP7(270907)\Debug\ /
+//                    List\" -lA "D:\PRJIAR\NSS270907\KP7(270907)\Debug\List /
+//                    \" -y --initializers_in_flash -z6 --no_inline          /
+//                    --no_cross_call --no_tbaa --debug -e -I "D:\Program    /
+//                    Files\IAR Systems\Embedded Workbench 4.0               /
+//                    Evaluation\avr\INC\" -I "D:\Program Files\IAR          /
+//                    Systems\Embedded Workbench 4.0                         /
+//                    Evaluation\avr\INC\DLIB\" --eeprom_size 4096           /
+//                    --dlib_config "D:\Program Files\IAR Systems\Embedded   /
+//                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-3s-ec-n.h" /
+//    List file    =  D:\PRJIAR\NSS270907\KP7(270907)\Debug\List\interr2.s90 /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME interr2
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "3"
+        RTMODEL "__cpu_name", "ATmega1280"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?Register_R4_is_cg_reg
+        EXTERN ?Register_R5_is_cg_reg
+        EXTERN ?UL_SHR_L03
+        EXTERN ?need_segment_init
+
+        PUBWEAK `?<Segment init: NEAR_Z>`
+        PUBWEAK `??ADC_interrupt??INTVEC 116`
+        PUBWEAK `??TIMER0_COMPA_interrupt??INTVEC 84`
+        PUBWEAK `??TIMER2_COMPA_interrupt??INTVEC 52`
+        PUBWEAK `??TIMER3_COMPA_interrupt??INTVEC 128`
+        PUBWEAK `??USART0_RX_interrupt??INTVEC 100`
+        PUBWEAK `??USART0_TX_interrupt??INTVEC 108`
+        PUBWEAK `??USART1_RX_interrupt??INTVEC 144`
+        PUBWEAK `??USART1_UDRE_interrupt??INTVEC 148`
+        PUBWEAK `??USART2_RX_interrupt??INTVEC 204`
+        PUBWEAK `??USART2_UDRE_interrupt??INTVEC 208`
+        PUBWEAK `??USART3_RX_interrupt??INTVEC 216`
+        PUBWEAK `??USART3_UDRE_interrupt??INTVEC 220`
+        PUBLIC ADC_interrupt
+        FUNCTION ADC_interrupt,0233H
+        LOCFRAME CSTACK, 12, STACK
+        LOCFRAME RSTACK, 4, STACK
+        PUBLIC Rs232_2
+        PUBLIC Rs232_2_buf_rx_tx
+        PUBLIC Rs485_1
+        PUBLIC Rs485_1_buf_rx_tx
+        PUBLIC Rs485_2
+        PUBLIC Rs485_2_buf_rx_tx
+        PUBLIC TIMER0_COMPA_interrupt
+        FUNCTION TIMER0_COMPA_interrupt,0233H
+        LOCFRAME CSTACK, 6, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC TIMER2_COMPA_interrupt
+        FUNCTION TIMER2_COMPA_interrupt,021233H
+        LOCFRAME CSTACK, 20, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC TIMER3_COMPA_interrupt
+        FUNCTION TIMER3_COMPA_interrupt,021233H
+        LOCFRAME CSTACK, 18, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC USART0_RX_interrupt
+        FUNCTION USART0_RX_interrupt,021233H
+        LOCFRAME CSTACK, 18, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC USART0_TX_interrupt
+        FUNCTION USART0_TX_interrupt,021233H
+        LOCFRAME CSTACK, 16, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC USART1_RX_interrupt
+        FUNCTION USART1_RX_interrupt,0233H
+        LOCFRAME CSTACK, 10, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC USART1_UDRE_interrupt
+        FUNCTION USART1_UDRE_interrupt,0233H
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC USART2_RX_interrupt
+        FUNCTION USART2_RX_interrupt,0233H
+        LOCFRAME CSTACK, 10, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC USART2_UDRE_interrupt
+        FUNCTION USART2_UDRE_interrupt,0233H
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC USART3_RX_interrupt
+        FUNCTION USART3_RX_interrupt,0233H
+        LOCFRAME CSTACK, 10, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC USART3_UDRE_interrupt
+        FUNCTION USART3_UDRE_interrupt,0233H
+        LOCFRAME CSTACK, 8, STACK
+        LOCFRAME RSTACK, 2, STACK
+        PUBWEAK _A_ADC
+        PUBWEAK _A_ADCSRA
+        PUBWEAK _A_PINE
+        PUBWEAK _A_PING
+        PUBWEAK _A_PORTC
+        PUBWEAK _A_PORTD
+        PUBWEAK _A_PORTH
+        PUBWEAK _A_PORTJ
+        PUBWEAK _A_UCSR0B
+        PUBWEAK _A_UCSR1B
+        PUBWEAK _A_UCSR2B
+        PUBWEAK _A_UCSR3B
+        PUBWEAK _A_UDR0
+        PUBWEAK _A_UDR1
+        PUBWEAK _A_UDR2
+        PUBWEAK _A_UDR3
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBLIC cnt_clr_wdt
+        PUBLIC cnt_flag_out
+        PUBLIC fl_232_2
+        PUBLIC fl_485_1
+        PUBLIC fl_485_2
+        PUBLIC fl_rx_ppp
+        PUBLIC recive_buf1
+        FUNCTION recive_buf1,0203H
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC recive_buf2
+        FUNCTION recive_buf2,0203H
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC sending_ppp_pac
+        FUNCTION sending_ppp_pac,0203H
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC sending_ppp_proverka
+        FUNCTION sending_ppp_proverka,0203H
+        LOCFRAME RSTACK, 2, STACK
+        PUBLIC struct_tcc1
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetHigh:8, ?RetLow:8, ?Ret:17
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+2
+        CFI ?RetPad 0
+        CFI ?RetHigh and(load(1, DATA, sub(CFA_SP, 1)), ?RetHighByteMask)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+2
+        CFI ?RetPad 0
+        CFI ?RetHigh and(load(1, DATA, sub(CFA_SP, 1)), ?RetHighByteMask)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 SameValue
+        CFI R1 SameValue
+        CFI R2 SameValue
+        CFI R3 SameValue
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 SameValue
+        CFI R17 SameValue
+        CFI R18 SameValue
+        CFI R19 SameValue
+        CFI R20 SameValue
+        CFI R21 SameValue
+        CFI R22 SameValue
+        CFI R23 SameValue
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 SameValue
+        CFI R31 SameValue
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon1
+        
+ADC_interrupt       SYMBOL "ADC_interrupt"
+`??ADC_interrupt??INTVEC 116` SYMBOL "??INTVEC 116", ADC_interrupt
+TIMER0_COMPA_interrupt SYMBOL "TIMER0_COMPA_interrupt"
+`??TIMER0_COMPA_interrupt??INTVEC 84` SYMBOL "??INTVEC 84", TIMER0_COMPA_interrupt
+TIMER2_COMPA_interrupt SYMBOL "TIMER2_COMPA_interrupt"
+`??TIMER2_COMPA_interrupt??INTVEC 52` SYMBOL "??INTVEC 52", TIMER2_COMPA_interrupt
+TIMER3_COMPA_interrupt SYMBOL "TIMER3_COMPA_interrupt"
+`??TIMER3_COMPA_interrupt??INTVEC 128` SYMBOL "??INTVEC 128", TIMER3_COMPA_interrupt
+USART0_RX_interrupt SYMBOL "USART0_RX_interrupt"
+`??USART0_RX_interrupt??INTVEC 100` SYMBOL "??INTVEC 100", USART0_RX_interrupt
+USART0_TX_interrupt SYMBOL "USART0_TX_interrupt"
+`??USART0_TX_interrupt??INTVEC 108` SYMBOL "??INTVEC 108", USART0_TX_interrupt
+USART1_RX_interrupt SYMBOL "USART1_RX_interrupt"
+`??USART1_RX_interrupt??INTVEC 144` SYMBOL "??INTVEC 144", USART1_RX_interrupt
+USART1_UDRE_interrupt SYMBOL "USART1_UDRE_interrupt"
+`??USART1_UDRE_interrupt??INTVEC 148` SYMBOL "??INTVEC 148", USART1_UDRE_interrupt
+USART2_RX_interrupt SYMBOL "USART2_RX_interrupt"
+`??USART2_RX_interrupt??INTVEC 204` SYMBOL "??INTVEC 204", USART2_RX_interrupt
+USART2_UDRE_interrupt SYMBOL "USART2_UDRE_interrupt"
+`??USART2_UDRE_interrupt??INTVEC 208` SYMBOL "??INTVEC 208", USART2_UDRE_interrupt
+USART3_RX_interrupt SYMBOL "USART3_RX_interrupt"
+`??USART3_RX_interrupt??INTVEC 216` SYMBOL "??INTVEC 216", USART3_RX_interrupt
+USART3_UDRE_interrupt SYMBOL "USART3_UDRE_interrupt"
+`??USART3_UDRE_interrupt??INTVEC 220` SYMBOL "??INTVEC 220", USART3_UDRE_interrupt
+
+        EXTERN fun_state_md
+        FUNCTION fun_state_md,0202H
+        EXTERN lock_it
+        FUNCTION lock_it,0202H
+        EXTERN sending_at_pac
+        FUNCTION sending_at_pac,0202H
+        EXTERN check_cts
+        FUNCTION check_cts,0202H
+        EXTERN Appl_seq
+        EXTERN At_com
+        EXTERN Buf1_rx_ppp
+        EXTERN Buf2_rx_ppp
+        EXTERN Control
+        EXTERN Fl_ch_sim
+        EXTERN Regim
+        EXTERN buf_tx_232
+        EXTERN cnt_cts_off
+        EXTERN cnt_ipcp_tm_out
+        EXTERN cnt_lcp_tm_out
+        EXTERN cnt_link_res
+        EXTERN cnt_no_link
+        EXTERN cnt_pap_tm_out
+        EXTERN cnt_stm_tm1
+        EXTERN command_AT
+        EXTERN count_block_net
+        EXTERN count_summa_temperatura
+        EXTERN count_tx_ppp
+        EXTERN event_modem
+        EXTERN fl_appl_seq
+        EXTERN fl_appl_seq1
+        EXTERN fl_at_com
+        EXTERN fl_at_mom_232
+        EXTERN fl_cts_232
+        EXTERN fl_cts_232_ignor
+        EXTERN fl_ip
+        EXTERN fl_ipcp
+        EXTERN fl_lcp
+        EXTERN fl_pap
+        EXTERN fl_reg3
+        EXTERN fl_rewrite
+        EXTERN fl_wdt
+        EXTERN summa_temperatura
+        EXTERN temperatura
+        EXTERN vol_tx_ppp
+
+// D:\PRJIAR\NSS270907\KP7(270907)\interr2.c
+//    1 #include <iom1280.h> 
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0136H
+// union <unnamed> volatile __ext_io _A_UDR3
+_A_UDR3:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0131H
+// union <unnamed> volatile __ext_io _A_UCSR3B
+_A_UCSR3B:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0105H
+// union <unnamed> volatile __ext_io _A_PORTJ
+_A_PORTJ:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0102H
+// union <unnamed> volatile __ext_io _A_PORTH
+_A_PORTH:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0d6H
+// union <unnamed> volatile __io _A_UDR2
+_A_UDR2:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0d1H
+// union <unnamed> volatile __io _A_UCSR2B
+_A_UCSR2B:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0ceH
+// union <unnamed> volatile __io _A_UDR1
+_A_UDR1:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0c9H
+// union <unnamed> volatile __io _A_UCSR1B
+_A_UCSR1B:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0c6H
+// union <unnamed> volatile __io _A_UDR0
+_A_UDR0:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0c1H
+// union <unnamed> volatile __io _A_UCSR0B
+_A_UCSR0B:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,07aH
+// union <unnamed> volatile __io _A_ADCSRA
+_A_ADCSRA:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,078H
+// union <unnamed> volatile __io _A_ADC
+_A_ADC:
+        DS 2
+
+        ASEGN ABSOLUTE:DATA:NOROOT,032H
+// union <unnamed> volatile __io _A_PING
+_A_PING:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,02cH
+// union <unnamed> volatile __io _A_PINE
+_A_PINE:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,02bH
+// union <unnamed> volatile __io _A_PORTD
+_A_PORTD:
+        DS 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,028H
+// union <unnamed> volatile __io _A_PORTC
+_A_PORTC:
+        DS 1
+//    2 #include <inavr.h> 
+//    3 #include "dfpin.h"
+//    4 #include "dfproc.h"
+//    5 #include "ozu_map.h"
+//    6 #include "dfcnst.h"
+//    7 #include "def_at.h"
+//    8 #include "def_link.h"
+//    9 #include "sec.h"
+//   10 
+//   11 
+//   12 extern unsigned char layer_PPP;
+//   13                                               
+//   14 
+//   15 void lock_it(void);
+//   16 
+//   17 void fun_state_md(void);
+//   18 extern void tx_rs485_1(void);
+//   19 extern void tx_rs485_2(void);
+//   20 extern void tx_rs232_2(void);
+//   21 extern void tx_rs232_time(void);
+//   22 extern void test_fram(void);
+//   23 extern unsigned long int burst_ds_r(void);
+//   24 
+//   25 unsigned char check_cts(void);
+//   26 
+//   27 extern unsigned char Fl_ch_sim; ; //dobavka
+//   28 extern unsigned long int cnt_no_link, cnt_link_res; //dobavka
+//   29 
+//   30 extern unsigned char count_block_net;
+//   31 
+//   32 extern struct
+//   33  {
+//   34  unsigned char  clr_wdt     :1;
+//   35  unsigned char  fl_out      :1;
+//   36  unsigned char  from_timer0 :1;
+//   37  unsigned char  fl_main     :1;
+//   38  unsigned char  from_timer3 :1;
+//   39  unsigned char  from_timer2 :1; 
+//   40  unsigned char  from_adc :1;
+//   41  }fl_wdt;
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   42 unsigned char cnt_clr_wdt, cnt_flag_out;
+//   43 
+//   44 extern unsigned char cnt_rst_lcp,vol_cnt_rst_lcp;
+//   45 extern unsigned char cnt_rst_ipcp,vol_cnt_rst_ipcp;                       
+//   46 extern unsigned char cnt_rst_pap,vol_cnt_rst_pap;  
+//   47 extern unsigned int cnt_lcp_tm_out,cnt_ipcp_tm_out;
+//   48 extern unsigned int cnt_pap_tm_out;
+//   49 
+//   50 extern struct
+//   51 {
+//   52 unsigned char over_buf :1;
+//   53 unsigned char send_state :1;
+//   54 unsigned char enable:1; 
+//   55 }fl_appl_seq1; 
+//   56 
+//   57  extern struct
+//   58   {
+//   59   unsigned char  ip         :1;
+//   60   unsigned char  udp        :1;
+//   61   unsigned char  num_self   :1;
+//   62   unsigned char cnt_reset;
+//   63   }fl_rewrite;
+//   64  
+//   65 
+//   66 
+//   67 extern struct                   //структура, описывающая объект передачи по PPP 
+//   68   {  
+//   69   enum bool link_no ; //связи нет
+//   70   enum bool link_waits; //ожидание квитка на контроль связи
+//   71   enum bool link;      //контроль связи    
+//   72   enum bool nat;      //контроль nat 
+//   73   unsigned int cnt_link; // счетчик
+//   74   unsigned int cnt_nat; // счетчик
+//   75   unsigned int vol_link; // значение  
+//   76   unsigned int vol_nat; // //значение 
+//   77   unsigned int vol_waits; // значение времени квитка ожидания контроля связи
+//   78   unsigned char cnt_try; // счетчик попыток получить квиток
+//   79   unsigned char vol_try; // rjkbxtcndj попыток получить квиток
+//   80   }Control;
+//   81 
+//   82 
+//   83   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!структуры приложения
+//   84 extern  struct
+//   85 {
+//   86 unsigned char id;
+//   87 unsigned int p_in;// указатель свободной ячейки
+//   88 unsigned int p_out;
+//   89 unsigned int p_out_kv;
+//   90 unsigned int crc;
+//   91 unsigned int cnt_waits; // счетчик ожидания квитка
+//   92 unsigned char cnt_try; // счетчик попыток получить квиток 
+//   93 unsigned int l_data; // длина посылаемых данных
+//   94 unsigned char state;
+//   95 unsigned char event;
+//   96 unsigned int tm_vzat;
+//   97 unsigned int vol_tm_vzat;
+//   98 enum bool cntr_cl;
+//   99 enum bool en_cntr_cl;
+//  100 unsigned int cnt_cntr_cl;
+//  101 unsigned int vol_cntr_cl;
+//  102 }Appl_seq;
+//  103 
+//  104 //unsigned char Appl_seq_des;
+//  105 
+//  106 //unsigned char state_seq;
+//  107 
+//  108 //unsigned char Appl_seq_buf[MAX_BUF_SEQ]; 
+//  109 
+//  110 
+//  111 extern struct
+//  112 {
+//  113 unsigned char en_tx :1;
+//  114 unsigned char kv_waits :1;
+//  115 unsigned char en_povtor:1;
+//  116 }fl_appl_seq;
+//  117 
+//  118 
+//  119 
+//  120 
+//  121 extern unsigned char proverka;
+//  122 extern unsigned char fl_at_mom_232;
+//  123 
+//  124 extern enum t_event_modem event_modem;
+//  125 
+//  126 
+//  127 extern unsigned char buf_tx_232[VOL_TX_PPP];
+//  128 extern unsigned int count_tx_ppp,vol_tx_ppp;
+//  129 
+//  130 
+//  131 extern unsigned char Regim;
+//  132 extern unsigned char cnt_stm_tm1;
+//  133 
+//  134 extern void sending_at_pac(void); 
+//  135 
+//  136 extern  struct
+//  137 {
+//  138 char buf[LN_BUF_AT];
+//  139 unsigned char cnt_tx;
+//  140 unsigned char cnt_rx;
+//  141 unsigned char ln_buf;
+//  142 unsigned char list_com[VOL_LIST];// перечень исполняемых команд
+//  143 unsigned char ln_list;//длина перечня
+//  144 unsigned char cnt_com;//счетчик команд
+//  145 unsigned int cnt_tm_out; //счетчик времени ожидания ответа
+//  146 unsigned int vol_tm_out; //предел времени ожидания ответа
+//  147 unsigned int cnt_rx_out; //счетчик межбайтовый промежуток
+//  148 unsigned int vol_rx_out; //предел межбайтового промежутка
+//  149 }At_com;
+//  150 
+//  151 extern enum bool command_AT;
+//  152 extern enum bool fl_cts_232_ignor;
+//  153 extern unsigned int cnt_cts_off;
+//  154 
+//  155 extern struct
+//  156  {
+//  157  unsigned char on: 1;
+//  158  } fl_cts_232;
+//  159 
+//  160 extern struct
+//  161 {
+//  162 unsigned char ok :1;//требуемый ответ
+//  163 unsigned char err :1;//ошибочный, нетребуемый ответ
+//  164 unsigned char tm_out :1;//отсутствие ответа
+//  165 unsigned char tx_en :1;//послать комманду
+//  166 unsigned char rx_en :1;//принимать ответы
+//  167 unsigned char rx_rec :1;//принят ответ
+//  168 //unsigned char tm_out_en:1;//разрешение анализа по превышению времени ожидания ответа
+//  169 }
+//  170 fl_at_com;
+//  171 
+//  172 unsigned char Rs485_1_buf_rx_tx[MAX_BUF_RS485_1];
+//  173 unsigned char Rs485_2_buf_rx_tx[MAX_BUF_RS485_2];
+//  174 unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
+//  175 
+//  176 struct                   //структура описывающая работу порта "RS485_1" 
+//  177   {
+//  178   unsigned int  cnt_bt_rx_tx;       // счетчик байтов на прием-передачу
+//  179   unsigned int  cnt_tm_tx_out;    // счетчик времени на удержание rts после передачи
+//  180   unsigned int  cnt_tm_pre_tx;    // счетчик времени на удержание rts перед передачи
+//  181   unsigned int  vol_tm_tx_out;    // предел счетчик времени на удержание rts после передачи
+//  182   unsigned int  cnt_tm_rx_out;   //  счетчик времени на определение конца приема
+//  183   unsigned int  vol_tm_rx_out;   //  предел времени на определение конца приема
+//  184   unsigned int  cnt_tm_out;     // счетчик времени на прием 
+//  185   unsigned int  vol_tm_out;     // предел счетчика времени на прием 
+//  186   unsigned char *p_data485;   // указатель на буфер передачи
+//  187   }Rs485_1,Rs485_2,Rs232_2;
+Rs485_1:
+        DS 18
+Rs485_2:
+        DS 18
+Rs232_2:
+        DS 18
+cnt_clr_wdt:
+        DS 1
+cnt_flag_out:
+        DS 1
+Rs485_2_buf_rx_tx:
+        DS 2
+//  188   
+//  189 struct
+//  190  {
+//  191  unsigned char busy : 1;
+//  192  unsigned char rec : 1;
+//  193  unsigned char tm_out : 1;
+//  194  unsigned char tx : 1;
+//  195  unsigned char over : 1;
+//  196  unsigned char buffed : 1;
+//  197  }fl_485_1,fl_485_2,fl_232_2;
+fl_485_1:
+        DS 1
+fl_485_2:
+        DS 1
+fl_232_2:
+        DS 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+Rs485_1_buf_rx_tx:
+        DS 100
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+Rs232_2_buf_rx_tx:
+        DS 900
+//  198 
+//  199 
+//  200 
+//  201 extern  struct
+//  202  {
+//  203   unsigned char data[VOL_RX_PPP];//сам буфер
+//  204   unsigned int ln_data;  // длина данных
+//  205   enum bool rec; // пакет принят
+//  206   enum bool busy;// буфер занят
+//  207   enum bool check_busy;// проверка занят ли буфер
+//  208  }Buf1_rx_ppp,Buf2_rx_ppp; // 
+//  209 
+//  210 
+//  211  struct
+//  212  {
+//  213  unsigned char fl_7e : 1;//
+//  214  unsigned char fl_7d : 1;//
+//  215  unsigned char switcher : 1;//переключатель буферов
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//  216  } fl_rx_ppp;
+fl_rx_ppp:
+        DS 1
+//  217 
+//  218 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!для РРР
+//  219 extern struct
+//  220  {
+//  221   unsigned char act_lcp_end :1;  
+//  222   unsigned char lcp_tm_out_en :1;
+//  223   unsigned char t0_pl:1;
+//  224   unsigned char t0_mi:1;
+//  225  }fl_lcp; 
+//  226  
+//  227 
+//  228 extern struct
+//  229  {
+//  230   unsigned char act_ipcp_end :1;  
+//  231   unsigned char ipcp_tm_out_en :1;
+//  232   unsigned char t0_pl:1;
+//  233   unsigned char t0_mi:1;
+//  234  }fl_ipcp; 
+//  235 
+//  236 extern struct
+//  237  {
+//  238   unsigned char act_ip_end :1; 
+//  239   unsigned char ip_tm_cntr_en :1; 
+//  240   unsigned char ip_tm_nat_en :1;
+//  241  }fl_ip;
+//  242 
+//  243 
+//  244 
+//  245   
+//  246 extern struct
+//  247  {
+//  248   unsigned char act_pap_end :1;  
+//  249   unsigned char pap_tm_out_en:1;
+//  250   unsigned char t0_pl:1;
+//  251   unsigned char t0_mi:1;  
+//  252   unsigned char up: 1; 
+//  253  }fl_pap; 
+//  254 
+//  255 extern struct
+//  256  {
+//  257   unsigned char add_byte :1; 
+//  258  }fl_reg3;
+//  259   //EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE 
+//  260  
+//  261 
+//  262 extern unsigned long int summa_temperatura;         
+//  263 extern unsigned int temperatura;
+//  264 extern unsigned int count_summa_temperatura; 
+//  265 
+//  266 
+//  267 
+//  268 struct
+//  269 {
+//  270  
+//  271   unsigned char tek_pin :1;
+//  272   unsigned char old_pin :1;
+//  273   unsigned char fl_ch_tc :1;
+//  274   unsigned char real_tc;
+//  275   unsigned int count_tc; 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//  276 }struct_tcc1;
+struct_tcc1:
+        DS 4
+//  277 
+//  278 ///11111111111111111111111111111 функции
+//  279  
+
+        RSEG CODE:CODE:NOROOT(1)
+//  280 void sending_ppp_proverka(void)
+sending_ppp_proverka:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function sending_ppp_proverka
+//  281 {   
+        MOVW	R19:R18, R27:R26
+//  282    if(count_tx_ppp>=20)
+        LDI	R26, LOW(count_tx_ppp)
+        LDI	R27, (count_tx_ppp) >> 8
+        LD	R30, X+
+        LD	R31, X
+        SBIW	R31:R30, 20
+        BRCS	??sending_ppp_proverka_0
+//  283    {
+//  284     // UCSR0B=UCSR0B & ~TXEN;!!!!
+//  285     // UCSR0B=UCSR0B & ~TXCIE; !!!!
+//  286      S2_OFF;
+        CBI	0x08, 0x00
+        CBI	0x08, 0x01
+//  287      return;
+        RJMP	??sending_ppp_proverka_1
+//  288    }
+//  289    
+//  290    UDR0=buf_tx_232[count_tx_ppp]; if(Regim==RG_DEBAG) UDR3=buf_tx_232[count_tx_ppp];
+??sending_ppp_proverka_0:
+        LDI	R30, LOW(count_tx_ppp)
+        LDI	R31, (count_tx_ppp) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        MOVW	R31:R30, R17:R16
+        SUBI	R30, LOW((-(buf_tx_232) & 0xFFFF))
+        SBCI	R31, (-(buf_tx_232) & 0xFFFF) >> 8
+        LD	R17, Z
+        STS	198, R17
+        LDS	R16, Regim
+        CPI	R16, 1
+        BRNE	??sending_ppp_proverka_2
+        STS	310, R17
+//  291    count_tx_ppp++;
+??sending_ppp_proverka_2:
+        LDI	R30, LOW(count_tx_ppp)
+        LDI	R31, (count_tx_ppp) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 255
+        SBCI	R17, 255
+        ST	Z, R16
+        STD	Z+1, R17
+//  292 }
+??sending_ppp_proverka_1:
+        MOVW	R27:R26, R19:R18
+        RET
+        CFI EndBlock cfiBlock0
+//  293 
+//  294 
+//  295 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  296   void sending_ppp_pac(void)
+sending_ppp_pac:
+        CFI Block cfiBlock1 Using cfiCommon0
+        CFI Function sending_ppp_pac
+//  297 {   
+//  298  if(count_tx_ppp>=(vol_tx_ppp-1))
+        LDI	R30, LOW(vol_tx_ppp)
+        LDI	R31, (vol_tx_ppp) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 1
+        SBCI	R17, 0
+        LDI	R30, LOW(count_tx_ppp)
+        LDI	R31, (count_tx_ppp) >> 8
+        LD	R18, Z
+        LDD	R19, Z+1
+        CP	R18, R16
+        CPC	R19, R17
+        BRCS	??sending_ppp_pac_0
+//  299      { 
+//  300   
+//  301      if (fl_lcp.act_lcp_end==0) fl_lcp.act_lcp_end=1;
+        LDI	R30, LOW(fl_lcp)
+        LDI	R31, (fl_lcp) >> 8
+        LD	R16, Z
+        SBRC	R16, 0
+        RJMP	??sending_ppp_pac_1
+        LD	R16, Z
+        ORI	R16, 0x01
+        ST	Z, R16
+//  302      if (fl_pap.act_pap_end==0) fl_pap.act_pap_end=1;    
+??sending_ppp_pac_1:
+        LDI	R30, LOW(fl_pap)
+        LDI	R31, (fl_pap) >> 8
+        LD	R16, Z
+        SBRC	R16, 0
+        RJMP	??sending_ppp_pac_2
+        LD	R16, Z
+        ORI	R16, 0x01
+        ST	Z, R16
+//  303      if (fl_ipcp.act_ipcp_end==0) fl_ipcp.act_ipcp_end=1;  
+??sending_ppp_pac_2:
+        LDI	R30, LOW(fl_ipcp)
+        LDI	R31, (fl_ipcp) >> 8
+        LD	R16, Z
+        SBRC	R16, 0
+        RJMP	??sending_ppp_pac_3
+        LD	R16, Z
+        ORI	R16, 0x01
+        ST	Z, R16
+//  304      if (fl_ip.act_ip_end==0) fl_ip.act_ip_end=1; 
+??sending_ppp_pac_3:
+        LDI	R30, LOW(fl_ip)
+        LDI	R31, (fl_ip) >> 8
+        LD	R16, Z
+        SBRC	R16, 0
+        RJMP	??sending_ppp_pac_4
+        LD	R16, Z
+        ORI	R16, 0x01
+        ST	Z, R16
+//  305      fl_reg3.add_byte=0;   
+??sending_ppp_pac_4:
+        LDI	R30, LOW(fl_reg3)
+        LDI	R31, (fl_reg3) >> 8
+        LD	R16, Z
+        ANDI	R16, 0xFE
+        ST	Z, R16
+//  306    //  UCSR0B=UCSR0B & ~TXEN;!!!!!!!
+//  307    //  UCSR0B=UCSR0B & ~TXCIE; !!!!
+//  308      S2_OFF;
+        CBI	0x08, 0x00
+        CBI	0x08, 0x01
+//  309      return;
+        RET
+//  310      }   
+//  311       
+//  312        
+//  313 if (fl_reg3.add_byte==1) 
+??sending_ppp_pac_0:
+        LDI	R30, LOW(fl_reg3)
+        LDI	R31, (fl_reg3) >> 8
+        LD	R18, Z
+        SBRS	R18, 0
+        RJMP	??sending_ppp_pac_5
+//  314     {         
+//  315       fl_reg3.add_byte=0;
+        LD	R16, Z
+        ANDI	R16, 0xFE
+        ST	Z, R16
+//  316       if (buf_tx_232[count_tx_ppp]==0x7e){UDR0=0x5e;if(Regim==RG_DEBAG) UDR3=0x5e;return;}  
+        LDI	R30, LOW(count_tx_ppp)
+        LDI	R31, (count_tx_ppp) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        MOVW	R31:R30, R17:R16
+        SUBI	R30, LOW((-(buf_tx_232) & 0xFFFF))
+        SBCI	R31, (-(buf_tx_232) & 0xFFFF) >> 8
+        LD	R16, Z
+        CPI	R16, 126
+        BRNE	??sending_ppp_pac_6
+        LDI	R16, 94
+        STS	198, R16
+        LDS	R16, Regim
+        CPI	R16, 1
+        BREQ	$+2+2
+        RJMP	??sending_ppp_pac_7
+        LDI	R16, 94
+        RJMP	??sending_ppp_pac_8
+//  317       if (buf_tx_232[count_tx_ppp]==0x7d){UDR0=0x5d;if(Regim==RG_DEBAG) UDR3=0x5d;return;} 
+??sending_ppp_pac_6:
+        CPI	R16, 125
+        BRNE	??sending_ppp_pac_9
+        LDI	R16, 93
+        STS	198, R16
+        LDS	R16, Regim
+        CPI	R16, 1
+        BREQ	$+2+2
+        RJMP	??sending_ppp_pac_7
+        LDI	R16, 93
+??sending_ppp_pac_8:
+        STS	310, R16
+        RET
+//  318       UDR0=buf_tx_232[count_tx_ppp]+0x20;if(Regim==RG_DEBAG) UDR3=buf_tx_232[count_tx_ppp]+0x20;
+??sending_ppp_pac_9:
+        SUBI	R16, 224
+        STS	198, R16
+        LDS	R17, Regim
+        CPI	R17, 1
+        BREQ	$+2+2
+        RJMP	??sending_ppp_pac_7
+        RJMP	??sending_ppp_pac_8
+//  319       return;
+//  320     }
+//  321 
+//  322                                                          
+//  323   count_tx_ppp++;                
+??sending_ppp_pac_5:
+        LDI	R30, LOW(count_tx_ppp)
+        LDI	R31, (count_tx_ppp) >> 8
+        LD	R18, Z
+        LDD	R19, Z+1
+        SUBI	R18, 255
+        SBCI	R19, 255
+        ST	Z, R18
+        STD	Z+1, R19
+//  324    
+//  325   if(count_tx_ppp==(vol_tx_ppp-1))goto exit_tx;   
+        LD	R18, Z
+        LDD	R19, Z+1
+        CP	R18, R16
+        CPC	R19, R17
+        BREQ	??sending_ppp_pac_10
+//  326   
+//  327        
+//  328        if ((buf_tx_232[count_tx_ppp]==0x7e)||(buf_tx_232[count_tx_ppp]==0x7d))
+        LD	R16, Z
+        LDD	R17, Z+1
+        MOVW	R31:R30, R17:R16
+        SUBI	R30, LOW((-(buf_tx_232) & 0xFFFF))
+        SBCI	R31, (-(buf_tx_232) & 0xFFFF) >> 8
+        LD	R16, Z
+        CPI	R16, 126
+        BREQ	??sending_ppp_pac_11
+        CPI	R16, 125
+        BRNE	??sending_ppp_pac_12
+//  329             {
+//  330             fl_reg3.add_byte=1;
+??sending_ppp_pac_11:
+        LDI	R30, LOW(fl_reg3)
+        LDI	R31, (fl_reg3) >> 8
+        LD	R16, Z
+        ORI	R16, 0x01
+        ST	Z, R16
+//  331             UDR0=0x7d; 
+        LDI	R16, 125
+        STS	198, R16
+//  332             if(Regim==RG_DEBAG) UDR3=0x7d;
+        LDS	R16, Regim
+        CPI	R16, 1
+        BRNE	??sending_ppp_pac_7
+        LDI	R16, 125
+        RJMP	??sending_ppp_pac_8
+//  333             return;
+//  334             } 
+//  335         
+//  336        if ((buf_tx_232[count_tx_ppp]==17)||(buf_tx_232[count_tx_ppp]==19))
+??sending_ppp_pac_12:
+        CPI	R16, 17
+        BREQ	??sending_ppp_pac_11
+        CPI	R16, 19
+        BREQ	??sending_ppp_pac_11
+//  337             {
+//  338             fl_reg3.add_byte=1;
+//  339             UDR0=0x7d; 
+//  340             if(Regim==RG_DEBAG) UDR3=0x7d;
+//  341             return;
+//  342             }     
+//  343         
+//  344        if ((buf_tx_232[count_tx_ppp]<0x20)&&(fl_ip.act_ip_end==1)) 
+        CPI	R16, 32
+        BRCC	??sending_ppp_pac_10
+        LDI	R30, LOW(fl_ip)
+        LDI	R31, (fl_ip) >> 8
+        LD	R16, Z
+        SBRC	R16, 0
+        RJMP	??sending_ppp_pac_11
+//  345             {
+//  346             fl_reg3.add_byte=1;
+//  347             UDR0=0x7d; 
+//  348             if(Regim==RG_DEBAG) UDR3=0x7d;
+//  349             return;
+//  350             }   
+//  351        
+//  352                   
+//  353 exit_tx:  UDR0=buf_tx_232[count_tx_ppp]; if(Regim==RG_DEBAG) UDR3=buf_tx_232[count_tx_ppp];
+??sending_ppp_pac_10:
+        LDI	R30, LOW(count_tx_ppp)
+        LDI	R31, (count_tx_ppp) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        MOVW	R31:R30, R17:R16
+        SUBI	R30, LOW((-(buf_tx_232) & 0xFFFF))
+        SBCI	R31, (-(buf_tx_232) & 0xFFFF) >> 8
+        LD	R16, Z
+        STS	198, R16
+        LDS	R17, Regim
+        CPI	R17, 1
+        BRNE	??sending_ppp_pac_7
+        STS	310, R16
+??sending_ppp_pac_7:
+        RET
+        CFI EndBlock cfiBlock1
+//  354 } 
+//  355 
+//  356  
+//  357  
+
+        RSEG CODE:CODE:NOROOT(1)
+//  358  void recive_buf1(unsigned char temp)
+recive_buf1:
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI Function recive_buf1
+//  359   {
+        MOVW	R21:R20, R27:R26
+//  360   
+//  361  // if(Regim==RG_DEBAG)UDR1=temp;  //!!!!!!!! poka
+//  362     
+//  363   if(fl_rx_ppp.fl_7e==1)
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R17, Z
+        SBRS	R17, 0
+        RJMP	??recive_buf1_0
+//  364                   { 
+//  365                    
+//  366                    
+//  367                     if(Buf1_rx_ppp.ln_data>=VOL_RX_PPP)// проверка на переполнение первого буфера
+        LDI	R30, LOW((Buf1_rx_ppp + 330))
+        LDI	R31, HIGH((Buf1_rx_ppp + 330))
+        LD	R18, Z
+        LDD	R19, Z+1
+        CPI	R18, 74
+        LDI	R17, 1
+        CPC	R19, R17
+        BRCS	??recive_buf1_1
+//  368                     {
+//  369                        Buf1_rx_ppp.ln_data=0;
+        LDI	R16, 0
+        ST	Z, R16
+        STD	Z+1, R16
+//  370                        fl_rx_ppp.fl_7e=0;
+//  371                        fl_rx_ppp.fl_7d=0;
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R16, Z
+        ANDI	R16, 0xFC
+        ST	Z, R16
+//  372                        S2_OFF;        
+        CBI	0x08, 0x00
+        CBI	0x08, 0x01
+//  373                        
+//  374                        S3_GR;//!!!!proverka
+        CBI	0x08, 0x02
+        SBI	0x08, 0x03
+//  375                        return;
+        RJMP	??recive_buf1_2
+//  376                     }
+//  377   
+//  378                      
+//  379                     // //////////укладка
+//  380                     if(temp==0x7d)
+??recive_buf1_1:
+        CPI	R16, 125
+        BRNE	??recive_buf1_3
+//  381                        {  
+//  382                          fl_rx_ppp.fl_7d=1;
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R16, Z
+        ORI	R16, 0x02
+??recive_buf1_4:
+        ST	Z, R16
+//  383                          return;
+        RJMP	??recive_buf1_2
+//  384                        }
+//  385                         else
+//  386                        {  
+//  387                          if (fl_rx_ppp.fl_7d==1)
+??recive_buf1_3:
+        LDI	R30, LOW(Buf1_rx_ppp)
+        LDI	R31, (Buf1_rx_ppp) >> 8
+        ADD	R30, R18
+        ADC	R31, R19
+        LDI	R26, LOW(fl_rx_ppp)
+        LDI	R27, (fl_rx_ppp) >> 8
+        LD	R17, X
+        SBRS	R17, 1
+        RJMP	??recive_buf1_5
+//  388                             {                 
+//  389                               
+//  390                               Buf1_rx_ppp.data[Buf1_rx_ppp.ln_data]=temp ^ 0x20;
+        LDI	R17, 32
+        EOR	R17, R16
+        ST	Z, R17
+//  391                               Buf1_rx_ppp.ln_data++;
+        LDI	R30, LOW((Buf1_rx_ppp + 330))
+        LDI	R31, HIGH((Buf1_rx_ppp + 330))
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 255
+        SBCI	R17, 255
+        ST	Z, R16
+        STD	Z+1, R17
+//  392                               fl_rx_ppp.fl_7d=0;
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R16, Z
+        ANDI	R16, 0xFD
+        RJMP	??recive_buf1_4
+//  393                               /*
+//  394                               if((temp>=0x20)&&(temp<0x40)){Buf1_rx_ppp.data[Buf1_rx_ppp.ln_data]=temp-0x20;Buf1_rx_ppp.ln_data++;fl_rx_ppp.fl_7d=0;return;}                                
+//  395                               if(temp==0x5e){Buf1_rx_ppp.data[Buf1_rx_ppp.ln_data]=0x7e;Buf1_rx_ppp.ln_data++;fl_rx_ppp.fl_7d=0;return;}  
+//  396                               if(temp==0x5d){Buf1_rx_ppp.data[Buf1_rx_ppp.ln_data]=0x7d;Buf1_rx_ppp.ln_data++;fl_rx_ppp.fl_7d=0;return;} 
+//  397                               Buf1_rx_ppp.ln_data=0;
+//  398                               fl_rx_ppp.fl_7e=0;
+//  399                               fl_rx_ppp.fl_7d=0;             
+//  400                               S3_RD;//!!!!proverka
+//  401                               S2_OFF;
+//  402                               */
+//  403                               
+//  404                               return;
+//  405                              }  
+//  406                             else
+//  407                               {        
+//  408                                    Buf1_rx_ppp.data[Buf1_rx_ppp.ln_data] =temp;
+??recive_buf1_5:
+        ST	Z, R16
+//  409                                    Buf1_rx_ppp.ln_data++;                                                  
+        LDI	R30, LOW((Buf1_rx_ppp + 330))
+        LDI	R31, HIGH((Buf1_rx_ppp + 330))
+        LD	R18, Z
+        LDD	R19, Z+1
+        SUBI	R18, 255
+        SBCI	R19, 255
+        ST	Z, R18
+        STD	Z+1, R19
+//  410                         
+//  411                                      if(temp==0x7e)         //нет переполнения
+        CPI	R16, 126
+        BREQ	$+2+2
+        RJMP	??recive_buf1_2
+//  412                                         {  
+//  413                                          if(Buf1_rx_ppp.ln_data<=2) //если подряд два 0x7e 
+        LDI	R26, LOW((Buf1_rx_ppp + 330))
+        LDI	R27, HIGH((Buf1_rx_ppp + 330))
+        LD	R30, X+
+        LD	R31, X
+        SBIW	R31:R30, 3
+        BRCC	??recive_buf1_6
+//  414                                              {
+//  415                                               //  if(ppp_packet.rcvd==1)???????????????
+//  416                                               /*
+//  417                                               if((layer_PPP==LAYER_IP)&&(Buf1_rx_ppp.ln_data==2))
+//  418                                               {
+//  419                                                S4_RD;//proverka!!!!!
+//  420                                                while(1)__watchdog_reset();//proverka!!!!!
+//  421                                               }
+//  422                                               */
+//  423                                                
+//  424                                               fl_rx_ppp.fl_7e=1;   
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R16, Z
+        ORI	R16, 0x01
+        ST	Z, R16
+//  425                                               Buf1_rx_ppp.data[0]=temp;  
+        LDI	R16, 126
+        STS	Buf1_rx_ppp, R16
+//  426                                               Buf1_rx_ppp.ln_data=1; 
+        LDI	R16, 1
+        LDI	R17, 0
+        LDI	R30, LOW((Buf1_rx_ppp + 330))
+        LDI	R31, HIGH((Buf1_rx_ppp + 330))
+        ST	Z, R16
+        STD	Z+1, R17
+//  427                                               return;
+        RJMP	??recive_buf1_2
+//  428                                               }
+//  429                                         
+//  430                                                     
+//  431                                          S2_OFF;
+??recive_buf1_6:
+        CBI	0x08, 0x00
+        CBI	0x08, 0x01
+//  432                                          fl_rx_ppp.fl_7e=0;
+//  433                                          fl_rx_ppp.switcher=1;
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R16, Z
+        ANDI	R16, 0xFE
+        ST	Z, R16
+        LD	R16, Z
+        ORI	R16, 0x04
+        ST	Z, R16
+//  434                                          Buf1_rx_ppp.rec=TRUE; 
+        LDI	R16, 1
+        STS	(Buf1_rx_ppp + 332), R16
+//  435                                          Buf1_rx_ppp.busy=TRUE;
+        STS	(Buf1_rx_ppp + 333), R16
+//  436                                          if(Buf2_rx_ppp.busy==TRUE)
+        LDS	R16, (Buf2_rx_ppp + 333)
+        CPI	R16, 1
+        BRNE	??recive_buf1_2
+//  437                                           {
+//  438                                         
+//  439                                            Buf2_rx_ppp.check_busy=TRUE;
+        LDI	R16, 1
+        STS	(Buf2_rx_ppp + 334), R16
+//  440                                            UCSR0B=UCSR0B & ~RXEN;
+        LDS	R16, 193
+        ANDI	R16, 0xEF
+        STS	193, R16
+//  441                                            UCSR0B=UCSR0B & ~RXCIE; 
+        LDS	R16, 193
+        ANDI	R16, 0x7F
+        STS	193, R16
+        RJMP	??recive_buf1_2
+//  442                                           }
+//  443                                          return;
+//  444                                         }  
+//  445                                }
+//  446                   
+//  447                         }
+//  448                                     
+//  449                     return;   
+//  450                   }         //к пекет бегин
+//  451                   else
+//  452                   {
+//  453                    if(temp==0x7e)
+??recive_buf1_0:
+        CPI	R16, 126
+        BRNE	??recive_buf1_2
+//  454                           {
+//  455                         //  if(ppp_packet.rcvd==1)???????????????                          
+//  456                           fl_rx_ppp.fl_7e=1;   
+        LD	R16, Z
+        ORI	R16, 0x01
+        ST	Z, R16
+//  457                           Buf1_rx_ppp.data[0]=temp;  
+        LDI	R16, 126
+        STS	Buf1_rx_ppp, R16
+//  458                           Buf1_rx_ppp.ln_data=1;
+        LDI	R16, 1
+        LDI	R17, 0
+        LDI	R30, LOW((Buf1_rx_ppp + 330))
+        LDI	R31, HIGH((Buf1_rx_ppp + 330))
+        ST	Z, R16
+        STD	Z+1, R17
+//  459                           S2_GR; 
+        CBI	0x08, 0x00
+        SBI	0x08, 0x01
+??recive_buf1_2:
+        MOVW	R27:R26, R21:R20
+        RET
+        CFI EndBlock cfiBlock2
+//  460                           }
+//  461                   }
+//  462   }
+//  463  
+//  464 
+//  465 
+//  466 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  467 void recive_buf2(unsigned char temp)
+recive_buf2:
+        CFI Block cfiBlock3 Using cfiCommon0
+        CFI Function recive_buf2
+//  468   {
+        MOVW	R21:R20, R27:R26
+//  469   
+//  470  // if(Regim==RG_DEBAG)UDR1=temp;  //!!!!!!!! poka
+//  471     
+//  472   if(fl_rx_ppp.fl_7e==1)
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R17, Z
+        SBRS	R17, 0
+        RJMP	??recive_buf2_0
+//  473                   { 
+//  474                    
+//  475                    
+//  476                     if(Buf2_rx_ppp.ln_data>=VOL_RX_PPP)// проверка на переполнение первого буфера
+        LDI	R30, LOW((Buf2_rx_ppp + 330))
+        LDI	R31, HIGH((Buf2_rx_ppp + 330))
+        LD	R18, Z
+        LDD	R19, Z+1
+        CPI	R18, 74
+        LDI	R17, 1
+        CPC	R19, R17
+        BRCS	??recive_buf2_1
+//  477                     {
+//  478                        Buf2_rx_ppp.ln_data=0;
+        LDI	R16, 0
+        ST	Z, R16
+        STD	Z+1, R16
+//  479                        fl_rx_ppp.fl_7e=0;
+//  480                        fl_rx_ppp.fl_7d=0;
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R16, Z
+        ANDI	R16, 0xFC
+        ST	Z, R16
+//  481                        S2_OFF;
+        CBI	0x08, 0x00
+        CBI	0x08, 0x01
+//  482                        S3_GR;//!!!!proverka
+        CBI	0x08, 0x02
+        SBI	0x08, 0x03
+//  483                        return;
+        RJMP	??recive_buf2_2
+//  484                     }
+//  485   
+//  486                      
+//  487                     // //////////укладка
+//  488                     if(temp==0x7d)
+??recive_buf2_1:
+        CPI	R16, 125
+        BRNE	??recive_buf2_3
+//  489                        {  
+//  490                          fl_rx_ppp.fl_7d=1;
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R16, Z
+        ORI	R16, 0x02
+??recive_buf2_4:
+        ST	Z, R16
+//  491                          return;
+        RJMP	??recive_buf2_2
+//  492                        }
+//  493                         else
+//  494                        {  
+//  495                          if (fl_rx_ppp.fl_7d==1)
+??recive_buf2_3:
+        LDI	R30, LOW(Buf2_rx_ppp)
+        LDI	R31, (Buf2_rx_ppp) >> 8
+        ADD	R30, R18
+        ADC	R31, R19
+        LDI	R26, LOW(fl_rx_ppp)
+        LDI	R27, (fl_rx_ppp) >> 8
+        LD	R17, X
+        SBRS	R17, 1
+        RJMP	??recive_buf2_5
+//  496                             { 
+//  497                               Buf2_rx_ppp.data[Buf2_rx_ppp.ln_data]=temp ^ 0x20;
+        LDI	R17, 32
+        EOR	R17, R16
+        ST	Z, R17
+//  498                               Buf2_rx_ppp.ln_data++;
+        LDI	R30, LOW((Buf2_rx_ppp + 330))
+        LDI	R31, HIGH((Buf2_rx_ppp + 330))
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 255
+        SBCI	R17, 255
+        ST	Z, R16
+        STD	Z+1, R17
+//  499                               fl_rx_ppp.fl_7d=0;
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R16, Z
+        ANDI	R16, 0xFD
+        RJMP	??recive_buf2_4
+//  500                               
+//  501                               /*                    
+//  502                               if((temp>=0x20)&&(temp<0x40)){Buf2_rx_ppp.data[Buf2_rx_ppp.ln_data]=temp-0x20;Buf2_rx_ppp.ln_data++;fl_rx_ppp.fl_7d=0;return;}                                
+//  503                               if(temp==0x5e){Buf2_rx_ppp.data[Buf2_rx_ppp.ln_data]=0x7e;Buf2_rx_ppp.ln_data++;fl_rx_ppp.fl_7d=0;return;}  
+//  504                               if(temp==0x5d){Buf2_rx_ppp.data[Buf2_rx_ppp.ln_data]=0x7d;Buf2_rx_ppp.ln_data++;fl_rx_ppp.fl_7d=0;return;} 
+//  505                               Buf2_rx_ppp.ln_data=0;
+//  506                               fl_rx_ppp.fl_7e=0;
+//  507                               fl_rx_ppp.fl_7d=0;
+//  508                               S3_RD;//!!!!proverka
+//  509                               S2_OFF;
+//  510                               */
+//  511                               return;
+//  512                              }  
+//  513                             else
+//  514                               {        
+//  515                                    Buf2_rx_ppp.data[Buf2_rx_ppp.ln_data]=temp;
+??recive_buf2_5:
+        ST	Z, R16
+//  516                                    Buf2_rx_ppp.ln_data++;                                                  
+        LDI	R30, LOW((Buf2_rx_ppp + 330))
+        LDI	R31, HIGH((Buf2_rx_ppp + 330))
+        LD	R18, Z
+        LDD	R19, Z+1
+        SUBI	R18, 255
+        SBCI	R19, 255
+        ST	Z, R18
+        STD	Z+1, R19
+//  517                         
+//  518                                      if(temp==0x7e)         //нет переполнения
+        CPI	R16, 126
+        BREQ	$+2+2
+        RJMP	??recive_buf2_2
+//  519                                         {  
+//  520                                          if(Buf2_rx_ppp.ln_data<=2) //если подряд два 0x7e 
+        LDI	R26, LOW((Buf2_rx_ppp + 330))
+        LDI	R27, HIGH((Buf2_rx_ppp + 330))
+        LD	R30, X+
+        LD	R31, X
+        SBIW	R31:R30, 3
+        BRCC	??recive_buf2_6
+//  521                                              {
+//  522                                               /*
+//  523                                                if((layer_PPP==LAYER_IP)&&(Buf2_rx_ppp.ln_data==2))
+//  524                                               {
+//  525                                                S5_RD;//proverka!!!!!
+//  526                                                while(1)__watchdog_reset();//proverka!!!!!
+//  527                                               }
+//  528                                               */
+//  529                                                
+//  530                                                //  if(ppp_packet.rcvd==1)???????????????
+//  531                                               fl_rx_ppp.fl_7e=1;   
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R16, Z
+        ORI	R16, 0x01
+        ST	Z, R16
+//  532                                               Buf2_rx_ppp.data[0]=temp;  
+        LDI	R16, 126
+        STS	Buf2_rx_ppp, R16
+//  533                                               Buf2_rx_ppp.ln_data=1; 
+        LDI	R16, 1
+        LDI	R17, 0
+        LDI	R30, LOW((Buf2_rx_ppp + 330))
+        LDI	R31, HIGH((Buf2_rx_ppp + 330))
+        ST	Z, R16
+        STD	Z+1, R17
+//  534                                               return;
+        RJMP	??recive_buf2_2
+//  535                                               }
+//  536   
+//  537 
+//  538                                          S2_OFF;
+??recive_buf2_6:
+        CBI	0x08, 0x00
+        CBI	0x08, 0x01
+//  539                                          fl_rx_ppp.fl_7e=0;
+//  540                                          fl_rx_ppp.switcher=0;
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R16, Z
+        ANDI	R16, 0xFA
+        ST	Z, R16
+//  541                                          Buf2_rx_ppp.rec=TRUE; 
+        LDI	R16, 1
+        STS	(Buf2_rx_ppp + 332), R16
+//  542                                          Buf2_rx_ppp.busy=TRUE;
+        STS	(Buf2_rx_ppp + 333), R16
+//  543                                          if(Buf1_rx_ppp.busy==TRUE)
+        LDS	R16, (Buf1_rx_ppp + 333)
+        CPI	R16, 1
+        BRNE	??recive_buf2_2
+//  544                                           {
+//  545                                            
+//  546                                            Buf1_rx_ppp.check_busy=TRUE;
+        LDI	R16, 1
+        STS	(Buf1_rx_ppp + 334), R16
+//  547                                            UCSR0B=UCSR0B & ~RXEN;
+        LDS	R16, 193
+        ANDI	R16, 0xEF
+        STS	193, R16
+//  548                                            UCSR0B=UCSR0B & ~RXCIE; 
+        LDS	R16, 193
+        ANDI	R16, 0x7F
+        STS	193, R16
+        RJMP	??recive_buf2_2
+//  549                                           }
+//  550                                          return;
+//  551                                         }  
+//  552                                }
+//  553                   
+//  554                         }
+//  555                                     
+//  556                     return;   
+//  557                   }         //к пекет бегин
+//  558                   else
+//  559                   {
+//  560                    if(temp==0x7e)
+??recive_buf2_0:
+        CPI	R16, 126
+        BRNE	??recive_buf2_2
+//  561                           {
+//  562                         //  if(ppp_packet.rcvd==1)???????????????
+//  563                           fl_rx_ppp.fl_7e=1;   
+        LD	R16, Z
+        ORI	R16, 0x01
+        ST	Z, R16
+//  564                           Buf2_rx_ppp.data[0]=temp;  
+        LDI	R16, 126
+        STS	Buf2_rx_ppp, R16
+//  565                           Buf2_rx_ppp.ln_data=1; 
+        LDI	R16, 1
+        LDI	R17, 0
+        LDI	R30, LOW((Buf2_rx_ppp + 330))
+        LDI	R31, HIGH((Buf2_rx_ppp + 330))
+        ST	Z, R16
+        STD	Z+1, R17
+//  566                           S2_GR;
+        CBI	0x08, 0x00
+        SBI	0x08, 0x01
+??recive_buf2_2:
+        MOVW	R27:R26, R21:R20
+        RET
+        CFI EndBlock cfiBlock3
+//  567                           }        
+//  568                   }
+//  569   } 
+//  570  //EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+//  571 
+//  572 
+//  573 
+//  574 
+//  575 
+//  576 
+//  577 //////////////////////////////////////////////////////////////////////////////////////////////
+//  578 #pragma vector=TIMER0_COMPA_vect       
+
+        RSEG CODE:CODE:NOROOT(1)
+//  579      __interrupt void TIMER0_COMPA_interrupt(void)
+TIMER0_COMPA_interrupt:
+        CFI Block cfiBlock4 Using cfiCommon1
+        CFI Function TIMER0_COMPA_interrupt
+//  580  {
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        IN	R18, 0x3F
+//  581    
+//  582    
+//  583    fl_wdt.from_timer0=1;
+        LDI	R30, LOW(fl_wdt)
+        LDI	R31, (fl_wdt) >> 8
+        LD	R16, Z
+        ORI	R16, 0x04
+        ST	Z, R16
+//  584    
+//  585    // __enable_interrupt();
+//  586    
+//  587    
+//  588    if(PING & TCC1)struct_tcc1.tek_pin=1;else struct_tcc1.tek_pin=0;
+        LDI	R30, LOW(struct_tcc1)
+        LDI	R31, (struct_tcc1) >> 8
+        LD	R16, Z
+        SBIS	0x12, 0x02
+        RJMP	??TIMER0_COMPA_interrupt_0
+        ORI	R16, 0x01
+        RJMP	??TIMER0_COMPA_interrupt_1
+??TIMER0_COMPA_interrupt_0:
+        ANDI	R16, 0xFE
+??TIMER0_COMPA_interrupt_1:
+        ST	Z, R16
+//  589    
+//  590    if(struct_tcc1.fl_ch_tc==1)
+        LD	R16, Z
+        SBRS	R16, 2
+        RJMP	??TIMER0_COMPA_interrupt_2
+//  591      {
+//  592        struct_tcc1.count_tc--;
+        LDD	R16, Z+2
+        LDD	R17, Z+3
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+2, R16
+        STD	Z+3, R17
+//  593        if(struct_tcc1.count_tc==0)
+        LDD	R16, Z+2
+        LDD	R17, Z+3
+        OR	R16, R17
+        BRNE	??TIMER0_COMPA_interrupt_3
+//  594        {
+//  595          struct_tcc1.fl_ch_tc=0;
+        LD	R16, Z
+        ANDI	R16, 0xFB
+        ST	Z, R16
+//  596          struct_tcc1.real_tc=0x01 & (~struct_tcc1.tek_pin);
+        LD	R16, Z
+        ANDI	R16, 0x01
+        COM	R16
+        ANDI	R16, 0x01
+        STD	Z+1, R16
+        RJMP	??TIMER0_COMPA_interrupt_3
+//  597        }
+//  598      } 
+//  599      else
+//  600      {
+//  601        if(struct_tcc1.tek_pin!=struct_tcc1.old_pin)
+??TIMER0_COMPA_interrupt_2:
+        LD	R16, Z
+        ANDI	R16, 0x01
+        LD	R17, Z
+        BST	R17, 1
+        LDI	R17, 0
+        BLD	R17, 0
+        CP	R16, R17
+        BREQ	??TIMER0_COMPA_interrupt_3
+//  602        {
+//  603         struct_tcc1.fl_ch_tc=1;
+        LD	R16, Z
+        ORI	R16, 0x04
+        ST	Z, R16
+//  604         struct_tcc1.count_tc=882;
+        LDI	R16, 114
+        LDI	R17, 3
+        STD	Z+2, R16
+        STD	Z+3, R17
+//  605        }
+//  606      }
+//  607     struct_tcc1.old_pin=struct_tcc1.tek_pin;
+??TIMER0_COMPA_interrupt_3:
+        LD	R16, Z
+        ANDI	R16, 0x01
+        BST	R16, 0
+        LD	R16, Z
+        BLD	R16, 1
+        ST	Z, R16
+//  608    
+//  609  
+//  610  }
+        OUT	0x3F, R18
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+4
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+3
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+2
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+1
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI EndBlock cfiBlock4
+//  611 //////////////////////////////////////////////1/16000000///////////////////////////////////////////////
+//  612 
+//  613 
+//  614 
+//  615 //////////////////////////////////////////////////////////////////////////////////////////
+//  616 #pragma vector=TIMER2_COMPA_vect     //1 миллисекунда
+
+        RSEG CODE:CODE:NOROOT(1)
+//  617      __interrupt void TIMER2_COMPA_interrupt(void)
+TIMER2_COMPA_interrupt:
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function TIMER2_COMPA_interrupt
+//  618   {
+        FUNCALL TIMER2_COMPA_interrupt, sending_ppp_pac
+        LOCFRAME CSTACK, 20, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL TIMER2_COMPA_interrupt, sending_ppp_pac
+        LOCFRAME CSTACK, 20, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL TIMER2_COMPA_interrupt, fun_state_md
+        LOCFRAME CSTACK, 20, STACK
+        LOCFRAME RSTACK, 2, STACK
+        ST	-Y, R5
+        CFI R5 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R4
+        CFI R4 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R25
+        CFI R25 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        ST	-Y, R24
+        CFI R24 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -7)
+        CFI CFA_Y Y+7
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -8)
+        CFI CFA_Y Y+8
+        ST	-Y, R3
+        CFI R3 Frame(CFA_Y, -9)
+        CFI CFA_Y Y+9
+        ST	-Y, R2
+        CFI R2 Frame(CFA_Y, -10)
+        CFI CFA_Y Y+10
+        ST	-Y, R1
+        CFI R1 Frame(CFA_Y, -11)
+        CFI CFA_Y Y+11
+        ST	-Y, R0
+        CFI R0 Frame(CFA_Y, -12)
+        CFI CFA_Y Y+12
+        ST	-Y, R23
+        CFI R23 Frame(CFA_Y, -13)
+        CFI CFA_Y Y+13
+        ST	-Y, R22
+        CFI R22 Frame(CFA_Y, -14)
+        CFI CFA_Y Y+14
+        ST	-Y, R21
+        CFI R21 Frame(CFA_Y, -15)
+        CFI CFA_Y Y+15
+        ST	-Y, R20
+        CFI R20 Frame(CFA_Y, -16)
+        CFI CFA_Y Y+16
+        ST	-Y, R19
+        CFI R19 Frame(CFA_Y, -17)
+        CFI CFA_Y Y+17
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -18)
+        CFI CFA_Y Y+18
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -19)
+        CFI CFA_Y Y+19
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -20)
+        CFI CFA_Y Y+20
+        IN	R4, 0x3F
+        IN	R5, 0x3B
+        REQUIRE	?Register_R4_is_cg_reg
+        REQUIRE	?Register_R5_is_cg_reg
+//  619   
+//  620    unsigned char temp;
+//  621   
+//  622     fl_wdt.from_timer2=1;
+        LDI	R30, LOW(fl_wdt)
+        LDI	R31, (fl_wdt) >> 8
+        LD	R16, Z
+        ORI	R16, 0x20
+        ST	Z, R16
+//  623     
+//  624     cnt_clr_wdt++;
+        LDI	R24, LOW(Rs485_1)
+        LDI	R25, (Rs485_1) >> 8
+        MOVW	R31:R30, R25:R24
+        LDD	R16, Z+54
+        INC	R16
+        STD	Z+54, R16
+//  625   if (cnt_clr_wdt>=250)
+        LDD	R16, Z+54
+        CPI	R16, 250
+        BRCS	??TIMER2_COMPA_interrupt_0
+//  626      {
+//  627      cnt_clr_wdt=0;
+        LDI	R16, 0
+        STD	Z+54, R16
+//  628      fl_wdt.clr_wdt=1;
+        LDI	R30, LOW(fl_wdt)
+        LDI	R31, (fl_wdt) >> 8
+        LD	R16, Z
+        ORI	R16, 0x01
+        ST	Z, R16
+//  629      cnt_flag_out++;
+        MOVW	R31:R30, R25:R24
+        LDD	R16, Z+55
+        INC	R16
+        STD	Z+55, R16
+//  630      if (cnt_flag_out>=50)
+        LDD	R16, Z+55
+        CPI	R16, 50
+        BRCS	??TIMER2_COMPA_interrupt_0
+//  631        {
+//  632         cnt_flag_out=0;
+        LDI	R16, 0
+        STD	Z+55, R16
+//  633         fl_wdt.fl_out=1;
+        LDI	R30, LOW(fl_wdt)
+        LDI	R31, (fl_wdt) >> 8
+        LD	R16, Z
+        ORI	R16, 0x02
+        ST	Z, R16
+//  634        } 
+//  635       }
+//  636     
+//  637    
+//  638     if(fl_cts_232.on==1)
+??TIMER2_COMPA_interrupt_0:
+        LDI	R30, LOW(fl_cts_232)
+        LDI	R31, (fl_cts_232) >> 8
+        LD	R16, Z
+        SBRS	R16, 0
+        RJMP	??TIMER2_COMPA_interrupt_1
+//  639     {
+//  640       if(fl_cts_232_ignor==TRUE)
+        LDS	R16, fl_cts_232_ignor
+        CPI	R16, 1
+        BRNE	??TIMER2_COMPA_interrupt_2
+//  641             {
+//  642              fl_cts_232.on=0;
+        LD	R16, Z
+        ANDI	R16, 0xFE
+        ST	Z, R16
+//  643              if(count_tx_ppp==0){S2_RD;UDR0=buf_tx_232[0];if(Regim==RG_DEBAG) UDR3=buf_tx_232[0];}
+        LDI	R30, LOW(count_tx_ppp)
+        LDI	R31, (count_tx_ppp) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_3
+        SBI	0x08, 0x00
+        CBI	0x08, 0x01
+        LDS	R16, buf_tx_232
+        STS	198, R16
+        LDS	R16, Regim
+        CPI	R16, 1
+        BRNE	??TIMER2_COMPA_interrupt_2
+        LDS	R16, buf_tx_232
+        STS	310, R16
+        RJMP	??TIMER2_COMPA_interrupt_2
+//  644                 else sending_ppp_pac();
+??TIMER2_COMPA_interrupt_3:
+        RCALL	sending_ppp_pac
+//  645         ///     return;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//  646              }
+//  647       
+//  648      // if ((PINE & CTS0)==0)  
+//  649       if (PINE & CTS0)  
+??TIMER2_COMPA_interrupt_2:
+        SBIS	0x0C, 0x04
+        RJMP	??TIMER2_COMPA_interrupt_4
+//  650       {
+//  651         cnt_cts_off=0;
+        LDI	R16, 0
+        LDI	R30, LOW(cnt_cts_off)
+        LDI	R31, (cnt_cts_off) >> 8
+        ST	Z, R16
+        STD	Z+1, R16
+//  652         fl_cts_232.on=0; 
+        LDI	R30, LOW(fl_cts_232)
+        LDI	R31, (fl_cts_232) >> 8
+        LD	R16, Z
+        ANDI	R16, 0xFE
+        ST	Z, R16
+//  653         if(count_tx_ppp==0){S2_RD;UDR0=buf_tx_232[0];if(Regim==RG_DEBAG) UDR3=buf_tx_232[0];}
+        LDI	R30, LOW(count_tx_ppp)
+        LDI	R31, (count_tx_ppp) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_5
+        SBI	0x08, 0x00
+        CBI	0x08, 0x01
+        LDS	R16, buf_tx_232
+        STS	198, R16
+        LDS	R16, Regim
+        CPI	R16, 1
+        BRNE	??TIMER2_COMPA_interrupt_1
+        LDS	R16, buf_tx_232
+        STS	310, R16
+        RJMP	??TIMER2_COMPA_interrupt_1
+//  654            else sending_ppp_pac(); 
+??TIMER2_COMPA_interrupt_5:
+        RCALL	sending_ppp_pac
+        RJMP	??TIMER2_COMPA_interrupt_1
+//  655        } 
+//  656        else
+//  657         {
+//  658         cnt_cts_off++;
+??TIMER2_COMPA_interrupt_4:
+        LDI	R30, LOW(cnt_cts_off)
+        LDI	R31, (cnt_cts_off) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 255
+        SBCI	R17, 255
+        ST	Z, R16
+        STD	Z+1, R17
+//  659         if(cnt_cts_off>=10000)
+        LD	R16, Z
+        LDD	R17, Z+1
+        CPI	R16, 16
+        LDI	R18, 39
+        CPC	R17, R18
+        BRCS	??TIMER2_COMPA_interrupt_1
+//  660            {
+//  661            cnt_cts_off=0;
+        LDI	R16, 0
+        ST	Z, R16
+        STD	Z+1, R16
+//  662            event_modem=EVM_CTS_ERR;
+        LDI	R16, 9
+        STS	event_modem, R16
+//  663            }
+//  664         }
+//  665     }
+//  666   
+//  667   
+//  668    fun_state_md(); 
+??TIMER2_COMPA_interrupt_1:
+        CALL	fun_state_md
+//  669  
+//  670   
+//  671   if(Buf1_rx_ppp.check_busy==TRUE)
+        LDS	R16, (Buf1_rx_ppp + 334)
+        CPI	R16, 1
+        BRNE	??TIMER2_COMPA_interrupt_6
+//  672      {
+//  673       if(Buf1_rx_ppp.busy==FALSE)
+        LDS	R16, (Buf1_rx_ppp + 333)
+        TST	R16
+        BRNE	??TIMER2_COMPA_interrupt_6
+//  674       {
+//  675       Buf1_rx_ppp.check_busy=FALSE;
+        LDI	R16, 0
+        STS	(Buf1_rx_ppp + 334), R16
+//  676       temp=UDR0; 
+        LDS	R16, 198
+//  677       UCSR0B=UCSR0B | RXEN;
+        LDS	R16, 193
+        ORI	R16, 0x10
+        STS	193, R16
+//  678       UCSR0B=UCSR0B | RXCIE; 
+        LDS	R16, 193
+        ORI	R16, 0x80
+        STS	193, R16
+//  679       }    
+//  680      }  
+//  681   
+//  682   if(Buf2_rx_ppp.check_busy==TRUE)
+??TIMER2_COMPA_interrupt_6:
+        LDS	R16, (Buf2_rx_ppp + 334)
+        CPI	R16, 1
+        BRNE	??TIMER2_COMPA_interrupt_7
+//  683      {
+//  684       if(Buf2_rx_ppp.busy==FALSE)
+        LDS	R16, (Buf2_rx_ppp + 333)
+        TST	R16
+        BRNE	??TIMER2_COMPA_interrupt_7
+//  685       {
+//  686       Buf2_rx_ppp.check_busy=FALSE;
+        LDI	R16, 0
+        STS	(Buf2_rx_ppp + 334), R16
+//  687       temp=UDR0; 
+        LDS	R16, 198
+//  688       UCSR0B=UCSR0B | RXEN;
+        LDS	R16, 193
+        ORI	R16, 0x10
+        STS	193, R16
+//  689       UCSR0B=UCSR0B | RXCIE; 
+        LDS	R16, 193
+        ORI	R16, 0x80
+        STS	193, R16
+//  690       }    
+//  691      }   
+//  692     
+//  693     
+//  694     
+//  695   if (At_com.cnt_tm_out==0)goto next_step0; 
+??TIMER2_COMPA_interrupt_7:
+        LDI	R30, LOW(At_com)
+        LDI	R31, (At_com) >> 8
+        LDD	R16, Z+55
+        LDD	R17, Z+56
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_8
+//  696    {
+//  697    At_com.cnt_tm_out--;
+        LDD	R16, Z+55
+        LDD	R17, Z+56
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+55, R16
+        STD	Z+56, R17
+//  698    if(At_com.cnt_tm_out==0)
+        LDD	R16, Z+55
+        LDD	R17, Z+56
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_8
+//  699      {
+//  700      UCSR0B=UCSR0B & ~RXEN;
+        LDS	R16, 193
+        ANDI	R16, 0xEF
+        STS	193, R16
+//  701      UCSR0B=UCSR0B & ~RXCIE; 
+        LDS	R16, 193
+        ANDI	R16, 0x7F
+        STS	193, R16
+//  702      At_com.cnt_rx_out=0;
+        LDI	R16, 0
+        STD	Z+59, R16
+        STD	Z+60, R16
+//  703      fl_at_com.tm_out=1;
+//  704      fl_at_com.rx_rec=0;
+//  705      fl_at_com.rx_en=0;
+//  706      fl_at_com.err=0;
+//  707      fl_at_com.ok=0;
+        LDI	R26, LOW(fl_at_com)
+        LDI	R27, (fl_at_com) >> 8
+        LD	R16, X
+        ANDI	R16, 0xCC
+        ST	X, R16
+        LD	R16, X
+        ORI	R16, 0x04
+        ST	X, R16
+//  708      }
+//  709    }
+//  710 
+//  711 
+//  712 
+//  713    
+//  714    
+//  715    
+//  716 next_step0:  
+//  717 
+//  718   if(At_com.cnt_rx_out==0)goto next_step1;
+??TIMER2_COMPA_interrupt_8:
+        LDD	R16, Z+59
+        LDD	R17, Z+60
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_9
+//  719     At_com.cnt_rx_out--;
+        LDD	R16, Z+59
+        LDD	R17, Z+60
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+59, R16
+        STD	Z+60, R17
+//  720     if(At_com.cnt_rx_out==0)
+        LDD	R16, Z+59
+        LDD	R17, Z+60
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_9
+//  721     {
+//  722      UCSR0B=UCSR0B & ~RXEN;
+        LDS	R16, 193
+        ANDI	R16, 0xEF
+        STS	193, R16
+//  723      UCSR0B=UCSR0B & ~RXCIE;
+        LDS	R16, 193
+        ANDI	R16, 0x7F
+        STS	193, R16
+//  724      fl_at_com.rx_rec=1; 
+        LDI	R30, LOW(fl_at_com)
+        LDI	R31, (fl_at_com) >> 8
+        LD	R16, Z
+        ORI	R16, 0x20
+        ST	Z, R16
+//  725      S2_OFF;
+        CBI	0x08, 0x00
+        CBI	0x08, 0x01
+//  726     } //счетчик межбайтовый промежуток
+//  727 next_step1:
+//  728    
+//  729     
+//  730     
+//  731   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+//  732     //обработка по порту RS-485 №1
+//  733     if(Rs485_1.cnt_tm_pre_tx==0) goto  nxt_step2;
+??TIMER2_COMPA_interrupt_9:
+        MOVW	R31:R30, R25:R24
+        LDD	R16, Z+4
+        LDD	R17, Z+5
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_10
+//  734     Rs485_1.cnt_tm_pre_tx--;
+        LDD	R16, Z+4
+        LDD	R17, Z+5
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+4, R16
+        STD	Z+5, R17
+//  735     if(Rs485_1.cnt_tm_pre_tx==0) UCSR3B=UCSR3B | UDRIE;  // enable transmit 485_1 
+        LDD	R16, Z+4
+        LDD	R17, Z+5
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_10
+        LDS	R16, 305
+        ORI	R16, 0x20
+        STS	305, R16
+//  736 
+//  737   nxt_step2:
+//  738                        
+//  739                 if(Rs485_1.cnt_tm_out==0) goto nxt_step3;
+??TIMER2_COMPA_interrupt_10:
+        LDD	R16, Z+12
+        LDD	R17, Z+13
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_11
+//  740                 Rs485_1.cnt_tm_out--;
+        LDD	R16, Z+12
+        LDD	R17, Z+13
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+12, R16
+        STD	Z+13, R17
+//  741                 if(Rs485_1.cnt_tm_out==0){
+        LDD	R16, Z+12
+        LDD	R17, Z+13
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_11
+//  742                                           S3_OFF;
+        CBI	0x08, 0x02
+        CBI	0x08, 0x03
+//  743                                           UCSR3B =UCSR3B & ~(RXEN | RXCIE);
+        LDS	R16, 305
+        ANDI	R16, 0x6F
+        STS	305, R16
+//  744                                           Rs485_1.cnt_bt_rx_tx=0;
+        LDI	R16, 0
+        ST	Z, R16
+        STD	Z+1, R16
+//  745                                           Rs485_1.cnt_tm_rx_out=0;
+        STD	Z+8, R16
+        STD	Z+9, R16
+//  746                                           fl_485_1.rec=0;
+//  747                                           fl_485_1.tm_out=1;
+        LDD	R16, Z+58
+        ANDI	R16, 0xFD
+        ORI	R16, 0x04
+        STD	Z+58, R16
+//  748                                          }                              
+//  749  nxt_step3:      
+//  750           
+//  751  
+//  752                  if(Rs485_1.cnt_tm_rx_out==0) goto nxt_step4;
+??TIMER2_COMPA_interrupt_11:
+        LDD	R16, Z+8
+        LDD	R17, Z+9
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_12
+//  753                     Rs485_1.cnt_tm_rx_out--;
+        LDD	R16, Z+8
+        LDD	R17, Z+9
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+8, R16
+        STD	Z+9, R17
+//  754                    if(Rs485_1.cnt_tm_rx_out==0)
+        LDD	R16, Z+8
+        LDD	R17, Z+9
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_12
+//  755                    {
+//  756                      S3_OFF;
+        CBI	0x08, 0x02
+        CBI	0x08, 0x03
+//  757                      fl_485_1.rec=1;
+        LDD	R16, Z+58
+        ORI	R16, 0x02
+        STD	Z+58, R16
+//  758                      Rs485_1.cnt_tm_out=0;
+        LDI	R16, 0
+        STD	Z+12, R16
+        STD	Z+13, R16
+//  759                      fl_485_1.tm_out=0;  
+        LDD	R16, Z+58
+        ANDI	R16, 0xFB
+        STD	Z+58, R16
+//  760                      UCSR3B =UCSR3B & ~(RXEN | RXCIE);
+        LDS	R16, 305
+        ANDI	R16, 0x6F
+        STS	305, R16
+//  761                     } 
+//  762  nxt_step4:                  
+//  763                 if(Rs485_1.cnt_tm_tx_out==0) goto lable_tm21;
+??TIMER2_COMPA_interrupt_12:
+        LDD	R16, Z+2
+        LDD	R17, Z+3
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_13
+//  764                 Rs485_1.cnt_tm_tx_out--;
+        LDD	R16, Z+2
+        LDD	R17, Z+3
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+2, R16
+        STD	Z+3, R17
+//  765                 if(Rs485_1.cnt_tm_tx_out==1) {CLR_RTS1;} /*togle to receiv mode*/ 
+        LDD	R16, Z+2
+        LDD	R17, Z+3
+        CPI	R16, 1
+        LDI	R18, 0
+        CPC	R17, R18
+        BRNE	??TIMER2_COMPA_interrupt_14
+        LDS	R16, 261
+        ANDI	R16, 0xFB
+        STS	261, R16
+//  766                 if(Rs485_1.cnt_tm_tx_out==0){S3_OFF;Rs485_1.cnt_tm_out=Rs485_1.vol_tm_out;UCSR3B =UCSR3B | RXEN | RXCIE;} // togle to receiv mode ;
+??TIMER2_COMPA_interrupt_14:
+        LDD	R16, Z+2
+        LDD	R17, Z+3
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_13
+        CBI	0x08, 0x02
+        CBI	0x08, 0x03
+        LDD	R16, Z+14
+        LDD	R17, Z+15
+        STD	Z+12, R16
+        STD	Z+13, R17
+        LDS	R16, 305
+        ORI	R16, 0x90
+        STS	305, R16
+//  767                 
+//  768  //EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                
+//  769  
+//  770   
+//  771                 
+//  772                 
+//  773   lable_tm21:               
+//  774  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+//  775     //обработка по порту RS-485 №2
+//  776     if(Rs485_2.cnt_tm_pre_tx==0) goto  next_step2;
+??TIMER2_COMPA_interrupt_13:
+        LDD	R16, Z+22
+        LDD	R17, Z+23
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_15
+//  777     Rs485_2.cnt_tm_pre_tx--;
+        LDD	R16, Z+22
+        LDD	R17, Z+23
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+22, R16
+        STD	Z+23, R17
+//  778     if(Rs485_2.cnt_tm_pre_tx==0) UCSR1B=UCSR1B | UDRIE;  // enable transmit 485_1 
+        LDD	R16, Z+22
+        LDD	R17, Z+23
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_15
+        LDS	R16, 201
+        ORI	R16, 0x20
+        STS	201, R16
+//  779 
+//  780   next_step2:
+//  781                        
+//  782                 if(Rs485_2.cnt_tm_out==0) goto next_step3;
+??TIMER2_COMPA_interrupt_15:
+        LDD	R16, Z+30
+        LDD	R17, Z+31
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_16
+//  783                 Rs485_2.cnt_tm_out--;
+        LDD	R16, Z+30
+        LDD	R17, Z+31
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+30, R16
+        STD	Z+31, R17
+//  784                 if(Rs485_2.cnt_tm_out==0){
+        LDD	R16, Z+30
+        LDD	R17, Z+31
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_16
+//  785                                           S4_OFF;
+        CBI	0x08, 0x04
+        CBI	0x08, 0x05
+//  786                                           UCSR1B =UCSR1B & ~(RXEN | RXCIE);
+        LDS	R16, 201
+        ANDI	R16, 0x6F
+        STS	201, R16
+//  787                                           Rs485_2.cnt_bt_rx_tx=0;
+        LDI	R16, 0
+        STD	Z+18, R16
+        STD	Z+19, R16
+//  788                                           Rs485_2.cnt_tm_rx_out=0;
+        STD	Z+26, R16
+        STD	Z+27, R16
+//  789                                           fl_485_2.rec=0;
+//  790                                           fl_485_2.tm_out=1;
+        LDD	R16, Z+59
+        ANDI	R16, 0xFD
+        ORI	R16, 0x04
+        STD	Z+59, R16
+//  791                                          }                              
+//  792  next_step3:      
+//  793           
+//  794  
+//  795                  if(Rs485_2.cnt_tm_rx_out==0) goto next_step4;
+??TIMER2_COMPA_interrupt_16:
+        LDD	R16, Z+26
+        LDD	R17, Z+27
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_17
+//  796                     Rs485_2.cnt_tm_rx_out--;
+        LDD	R16, Z+26
+        LDD	R17, Z+27
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+26, R16
+        STD	Z+27, R17
+//  797                    if(Rs485_2.cnt_tm_rx_out==0)
+        LDD	R16, Z+26
+        LDD	R17, Z+27
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_17
+//  798                    {
+//  799                      S4_OFF;
+        CBI	0x08, 0x04
+        CBI	0x08, 0x05
+//  800                      fl_485_2.rec=1;
+        LDD	R16, Z+59
+        ORI	R16, 0x02
+        STD	Z+59, R16
+//  801                      Rs485_2.cnt_tm_out=0;
+        LDI	R16, 0
+        STD	Z+30, R16
+        STD	Z+31, R16
+//  802                      fl_485_2.tm_out=0;  
+        LDD	R16, Z+59
+        ANDI	R16, 0xFB
+        STD	Z+59, R16
+//  803                      UCSR1B =UCSR1B & ~(RXEN | RXCIE);
+        LDS	R16, 201
+        ANDI	R16, 0x6F
+        STS	201, R16
+//  804                     } 
+//  805  next_step4:                  
+//  806                 if(Rs485_2.cnt_tm_tx_out==0) goto lable_tm22;
+??TIMER2_COMPA_interrupt_17:
+        LDD	R16, Z+20
+        LDD	R17, Z+21
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_18
+//  807                 Rs485_2.cnt_tm_tx_out--;
+        LDD	R16, Z+20
+        LDD	R17, Z+21
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+20, R16
+        STD	Z+21, R17
+//  808                 if(Rs485_2.cnt_tm_tx_out==1) {CLR_RTS3; } /*togle to receiv mode*/ 
+        LDD	R16, Z+20
+        LDD	R17, Z+21
+        CPI	R16, 1
+        LDI	R18, 0
+        CPC	R17, R18
+        BRNE	??TIMER2_COMPA_interrupt_19
+        CBI	0x0B, 0x04
+//  809                 if(Rs485_2.cnt_tm_tx_out==0){S4_OFF;Rs485_2.cnt_tm_out=Rs485_2.vol_tm_out;UCSR1B =UCSR1B | RXEN | RXCIE;} // togle to receiv mode ;
+??TIMER2_COMPA_interrupt_19:
+        LDD	R16, Z+20
+        LDD	R17, Z+21
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_18
+        CBI	0x08, 0x04
+        CBI	0x08, 0x05
+        LDD	R16, Z+32
+        LDD	R17, Z+33
+        STD	Z+30, R16
+        STD	Z+31, R17
+        LDS	R16, 201
+        ORI	R16, 0x90
+        STS	201, R16
+//  810                 
+//  811  //EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE              
+//  812                 
+//  813  
+//  814    lable_tm22:               
+//  815  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+//  816     //обработка по порту RS-232 №2
+//  817     if(Rs232_2.cnt_tm_pre_tx==0) goto  nt_step2;
+??TIMER2_COMPA_interrupt_18:
+        LDD	R16, Z+40
+        LDD	R17, Z+41
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_20
+//  818     Rs232_2.cnt_tm_pre_tx--;
+        LDD	R16, Z+40
+        LDD	R17, Z+41
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+40, R16
+        STD	Z+41, R17
+//  819     if(Rs232_2.cnt_tm_pre_tx==0) UCSR2B=UCSR2B | UDRIE;  // enable transmit 232_1 
+        LDD	R16, Z+40
+        LDD	R17, Z+41
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_20
+        LDS	R16, 209
+        ORI	R16, 0x20
+        STS	209, R16
+//  820 
+//  821   nt_step2:
+//  822                        
+//  823                 if(Rs232_2.cnt_tm_out==0) goto nt_step3;
+??TIMER2_COMPA_interrupt_20:
+        LDD	R16, Z+48
+        LDD	R17, Z+49
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_21
+//  824                 Rs232_2.cnt_tm_out--;
+        LDD	R16, Z+48
+        LDD	R17, Z+49
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+48, R16
+        STD	Z+49, R17
+//  825                 if(Rs232_2.cnt_tm_out==0){
+        LDD	R16, Z+48
+        LDD	R17, Z+49
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_21
+//  826                                        
+//  827                                           S5_OFF;
+        CBI	0x08, 0x06
+        CBI	0x08, 0x07
+//  828                                           UCSR2B =UCSR2B & ~(RXEN | RXCIE);
+        LDS	R16, 209
+        ANDI	R16, 0x6F
+        STS	209, R16
+//  829                                           Rs232_2.cnt_bt_rx_tx=0;
+        LDI	R16, 0
+        STD	Z+36, R16
+        STD	Z+37, R16
+//  830                                           Rs232_2.cnt_tm_rx_out=0;
+        STD	Z+44, R16
+        STD	Z+45, R16
+//  831                                           fl_232_2.rec=0;
+//  832                                           fl_232_2.tm_out=1;
+        ADIW	R31:R30, 60
+        LD	R16, Z
+        ANDI	R16, 0xFD
+        ORI	R16, 0x04
+        MOVW	R31:R30, R25:R24
+        ADIW	R31:R30, 60
+        ST	Z, R16
+//  833                                          }                              
+//  834  nt_step3:      
+//  835           
+//  836  
+//  837                  if(Rs232_2.cnt_tm_rx_out==0) goto nt_step4;
+??TIMER2_COMPA_interrupt_21:
+        MOVW	R31:R30, R25:R24
+        LDD	R16, Z+44
+        LDD	R17, Z+45
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_22
+//  838                     Rs232_2.cnt_tm_rx_out--;
+        LDD	R16, Z+44
+        LDD	R17, Z+45
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+44, R16
+        STD	Z+45, R17
+//  839                    if(Rs232_2.cnt_tm_rx_out==0)
+        LDD	R16, Z+44
+        LDD	R17, Z+45
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_22
+//  840                    {
+//  841                      S5_OFF;
+        CBI	0x08, 0x06
+        CBI	0x08, 0x07
+//  842                      fl_232_2.rec=1;
+        ADIW	R31:R30, 60
+        LD	R16, Z
+        ORI	R16, 0x02
+        ST	Z, R16
+//  843                      Rs232_2.cnt_tm_out=0;
+        LDI	R16, 0
+        MOVW	R31:R30, R25:R24
+        STD	Z+48, R16
+        STD	Z+49, R16
+//  844                      fl_232_2.tm_out=0;  
+        ADIW	R31:R30, 60
+        LD	R16, Z
+        ANDI	R16, 0xFB
+        ST	Z, R16
+//  845                      UCSR2B =UCSR2B & ~(RXEN | RXCIE);
+        LDS	R16, 209
+        ANDI	R16, 0x6F
+        STS	209, R16
+//  846                     } 
+//  847  nt_step4:                  
+//  848                 if(Rs232_2.cnt_tm_tx_out==0) goto lable_tm23;
+??TIMER2_COMPA_interrupt_22:
+        MOVW	R31:R30, R25:R24
+        LDD	R16, Z+38
+        LDD	R17, Z+39
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_23
+//  849                 Rs232_2.cnt_tm_tx_out--;
+        LDD	R16, Z+38
+        LDD	R17, Z+39
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+38, R16
+        STD	Z+39, R17
+//  850                 if(Rs232_2.cnt_tm_tx_out==1) {CLR_RTS2;} /*togle to receiv mode*/ 
+        LDD	R16, Z+38
+        LDD	R17, Z+39
+        CPI	R16, 1
+        LDI	R18, 0
+        CPC	R17, R18
+        BRNE	??TIMER2_COMPA_interrupt_24
+        LDS	R16, 258
+        ORI	R16, 0x04
+        STS	258, R16
+//  851                 if(Rs232_2.cnt_tm_tx_out==0){S5_OFF;Rs232_2.cnt_tm_out=Rs232_2.vol_tm_out;UCSR2B =UCSR2B | RXEN | RXCIE;} // togle to receiv mode ;
+??TIMER2_COMPA_interrupt_24:
+        LDD	R16, Z+38
+        LDD	R17, Z+39
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_23
+        CBI	0x08, 0x06
+        CBI	0x08, 0x07
+        LDD	R16, Z+50
+        LDD	R17, Z+51
+        STD	Z+48, R16
+        STD	Z+49, R17
+        LDS	R16, 209
+        ORI	R16, 0x90
+        STS	209, R16
+//  852                 
+//  853  //EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                   
+//  854                 
+//  855   lable_tm23:
+//  856       ///таймер рестарта LCP
+//  857     if(fl_lcp.lcp_tm_out_en==1)
+??TIMER2_COMPA_interrupt_23:
+        LDI	R30, LOW(fl_lcp)
+        LDI	R31, (fl_lcp) >> 8
+        LD	R16, Z
+        SBRS	R16, 1
+        RJMP	??TIMER2_COMPA_interrupt_25
+//  858        {                 
+//  859             if(cnt_lcp_tm_out==0)goto lable_tm24;  
+        LDI	R30, LOW(cnt_lcp_tm_out)
+        LDI	R31, (cnt_lcp_tm_out) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_25
+//  860             cnt_lcp_tm_out--;
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 1
+        SBCI	R17, 0
+        ST	Z, R16
+        STD	Z+1, R17
+//  861             if(cnt_lcp_tm_out==0)fl_lcp.t0_pl=1;
+        LD	R16, Z
+        LDD	R17, Z+1
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_25
+        LDI	R30, LOW(fl_lcp)
+        LDI	R31, (fl_lcp) >> 8
+        LD	R16, Z
+        ORI	R16, 0x04
+        ST	Z, R16
+//  862             /*
+//  863                cnt_lcp_tm_out--;
+//  864                if(cnt_lcp_tm_out==0)
+//  865                   {
+//  866                   cnt_lcp_tm_out=VOL_LCP_TM_OUT;
+//  867                   if(cnt_rst_lcp==0)
+//  868                      {   
+//  869                       cnt_lcp_tm_out=vol_cnt_rst_lcp;
+//  870                       fl_lcp.t0_mi=1;
+//  871                      }
+//  872                      else 
+//  873                        {
+//  874                        cnt_rst_lcp--;
+//  875                        fl_lcp.t0_pl=1;       
+//  876                        } 
+//  877                   } 
+//  878             */
+//  879          
+//  880        }
+//  881   lable_tm24:;
+//  882  //////////////////////////////////////////
+//  883  
+//  884  ///таймер рестарта PAP
+//  885     if(fl_pap.pap_tm_out_en==1)
+??TIMER2_COMPA_interrupt_25:
+        LDI	R30, LOW(fl_pap)
+        LDI	R31, (fl_pap) >> 8
+        LD	R16, Z
+        SBRS	R16, 1
+        RJMP	??TIMER2_COMPA_interrupt_26
+//  886        {        
+//  887                if(cnt_pap_tm_out==0)goto lable_tm25;
+        LDI	R30, LOW(cnt_pap_tm_out)
+        LDI	R31, (cnt_pap_tm_out) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_26
+//  888                cnt_pap_tm_out--;
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 1
+        SBCI	R17, 0
+        ST	Z, R16
+        STD	Z+1, R17
+//  889                if(cnt_pap_tm_out==0)fl_pap.t0_pl=1; 
+        LD	R16, Z
+        LDD	R17, Z+1
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_26
+        LDI	R30, LOW(fl_pap)
+        LDI	R31, (fl_pap) >> 8
+        LD	R16, Z
+        ORI	R16, 0x04
+        ST	Z, R16
+//  890          /*      
+//  891                  if(cnt_pap_tm_out==0)
+//  892                   {
+//  893                   cnt_pap_tm_out=VOL_PAP_TM_OUT;
+//  894                   if(cnt_rst_pap==0)
+//  895                      {   
+//  896                       cnt_pap_tm_out=vol_cnt_rst_pap;
+//  897                       fl_pap.t0_mi=1;
+//  898                      }
+//  899                      else 
+//  900                        {
+//  901                        cnt_rst_pap--;
+//  902                        fl_pap.t0_pl=1; 
+//  903                        } 
+//  904                   } 
+//  905        */
+//  906                  
+//  907        }
+//  908   lable_tm25: ;
+//  909  //////////////////////////////////////////
+//  910  
+//  911  ///таймер рестарта IPCP
+//  912     if(fl_ipcp.ipcp_tm_out_en==1)
+??TIMER2_COMPA_interrupt_26:
+        LDI	R30, LOW(fl_ipcp)
+        LDI	R31, (fl_ipcp) >> 8
+        LD	R16, Z
+        SBRS	R16, 1
+        RJMP	??TIMER2_COMPA_interrupt_27
+//  913        {                 
+//  914                
+//  915                if(cnt_ipcp_tm_out==0)goto lable_tm26;
+        LDI	R30, LOW(cnt_ipcp_tm_out)
+        LDI	R31, (cnt_ipcp_tm_out) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        OR	R16, R17
+        BREQ	??TIMER2_COMPA_interrupt_27
+//  916                cnt_ipcp_tm_out--;
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 1
+        SBCI	R17, 0
+        ST	Z, R16
+        STD	Z+1, R17
+//  917                if(cnt_ipcp_tm_out==0)fl_ipcp.t0_pl=1; 
+        LD	R16, Z
+        LDD	R17, Z+1
+        OR	R16, R17
+        BRNE	??TIMER2_COMPA_interrupt_27
+        LDI	R30, LOW(fl_ipcp)
+        LDI	R31, (fl_ipcp) >> 8
+        LD	R16, Z
+        ORI	R16, 0x04
+        ST	Z, R16
+//  918               /* 
+//  919                cnt_ipcp_tm_out--;
+//  920                if(cnt_ipcp_tm_out==0)
+//  921                   {
+//  922                   cnt_ipcp_tm_out=VOL_IPCP_TM_OUT;
+//  923                   if(cnt_rst_ipcp==0)
+//  924                      {   
+//  925                       cnt_ipcp_tm_out=vol_cnt_rst_ipcp;
+//  926                       fl_ipcp.t0_mi=1;
+//  927                      }
+//  928                      else 
+//  929                        {  
+//  930                        cnt_rst_ipcp--;
+//  931                        fl_ipcp.t0_pl=1; 
+//  932                        } 
+//  933                   } */
+//  934        
+//  935        }
+//  936                 
+//  937   lable_tm26:;       
+//  938        
+//  939        }
+??TIMER2_COMPA_interrupt_27:
+        OUT	0x3B, R5
+        OUT	0x3F, R4
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+19
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+18
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+17
+        LD	R19, Y+
+        CFI R19 SameValue
+        CFI CFA_Y Y+16
+        LD	R20, Y+
+        CFI R20 SameValue
+        CFI CFA_Y Y+15
+        LD	R21, Y+
+        CFI R21 SameValue
+        CFI CFA_Y Y+14
+        LD	R22, Y+
+        CFI R22 SameValue
+        CFI CFA_Y Y+13
+        LD	R23, Y+
+        CFI R23 SameValue
+        CFI CFA_Y Y+12
+        LD	R0, Y+
+        CFI R0 SameValue
+        CFI CFA_Y Y+11
+        LD	R1, Y+
+        CFI R1 SameValue
+        CFI CFA_Y Y+10
+        LD	R2, Y+
+        CFI R2 SameValue
+        CFI CFA_Y Y+9
+        LD	R3, Y+
+        CFI R3 SameValue
+        CFI CFA_Y Y+8
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+7
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+6
+        LD	R24, Y+
+        CFI R24 SameValue
+        CFI CFA_Y Y+5
+        LD	R25, Y+
+        CFI R25 SameValue
+        CFI CFA_Y Y+4
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+3
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+2
+        LD	R4, Y+
+        CFI R4 SameValue
+        CFI CFA_Y Y+1
+        LD	R5, Y+
+        CFI R5 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI EndBlock cfiBlock5
+//  940  
+//  941 ///////////////////////////////////////////////////////////////////////////////////////////////////
+//  942 
+//  943 
+//  944 
+//  945 
+//  946 /////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  947 #pragma vector=TIMER3_COMPA_vect 
+
+        RSEG CODE:CODE:NOROOT(1)
+//  948      __interrupt void TIMER3_COMPA_interrupt(void)
+TIMER3_COMPA_interrupt:
+        CFI Block cfiBlock6 Using cfiCommon1
+        CFI Function TIMER3_COMPA_interrupt
+//  949     { 
+        FUNCALL TIMER3_COMPA_interrupt, lock_it
+        LOCFRAME CSTACK, 18, STACK
+        LOCFRAME RSTACK, 2, STACK
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R25
+        CFI R25 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R24
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        ST	-Y, R3
+        CFI R3 Frame(CFA_Y, -7)
+        CFI CFA_Y Y+7
+        ST	-Y, R2
+        CFI R2 Frame(CFA_Y, -8)
+        CFI CFA_Y Y+8
+        ST	-Y, R1
+        CFI R1 Frame(CFA_Y, -9)
+        CFI CFA_Y Y+9
+        ST	-Y, R0
+        CFI R0 Frame(CFA_Y, -10)
+        CFI CFA_Y Y+10
+        ST	-Y, R23
+        CFI R23 Frame(CFA_Y, -11)
+        CFI CFA_Y Y+11
+        ST	-Y, R22
+        CFI R22 Frame(CFA_Y, -12)
+        CFI CFA_Y Y+12
+        ST	-Y, R21
+        CFI R21 Frame(CFA_Y, -13)
+        CFI CFA_Y Y+13
+        ST	-Y, R20
+        CFI R20 Frame(CFA_Y, -14)
+        CFI CFA_Y Y+14
+        ST	-Y, R19
+        CFI R19 Frame(CFA_Y, -15)
+        CFI CFA_Y Y+15
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -16)
+        CFI CFA_Y Y+16
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -17)
+        CFI CFA_Y Y+17
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -18)
+        CFI CFA_Y Y+18
+        IN	R24, 0x3F
+        IN	R25, 0x3B
+//  950  
+//  951       
+//  952          fl_wdt.from_timer3=1;
+        LDI	R30, LOW(fl_wdt)
+        LDI	R31, (fl_wdt) >> 8
+        LD	R16, Z
+        ORI	R16, 0x10
+        ST	Z, R16
+//  953       
+//  954     /*
+//  955     if((PINB & CTS_232)==CTS_232)
+//  956                     { 
+//  957                     cnt_term++;
+//  958                     if(cnt_term>=4)lock_it();
+//  959                     }
+//  960                     else cnt_term=0;
+//  961    */ 
+//  962     
+//  963     
+//  964     if(count_block_net!=0) count_block_net--;
+        LDS	R16, count_block_net
+        TST	R16
+        BREQ	??TIMER3_COMPA_interrupt_0
+        LDI	R30, LOW(count_block_net)
+        LDI	R31, (count_block_net) >> 8
+        LD	R16, Z
+        DEC	R16
+        ST	Z, R16
+//  965     
+//  966    
+//  967       if(Appl_seq.cntr_cl==TRUE)
+??TIMER3_COMPA_interrupt_0:
+        LDI	R26, LOW(Appl_seq)
+        LDI	R27, (Appl_seq) >> 8
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+20
+        CPI	R16, 1
+        BRNE	??TIMER3_COMPA_interrupt_1
+//  968       {
+//  969       if(Appl_seq.cnt_cntr_cl!=0) 
+        LDD	R16, Z+22
+        LDD	R17, Z+23
+        OR	R16, R17
+        BREQ	??TIMER3_COMPA_interrupt_1
+//  970          {
+//  971          Appl_seq.cnt_cntr_cl--;
+        LDD	R16, Z+22
+        LDD	R17, Z+23
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+22, R16
+        STD	Z+23, R17
+//  972          if(Appl_seq.cnt_cntr_cl==0) Appl_seq.en_cntr_cl=TRUE;
+        LDD	R16, Z+22
+        LDD	R17, Z+23
+        OR	R16, R17
+        BRNE	??TIMER3_COMPA_interrupt_1
+        LDI	R16, 1
+        STD	Z+21, R16
+//  973          } 
+//  974       }
+//  975       
+//  976       
+//  977       if(cnt_stm_tm1==0)goto next_tm00;  
+??TIMER3_COMPA_interrupt_1:
+        LDS	R16, cnt_stm_tm1
+        TST	R16
+        BREQ	??TIMER3_COMPA_interrupt_2
+//  978          cnt_stm_tm1--;
+        LDI	R30, LOW(cnt_stm_tm1)
+        LDI	R31, (cnt_stm_tm1) >> 8
+        LD	R16, Z
+        DEC	R16
+        ST	Z, R16
+//  979          if(cnt_stm_tm1==0) event_modem=EVM_TM1;
+        LDS	R16, cnt_stm_tm1
+        TST	R16
+        BRNE	??TIMER3_COMPA_interrupt_2
+        LDI	R16, 1
+        STS	event_modem, R16
+//  980  next_tm00:
+//  981    
+//  982     
+//  983     if(fl_rewrite.cnt_reset==0)goto next_tm01; 
+??TIMER3_COMPA_interrupt_2:
+        LDI	R30, LOW(fl_rewrite)
+        LDI	R31, (fl_rewrite) >> 8
+        LDD	R16, Z+1
+        TST	R16
+        BREQ	??TIMER3_COMPA_interrupt_3
+//  984     fl_rewrite.cnt_reset--;
+        LDD	R16, Z+1
+        DEC	R16
+        STD	Z+1, R16
+//  985     if(fl_rewrite.cnt_reset==0)
+        LDD	R16, Z+1
+        TST	R16
+        BRNE	??TIMER3_COMPA_interrupt_3
+//  986        {
+//  987         lock_it();   
+        CALL	lock_it
+//  988        }       
+//  989 next_tm01: 
+//  990   
+//  991   
+//  992       
+//  993    ///таймер контроля IP
+//  994     if (Appl_seq.tm_vzat==0)goto next_tm0;
+??TIMER3_COMPA_interrupt_3:
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+16
+        LDD	R17, Z+17
+        OR	R16, R17
+        BREQ	??TIMER3_COMPA_interrupt_4
+//  995     Appl_seq.tm_vzat--;
+        LDD	R16, Z+16
+        LDD	R17, Z+17
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+16, R16
+        STD	Z+17, R17
+//  996     if (Appl_seq.tm_vzat==0)Appl_seq.event=EV_TM_OUT;
+        LDD	R16, Z+16
+        LDD	R17, Z+17
+        OR	R16, R17
+        BRNE	??TIMER3_COMPA_interrupt_4
+        LDI	R16, 2
+        STD	Z+15, R16
+//  997 next_tm0:   
+//  998     
+//  999     
+// 1000     
+// 1001         if(Appl_seq.cnt_waits==0)goto next_tm1;
+??TIMER3_COMPA_interrupt_4:
+        LDD	R16, Z+9
+        LDD	R17, Z+10
+        OR	R16, R17
+        BREQ	??TIMER3_COMPA_interrupt_5
+// 1002         Appl_seq.cnt_waits--;
+        LDD	R16, Z+9
+        LDD	R17, Z+10
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+9, R16
+        STD	Z+10, R17
+// 1003         if(Appl_seq.cnt_waits==0)
+        LDD	R16, Z+9
+        LDD	R17, Z+10
+        OR	R16, R17
+        BRNE	??TIMER3_COMPA_interrupt_5
+// 1004                { 
+// 1005                   
+// 1006                    //   Appl_seq.cnt_try++;
+// 1007                       fl_appl_seq.kv_waits=0;
+// 1008                       fl_appl_seq.en_povtor=1; 
+        LDS	R16, fl_appl_seq
+        ANDI	R16, 0xFD
+        ORI	R16, 0x04
+        STS	fl_appl_seq, R16
+// 1009                       Appl_seq.l_data=0;
+        LDI	R16, 0
+        STD	Z+12, R16
+        STD	Z+13, R16
+// 1010                       
+// 1011                       /*
+// 1012                       if(Appl_seq.cnt_try>=2) 
+// 1013                        {
+// 1014                        Appl_seq.cnt_cntr_cl=0;
+// 1015                        Appl_seq.cntr_cl=TRUE;
+// 1016                        Appl_seq.en_cntr_cl=TRUE;
+// 1017                        Appl_seq.cnt_try=0;
+// 1018                        fl_appl_seq.en_povtor=0;                      
+// 1019                        }
+// 1020                        */
+// 1021                        
+// 1022                                       
+// 1023                }    
+// 1024  next_tm1:   
+// 1025     
+// 1026     if(fl_ip.ip_tm_cntr_en==1)
+??TIMER3_COMPA_interrupt_5:
+        LDI	R30, LOW(Control)
+        LDI	R31, (Control) >> 8
+        LDI	R26, LOW(fl_ip)
+        LDI	R27, (fl_ip) >> 8
+        LD	R16, X
+        SBRS	R16, 1
+        RJMP	??TIMER3_COMPA_interrupt_6
+// 1027        {       
+// 1028                
+// 1029                if(Control.cnt_link==0) goto  next_tm2;
+        LDD	R16, Z+4
+        LDD	R17, Z+5
+        OR	R16, R17
+        BREQ	??TIMER3_COMPA_interrupt_6
+// 1030                
+// 1031                Control.cnt_link--;
+        LDD	R16, Z+4
+        LDD	R17, Z+5
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+4, R16
+        STD	Z+5, R17
+// 1032                if(Control.cnt_link==0)
+        LDD	R16, Z+4
+        LDD	R17, Z+5
+        OR	R16, R17
+        BRNE	??TIMER3_COMPA_interrupt_6
+// 1033                { 
+// 1034                
+// 1035                fl_appl_seq1.enable=1;
+        LDI	R26, LOW(fl_appl_seq1)
+        LDI	R27, (fl_appl_seq1) >> 8
+        LD	R16, X
+        ORI	R16, 0x04
+        ST	X, R16
+// 1036                
+// 1037                //Control.cnt_link=Control.vol_link;
+// 1038                Control.link=TRUE; 
+        LDI	R16, 1
+        STD	Z+2, R16
+// 1039                if(Control.link_waits==TRUE)
+        LDD	R16, Z+1
+        CPI	R16, 1
+        BRNE	??TIMER3_COMPA_interrupt_7
+// 1040                   {
+// 1041                  // if(Control.vol_try!=0)
+// 1042                   //   {
+// 1043                       Control.cnt_try++;
+        LDD	R16, Z+14
+        INC	R16
+        STD	Z+14, R16
+// 1044                       if(Control.cnt_try>=Control.vol_try)
+        LDD	R16, Z+14
+        LDD	R17, Z+15
+        CP	R16, R17
+        BRCS	??TIMER3_COMPA_interrupt_7
+// 1045                        {   
+// 1046                        Control.link=FALSE;   
+        LDI	R16, 0
+        STD	Z+2, R16
+// 1047                        event_modem=EVM_MS_LMT;
+        LDI	R16, 7
+        STS	event_modem, R16
+// 1048                        Control.link_no=TRUE;//признак связи нет.
+        LDI	R16, 1
+        ST	Z, R16
+// 1049                        }
+// 1050                     // }
+// 1051                   }
+// 1052                               
+// 1053                 Control.link_waits=FALSE;
+??TIMER3_COMPA_interrupt_7:
+        LDI	R16, 0
+        STD	Z+1, R16
+// 1054                              
+// 1055                }    
+// 1056        
+// 1057        }
+// 1058        
+// 1059  next_tm2:  
+// 1060    
+// 1061        
+// 1062        if(fl_ip.ip_tm_nat_en==1)   ///таймер контроля NAT
+??TIMER3_COMPA_interrupt_6:
+        LDI	R26, LOW(fl_ip)
+        LDI	R27, (fl_ip) >> 8
+        LD	R16, X
+        SBRS	R16, 2
+        RJMP	??TIMER3_COMPA_interrupt_8
+// 1063        {       
+// 1064                Control.cnt_nat--;
+        LDD	R16, Z+6
+        LDD	R17, Z+7
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+6, R16
+        STD	Z+7, R17
+// 1065                if(Control.cnt_nat==0)
+        LDD	R16, Z+6
+        LDD	R17, Z+7
+        OR	R16, R17
+        BRNE	??TIMER3_COMPA_interrupt_8
+// 1066                { 
+// 1067                 Control.cnt_nat=Control.vol_nat;
+        LDD	R16, Z+10
+        LDD	R17, Z+11
+        STD	Z+6, R16
+        STD	Z+7, R17
+// 1068                 Control.nat=TRUE;
+        LDI	R16, 1
+        STD	Z+3, R16
+// 1069                }    
+// 1070        
+// 1071        }
+// 1072   
+// 1073    //!!!!!!!!!!!!!dobavka
+// 1074        if(cnt_no_link==0) goto next_tm3;
+??TIMER3_COMPA_interrupt_8:
+        LDI	R30, LOW(cnt_no_link)
+        LDI	R31, (cnt_no_link) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        LDD	R18, Z+2
+        LDD	R19, Z+3
+        OR	R16, R17
+        OR	R16, R18
+        OR	R16, R19
+        BREQ	??TIMER3_COMPA_interrupt_9
+// 1075          cnt_no_link--;
+        LD	R16, Z
+        LDD	R17, Z+1
+        LDD	R18, Z+2
+        LDD	R19, Z+3
+        SUBI	R16, 1
+        SBCI	R17, 0
+        SBCI	R18, 0
+        SBCI	R19, 0
+        ST	Z, R16
+        STD	Z+1, R17
+        STD	Z+2, R18
+        STD	Z+3, R19
+// 1076          if(cnt_no_link==0)Fl_ch_sim=1;
+        LD	R16, Z
+        LDD	R17, Z+1
+        LDD	R18, Z+2
+        LDD	R19, Z+3
+        OR	R16, R17
+        OR	R16, R18
+        OR	R16, R19
+        BRNE	??TIMER3_COMPA_interrupt_9
+        LDI	R16, 1
+        STS	Fl_ch_sim, R16
+// 1077   next_tm3:     
+// 1078        
+// 1079         if(cnt_link_res==0) goto next_tm4;
+??TIMER3_COMPA_interrupt_9:
+        LDI	R30, LOW(cnt_link_res)
+        LDI	R31, (cnt_link_res) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        LDD	R18, Z+2
+        LDD	R19, Z+3
+        OR	R16, R17
+        OR	R16, R18
+        OR	R16, R19
+        BREQ	??TIMER3_COMPA_interrupt_10
+// 1080         cnt_link_res--;
+        LD	R16, Z
+        LDD	R17, Z+1
+        LDD	R18, Z+2
+        LDD	R19, Z+3
+        SUBI	R16, 1
+        SBCI	R17, 0
+        SBCI	R18, 0
+        SBCI	R19, 0
+        ST	Z, R16
+        STD	Z+1, R17
+        STD	Z+2, R18
+        STD	Z+3, R19
+// 1081         if(cnt_link_res==0)Fl_ch_sim=1;
+        LD	R16, Z
+        LDD	R17, Z+1
+        LDD	R18, Z+2
+        LDD	R19, Z+3
+        OR	R16, R17
+        OR	R16, R18
+        OR	R16, R19
+        BRNE	??TIMER3_COMPA_interrupt_10
+        LDI	R16, 1
+        STS	Fl_ch_sim, R16
+// 1082     next_tm4:;        
+// 1083           
+// 1084  //EEEEEEEEEEEEEE dobavka
+// 1085      
+// 1086        
+// 1087  ////////////////////////////////////////// 
+// 1088      
+// 1089     }
+??TIMER3_COMPA_interrupt_10:
+        OUT	0x3B, R25
+        OUT	0x3F, R24
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+17
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+16
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+15
+        LD	R19, Y+
+        CFI R19 SameValue
+        CFI CFA_Y Y+14
+        LD	R20, Y+
+        CFI R20 SameValue
+        CFI CFA_Y Y+13
+        LD	R21, Y+
+        CFI R21 SameValue
+        CFI CFA_Y Y+12
+        LD	R22, Y+
+        CFI R22 SameValue
+        CFI CFA_Y Y+11
+        LD	R23, Y+
+        CFI R23 SameValue
+        CFI CFA_Y Y+10
+        LD	R0, Y+
+        CFI R0 SameValue
+        CFI CFA_Y Y+9
+        LD	R1, Y+
+        CFI R1 SameValue
+        CFI CFA_Y Y+8
+        LD	R2, Y+
+        CFI R2 SameValue
+        CFI CFA_Y Y+7
+        LD	R3, Y+
+        CFI R3 SameValue
+        CFI CFA_Y Y+6
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+5
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+4
+        LD	R24, Y+
+        CFI R24 SameValue
+        CFI CFA_Y Y+3
+        LD	R25, Y+
+        CFI R25 SameValue
+        CFI CFA_Y Y+2
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI EndBlock cfiBlock6
+// 1090 
+// 1091 
+// 1092 
+// 1093 #pragma vector=USART0_RX_vect
+// 1094            
+
+        RSEG CODE:CODE:NOROOT(1)
+// 1095            __interrupt  void USART0_RX_interrupt(void)
+USART0_RX_interrupt:
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function USART0_RX_interrupt
+// 1096                  
+// 1097                  
+// 1098                 {
+        FUNCALL USART0_RX_interrupt, recive_buf1
+        LOCFRAME CSTACK, 18, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL USART0_RX_interrupt, recive_buf2
+        LOCFRAME CSTACK, 18, STACK
+        LOCFRAME RSTACK, 2, STACK
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R25
+        CFI R25 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R24
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        ST	-Y, R3
+        CFI R3 Frame(CFA_Y, -7)
+        CFI CFA_Y Y+7
+        ST	-Y, R2
+        CFI R2 Frame(CFA_Y, -8)
+        CFI CFA_Y Y+8
+        ST	-Y, R1
+        CFI R1 Frame(CFA_Y, -9)
+        CFI CFA_Y Y+9
+        ST	-Y, R0
+        CFI R0 Frame(CFA_Y, -10)
+        CFI CFA_Y Y+10
+        ST	-Y, R23
+        CFI R23 Frame(CFA_Y, -11)
+        CFI CFA_Y Y+11
+        ST	-Y, R22
+        CFI R22 Frame(CFA_Y, -12)
+        CFI CFA_Y Y+12
+        ST	-Y, R21
+        CFI R21 Frame(CFA_Y, -13)
+        CFI CFA_Y Y+13
+        ST	-Y, R20
+        CFI R20 Frame(CFA_Y, -14)
+        CFI CFA_Y Y+14
+        ST	-Y, R19
+        CFI R19 Frame(CFA_Y, -15)
+        CFI CFA_Y Y+15
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -16)
+        CFI CFA_Y Y+16
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -17)
+        CFI CFA_Y Y+17
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -18)
+        CFI CFA_Y Y+18
+        IN	R24, 0x3F
+        IN	R25, 0x3B
+// 1099                 unsigned char data;                
+// 1100                 data=UDR0;
+        LDS	R16, 198
+// 1101                 if((Regim==MODEM_ONLY)||(Regim==MODEM_ONLY_R)){UDR2=data;return;} //dobavka             
+        LDS	R17, Regim
+        CPI	R17, 2
+        BREQ	??USART0_RX_interrupt_0
+        LDS	R17, Regim
+        CPI	R17, 3
+        BRNE	??USART0_RX_interrupt_1
+??USART0_RX_interrupt_0:
+        STS	214, R16
+        RJMP	??USART0_RX_interrupt_2
+// 1102                 if(Regim==RG_DEBAG)UDR1=data; 
+??USART0_RX_interrupt_1:
+        LDS	R17, Regim
+        CPI	R17, 1
+        BRNE	??USART0_RX_interrupt_3
+        STS	206, R16
+// 1103               
+// 1104                 if(command_AT==TRUE)
+??USART0_RX_interrupt_3:
+        LDS	R17, command_AT
+        CPI	R17, 1
+        BRNE	??USART0_RX_interrupt_4
+// 1105                     {
+// 1106                     S2_GR;
+        CBI	0x08, 0x00
+        SBI	0x08, 0x01
+// 1107                     At_com.cnt_rx_out=At_com.vol_rx_out;
+        LDI	R30, LOW(At_com)
+        LDI	R31, (At_com) >> 8
+        MOVW	R27:R26, R31:R30
+        ADIW	R27:R26, 61
+        LD	R18, X+
+        LD	R19, X
+        STD	Z+59, R18
+        STD	Z+60, R19
+// 1108                     At_com.cnt_tm_out=0;
+        LDI	R18, 0
+        LDI	R19, 0
+        STD	Z+55, R18
+        STD	Z+56, R18
+// 1109                     if(At_com.cnt_rx < LN_BUF_AT)
+        LDD	R18, Z+41
+        CPI	R18, 40
+        BRCC	??USART0_RX_interrupt_2
+// 1110                           {
+// 1111                            At_com.buf[At_com.cnt_rx]=data;
+        MOVW	R27:R26, R31:R30
+        ADD	R26, R18
+        ADC	R27, R19
+        ST	X, R16
+// 1112                            At_com.cnt_rx++;
+        LDD	R16, Z+41
+        INC	R16
+        STD	Z+41, R16
+        RJMP	??USART0_RX_interrupt_2
+// 1113                            }
+// 1114                     return;
+// 1115                     }
+// 1116                
+// 1117                 
+// 1118                   if(fl_rx_ppp.switcher==0)recive_buf1(data);else recive_buf2(data);
+??USART0_RX_interrupt_4:
+        LDI	R30, LOW(fl_rx_ppp)
+        LDI	R31, (fl_rx_ppp) >> 8
+        LD	R17, Z
+        SBRC	R17, 2
+        RJMP	??USART0_RX_interrupt_5
+        RCALL	recive_buf1
+        RJMP	??USART0_RX_interrupt_2
+??USART0_RX_interrupt_5:
+        RCALL	recive_buf2
+??USART0_RX_interrupt_2:
+        OUT	0x3B, R25
+        OUT	0x3F, R24
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+17
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+16
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+15
+        LD	R19, Y+
+        CFI R19 SameValue
+        CFI CFA_Y Y+14
+        LD	R20, Y+
+        CFI R20 SameValue
+        CFI CFA_Y Y+13
+        LD	R21, Y+
+        CFI R21 SameValue
+        CFI CFA_Y Y+12
+        LD	R22, Y+
+        CFI R22 SameValue
+        CFI CFA_Y Y+11
+        LD	R23, Y+
+        CFI R23 SameValue
+        CFI CFA_Y Y+10
+        LD	R0, Y+
+        CFI R0 SameValue
+        CFI CFA_Y Y+9
+        LD	R1, Y+
+        CFI R1 SameValue
+        CFI CFA_Y Y+8
+        LD	R2, Y+
+        CFI R2 SameValue
+        CFI CFA_Y Y+7
+        LD	R3, Y+
+        CFI R3 SameValue
+        CFI CFA_Y Y+6
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+5
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+4
+        LD	R24, Y+
+        CFI R24 SameValue
+        CFI CFA_Y Y+3
+        LD	R25, Y+
+        CFI R25 SameValue
+        CFI CFA_Y Y+2
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI EndBlock cfiBlock7
+// 1119   
+// 1120                  }
+// 1121  /////////////////////////////////////////////////////////////////////////////////////////////////////  
+// 1122     
+// 1123  //////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1124 
+// 1125 #pragma vector=USART0_TX_vect
+
+        RSEG CODE:CODE:NOROOT(1)
+// 1126      __interrupt void USART0_TX_interrupt(void) 
+USART0_TX_interrupt:
+        CFI Block cfiBlock8 Using cfiCommon1
+        CFI Function USART0_TX_interrupt
+// 1127 
+// 1128 { 
+        FUNCALL USART0_TX_interrupt, sending_at_pac
+        LOCFRAME CSTACK, 16, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL USART0_TX_interrupt, sending_ppp_pac
+        LOCFRAME CSTACK, 16, STACK
+        LOCFRAME RSTACK, 2, STACK
+        FUNCALL USART0_TX_interrupt, check_cts
+        LOCFRAME CSTACK, 16, STACK
+        LOCFRAME RSTACK, 2, STACK
+        ST	-Y, R25
+        CFI R25 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R24
+        CFI R24 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R3
+        CFI R3 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        ST	-Y, R2
+        CFI R2 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        ST	-Y, R1
+        CFI R1 Frame(CFA_Y, -7)
+        CFI CFA_Y Y+7
+        ST	-Y, R0
+        CFI R0 Frame(CFA_Y, -8)
+        CFI CFA_Y Y+8
+        ST	-Y, R23
+        CFI R23 Frame(CFA_Y, -9)
+        CFI CFA_Y Y+9
+        ST	-Y, R22
+        CFI R22 Frame(CFA_Y, -10)
+        CFI CFA_Y Y+10
+        ST	-Y, R21
+        CFI R21 Frame(CFA_Y, -11)
+        CFI CFA_Y Y+11
+        ST	-Y, R20
+        CFI R20 Frame(CFA_Y, -12)
+        CFI CFA_Y Y+12
+        ST	-Y, R19
+        CFI R19 Frame(CFA_Y, -13)
+        CFI CFA_Y Y+13
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -14)
+        CFI CFA_Y Y+14
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -15)
+        CFI CFA_Y Y+15
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -16)
+        CFI CFA_Y Y+16
+        IN	R24, 0x3F
+        IN	R25, 0x3B
+// 1129   
+// 1130   if(command_AT==TRUE)sending_at_pac(); 
+        LDS	R16, command_AT
+        CPI	R16, 1
+        BRNE	??USART0_TX_interrupt_0
+        CALL	sending_at_pac
+        RJMP	??USART0_TX_interrupt_1
+// 1131     
+// 1132   else 
+// 1133         {
+// 1134         
+// 1135         if(fl_cts_232_ignor==TRUE){sending_ppp_pac();return;}
+??USART0_TX_interrupt_0:
+        LDS	R16, fl_cts_232_ignor
+        CPI	R16, 1
+        BRNE	??USART0_TX_interrupt_2
+??USART0_TX_interrupt_3:
+        RCALL	sending_ppp_pac
+        RJMP	??USART0_TX_interrupt_1
+// 1136         
+// 1137         if(check_cts()==1) return;
+??USART0_TX_interrupt_2:
+        CALL	check_cts
+        CPI	R16, 1
+        BRNE	??USART0_TX_interrupt_3
+??USART0_TX_interrupt_1:
+        OUT	0x3B, R25
+        OUT	0x3F, R24
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+15
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+14
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+13
+        LD	R19, Y+
+        CFI R19 SameValue
+        CFI CFA_Y Y+12
+        LD	R20, Y+
+        CFI R20 SameValue
+        CFI CFA_Y Y+11
+        LD	R21, Y+
+        CFI R21 SameValue
+        CFI CFA_Y Y+10
+        LD	R22, Y+
+        CFI R22 SameValue
+        CFI CFA_Y Y+9
+        LD	R23, Y+
+        CFI R23 SameValue
+        CFI CFA_Y Y+8
+        LD	R0, Y+
+        CFI R0 SameValue
+        CFI CFA_Y Y+7
+        LD	R1, Y+
+        CFI R1 SameValue
+        CFI CFA_Y Y+6
+        LD	R2, Y+
+        CFI R2 SameValue
+        CFI CFA_Y Y+5
+        LD	R3, Y+
+        CFI R3 SameValue
+        CFI CFA_Y Y+4
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+3
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+2
+        LD	R24, Y+
+        CFI R24 SameValue
+        CFI CFA_Y Y+1
+        LD	R25, Y+
+        CFI R25 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI EndBlock cfiBlock8
+// 1138         sending_ppp_pac();
+// 1139         } 
+// 1140   }
+// 1141 
+// 1142 /////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1143 /*
+// 1144 #pragma vector=USART0_UDRE_vect
+// 1145            
+// 1146            __interrupt  void USART0_UDRE_interrupt(void)
+// 1147            {
+// 1148              sending_ppp_proverka();
+// 1149            }
+// 1150 
+// 1151 
+// 1152 */
+// 1153 /////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1154 #pragma vector=USART1_RX_vect
+// 1155            
+
+        RSEG CODE:CODE:NOROOT(1)
+// 1156            __interrupt  void USART1_RX_interrupt(void)
+USART1_RX_interrupt:
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function USART1_RX_interrupt
+// 1157                  
+// 1158                  
+// 1159                 {
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R20
+        CFI R20 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        ST	-Y, R19
+        CFI R19 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -7)
+        CFI CFA_Y Y+7
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -8)
+        CFI CFA_Y Y+8
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -9)
+        CFI CFA_Y Y+9
+        IN	R20, 0x3F
+// 1160                 unsigned char data;
+// 1161                 
+// 1162                 data=UDR1;
+        LDS	R18, 206
+// 1163                 S4_GR;
+        CBI	0x08, 0x04
+        SBI	0x08, 0x05
+// 1164                 Rs485_2.cnt_tm_rx_out=Rs485_2.vol_tm_rx_out;
+        LDI	R30, LOW(Rs485_1)
+        LDI	R31, (Rs485_1) >> 8
+        LDD	R16, Z+28
+        LDD	R17, Z+29
+        STD	Z+26, R16
+        STD	Z+27, R17
+// 1165                 Rs485_2.cnt_tm_out=0;
+        LDI	R16, 0
+        STD	Z+30, R16
+        STD	Z+31, R16
+// 1166                 if(Rs485_2.cnt_bt_rx_tx < MAX_BUF_RS485_2)
+        LDD	R16, Z+18
+        LDD	R17, Z+19
+        CPI	R16, 2
+        LDI	R19, 0
+        CPC	R17, R19
+        BRCC	??USART1_RX_interrupt_0
+// 1167                        {
+// 1168                         Rs485_2_buf_rx_tx[Rs485_2.cnt_bt_rx_tx]=data;
+        MOVW	R27:R26, R31:R30
+        ADD	R26, R16
+        ADC	R27, R17
+        ADIW	R27:R26, 56
+        ST	X, R18
+// 1169                         Rs485_2.cnt_bt_rx_tx++;
+        LDD	R16, Z+18
+        LDD	R17, Z+19
+        SUBI	R16, 255
+        SBCI	R17, 255
+        STD	Z+18, R16
+        STD	Z+19, R17
+        RJMP	??USART1_RX_interrupt_1
+// 1170                         }
+// 1171                         else fl_485_2.over=1;
+??USART1_RX_interrupt_0:
+        LDD	R16, Z+59
+        ORI	R16, 0x10
+        STD	Z+59, R16
+// 1172                 }
+??USART1_RX_interrupt_1:
+        OUT	0x3F, R20
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+8
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+7
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+6
+        LD	R19, Y+
+        CFI R19 SameValue
+        CFI CFA_Y Y+5
+        LD	R20, Y+
+        CFI R20 SameValue
+        CFI CFA_Y Y+4
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+3
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+2
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI EndBlock cfiBlock9
+// 1173  /////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1174  
+// 1175 
+// 1176 
+// 1177 
+// 1178 /////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1179 
+// 1180 #pragma vector=USART1_UDRE_vect
+// 1181            
+
+        RSEG CODE:CODE:NOROOT(1)
+// 1182            __interrupt  void USART1_UDRE_interrupt(void)
+USART1_UDRE_interrupt:
+        CFI Block cfiBlock10 Using cfiCommon1
+        CFI Function USART1_UDRE_interrupt
+// 1183 
+// 1184 {
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -7)
+        CFI CFA_Y Y+7
+        IN	R18, 0x3F
+// 1185 
+// 1186  if(Rs485_2.cnt_bt_rx_tx==0) goto end_tx1;
+        LDI	R30, LOW(Rs485_1)
+        LDI	R31, (Rs485_1) >> 8
+        LDD	R16, Z+18
+        LDD	R17, Z+19
+        OR	R16, R17
+        BRNE	??USART1_UDRE_interrupt_0
+// 1187                                                        
+// 1188                 UDR1=*Rs485_2.p_data485++;
+// 1189                 Rs485_2.cnt_bt_rx_tx--; 
+// 1190                 return;
+// 1191 end_tx1:
+// 1192                UCSR1B=UCSR1B & ~UDRIE;
+        LDS	R16, 201
+        ANDI	R16, 0xDF
+        STS	201, R16
+// 1193                Rs485_2.cnt_bt_rx_tx=0;
+        LDI	R16, 0
+        STD	Z+18, R16
+        STD	Z+19, R16
+// 1194                Rs485_2.cnt_tm_tx_out=Rs485_2.vol_tm_tx_out;
+        LDD	R16, Z+24
+        LDD	R17, Z+25
+        STD	Z+20, R16
+        STD	Z+21, R17
+// 1195                if(Rs485_2.cnt_tm_tx_out==0)
+        OR	R16, R17
+        BRNE	??USART1_UDRE_interrupt_1
+// 1196                {
+// 1197                 S4_OFF;
+        CBI	0x08, 0x04
+        CBI	0x08, 0x05
+// 1198                 Rs485_2.cnt_tm_out=Rs485_2.vol_tm_out;
+        LDD	R16, Z+32
+        LDD	R17, Z+33
+        STD	Z+30, R16
+        STD	Z+31, R17
+// 1199                 CLR_RTS3;  // togle to receiv mode  
+        CBI	0x0B, 0x04
+// 1200                 UCSR1B =UCSR1B | RXEN | RXCIE; // togle to receiv mode ;
+        LDS	R16, 201
+        ORI	R16, 0x90
+        STS	201, R16
+??USART1_UDRE_interrupt_1:
+        OUT	0x3F, R18
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+6
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+5
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+4
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+3
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+2
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI R16 Frame(CFA_Y, -7)
+        CFI R17 Frame(CFA_Y, -6)
+        CFI R18 Frame(CFA_Y, -5)
+        CFI R30 Frame(CFA_Y, -4)
+        CFI R31 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+7
+// 1201                }
+??USART1_UDRE_interrupt_0:
+        LDD	R26, Z+34
+        LDD	R27, Z+35
+        LD	R16, X
+        STS	206, R16
+        LDD	R16, Z+34
+        LDD	R17, Z+35
+        SUBI	R16, 255
+        SBCI	R17, 255
+        STD	Z+34, R16
+        STD	Z+35, R17
+        LDD	R16, Z+18
+        LDD	R17, Z+19
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+18, R16
+        STD	Z+19, R17
+        RJMP	??USART1_UDRE_interrupt_1
+        CFI EndBlock cfiBlock10
+// 1202               
+// 1203 
+// 1204 }
+// 1205 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1206 
+// 1207 
+// 1208 
+// 1209 
+// 1210 
+// 1211 
+// 1212 /////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1213 #pragma vector=USART2_RX_vect
+// 1214            
+
+        RSEG CODE:CODE:NOROOT(1)
+// 1215            __interrupt  void USART2_RX_interrupt(void)
+USART2_RX_interrupt:
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function USART2_RX_interrupt
+// 1216                  
+// 1217                  
+// 1218                 {
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R20
+        CFI R20 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        ST	-Y, R19
+        CFI R19 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -7)
+        CFI CFA_Y Y+7
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -8)
+        CFI CFA_Y Y+8
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -9)
+        CFI CFA_Y Y+9
+        IN	R20, 0x3F
+// 1219                 unsigned char data;                
+// 1220                 data=UDR2;
+        LDS	R18, 214
+// 1221                   
+// 1222                 
+// 1223                  if (fl_at_mom_232==1)
+        LDS	R16, fl_at_mom_232
+        CPI	R16, 1
+        BRNE	??USART2_RX_interrupt_0
+// 1224                 {
+// 1225                   if(vol_tx_ppp>=VOL_TX_PPP)vol_tx_ppp=0;
+        LDI	R30, LOW(vol_tx_ppp)
+        LDI	R31, (vol_tx_ppp) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        CPI	R16, 202
+        LDI	R19, 3
+        CPC	R17, R19
+        BRCS	??USART2_RX_interrupt_1
+        LDI	R16, 0
+        ST	Z, R16
+        STD	Z+1, R16
+// 1226                   buf_tx_232[vol_tx_ppp]=data; 
+??USART2_RX_interrupt_1:
+        LD	R16, Z
+        LDD	R17, Z+1
+        MOVW	R31:R30, R17:R16
+        SUBI	R30, LOW((-(buf_tx_232) & 0xFFFF))
+        SBCI	R31, (-(buf_tx_232) & 0xFFFF) >> 8
+        ST	Z, R18
+// 1227                   vol_tx_ppp++; 
+        LDI	R30, LOW(vol_tx_ppp)
+        LDI	R31, (vol_tx_ppp) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 255
+        SBCI	R17, 255
+        ST	Z, R16
+        STD	Z+1, R17
+// 1228                   return; 
+        RJMP	??USART2_RX_interrupt_2
+// 1229                  } 
+// 1230                 
+// 1231                 
+// 1232                 if((Regim==MODEM_ONLY)||(Regim==MODEM_ONLY_R)){UDR0=data;return;}//dobavka  
+??USART2_RX_interrupt_0:
+        LDS	R16, Regim
+        CPI	R16, 2
+        BREQ	??USART2_RX_interrupt_3
+        LDS	R16, Regim
+        CPI	R16, 3
+        BRNE	??USART2_RX_interrupt_4
+??USART2_RX_interrupt_3:
+        STS	198, R18
+        RJMP	??USART2_RX_interrupt_2
+// 1233                 S5_GR;
+??USART2_RX_interrupt_4:
+        CBI	0x08, 0x06
+        SBI	0x08, 0x07
+// 1234                 Rs232_2.cnt_tm_rx_out=Rs232_2.vol_tm_rx_out;
+        LDI	R30, LOW(Rs485_1)
+        LDI	R31, (Rs485_1) >> 8
+        LDD	R16, Z+46
+        LDD	R17, Z+47
+        STD	Z+44, R16
+        STD	Z+45, R17
+// 1235                 Rs232_2.cnt_tm_out=0;
+        LDI	R16, 0
+        STD	Z+48, R16
+        STD	Z+49, R16
+// 1236                 if(Rs232_2.cnt_bt_rx_tx < MAX_BUF_RS232_2)
+        LDD	R16, Z+36
+        LDD	R17, Z+37
+        CPI	R16, 132
+        LDI	R19, 3
+        CPC	R17, R19
+        BRCC	??USART2_RX_interrupt_5
+// 1237                        {
+// 1238                         Rs232_2_buf_rx_tx[Rs232_2.cnt_bt_rx_tx]=data;
+        MOVW	R27:R26, R17:R16
+        SUBI	R26, LOW((-(Rs232_2_buf_rx_tx) & 0xFFFF))
+        SBCI	R27, (-(Rs232_2_buf_rx_tx) & 0xFFFF) >> 8
+        ST	X, R18
+// 1239                         Rs232_2.cnt_bt_rx_tx++;
+        LDD	R16, Z+36
+        LDD	R17, Z+37
+        SUBI	R16, 255
+        SBCI	R17, 255
+        STD	Z+36, R16
+        STD	Z+37, R17
+        RJMP	??USART2_RX_interrupt_2
+// 1240                         }
+// 1241                         else fl_232_2.over=1;
+??USART2_RX_interrupt_5:
+        ADIW	R31:R30, 60
+        LD	R16, Z
+        ORI	R16, 0x10
+        ST	Z, R16
+??USART2_RX_interrupt_2:
+        OUT	0x3F, R20
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+8
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+7
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+6
+        LD	R19, Y+
+        CFI R19 SameValue
+        CFI CFA_Y Y+5
+        LD	R20, Y+
+        CFI R20 SameValue
+        CFI CFA_Y Y+4
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+3
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+2
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI EndBlock cfiBlock11
+// 1242                 }
+// 1243  /////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1244  
+// 1245 
+// 1246 
+// 1247 
+// 1248 /////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1249 
+// 1250 #pragma vector=USART2_UDRE_vect
+// 1251            
+
+        RSEG CODE:CODE:NOROOT(1)
+// 1252            __interrupt  void USART2_UDRE_interrupt(void)
+USART2_UDRE_interrupt:
+        CFI Block cfiBlock12 Using cfiCommon1
+        CFI Function USART2_UDRE_interrupt
+// 1253 
+// 1254 {
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -7)
+        CFI CFA_Y Y+7
+        IN	R18, 0x3F
+// 1255 
+// 1256  if(Rs232_2.cnt_bt_rx_tx==0) goto end_tx;
+        LDI	R30, LOW(Rs485_1)
+        LDI	R31, (Rs485_1) >> 8
+        LDD	R16, Z+36
+        LDD	R17, Z+37
+        OR	R16, R17
+        BRNE	??USART2_UDRE_interrupt_0
+// 1257                                                        
+// 1258                 UDR2=*Rs232_2.p_data485++;
+// 1259                 Rs232_2.cnt_bt_rx_tx--; 
+// 1260                 return;
+// 1261 end_tx:
+// 1262                UCSR2B=UCSR2B & ~UDRIE;
+        LDS	R16, 209
+        ANDI	R16, 0xDF
+        STS	209, R16
+// 1263                Rs232_2.cnt_bt_rx_tx=0;
+        LDI	R16, 0
+        STD	Z+36, R16
+        STD	Z+37, R16
+// 1264                Rs232_2.cnt_tm_tx_out=Rs232_2.vol_tm_tx_out;
+        LDD	R16, Z+42
+        LDD	R17, Z+43
+        STD	Z+38, R16
+        STD	Z+39, R17
+// 1265                if(Rs232_2.cnt_tm_tx_out==0)
+        OR	R16, R17
+        BRNE	??USART2_UDRE_interrupt_1
+// 1266                {
+// 1267                 S5_OFF;
+        CBI	0x08, 0x06
+        CBI	0x08, 0x07
+// 1268                 Rs232_2.cnt_tm_out=Rs232_2.vol_tm_out;
+        LDD	R16, Z+50
+        LDD	R17, Z+51
+        STD	Z+48, R16
+        STD	Z+49, R17
+// 1269                 CLR_RTS2;  // togle to receiv mode  
+        LDS	R16, 258
+        ORI	R16, 0x04
+        STS	258, R16
+// 1270                 UCSR2B =UCSR2B | RXEN | RXCIE; // togle to receiv mode ;
+        LDS	R16, 209
+        ORI	R16, 0x90
+        STS	209, R16
+??USART2_UDRE_interrupt_1:
+        OUT	0x3F, R18
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+6
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+5
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+4
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+3
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+2
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI R16 Frame(CFA_Y, -7)
+        CFI R17 Frame(CFA_Y, -6)
+        CFI R18 Frame(CFA_Y, -5)
+        CFI R30 Frame(CFA_Y, -4)
+        CFI R31 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+7
+// 1271                }
+??USART2_UDRE_interrupt_0:
+        LDD	R26, Z+52
+        LDD	R27, Z+53
+        LD	R16, X
+        STS	214, R16
+        LDD	R16, Z+52
+        LDD	R17, Z+53
+        SUBI	R16, 255
+        SBCI	R17, 255
+        STD	Z+52, R16
+        STD	Z+53, R17
+        LDD	R16, Z+36
+        LDD	R17, Z+37
+        SUBI	R16, 1
+        SBCI	R17, 0
+        STD	Z+36, R16
+        STD	Z+37, R17
+        RJMP	??USART2_UDRE_interrupt_1
+        CFI EndBlock cfiBlock12
+// 1272               
+// 1273 
+// 1274 }
+// 1275 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1276 
+// 1277 
+// 1278 
+// 1279 
+// 1280 
+// 1281 /////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1282 #pragma vector=USART3_RX_vect
+// 1283            
+
+        RSEG CODE:CODE:NOROOT(1)
+// 1284            __interrupt  void USART3_RX_interrupt(void)
+USART3_RX_interrupt:
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function USART3_RX_interrupt
+// 1285                  
+// 1286                  
+// 1287                 {
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R20
+        CFI R20 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        ST	-Y, R19
+        CFI R19 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -7)
+        CFI CFA_Y Y+7
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -8)
+        CFI CFA_Y Y+8
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -9)
+        CFI CFA_Y Y+9
+        IN	R20, 0x3F
+// 1288                 unsigned char data;
+// 1289                 
+// 1290                 data=UDR3;
+        LDS	R18, 310
+// 1291                 S3_GR;
+        CBI	0x08, 0x02
+        SBI	0x08, 0x03
+// 1292                 Rs485_1.cnt_tm_rx_out=Rs485_1.vol_tm_rx_out;
+        LDI	R30, LOW(Rs485_1)
+        LDI	R31, (Rs485_1) >> 8
+        LDD	R16, Z+10
+        LDD	R17, Z+11
+        STD	Z+8, R16
+        STD	Z+9, R17
+// 1293                 Rs485_1.cnt_tm_out=0;
+        LDI	R16, 0
+        STD	Z+12, R16
+        STD	Z+13, R16
+// 1294                 if(Rs485_1.cnt_bt_rx_tx < MAX_BUF_RS485_1)
+        LD	R16, Z
+        LDD	R17, Z+1
+        CPI	R16, 100
+        LDI	R19, 0
+        CPC	R17, R19
+        BRCC	??USART3_RX_interrupt_0
+// 1295                        {
+// 1296                         Rs485_1_buf_rx_tx[Rs485_1.cnt_bt_rx_tx]=data;
+        LD	R16, Z
+        LDD	R17, Z+1
+        MOVW	R27:R26, R17:R16
+        SUBI	R26, LOW((-(Rs485_1_buf_rx_tx) & 0xFFFF))
+        SBCI	R27, (-(Rs485_1_buf_rx_tx) & 0xFFFF) >> 8
+        ST	X, R18
+// 1297                         Rs485_1.cnt_bt_rx_tx++;
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 255
+        SBCI	R17, 255
+        ST	Z, R16
+        STD	Z+1, R17
+        RJMP	??USART3_RX_interrupt_1
+// 1298                         }
+// 1299                         else fl_485_1.over=1;
+??USART3_RX_interrupt_0:
+        LDD	R16, Z+58
+        ORI	R16, 0x10
+        STD	Z+58, R16
+// 1300                 }
+??USART3_RX_interrupt_1:
+        OUT	0x3F, R20
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+8
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+7
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+6
+        LD	R19, Y+
+        CFI R19 SameValue
+        CFI CFA_Y Y+5
+        LD	R20, Y+
+        CFI R20 SameValue
+        CFI CFA_Y Y+4
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+3
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+2
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI EndBlock cfiBlock13
+// 1301  /////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1302  
+// 1303 
+// 1304 
+// 1305 
+// 1306 /////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1307 
+// 1308 #pragma vector=USART3_UDRE_vect
+// 1309            
+
+        RSEG CODE:CODE:NOROOT(1)
+// 1310            __interrupt  void USART3_UDRE_interrupt(void)
+USART3_UDRE_interrupt:
+        CFI Block cfiBlock14 Using cfiCommon1
+        CFI Function USART3_UDRE_interrupt
+// 1311 
+// 1312 {
+        ST	-Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -7)
+        CFI CFA_Y Y+7
+        IN	R18, 0x3F
+// 1313 
+// 1314  if(Rs485_1.cnt_bt_rx_tx==0) goto end_tx2;
+        LDI	R30, LOW(Rs485_1)
+        LDI	R31, (Rs485_1) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        OR	R16, R17
+        BRNE	??USART3_UDRE_interrupt_0
+// 1315                                                        
+// 1316                 UDR3=*Rs485_1.p_data485++;
+// 1317                 Rs485_1.cnt_bt_rx_tx--; 
+// 1318                 return;
+// 1319 end_tx2:
+// 1320                UCSR3B=UCSR3B & ~UDRIE;
+        LDS	R16, 305
+        ANDI	R16, 0xDF
+        STS	305, R16
+// 1321                Rs485_1.cnt_bt_rx_tx=0;
+        LDI	R16, 0
+        ST	Z, R16
+        STD	Z+1, R16
+// 1322                Rs485_1.cnt_tm_tx_out=Rs485_1.vol_tm_tx_out;
+        LDD	R16, Z+6
+        LDD	R17, Z+7
+        STD	Z+2, R16
+        STD	Z+3, R17
+// 1323                if(Rs485_1.cnt_tm_tx_out==0)
+        OR	R16, R17
+        BRNE	??USART3_UDRE_interrupt_1
+// 1324                {
+// 1325                 S3_OFF;
+        CBI	0x08, 0x02
+        CBI	0x08, 0x03
+// 1326                 Rs485_1.cnt_tm_out=Rs485_1.vol_tm_out;
+        LDD	R16, Z+14
+        LDD	R17, Z+15
+        STD	Z+12, R16
+        STD	Z+13, R17
+// 1327                 CLR_RTS1;  // togle to receiv mode  
+        LDS	R16, 261
+        ANDI	R16, 0xFB
+        STS	261, R16
+// 1328                 UCSR3B =UCSR3B | RXEN | RXCIE; // togle to receiv mode ;
+        LDS	R16, 305
+        ORI	R16, 0x90
+        STS	305, R16
+??USART3_UDRE_interrupt_1:
+        OUT	0x3F, R18
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+6
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+5
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+4
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+3
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+2
+        LD	R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD	R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI R16 Frame(CFA_Y, -7)
+        CFI R17 Frame(CFA_Y, -6)
+        CFI R18 Frame(CFA_Y, -5)
+        CFI R30 Frame(CFA_Y, -4)
+        CFI R31 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+7
+// 1329                }
+??USART3_UDRE_interrupt_0:
+        LDD	R26, Z+16
+        LDD	R27, Z+17
+        LD	R16, X
+        STS	310, R16
+        LDD	R16, Z+16
+        LDD	R17, Z+17
+        SUBI	R16, 255
+        SBCI	R17, 255
+        STD	Z+16, R16
+        STD	Z+17, R17
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 1
+        SBCI	R17, 0
+        ST	Z, R16
+        STD	Z+1, R17
+        RJMP	??USART3_UDRE_interrupt_1
+        CFI EndBlock cfiBlock14
+// 1330               
+// 1331 
+// 1332 }
+// 1333 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 1334 
+// 1335 #pragma vector=ADC_vect
+
+        RSEG CODE:CODE:NOROOT(1)
+// 1336  __interrupt  void ADC_interrupt(void)
+ADC_interrupt:
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function ADC_interrupt
+// 1337  { 
+        ST	-Y, R31
+        CFI R31 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST	-Y, R30
+        CFI R30 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST	-Y, R0
+        CFI R0 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST	-Y, R23
+        CFI R23 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        ST	-Y, R22
+        CFI R22 Frame(CFA_Y, -5)
+        CFI CFA_Y Y+5
+        ST	-Y, R21
+        CFI R21 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        ST	-Y, R20
+        CFI R20 Frame(CFA_Y, -7)
+        CFI CFA_Y Y+7
+        ST	-Y, R19
+        CFI R19 Frame(CFA_Y, -8)
+        CFI CFA_Y Y+8
+        ST	-Y, R18
+        CFI R18 Frame(CFA_Y, -9)
+        CFI CFA_Y Y+9
+        ST	-Y, R17
+        CFI R17 Frame(CFA_Y, -10)
+        CFI CFA_Y Y+10
+        ST	-Y, R16
+        CFI R16 Frame(CFA_Y, -11)
+        CFI CFA_Y Y+11
+        IN	R0, 0x3F
+// 1338   // temperatura=ADC;
+// 1339 
+// 1340    fl_wdt.from_adc=1;
+        LDI	R30, LOW(fl_wdt)
+        LDI	R31, (fl_wdt) >> 8
+        LD	R16, Z
+        ORI	R16, 0x40
+        ST	Z, R16
+// 1341    
+// 1342   //  __enable_interrupt();
+// 1343    
+// 1344    count_summa_temperatura++;
+        LDI	R30, LOW(count_summa_temperatura)
+        LDI	R31, (count_summa_temperatura) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        SUBI	R16, 255
+        SBCI	R17, 255
+        ST	Z, R16
+        STD	Z+1, R17
+// 1345    summa_temperatura=summa_temperatura+ADC;
+        LDS	R16, 120
+        LDS	R17, 121
+        LDI	R18, 0
+        LDI	R19, 0
+        LDI	R30, LOW(summa_temperatura)
+        LDI	R31, (summa_temperatura) >> 8
+        LD	R20, Z
+        LDD	R21, Z+1
+        LDD	R22, Z+2
+        LDD	R23, Z+3
+        ADD	R20, R16
+        ADC	R21, R17
+        ADC	R22, R18
+        ADC	R23, R18
+        ST	Z, R20
+        STD	Z+1, R21
+        STD	Z+2, R22
+        STD	Z+3, R23
+// 1346    
+// 1347        if(count_summa_temperatura>=1024)
+        LDI	R30, LOW(count_summa_temperatura)
+        LDI	R31, (count_summa_temperatura) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        CPI	R16, 0
+        LDI	R18, 4
+        CPC	R17, R18
+        BRCS	??ADC_interrupt_0
+// 1348           {
+// 1349           count_summa_temperatura=0;
+        ST	Z, R19
+        STD	Z+1, R19
+// 1350           temperatura=summa_temperatura>>10;
+        LDI	R30, LOW(summa_temperatura)
+        LDI	R31, (summa_temperatura) >> 8
+        LD	R16, Z
+        LDD	R17, Z+1
+        LDD	R18, Z+2
+        LDD	R19, Z+3
+        LDI	R20, 10
+        CALL	?UL_SHR_L03
+        LDI	R30, LOW(temperatura)
+        LDI	R31, (temperatura) >> 8
+        ST	Z, R16
+        STD	Z+1, R17
+// 1351           summa_temperatura=0;
+        LDI	R30, LOW(summa_temperatura)
+        LDI	R31, (summa_temperatura) >> 8
+        ST	Z, R19
+        STD	Z+1, R19
+        STD	Z+2, R19
+        STD	Z+3, R19
+// 1352         }  
+// 1353        
+// 1354        ADCSRA=ADCSRA | 0x47;       
+??ADC_interrupt_0:
+        LDS	R16, 122
+        ORI	R16, 0x47
+        STS	122, R16
+// 1355  }
+        OUT	0x3F, R0
+        LD	R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+10
+        LD	R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+9
+        LD	R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+8
+        LD	R19, Y+
+        CFI R19 SameValue
+        CFI CFA_Y Y+7
+        LD	R20, Y+
+        CFI R20 SameValue
+        CFI CFA_Y Y+6
+        LD	R21, Y+
+        CFI R21 SameValue
+        CFI CFA_Y Y+5
+        LD	R22, Y+
+        CFI R22 SameValue
+        CFI CFA_Y Y+4
+        LD	R23, Y+
+        CFI R23 SameValue
+        CFI CFA_Y Y+3
+        LD	R0, Y+
+        CFI R0 SameValue
+        CFI CFA_Y Y+2
+        LD	R30, Y+
+        CFI R30 SameValue
+        CFI CFA_Y Y+1
+        LD	R31, Y+
+        CFI R31 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI EndBlock cfiBlock15
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 52
+`??TIMER2_COMPA_interrupt??INTVEC 52`:
+        JMP	TIMER2_COMPA_interrupt
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 84
+`??TIMER0_COMPA_interrupt??INTVEC 84`:
+        JMP	TIMER0_COMPA_interrupt
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 100
+`??USART0_RX_interrupt??INTVEC 100`:
+        JMP	USART0_RX_interrupt
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 108
+`??USART0_TX_interrupt??INTVEC 108`:
+        JMP	USART0_TX_interrupt
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 116
+`??ADC_interrupt??INTVEC 116`:
+        JMP	ADC_interrupt
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 128
+`??TIMER3_COMPA_interrupt??INTVEC 128`:
+        JMP	TIMER3_COMPA_interrupt
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 144
+`??USART1_RX_interrupt??INTVEC 144`:
+        JMP	USART1_RX_interrupt
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 148
+`??USART1_UDRE_interrupt??INTVEC 148`:
+        JMP	USART1_UDRE_interrupt
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 204
+`??USART2_RX_interrupt??INTVEC 204`:
+        JMP	USART2_RX_interrupt
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 208
+`??USART2_UDRE_interrupt??INTVEC 208`:
+        JMP	USART2_UDRE_interrupt
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 216
+`??USART3_RX_interrupt??INTVEC 216`:
+        JMP	USART3_RX_interrupt
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 220
+`??USART3_UDRE_interrupt??INTVEC 220`:
+        JMP	USART3_UDRE_interrupt
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_Z>`:
+        DW	SFE(NEAR_Z) - SFB(NEAR_Z)
+        DW	SFB(NEAR_Z)
+        DP	0
+        REQUIRE ?need_segment_init
+
+        END
+// 1356 
+// 1357    
+// 1358 
+// 1359 
+// 
+//    17 bytes in segment ABSOLUTE
+// 4 424 bytes in segment CODE
+//     7 bytes in segment INITTAB
+//    48 bytes in segment INTVEC
+// 1 066 bytes in segment NEAR_Z
+// 
+// 4 424 bytes of CODE memory (+ 55 bytes shared)
+// 1 066 bytes of DATA memory (+ 17 bytes shared)
+//
+//Errors: none
+//Warnings: 1

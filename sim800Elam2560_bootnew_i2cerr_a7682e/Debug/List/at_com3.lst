@@ -1,0 +1,2755 @@
+##############################################################################
+#                                                                            #
+#                                                      23/Jan/2008  15:27:46 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  D:\PRJIAR\NSSALFA\at_com3.c                             #
+#    Command line =  D:\PRJIAR\NSSALFA\at_com3.c --cpu=m1280 -ms -o          #
+#                    D:\PRJIAR\NSSALFA\Debug\Obj\ -lCN                       #
+#                    D:\PRJIAR\NSSALFA\Debug\List\ -lA                       #
+#                    D:\PRJIAR\NSSALFA\Debug\List\ -y                        #
+#                    --initializers_in_flash -z6 --no_inline                 #
+#                    --no_cross_call --no_tbaa --debug -e -I "D:\Program     #
+#                    Files\IAR Systems\Embedded Workbench 4.0                #
+#                    Evaluation\avr\INC\" -I "D:\Program Files\IAR           #
+#                    Systems\Embedded Workbench 4.0                          #
+#                    Evaluation\avr\INC\DLIB\" --eeprom_size 4096            #
+#                    --dlib_config "D:\Program Files\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-3s-ec-n.h"  #
+#    List file    =  D:\PRJIAR\NSSALFA\Debug\List\at_com3.lst                #
+#    Object file  =  D:\PRJIAR\NSSALFA\Debug\Obj\at_com3.r90                 #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+D:\PRJIAR\NSSALFA\at_com3.c
+      1          #include <iom1280.h>              
+
+   \                                 In segment ABSOLUTE, at 0x136
+   \   union <unnamed> volatile __ext_io _A_UDR3
+   \                     _A_UDR3:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xc6
+   \   union <unnamed> volatile __io _A_UDR0
+   \                     _A_UDR0:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xc1
+   \   union <unnamed> volatile __io _A_UCSR0B
+   \                     _A_UCSR0B:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x2c
+   \   union <unnamed> volatile __io _A_PINE
+   \                     _A_PINE:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x28
+   \   union <unnamed> volatile __io _A_PORTC
+   \                     _A_PORTC:
+   \   00000000                      DS 1
+      2          #include <inavr.h>
+      3          #include <string.h> 
+      4          #include "dfpin.h"
+      5          #include "dfproc.h"
+      6          #include "def_at.h"
+      7          #include "map_ef.h"
+      8          #include "dfcnst.h"
+      9          
+     10           extern unsigned char state_led_md;
+     11          //23.03.07 включение PAP для сименса
+     12          
+     13          //void st_gprs_atcom(void);
+     14          //void st_gprs_att(void);
+     15          
+     16          void lock_it(void);
+     17          
+     18          
+
+   \                                 In segment NEAR_F, align 1, keep-with-next
+     19          __flash char stm_pin1_ok[]=        {'S','T','M',':','p','i','n',' ','s','i','m','1',' ','o','k'};
+   \                     stm_pin1_ok:
+   \   00000000   54533A4D6970       DB 83, 84, 77, 58, 112, 105, 110, 32, 115, 105, 109, 49, 32, 111, 107
+   \              206E6973316D
+   \              6F206B      
+     20          __flash char stm_pin2_ok[]=        {'S','T','M',':','p','i','n',' ','s','i','m','2',' ','o','k'};
+   \                     stm_pin2_ok:
+   \   0000000F   54533A4D6970       DB 83, 84, 77, 58, 112, 105, 110, 32, 115, 105, 109, 50, 32, 111, 107
+   \              206E6973326D
+   \              6F206B      
+     21          __flash char stm_pin1_err[]=       {'S','T','M',':','p','i','n',' ','s','i','m','1',' ','e','r','r'};
+   \                     stm_pin1_err:
+   \   0000001E   54533A4D6970       DB 83, 84, 77, 58, 112, 105, 110, 32, 115, 105, 109, 49, 32, 101, 114
+   \              206E6973316D
+   \              652072      
+   \   0000002D   72                 DB 114
+     22          __flash char stm_pin2_err[]=       {'S','T','M',':','p','i','n',' ','s','i','m','2',' ','e','r','r'};
+   \                     stm_pin2_err:
+   \   0000002E   54533A4D6970       DB 83, 84, 77, 58, 112, 105, 110, 32, 115, 105, 109, 50, 32, 101, 114
+   \              206E6973326D
+   \              652072      
+   \   0000003D   72                 DB 114
+     23          
+     24          void send_info(char size,char __flash *p,unsigned char fl_id,unsigned char id);
+     25          
+     26          extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,unsigned int num);
+     27          extern void delay(unsigned int period);
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     28          unsigned char cnt_com; 
+   \                     cnt_com:
+   \   00000000                      DS 1
+     29          unsigned char rep;
+   \                     rep:
+   \   00000001                      DS 1
+     30          
+     31          unsigned char speed_modem;
+   \                     speed_modem:
+   \   00000002                      DS 1
+     32          void sending_at_pac(void); 
+     33          
+     34           void init_modem_only(void);
+     35          
+     36          extern enum t_event_modem event_modem;
+     37          
+     38          extern unsigned char simka; //dobavka
+     39          
+     40          struct
+     41          {
+     42          unsigned char eho:1;//состояние эхо ответа
+     43          unsigned char kod :1;//состояние ответ-код 
+     44          }
+     45          fl_conf_modem;
+   \                     fl_conf_modem:
+   \   00000003                      DS 1
+     46          
+     47          
+     48          
+     49          struct
+     50          {
+     51          char buf[LN_BUF_AT];
+     52          unsigned char cnt_tx;
+     53          unsigned char cnt_rx;
+     54          unsigned char ln_buf;
+     55          unsigned char list_com[VOL_LIST];// перечень исполняемых команд
+     56          unsigned char ln_list;//длина перечня
+     57          unsigned char cnt_com;//счетчик команд
+     58          unsigned int cnt_tm_out; //счетчик времени ожидания ответа
+     59          unsigned int vol_tm_out; //предел времени ожидания ответа
+     60          unsigned int cnt_rx_out; //счетчик межбайтовый промежуток
+     61          unsigned int vol_rx_out; //предел межбайтового промежутка
+     62          }At_com;
+     63          
+     64          
+     65          struct
+     66          {
+     67          unsigned char ok :1;//требуемый ответ
+     68          unsigned char err :1;//ошибочный, нетребуемый ответ
+     69          unsigned char tm_out :1;//отсутствие ответа
+     70          unsigned char tx_en :1;//послать комманду
+     71          unsigned char rx_en :1;//принимать ответы
+     72          unsigned char rx_rec :1;//принят ответ
+     73          //unsigned char tm_out_en:1;//разрешение анализа по превышению времени ожидания ответа
+     74          }
+     75          fl_at_com;
+   \                     fl_at_com:
+   \   00000004                      DS 1
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+   \                     At_com:
+   \   00000000                      DS 66
+     76          
+     77          
+     78          
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     79          unsigned char Cnt_modem_on_off,flag;
+   \                     Cnt_modem_on_off:
+   \   00000000                      DS 1
+   \                     flag:
+   \   00000001                      DS 1
+     80          
+     81          extern unsigned char Regim;
+     82          
+     83          
+     84          
+     85          
+
+   \                                 In segment CODE, align 2, keep-with-next
+     86           void sending_at_pac(void)
+   \                     sending_at_pac:
+     87          {   
+   \   00000000   ........           CALL    ?PROLOGUE4_L09
+     88           if(At_com.cnt_tx>=(At_com.ln_buf-1))
+   \   00000004   ....               LDI     R30, LOW(At_com)
+   \   00000006   ....               LDI     R31, (At_com) >> 8
+   \   00000008   A500               LDD     R16, Z+40
+   \   0000000A   E010               LDI     R17, 0
+   \   0000000C   A582               LDD     R24, Z+42
+   \   0000000E   E090               LDI     R25, 0
+   \   00000010   9701               SBIW    R25:R24, 1
+   \   00000012   1708               CP      R16, R24
+   \   00000014   0719               CPC     R17, R25
+   \   00000016   F0A4               BRLT    ??sending_at_pac_0
+     89               { 
+     90               At_com.cnt_tx=0;
+   \   00000018   A710               STD     Z+40, R17
+     91               At_com.cnt_tm_out=At_com.vol_tm_out;
+   \   0000001A   01DF               MOVW    R27:R26, R31:R30
+   \   0000001C   96DC               ADIW    R27:R26, 60
+   \   0000001E   910D               LD      R16, X+
+   \   00000020   911C               LD      R17, X
+   \   00000022   AF02               STD     Z+58, R16
+   \   00000024   AF13               STD     Z+59, R17
+     92               UCSR0B=UCSR0B | RXEN;
+   \   00000026   910000C1           LDS     R16, 193
+   \   0000002A   6100               ORI     R16, 0x10
+   \   0000002C   930000C1           STS     193, R16
+     93               UCSR0B=UCSR0B | RXCIE;  
+   \   00000030   910000C1           LDS     R16, 193
+   \   00000034   6800               ORI     R16, 0x80
+   \   00000036   930000C1           STS     193, R16
+     94              // UCSR0B=UCSR0B & ~TXEN;!!!!!
+     95             //  UCSR0B=UCSR0B & ~TXCIE; !!!!
+     96               S2_OFF;
+   \   0000003A   9840               CBI     0x08, 0x00
+   \   0000003C   9841               CBI     0x08, 0x01
+     97               return;
+   \   0000003E   C00F               RJMP    ??sending_at_pac_1
+     98               }   
+     99              
+    100          
+    101              At_com.cnt_tx++;                   
+   \                     ??sending_at_pac_0:
+   \   00000040   A500               LDD     R16, Z+40
+   \   00000042   9503               INC     R16
+   \   00000044   A700               STD     Z+40, R16
+    102              UDR0=At_com.buf[At_com.cnt_tx];
+   \   00000046   A500               LDD     R16, Z+40
+   \   00000048   0FE0               ADD     R30, R16
+   \   0000004A   1FF1               ADC     R31, R17
+   \   0000004C   8110               LD      R17, Z
+   \   0000004E   931000C6           STS     198, R17
+    103          
+    104              
+    105              if(Regim==RG_DEBAG) UDR3=At_com.buf[At_com.cnt_tx];
+   \   00000052   9100....           LDS     R16, Regim
+   \   00000056   3001               CPI     R16, 1
+   \   00000058   F411               BRNE    ??sending_at_pac_1
+   \   0000005A   93100136           STS     310, R17
+   \                     ??sending_at_pac_1:
+   \   0000005E   E0E4               LDI     R30, 4
+   \   00000060   ........           JMP     ?EPILOGUE_B4_L09
+    106          } 
+    107          
+    108          
+    109          
+    110          
+    111          
+    112          
+    113          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    114          void at_com_tx(unsigned char cnt)
+   \                     at_com_tx:
+    115          {
+   \   00000000   ........           CALL    ?PROLOGUE6_L09
+   \   00000004                      REQUIRE ?Register_R4_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R5_is_cg_reg
+   \   00000004   2E40               MOV     R4, R16
+    116          
+    117          
+    118          if(cnt>=VOL_LIST)return;
+   \   00000006   E00D               LDI     R16, 13
+   \   00000008   1640               CP      R4, R16
+   \   0000000A   F008               BRCS    $+2+2
+   \   0000000C   C220               RJMP    ??at_com_tx_0
+    119          if(fl_at_com.tx_en==0)return;
+   \   0000000E   ....               LDI     R24, LOW(cnt_com)
+   \   00000010   ....               LDI     R25, (cnt_com) >> 8
+   \   00000012   01FC               MOVW    R31:R30, R25:R24
+   \   00000014   8104               LDD     R16, Z+4
+   \   00000016   FF03               SBRS    R16, 3
+   \   00000018   C21A               RJMP    ??at_com_tx_0
+    120          
+    121          memset(At_com.buf,0,LN_BUF_AT);
+   \   0000001A   ....               LDI     R26, LOW(At_com)
+   \   0000001C   ....               LDI     R27, (At_com) >> 8
+   \   0000001E   E248               LDI     R20, 40
+   \   00000020   E050               LDI     R21, 0
+   \   00000022   E020               LDI     R18, 0
+   \   00000024   E030               LDI     R19, 0
+   \   00000026   018D               MOVW    R17:R16, R27:R26
+   \   00000028   ........           CALL    memset
+    122          
+    123          switch(At_com.list_com[cnt])
+   \   0000002C   2455               CLR     R5
+   \   0000002E   01FD               MOVW    R31:R30, R27:R26
+   \   00000030   0DE4               ADD     R30, R4
+   \   00000032   1DF5               ADC     R31, R5
+   \   00000034   A503               LDD     R16, Z+43
+   \   00000036   ....               LDI     R30, LOW(`?<Jumptable for at_com_tx>_0`)
+   \   00000038   ....               LDI     R31, (`?<Jumptable for at_com_tx>_0`) >> 16
+   \   0000003A   BFFB               OUT     0x3B, R31
+   \   0000003C   ....               LDI     R31, HIGH(`?<Jumptable for at_com_tx>_0`)
+   \   0000003E   ........           JMP     ?CV_SWITCH_L06
+    124              {
+    125               case cAT: 
+    126                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_1:
+   \   00000042   E00A               LDI     R16, 10
+   \   00000044   01FD               MOVW    R31:R30, R27:R26
+   \   00000046   5CE0               SUBI    R30, 192
+   \   00000048   4FFF               SBCI    R31, 255
+   \   0000004A   8300               ST      Z, R16
+   \   0000004C   8251               STD     Z+1, R5
+    127                     At_com.vol_tm_out=100;
+   \   0000004E   E604               LDI     R16, 100
+   \   00000050   01FD               MOVW    R31:R30, R27:R26
+   \   00000052   96FC               ADIW    R31:R30, 60
+   \   00000054   8300               ST      Z, R16
+   \   00000056   8251               STD     Z+1, R5
+    128                     strcpy(At_com.buf, "at");
+   \   00000058   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 156))
+   \   0000005A   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 156))
+   \   0000005C   C1CA               RJMP    ??at_com_tx_2
+    129                     break;  
+    130               case cATE0:
+    131                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_3:
+   \   0000005E   E00A               LDI     R16, 10
+   \   00000060   01FD               MOVW    R31:R30, R27:R26
+   \   00000062   5CE0               SUBI    R30, 192
+   \   00000064   4FFF               SBCI    R31, 255
+   \   00000066   8300               ST      Z, R16
+   \   00000068   8251               STD     Z+1, R5
+    132                     At_com.vol_tm_out=100;
+   \   0000006A   E604               LDI     R16, 100
+   \   0000006C   01FD               MOVW    R31:R30, R27:R26
+   \   0000006E   96FC               ADIW    R31:R30, 60
+   \   00000070   8300               ST      Z, R16
+   \   00000072   8251               STD     Z+1, R5
+    133                     strcpy(At_com.buf, "ate0");
+   \   00000074   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 159))
+   \   00000076   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 159))
+   \   00000078   C1BC               RJMP    ??at_com_tx_2
+    134                     break; 
+    135               case cATV0:
+    136                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_4:
+   \   0000007A   E00A               LDI     R16, 10
+   \   0000007C   01FD               MOVW    R31:R30, R27:R26
+   \   0000007E   5CE0               SUBI    R30, 192
+   \   00000080   4FFF               SBCI    R31, 255
+   \   00000082   8300               ST      Z, R16
+   \   00000084   8251               STD     Z+1, R5
+    137                     At_com.vol_tm_out=100;
+   \   00000086   E604               LDI     R16, 100
+   \   00000088   01FD               MOVW    R31:R30, R27:R26
+   \   0000008A   96FC               ADIW    R31:R30, 60
+   \   0000008C   8300               ST      Z, R16
+   \   0000008E   8251               STD     Z+1, R5
+    138                     strcpy(At_com.buf, "atv0");
+   \   00000090   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 164))
+   \   00000092   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 164))
+   \   00000094   C1AE               RJMP    ??at_com_tx_2
+    139                     break;  
+    140               case cATE0V0:
+    141                     fl_conf_modem.kod=1;
+   \                     ??at_com_tx_5:
+   \   00000096   01FC               MOVW    R31:R30, R25:R24
+   \   00000098   8103               LDD     R16, Z+3
+   \   0000009A   6002               ORI     R16, 0x02
+   \   0000009C   8303               STD     Z+3, R16
+    142                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \   0000009E   E00A               LDI     R16, 10
+   \   000000A0   01FD               MOVW    R31:R30, R27:R26
+   \   000000A2   5CE0               SUBI    R30, 192
+   \   000000A4   4FFF               SBCI    R31, 255
+   \   000000A6   8300               ST      Z, R16
+   \   000000A8   8251               STD     Z+1, R5
+    143                     At_com.vol_tm_out=100;
+   \   000000AA   E604               LDI     R16, 100
+   \   000000AC   01FD               MOVW    R31:R30, R27:R26
+   \   000000AE   96FC               ADIW    R31:R30, 60
+   \   000000B0   8300               ST      Z, R16
+   \   000000B2   8251               STD     Z+1, R5
+    144                     strcpy(At_com.buf, "ate0v0");
+   \   000000B4   ....               LDI     R18, LOW(`?<Constant "ate0v0">`)
+   \   000000B6   ....               LDI     R19, (`?<Constant "ate0v0">`) >> 8
+   \   000000B8   C19C               RJMP    ??at_com_tx_2
+    145                     break;  
+    146               case cATIPR:
+    147                       switch(speed_modem)
+   \                     ??at_com_tx_6:
+   \   000000BA   01FC               MOVW    R31:R30, R25:R24
+   \   000000BC   8102               LDD     R16, Z+2
+   \   000000BE   5000               SUBI    R16, 0
+   \   000000C0   F029               BREQ    ??at_com_tx_7
+   \   000000C2   950A               DEC     R16
+   \   000000C4   F031               BREQ    ??at_com_tx_8
+   \   000000C6   950A               DEC     R16
+   \   000000C8   F039               BREQ    ??at_com_tx_9
+   \   000000CA   C009               RJMP    ??at_com_tx_10
+    148                             {
+    149                              case S9600:strcpy(At_com.buf, "at+ipr=9600");break;
+   \                     ??at_com_tx_7:
+   \   000000CC   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 179))
+   \   000000CE   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 179))
+   \   000000D0   C008               RJMP    ??at_com_tx_11
+    150                              case S19200:strcpy(At_com.buf, "at+ipr=19200");break;
+   \                     ??at_com_tx_8:
+   \   000000D2   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 191))
+   \   000000D4   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 191))
+   \   000000D6   C005               RJMP    ??at_com_tx_11
+    151                              case S57600:strcpy(At_com.buf, "at+ipr=57600");break;
+   \                     ??at_com_tx_9:
+   \   000000D8   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 7))
+   \   000000DA   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 7))
+   \   000000DC   C002               RJMP    ??at_com_tx_11
+    152                              case S115200:strcpy(At_com.buf, "at+ipr=115200");break;
+   \                     ??at_com_tx_10:
+   \   000000DE   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 20))
+   \   000000E0   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 20))
+   \                     ??at_com_tx_11:
+   \   000000E2   018D               MOVW    R17:R16, R27:R26
+   \   000000E4   ........           CALL    strcpy
+    153                              default:strcpy(At_com.buf, "at+ipr=115200");break;
+    154                             }
+    155                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ        
+   \   000000E8   E00A               LDI     R16, 10
+   \   000000EA   01FD               MOVW    R31:R30, R27:R26
+   \   000000EC   5CE0               SUBI    R30, 192
+   \   000000EE   4FFF               SBCI    R31, 255
+   \   000000F0   8300               ST      Z, R16
+   \   000000F2   8251               STD     Z+1, R5
+    156                     At_com.vol_tm_out=100;
+   \   000000F4   E604               LDI     R16, 100
+   \   000000F6   01FD               MOVW    R31:R30, R27:R26
+   \   000000F8   96FC               ADIW    R31:R30, 60
+   \   000000FA   8300               ST      Z, R16
+   \   000000FC   8251               STD     Z+1, R5
+   \   000000FE   C17C               RJMP    ??at_com_tx_12
+    157                     break; 
+    158               case cATIFC:
+    159                    At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_13:
+   \   00000100   E00A               LDI     R16, 10
+   \   00000102   01FD               MOVW    R31:R30, R27:R26
+   \   00000104   5CE0               SUBI    R30, 192
+   \   00000106   4FFF               SBCI    R31, 255
+   \   00000108   8300               ST      Z, R16
+   \   0000010A   8251               STD     Z+1, R5
+    160                    At_com.vol_tm_out=100;
+   \   0000010C   E604               LDI     R16, 100
+   \   0000010E   01FD               MOVW    R31:R30, R27:R26
+   \   00000110   96FC               ADIW    R31:R30, 60
+   \   00000112   8300               ST      Z, R16
+   \   00000114   8251               STD     Z+1, R5
+    161                    strcpy(At_com.buf, "at+ifc=2,2");
+   \   00000116   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 34))
+   \   00000118   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 34))
+   \   0000011A   C16B               RJMP    ??at_com_tx_2
+    162                    break;
+    163               case cATC:
+    164                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_14:
+   \   0000011C   E00A               LDI     R16, 10
+   \   0000011E   01FD               MOVW    R31:R30, R27:R26
+   \   00000120   5CE0               SUBI    R30, 192
+   \   00000122   4FFF               SBCI    R31, 255
+   \   00000124   8300               ST      Z, R16
+   \   00000126   8251               STD     Z+1, R5
+    165                     At_com.vol_tm_out=100;
+   \   00000128   E604               LDI     R16, 100
+   \   0000012A   01FD               MOVW    R31:R30, R27:R26
+   \   0000012C   96FC               ADIW    R31:R30, 60
+   \   0000012E   8300               ST      Z, R16
+   \   00000130   8251               STD     Z+1, R5
+    166                     strcpy(At_com.buf, "at&c");     
+   \   00000132   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 45))
+   \   00000134   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 45))
+   \   00000136   C15D               RJMP    ??at_com_tx_2
+    167                     break;
+    168               case cATD:
+    169                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_15:
+   \   00000138   E00A               LDI     R16, 10
+   \   0000013A   01FD               MOVW    R31:R30, R27:R26
+   \   0000013C   5CE0               SUBI    R30, 192
+   \   0000013E   4FFF               SBCI    R31, 255
+   \   00000140   8300               ST      Z, R16
+   \   00000142   8251               STD     Z+1, R5
+    170                     At_com.vol_tm_out=3000;
+   \   00000144   EB08               LDI     R16, 184
+   \   00000146   E01B               LDI     R17, 11
+   \   00000148   01FD               MOVW    R31:R30, R27:R26
+   \   0000014A   96FC               ADIW    R31:R30, 60
+   \   0000014C   8300               ST      Z, R16
+   \   0000014E   8311               STD     Z+1, R17
+    171                     strcpy(At_com.buf, "at&d");    
+   \   00000150   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 50))
+   \   00000152   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 50))
+   \   00000154   C14E               RJMP    ??at_com_tx_2
+    172                     break;
+    173               case cATW:
+    174                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_16:
+   \   00000156   E00A               LDI     R16, 10
+   \   00000158   01FD               MOVW    R31:R30, R27:R26
+   \   0000015A   5CE0               SUBI    R30, 192
+   \   0000015C   4FFF               SBCI    R31, 255
+   \   0000015E   8300               ST      Z, R16
+   \   00000160   8251               STD     Z+1, R5
+    175                     At_com.vol_tm_out=100;
+   \   00000162   E604               LDI     R16, 100
+   \   00000164   01FD               MOVW    R31:R30, R27:R26
+   \   00000166   96FC               ADIW    R31:R30, 60
+   \   00000168   8300               ST      Z, R16
+   \   0000016A   8251               STD     Z+1, R5
+    176                     strcpy(At_com.buf, "at&w"); 
+   \   0000016C   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 55))
+   \   0000016E   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 55))
+   \   00000170   C140               RJMP    ??at_com_tx_2
+    177                     break; 
+    178               case cATCREG:
+    179                     At_com.vol_rx_out=1000;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_17:
+   \   00000172   EE08               LDI     R16, 232
+   \   00000174   E013               LDI     R17, 3
+   \   00000176   01FD               MOVW    R31:R30, R27:R26
+   \   00000178   5CE0               SUBI    R30, 192
+   \   0000017A   4FFF               SBCI    R31, 255
+   \   0000017C   8300               ST      Z, R16
+   \   0000017E   8311               STD     Z+1, R17
+    180                     At_com.vol_tm_out=1200;
+   \   00000180   EB00               LDI     R16, 176
+   \   00000182   E014               LDI     R17, 4
+   \   00000184   01FD               MOVW    R31:R30, R27:R26
+   \   00000186   96FC               ADIW    R31:R30, 60
+   \   00000188   8300               ST      Z, R16
+   \   0000018A   8311               STD     Z+1, R17
+    181                     strcpy(At_com.buf, "at+creg?");
+   \   0000018C   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 60))
+   \   0000018E   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 60))
+   \   00000190   C130               RJMP    ??at_com_tx_2
+    182                     break; 
+    183               case cATCGATT:
+    184                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_18:
+   \   00000192   E00A               LDI     R16, 10
+   \   00000194   01FD               MOVW    R31:R30, R27:R26
+   \   00000196   5CE0               SUBI    R30, 192
+   \   00000198   4FFF               SBCI    R31, 255
+   \   0000019A   8300               ST      Z, R16
+   \   0000019C   8251               STD     Z+1, R5
+    185                     At_com.vol_tm_out=5000;
+   \   0000019E   E808               LDI     R16, 136
+   \   000001A0   E113               LDI     R17, 19
+   \   000001A2   01FD               MOVW    R31:R30, R27:R26
+   \   000001A4   96FC               ADIW    R31:R30, 60
+   \   000001A6   8300               ST      Z, R16
+   \   000001A8   8311               STD     Z+1, R17
+    186                     strcpy(At_com.buf, "at+cgatt=1");
+   \   000001AA   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 69))
+   \   000001AC   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 69))
+   \   000001AE   C121               RJMP    ??at_com_tx_2
+    187                     break;    
+    188               case cATCGDCONT:
+    189                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_19:
+   \   000001B0   E00A               LDI     R16, 10
+   \   000001B2   01FD               MOVW    R31:R30, R27:R26
+   \   000001B4   5CE0               SUBI    R30, 192
+   \   000001B6   4FFF               SBCI    R31, 255
+   \   000001B8   8300               ST      Z, R16
+   \   000001BA   8251               STD     Z+1, R5
+    190                     At_com.vol_tm_out=200;
+   \   000001BC   EC08               LDI     R16, 200
+   \   000001BE   01FD               MOVW    R31:R30, R27:R26
+   \   000001C0   96FC               ADIW    R31:R30, 60
+   \   000001C2   8300               ST      Z, R16
+   \   000001C4   8251               STD     Z+1, R5
+    191                     strcpy(At_com.buf, "at+cgdcont=1,");
+   \   000001C6   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 80))
+   \   000001C8   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 80))
+   \   000001CA   018D               MOVW    R17:R16, R27:R26
+   \   000001CC   ........           CALL    strcpy
+    192                        
+    193                       
+    194              
+    195                     if(simka==SIM_BASE) RdFromFleshToArr(A_C_GPRS,&At_com.buf[18],LN_BUF_AT-19); //dobavka
+   \   000001D0   9100....           LDS     R16, simka
+   \   000001D4   2300               TST     R16
+   \   000001D6   E145               LDI     R20, 21
+   \   000001D8   E050               LDI     R21, 0
+   \   000001DA   019D               MOVW    R19:R18, R27:R26
+   \   000001DC   F421               BRNE    ??at_com_tx_20
+   \   000001DE   5E2E               SUBI    R18, 238
+   \   000001E0   4F3F               SBCI    R19, 255
+   \   000001E2   E104               LDI     R16, 20
+   \   000001E4   C003               RJMP    ??at_com_tx_21
+    196                       else RdFromFleshToArr(A_CR_GPRS,&At_com.buf[18],LN_BUF_AT-19);              //dobavka
+   \                     ??at_com_tx_20:
+   \   000001E6   5E2E               SUBI    R18, 238
+   \   000001E8   4F3F               SBCI    R19, 255
+   \   000001EA   E500               LDI     R16, 80
+   \                     ??at_com_tx_21:
+   \   000001EC   E010               LDI     R17, 0
+   \   000001EE   ........           CALL    RdFromFleshToArr
+    197                     
+    198                     if(((unsigned char)At_com.buf[18]!=0)&&((unsigned char)At_com.buf[18]<31))
+   \   000001F2   01FD               MOVW    R31:R30, R27:R26
+   \   000001F4   8902               LDD     R16, Z+18
+   \   000001F6   2300               TST     R16
+   \   000001F8   F0C9               BREQ    ??at_com_tx_22
+   \   000001FA   310F               CPI     R16, 31
+   \   000001FC   F4B8               BRCC    ??at_com_tx_22
+    199                       {
+    200                       
+    201                        At_com.buf[13]='"';
+   \   000001FE   E212               LDI     R17, 34
+   \   00000200   8715               STD     Z+13, R17
+    202                        At_com.buf[14]='I';
+   \   00000202   E419               LDI     R17, 73
+   \   00000204   8716               STD     Z+14, R17
+    203                        At_com.buf[15]='P';
+   \   00000206   E510               LDI     R17, 80
+   \   00000208   8717               STD     Z+15, R17
+    204                        At_com.buf[16]='"';
+   \   0000020A   E212               LDI     R17, 34
+   \   0000020C   8B10               STD     Z+16, R17
+    205                        At_com.buf[17]=',';
+   \   0000020E   E21C               LDI     R17, 44
+   \   00000210   8B11               STD     Z+17, R17
+    206                        At_com.buf[18+(unsigned char)At_com.buf[18]+1]='"';
+   \   00000212   E222               LDI     R18, 34
+   \   00000214   0FE0               ADD     R30, R16
+   \   00000216   1DF5               ADC     R31, R5
+   \   00000218   8B23               STD     Z+19, R18
+    207                        At_com.buf[18+(unsigned char)At_com.buf[18]+2]=0;
+   \   0000021A   01FD               MOVW    R31:R30, R27:R26
+   \   0000021C   8922               LDD     R18, Z+18
+   \   0000021E   0FE2               ADD     R30, R18
+   \   00000220   1DF5               ADC     R31, R5
+   \   00000222   8A54               STD     Z+20, R5
+    208                        At_com.buf[18]='"';
+   \   00000224   E202               LDI     R16, 34
+   \   00000226   01FD               MOVW    R31:R30, R27:R26
+   \   00000228   8B02               STD     Z+18, R16
+   \   0000022A   C0E6               RJMP    ??at_com_tx_12
+    209                       }else At_com.buf[18]=0;
+   \                     ??at_com_tx_22:
+   \   0000022C   8A52               STD     Z+18, R5
+   \   0000022E   C0E4               RJMP    ??at_com_tx_12
+    210                        
+    211                    
+    212                     /*      
+    213                     At_com.buf[18]='"';
+    214                     At_com.buf[19]='i';
+    215                     At_com.buf[20]='n';
+    216                     At_com.buf[21]='t';
+    217                     At_com.buf[22]='e';
+    218                     At_com.buf[23]='r';
+    219                     At_com.buf[24]='n';
+    220                     At_com.buf[25]='e';
+    221                     At_com.buf[26]='t';
+    222                     At_com.buf[27]='.';
+    223                     At_com.buf[28]='m';
+    224                     At_com.buf[29]='t';
+    225                     At_com.buf[30]='s';
+    226                     At_com.buf[31]='.';
+    227                     At_com.buf[32]='r';
+    228                     At_com.buf[33]='u';
+    229                     At_com.buf[34]='"';
+    230                     At_com.buf[35]=0;
+    231                     */
+    232                     
+    233                     break; 
+    234               
+    235               case cATCREG0:
+    236                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_23:
+   \   00000230   E00A               LDI     R16, 10
+   \   00000232   01FD               MOVW    R31:R30, R27:R26
+   \   00000234   5CE0               SUBI    R30, 192
+   \   00000236   4FFF               SBCI    R31, 255
+   \   00000238   8300               ST      Z, R16
+   \   0000023A   8251               STD     Z+1, R5
+    237                     At_com.vol_tm_out=100;
+   \   0000023C   E604               LDI     R16, 100
+   \   0000023E   01FD               MOVW    R31:R30, R27:R26
+   \   00000240   96FC               ADIW    R31:R30, 60
+   \   00000242   8300               ST      Z, R16
+   \   00000244   8251               STD     Z+1, R5
+    238                     strcpy(At_com.buf, "at+creg=0");
+   \   00000246   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 94))
+   \   00000248   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 94))
+   \   0000024A   C0D3               RJMP    ??at_com_tx_2
+    239                     break;        
+    240                     
+    241               case cATDGPRS:
+    242                    // At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+    243                    // At_com.vol_rx_out=5;   //ОТ СКОРОСТИ
+    244                     At_com.vol_rx_out=3;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_24:
+   \   0000024C   E003               LDI     R16, 3
+   \   0000024E   01FD               MOVW    R31:R30, R27:R26
+   \   00000250   5CE0               SUBI    R30, 192
+   \   00000252   4FFF               SBCI    R31, 255
+   \   00000254   8300               ST      Z, R16
+   \   00000256   8251               STD     Z+1, R5
+    245                     At_com.vol_tm_out=10000;    
+   \   00000258   E100               LDI     R16, 16
+   \   0000025A   E217               LDI     R17, 39
+   \   0000025C   01FD               MOVW    R31:R30, R27:R26
+   \   0000025E   96FC               ADIW    R31:R30, 60
+   \   00000260   8300               ST      Z, R16
+   \   00000262   8311               STD     Z+1, R17
+    246                     strcpy(At_com.buf, "atd*99***1#");
+   \   00000264   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 104))
+   \   00000266   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 104))
+   \   00000268   C0C4               RJMP    ??at_com_tx_2
+    247                     break;
+    248              case cATH:
+    249                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_25:
+   \   0000026A   E00A               LDI     R16, 10
+   \   0000026C   01FD               MOVW    R31:R30, R27:R26
+   \   0000026E   5CE0               SUBI    R30, 192
+   \   00000270   4FFF               SBCI    R31, 255
+   \   00000272   8300               ST      Z, R16
+   \   00000274   8251               STD     Z+1, R5
+    250                     At_com.vol_tm_out=3000;
+   \   00000276   EB08               LDI     R16, 184
+   \   00000278   E01B               LDI     R17, 11
+   \   0000027A   01FD               MOVW    R31:R30, R27:R26
+   \   0000027C   96FC               ADIW    R31:R30, 60
+   \   0000027E   8300               ST      Z, R16
+   \   00000280   8311               STD     Z+1, R17
+    251                     strcpy(At_com.buf, "ath"); 
+   \   00000282   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 116))
+   \   00000284   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 116))
+   \   00000286   C0B5               RJMP    ??at_com_tx_2
+    252                     break;  
+    253             
+    254             case cATCGATT0:
+    255                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_26:
+   \   00000288   E00A               LDI     R16, 10
+   \   0000028A   01FD               MOVW    R31:R30, R27:R26
+   \   0000028C   5CE0               SUBI    R30, 192
+   \   0000028E   4FFF               SBCI    R31, 255
+   \   00000290   8300               ST      Z, R16
+   \   00000292   8251               STD     Z+1, R5
+    256                     At_com.vol_tm_out=500;
+   \   00000294   EF04               LDI     R16, 244
+   \   00000296   E011               LDI     R17, 1
+   \   00000298   01FD               MOVW    R31:R30, R27:R26
+   \   0000029A   96FC               ADIW    R31:R30, 60
+   \   0000029C   8300               ST      Z, R16
+   \   0000029E   8311               STD     Z+1, R17
+    257                     strcpy(At_com.buf, "at+cgatt=0");
+   \   000002A0   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 120))
+   \   000002A2   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 120))
+   \   000002A4   C0A6               RJMP    ??at_com_tx_2
+    258                     break;  
+    259             
+    260              case cATCPIN:
+    261                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_27:
+   \   000002A6   E00A               LDI     R16, 10
+   \   000002A8   01FD               MOVW    R31:R30, R27:R26
+   \   000002AA   5CE0               SUBI    R30, 192
+   \   000002AC   4FFF               SBCI    R31, 255
+   \   000002AE   8300               ST      Z, R16
+   \   000002B0   8251               STD     Z+1, R5
+    262                     At_com.vol_tm_out=2000;
+   \   000002B2   ED00               LDI     R16, 208
+   \   000002B4   E017               LDI     R17, 7
+   \   000002B6   01FD               MOVW    R31:R30, R27:R26
+   \   000002B8   96FC               ADIW    R31:R30, 60
+   \   000002BA   8300               ST      Z, R16
+   \   000002BC   8311               STD     Z+1, R17
+    263                     strcpy(At_com.buf, "at+cpin=");
+   \   000002BE   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 131))
+   \   000002C0   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 131))
+   \   000002C2   018D               MOVW    R17:R16, R27:R26
+   \   000002C4   ........           CALL    strcpy
+    264                        
+    265                     if(simka==SIM_BASE) RdFromFleshToArr(A_PIN_SIM1,&At_com.buf[8],4); 
+   \   000002C8   9100....           LDS     R16, simka
+   \   000002CC   2300               TST     R16
+   \   000002CE   E044               LDI     R20, 4
+   \   000002D0   E050               LDI     R21, 0
+   \   000002D2   019D               MOVW    R19:R18, R27:R26
+   \   000002D4   F421               BRNE    ??at_com_tx_28
+   \   000002D6   5F28               SUBI    R18, 248
+   \   000002D8   4F3F               SBCI    R19, 255
+   \   000002DA   EA0F               LDI     R16, 175
+   \   000002DC   C003               RJMP    ??at_com_tx_29
+    266                       else RdFromFleshToArr(A_PIN_SIM2,&At_com.buf[8],4);              
+   \                     ??at_com_tx_28:
+   \   000002DE   5F28               SUBI    R18, 248
+   \   000002E0   4F3F               SBCI    R19, 255
+   \   000002E2   EB05               LDI     R16, 181
+   \                     ??at_com_tx_29:
+   \   000002E4   E010               LDI     R17, 0
+   \   000002E6   ........           CALL    RdFromFleshToArr
+    267                     At_com.buf[12]=0;
+   \   000002EA   01FD               MOVW    R31:R30, R27:R26
+   \   000002EC   8654               STD     Z+12, R5
+   \   000002EE   C084               RJMP    ??at_com_tx_12
+    268                       
+    269                    break;
+    270               
+    271               case PLUS:
+    272                     At_com.cnt_tm_out=0;
+   \                     ??at_com_tx_30:
+   \   000002F0   01FD               MOVW    R31:R30, R27:R26
+   \   000002F2   AE52               STD     Z+58, R5
+   \   000002F4   AE53               STD     Z+59, R5
+    273                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \   000002F6   E00A               LDI     R16, 10
+   \   000002F8   5CE0               SUBI    R30, 192
+   \   000002FA   4FFF               SBCI    R31, 255
+   \   000002FC   8300               ST      Z, R16
+   \   000002FE   8251               STD     Z+1, R5
+    274                     At_com.vol_tm_out=2300;  
+   \   00000300   EF0C               LDI     R16, 252
+   \   00000302   E018               LDI     R17, 8
+   \   00000304   01FD               MOVW    R31:R30, R27:R26
+   \   00000306   96FC               ADIW    R31:R30, 60
+   \   00000308   8300               ST      Z, R16
+   \   0000030A   8311               STD     Z+1, R17
+    275                     strcpy(At_com.buf, "+++");
+   \   0000030C   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 140))
+   \   0000030E   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 140))
+   \   00000310   018D               MOVW    R17:R16, R27:R26
+   \   00000312   ........           CALL    strcpy
+    276                     fl_at_com.rx_rec=0;
+    277                     fl_at_com.ok=0;
+    278                     fl_at_com.err=0;
+    279                     fl_at_com.tm_out=0;
+    280                     fl_at_com.tx_en=0;
+    281                     fl_at_com.rx_en=1;
+   \   00000316   01FC               MOVW    R31:R30, R25:R24
+   \   00000318   8104               LDD     R16, Z+4
+   \   0000031A   7D00               ANDI    R16, 0xD0
+   \   0000031C   6100               ORI     R16, 0x10
+   \   0000031E   8304               STD     Z+4, R16
+    282                 //   fl_at_com.tm_out_en=1;
+    283                     At_com.ln_buf=strlen(At_com.buf);
+   \   00000320   018D               MOVW    R17:R16, R27:R26
+   \   00000322   ........           CALL    strlen
+   \   00000326   01FD               MOVW    R31:R30, R27:R26
+   \   00000328   A702               STD     Z+42, R16
+    284                     At_com.cnt_tx=0;
+   \   0000032A   A650               STD     Z+40, R5
+    285                     At_com.cnt_rx=0;
+   \   0000032C   A651               STD     Z+41, R5
+    286                     UCSR0B=UCSR0B & ~RXEN;  
+   \   0000032E   910000C1           LDS     R16, 193
+   \   00000332   7E0F               ANDI    R16, 0xEF
+   \   00000334   930000C1           STS     193, R16
+    287                     UCSR0B=UCSR0B & ~RXCIE; 
+   \   00000338   910000C1           LDS     R16, 193
+   \   0000033C   770F               ANDI    R16, 0x7F
+   \   0000033E   930000C1           STS     193, R16
+    288                   //  UCSR0B=UCSR0B | RXEN;  //proverka !!!!!!!1
+    289                   //  UCSR0B=UCSR0B | RXCIE; //proverka !!!!!!!1
+    290                     UCSR0B=UCSR0B | TXEN;
+   \   00000342   910000C1           LDS     R16, 193
+   \   00000346   6008               ORI     R16, 0x08
+   \   00000348   930000C1           STS     193, R16
+    291                     UCSR0B=UCSR0B | TXCIE;
+   \   0000034C   910000C1           LDS     R16, 193
+   \   00000350   6400               ORI     R16, 0x40
+   \   00000352   930000C1           STS     193, R16
+    292                     S2_RD;
+   \   00000356   9A40               SBI     0x08, 0x00
+   \   00000358   9841               CBI     0x08, 0x01
+    293                     UDR0=At_com.buf[0];
+   \   0000035A   910C               LD      R16, X
+   \   0000035C   930000C6           STS     198, R16
+    294                     if(Regim==RG_DEBAG) UDR3=At_com.buf[0];
+   \   00000360   9100....           LDS     R16, Regim
+   \   00000364   3001               CPI     R16, 1
+   \   00000366   F009               BREQ    $+2+2
+   \   00000368   C072               RJMP    ??at_com_tx_0
+   \                     ??at_com_tx_31:
+   \   0000036A   910C               LD      R16, X
+   \   0000036C   93000136           STS     310, R16
+   \   00000370   C06E               RJMP    ??at_com_tx_0
+    295                     
+    296                     return;
+    297                     
+    298             case PAUSA_REG:At_com.vol_tm_out=5000;
+   \                     ??at_com_tx_32:
+   \   00000372   E808               LDI     R16, 136
+   \   00000374   E113               LDI     R17, 19
+   \   00000376   C005               RJMP    ??at_com_tx_33
+    299                         goto yyy;
+    300             
+    301              case PAUSA1:
+    302                         At_com.vol_tm_out=3000;
+   \                     ??at_com_tx_34:
+   \   00000378   EB08               LDI     R16, 184
+   \   0000037A   E01B               LDI     R17, 11
+   \   0000037C   C002               RJMP    ??at_com_tx_33
+    303                         goto yyy;
+    304             
+    305              case PAUSA2:At_com.vol_tm_out=5000;
+    306                         goto yyy;
+    307              case PAUSA5:
+    308                         At_com.vol_tm_out=2000;
+   \                     ??at_com_tx_35:
+   \   0000037E   ED00               LDI     R16, 208
+   \   00000380   E017               LDI     R17, 7
+   \                     ??at_com_tx_33:
+   \   00000382   01FD               MOVW    R31:R30, R27:R26
+   \   00000384   96FC               ADIW    R31:R30, 60
+   \   00000386   8300               ST      Z, R16
+   \   00000388   8311               STD     Z+1, R17
+    309                         goto yyy;
+    310              case PAUSA4:At_com.vol_tm_out=2000;
+    311                    yyy:
+    312                    
+    313                     At_com.cnt_tm_out=At_com.vol_tm_out;  
+   \   0000038A   01FD               MOVW    R31:R30, R27:R26
+   \   0000038C   96FC               ADIW    R31:R30, 60
+   \   0000038E   8100               LD      R16, Z
+   \   00000390   8111               LDD     R17, Z+1
+   \                     ??at_com_tx_36:
+   \   00000392   01FD               MOVW    R31:R30, R27:R26
+   \   00000394   AF02               STD     Z+58, R16
+   \   00000396   AF13               STD     Z+59, R17
+    314                     fl_at_com.rx_rec=0;
+    315                     fl_at_com.ok=0;
+    316                     fl_at_com.err=0;
+    317                     fl_at_com.tm_out=0;
+    318                     fl_at_com.tx_en=0;
+    319                     fl_at_com.rx_en=1;
+   \   00000398   01FC               MOVW    R31:R30, R25:R24
+   \   0000039A   8104               LDD     R16, Z+4
+   \   0000039C   7D00               ANDI    R16, 0xD0
+   \   0000039E   6100               ORI     R16, 0x10
+   \   000003A0   8304               STD     Z+4, R16
+    320                     At_com.cnt_tx=0;
+   \   000003A2   01FD               MOVW    R31:R30, R27:R26
+   \   000003A4   A650               STD     Z+40, R5
+    321                     At_com.cnt_rx=0;
+   \   000003A6   A651               STD     Z+41, R5
+    322                     return;   
+   \   000003A8   C052               RJMP    ??at_com_tx_0
+    323           
+    324           case PAUSA3: 
+    325                     At_com.vol_tm_out=20000;
+   \                     ??at_com_tx_37:
+   \   000003AA   E200               LDI     R16, 32
+   \   000003AC   E41E               LDI     R17, 78
+   \   000003AE   01FD               MOVW    R31:R30, R27:R26
+   \   000003B0   96FC               ADIW    R31:R30, 60
+   \   000003B2   8300               ST      Z, R16
+   \   000003B4   8311               STD     Z+1, R17
+    326                     At_com.cnt_tm_out=At_com.vol_tm_out;  
+   \   000003B6   CFED               RJMP    ??at_com_tx_36
+    327                     fl_at_com.rx_rec=0;
+    328                     fl_at_com.ok=0;
+    329                     fl_at_com.err=0;
+    330                     fl_at_com.tm_out=0;
+    331                     fl_at_com.tx_en=0;
+    332                     fl_at_com.rx_en=1;
+    333                     At_com.cnt_tx=0;
+    334                     At_com.cnt_rx=0;
+    335                     return;
+    336          
+    337          case cATSGAUTH: 
+    338                     At_com.vol_rx_out=10;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_38:
+   \   000003B8   E00A               LDI     R16, 10
+   \   000003BA   01FD               MOVW    R31:R30, R27:R26
+   \   000003BC   5CE0               SUBI    R30, 192
+   \   000003BE   4FFF               SBCI    R31, 255
+   \   000003C0   8300               ST      Z, R16
+   \   000003C2   8251               STD     Z+1, R5
+    339                     At_com.vol_tm_out=100;
+   \   000003C4   E604               LDI     R16, 100
+   \   000003C6   01FD               MOVW    R31:R30, R27:R26
+   \   000003C8   96FC               ADIW    R31:R30, 60
+   \   000003CA   8300               ST      Z, R16
+   \   000003CC   8251               STD     Z+1, R5
+    340                     strcpy(At_com.buf, "at^sgauth=1");
+   \   000003CE   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 144))
+   \   000003D0   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 144))
+   \   000003D2   C00F               RJMP    ??at_com_tx_2
+    341                  //   strcpy(At_com.buf, "at%cgpco=1");
+    342                     break; 
+    343           
+    344          case cATCGREG:
+    345                     At_com.vol_rx_out=1000;   //ОТ СКОРОСТИ
+   \                     ??at_com_tx_39:
+   \   000003D4   EE08               LDI     R16, 232
+   \   000003D6   E013               LDI     R17, 3
+   \   000003D8   01FD               MOVW    R31:R30, R27:R26
+   \   000003DA   5CE0               SUBI    R30, 192
+   \   000003DC   4FFF               SBCI    R31, 255
+   \   000003DE   8300               ST      Z, R16
+   \   000003E0   8311               STD     Z+1, R17
+    346                     At_com.vol_tm_out=1200;
+   \   000003E2   EB00               LDI     R16, 176
+   \   000003E4   E014               LDI     R17, 4
+   \   000003E6   01FD               MOVW    R31:R30, R27:R26
+   \   000003E8   96FC               ADIW    R31:R30, 60
+   \   000003EA   8300               ST      Z, R16
+   \   000003EC   8311               STD     Z+1, R17
+    347                     strcpy(At_com.buf, "at+cgreg?");           
+   \   000003EE   ....               LDI     R18, LOW((`?<Constant "ate0v0">` + 169))
+   \   000003F0   ....               LDI     R19, HIGH((`?<Constant "ate0v0">` + 169))
+   \                     ??at_com_tx_2:
+   \   000003F2   018D               MOVW    R17:R16, R27:R26
+   \   000003F4   ........           CALL    strcpy
+    348                     break;
+    349                     
+    350               default: return;      
+    351              }
+    352              fl_at_com.rx_rec=0;
+    353              fl_at_com.ok=0;
+    354              fl_at_com.err=0;
+    355              fl_at_com.tm_out=0;
+    356              fl_at_com.tx_en=0;
+    357              fl_at_com.rx_en=1;
+   \                     ??at_com_tx_12:
+   \   000003F8   01FC               MOVW    R31:R30, R25:R24
+   \   000003FA   8104               LDD     R16, Z+4
+   \   000003FC   7D00               ANDI    R16, 0xD0
+   \   000003FE   6100               ORI     R16, 0x10
+   \   00000400   8304               STD     Z+4, R16
+    358              //fl_at_com.tm_out_en=1;
+    359              At_com.cnt_tm_out=0;
+   \   00000402   01FD               MOVW    R31:R30, R27:R26
+   \   00000404   AE52               STD     Z+58, R5
+   \   00000406   AE53               STD     Z+59, R5
+    360              At_com.ln_buf=strlen(At_com.buf)+1;
+   \   00000408   018D               MOVW    R17:R16, R27:R26
+   \   0000040A   ........           CALL    strlen
+   \   0000040E   9503               INC     R16
+   \   00000410   01FD               MOVW    R31:R30, R27:R26
+   \   00000412   A702               STD     Z+42, R16
+    361              At_com.buf[At_com.ln_buf-1]=0x0d;
+   \   00000414   E00D               LDI     R16, 13
+   \   00000416   A522               LDD     R18, Z+42
+   \   00000418   0FE2               ADD     R30, R18
+   \   0000041A   1DF5               ADC     R31, R5
+   \   0000041C   9731               SBIW    R31:R30, 1
+   \   0000041E   8300               ST      Z, R16
+    362              At_com.cnt_tx=0;
+   \   00000420   01FD               MOVW    R31:R30, R27:R26
+   \   00000422   A650               STD     Z+40, R5
+    363              At_com.cnt_rx=0;
+   \   00000424   A651               STD     Z+41, R5
+    364              UCSR0B=UCSR0B | TXEN;
+   \   00000426   910000C1           LDS     R16, 193
+   \   0000042A   6008               ORI     R16, 0x08
+   \   0000042C   930000C1           STS     193, R16
+    365              UCSR0B=UCSR0B | TXCIE;
+   \   00000430   910000C1           LDS     R16, 193
+   \   00000434   6400               ORI     R16, 0x40
+   \   00000436   930000C1           STS     193, R16
+    366              S2_RD;
+   \   0000043A   9A40               SBI     0x08, 0x00
+   \   0000043C   9841               CBI     0x08, 0x01
+    367              UDR0=At_com.buf[0]; 
+   \   0000043E   910C               LD      R16, X
+   \   00000440   930000C6           STS     198, R16
+    368              if(Regim==RG_DEBAG) UDR3=At_com.buf[0];
+   \   00000444   9100....           LDS     R16, Regim
+   \   00000448   3001               CPI     R16, 1
+   \   0000044A   F409               BRNE    $+2+2
+   \   0000044C   CF8E               RJMP    ??at_com_tx_31
+   \                     ??at_com_tx_0:
+   \   0000044E   E0E6               LDI     R30, 6
+   \   00000450   ........           JMP     ?EPILOGUE_B6_L09
+    369              
+    370              
+    371          }
+    372          
+    373          
+    374          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    375          void check_rx_ok(void)
+   \                     check_rx_ok:
+    376          {
+   \   00000000   01AD               MOVW    R21:R20, R27:R26
+    377           if(fl_conf_modem.kod==0)
+   \   00000002   ....               LDI     R16, LOW(At_com)
+   \   00000004   ....               LDI     R17, (At_com) >> 8
+   \   00000006   01F8               MOVW    R31:R30, R17:R16
+   \   00000008   A521               LDD     R18, Z+41
+   \   0000000A   E030               LDI     R19, 0
+   \   0000000C   0FE2               ADD     R30, R18
+   \   0000000E   1FF3               ADC     R31, R19
+   \   00000010   9733               SBIW    R31:R30, 3
+   \   00000012   ....               LDI     R26, LOW((cnt_com + 3))
+   \   00000014   ....               LDI     R27, HIGH((cnt_com + 3))
+   \   00000016   912C               LD      R18, X
+   \   00000018   FD21               SBRC    R18, 1
+   \   0000001A   C014               RJMP    ??check_rx_ok_0
+    378                           {
+    379                            
+    380                            if (
+    381                               (At_com.buf[At_com.cnt_rx-3]=='O')&&
+    382                               (At_com.buf[At_com.cnt_rx-2]=='K')
+    383                               )
+   \   0000001C   8120               LD      R18, Z
+   \   0000001E   342F               CPI     R18, 79
+   \   00000020   F4A1               BRNE    ??check_rx_ok_1
+   \   00000022   01F8               MOVW    R31:R30, R17:R16
+   \   00000024   A521               LDD     R18, Z+41
+   \   00000026   0F02               ADD     R16, R18
+   \   00000028   1F13               ADC     R17, R19
+   \   0000002A   5002               SUBI    R16, 2
+   \   0000002C   4010               SBCI    R17, 0
+   \   0000002E   01F8               MOVW    R31:R30, R17:R16
+   \   00000030   8100               LD      R16, Z
+   \   00000032   340B               CPI     R16, 75
+   \   00000034   F451               BRNE    ??check_rx_ok_1
+    384                                fl_at_com.ok=1;
+   \                     ??check_rx_ok_2:
+   \   00000036   ....               LDI     R30, LOW(cnt_com)
+   \   00000038   ....               LDI     R31, (cnt_com) >> 8
+   \   0000003A   8104               LDD     R16, Z+4
+   \   0000003C   6001               ORI     R16, 0x01
+   \                     ??check_rx_ok_3:
+   \   0000003E   8304               STD     Z+4, R16
+    385                               else fl_at_com.err=1; 
+    386                           }
+    387                           else
+    388                           {
+    389                           if(At_com.buf[At_com.cnt_rx-2]==KOD_OK)fl_at_com.ok=1; 
+    390                               else fl_at_com.err=1;
+    391                           }  
+    392          }
+   \   00000040   01DA               MOVW    R27:R26, R21:R20
+   \   00000042   9508               RET
+   \                     ??check_rx_ok_0:
+   \   00000044   8101               LDD     R16, Z+1
+   \   00000046   3300               CPI     R16, 48
+   \   00000048   F3B1               BREQ    ??check_rx_ok_2
+   \                     ??check_rx_ok_1:
+   \   0000004A   ....               LDI     R30, LOW(cnt_com)
+   \   0000004C   ....               LDI     R31, (cnt_com) >> 8
+   \   0000004E   8104               LDD     R16, Z+4
+   \   00000050   6002               ORI     R16, 0x02
+   \   00000052   CFF5               RJMP    ??check_rx_ok_3
+    393          
+    394          
+    395          
+    396          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    397          void at_com_rx(unsigned char cnt)
+   \                     at_com_rx:
+    398          {
+   \   00000000   93BA               ST      -Y, R27
+   \   00000002   93AA               ST      -Y, R26
+   \   00000004   2F40               MOV     R20, R16
+    399          
+    400          
+    401          if(fl_at_com.tx_en==1)return;
+   \   00000006   ....               LDI     R26, LOW(cnt_com)
+   \   00000008   ....               LDI     R27, (cnt_com) >> 8
+   \   0000000A   01FD               MOVW    R31:R30, R27:R26
+   \   0000000C   8104               LDD     R16, Z+4
+   \   0000000E   7308               ANDI    R16, 0x38
+   \   00000010   3300               CPI     R16, 48
+   \   00000012   F009               BREQ    $+2+2
+   \   00000014   C0B8               RJMP    ??at_com_rx_0
+    402          if(fl_at_com.rx_en==0)return;
+    403          if(fl_at_com.rx_rec==0)return;
+    404          
+    405          
+    406          At_com.cnt_tm_out=0;
+   \   00000016   ....               LDI     R16, LOW(At_com)
+   \   00000018   ....               LDI     R17, (At_com) >> 8
+   \   0000001A   E020               LDI     R18, 0
+   \   0000001C   01F8               MOVW    R31:R30, R17:R16
+   \   0000001E   AF22               STD     Z+58, R18
+   \   00000020   AF23               STD     Z+59, R18
+    407          fl_at_com.rx_en=0;
+    408          fl_at_com.rx_rec=0;
+    409          fl_at_com.tx_en=0;
+   \   00000022   01FD               MOVW    R31:R30, R27:R26
+   \   00000024   8124               LDD     R18, Z+4
+   \   00000026   7C27               ANDI    R18, 0xC7
+   \   00000028   8324               STD     Z+4, R18
+    410          //fl_at_com.tm_out_en=0;
+    411          
+    412          
+    413          
+    414          if(cnt>=VOL_LIST){fl_at_com.err=1;return;}
+   \   0000002A   304D               CPI     R20, 13
+   \   0000002C   F028               BRCS    ??at_com_rx_1
+   \                     ??at_com_rx_2:
+   \   0000002E   01FD               MOVW    R31:R30, R27:R26
+   \   00000030   8104               LDD     R16, Z+4
+   \   00000032   6002               ORI     R16, 0x02
+   \                     ??at_com_rx_3:
+   \   00000034   8304               STD     Z+4, R16
+   \   00000036   C0A7               RJMP    ??at_com_rx_0
+    415          //if(At_com.buf[At_com.cnt_rx-1]!=0xd){fl_at_com.err=1;return;}
+    416          if((fl_conf_modem.kod==1)&&(At_com.cnt_rx<2)){fl_at_com.err=1;return;}
+   \                     ??at_com_rx_1:
+   \   00000038   01F8               MOVW    R31:R30, R17:R16
+   \   0000003A   A561               LDD     R22, Z+41
+   \   0000003C   01FD               MOVW    R31:R30, R27:R26
+   \   0000003E   8123               LDD     R18, Z+3
+   \   00000040   FF21               SBRS    R18, 1
+   \   00000042   C002               RJMP    ??at_com_rx_4
+   \   00000044   3062               CPI     R22, 2
+   \   00000046   F398               BRCS    ??at_com_rx_2
+    417          if((fl_conf_modem.kod==0)&&(At_com.cnt_rx<3)){fl_at_com.err=1;return;}
+   \                     ??at_com_rx_4:
+   \   00000048   8123               LDD     R18, Z+3
+   \   0000004A   FD21               SBRC    R18, 1
+   \   0000004C   C002               RJMP    ??at_com_rx_5
+   \   0000004E   3063               CPI     R22, 3
+   \   00000050   F370               BRCS    ??at_com_rx_2
+    418          
+    419          
+    420          //At_com.buf[At_com.cnt_rx-1]=0;
+    421          
+    422          switch(At_com.list_com[cnt])
+   \                     ??at_com_rx_5:
+   \   00000052   01F8               MOVW    R31:R30, R17:R16
+   \   00000054   A401               LDD     R0, Z+41
+   \   00000056   2411               CLR     R1
+   \   00000058   0198               MOVW    R19:R18, R17:R16
+   \   0000005A   0D20               ADD     R18, R0
+   \   0000005C   1D31               ADC     R19, R1
+   \   0000005E   5021               SUBI    R18, 1
+   \   00000060   4030               SBCI    R19, 0
+   \   00000062   0FE4               ADD     R30, R20
+   \   00000064   1DF1               ADC     R31, R1
+   \   00000066   A543               LDD     R20, Z+43
+   \   00000068   5049               SUBI    R20, 9
+   \   0000006A   F0B0               BRCS    ??at_com_rx_6
+   \   0000006C   F0D9               BREQ    ??at_com_rx_7
+   \   0000006E   954A               DEC     R20
+   \   00000070   F099               BREQ    ??at_com_rx_6
+   \   00000072   954A               DEC     R20
+   \   00000074   F089               BREQ    ??at_com_rx_6
+   \   00000076   954A               DEC     R20
+   \   00000078   F409               BRNE    $+2+2
+   \   0000007A   C068               RJMP    ??at_com_rx_8
+   \   0000007C   954A               DEC     R20
+   \   0000007E   F061               BREQ    ??at_com_rx_6
+   \   00000080   5042               SUBI    R20, 2
+   \   00000082   F409               BRNE    $+2+2
+   \   00000084   C080               RJMP    ??at_com_rx_0
+   \   00000086   5045               SUBI    R20, 5
+   \   00000088   F039               BREQ    ??at_com_rx_6
+   \   0000008A   954A               DEC     R20
+   \   0000008C   F111               BREQ    ??at_com_rx_9
+   \   0000008E   5042               SUBI    R20, 2
+   \   00000090   F1B1               BREQ    ??at_com_rx_10
+   \   00000092   954A               DEC     R20
+   \   00000094   F009               BREQ    $+2+2
+   \   00000096   C071               RJMP    ??at_com_rx_11
+    423              {
+    424               case cAT:    
+    425               case cATE0:
+    426               case cATV0:
+    427               case cATE0V0:
+    428               case cATIPR: 
+    429               case cATIFC:
+    430               case cATC: 
+    431               case cATD: 
+    432               case cATW:
+    433               case cATCGATT:
+    434               case cATCGDCONT:
+    435               case cATSGAUTH: 
+    436               case cATCREG0: 
+    437               case cATH:  
+    438          
+    439                          if(At_com.buf[At_com.cnt_rx-1]!=0xd){fl_at_com.err=1;return;}
+   \                     ??at_com_rx_6:
+   \   00000098   01F9               MOVW    R31:R30, R19:R18
+   \   0000009A   8100               LD      R16, Z
+   \   0000009C   300D               CPI     R16, 13
+   \   0000009E   F639               BRNE    ??at_com_rx_2
+    440                          check_rx_ok();
+   \   000000A0   ....               RCALL   check_rx_ok
+   \   000000A2   C071               RJMP    ??at_com_rx_0
+    441                          break;  
+    442              case cATCREG:
+    443                               if(At_com.buf[At_com.cnt_rx-1]!=0xd){fl_at_com.err=1;return;}
+   \                     ??at_com_rx_7:
+   \   000000A4   01F9               MOVW    R31:R30, R19:R18
+   \   000000A6   8120               LD      R18, Z
+   \   000000A8   302D               CPI     R18, 13
+   \   000000AA   F609               BRNE    ??at_com_rx_2
+    444                            //   if(At_com.buf[At_com.cnt_rx-2]=='2')fl_at_com.ok=1;  
+    445                               if(At_com.buf[At_com.cnt_rx-5]=='1'){fl_at_com.ok=1; state_led_md=LED_MD_YES_CREG;}   
+   \   000000AC   01F8               MOVW    R31:R30, R17:R16
+   \   000000AE   A521               LDD     R18, Z+41
+   \   000000B0   0F02               ADD     R16, R18
+   \   000000B2   1D11               ADC     R17, R1
+   \   000000B4   5005               SUBI    R16, 5
+   \   000000B6   4010               SBCI    R17, 0
+   \   000000B8   01F8               MOVW    R31:R30, R17:R16
+   \   000000BA   8100               LD      R16, Z
+   \   000000BC   3301               CPI     R16, 49
+   \   000000BE   F009               BREQ    $+2+2
+   \   000000C0   CFB6               RJMP    ??at_com_rx_2
+   \   000000C2   01FD               MOVW    R31:R30, R27:R26
+   \   000000C4   8104               LDD     R16, Z+4
+   \   000000C6   6001               ORI     R16, 0x01
+   \   000000C8   8304               STD     Z+4, R16
+   \   000000CA   E003               LDI     R16, 3
+   \                     ??at_com_rx_12:
+   \   000000CC   9300....           STS     state_led_md, R16
+   \   000000D0   C05A               RJMP    ??at_com_rx_0
+    446                               else fl_at_com.err=1; 
+    447                     break;  
+    448              
+    449             case cATCGREG:
+    450                               if(At_com.buf[At_com.cnt_rx-1]!=0xd){fl_at_com.err=1;return;}
+   \                     ??at_com_rx_9:
+   \   000000D2   01F9               MOVW    R31:R30, R19:R18
+   \   000000D4   8120               LD      R18, Z
+   \   000000D6   302D               CPI     R18, 13
+   \   000000D8   F009               BREQ    $+2+2
+   \   000000DA   CFA9               RJMP    ??at_com_rx_2
+    451                            //   if(At_com.buf[At_com.cnt_rx-2]=='2')fl_at_com.ok=1;  
+    452                               if(At_com.buf[At_com.cnt_rx-5]=='1'){fl_at_com.ok=1;state_led_md=LED_MD_GPRS;}    
+   \   000000DC   01F8               MOVW    R31:R30, R17:R16
+   \   000000DE   A521               LDD     R18, Z+41
+   \   000000E0   0F02               ADD     R16, R18
+   \   000000E2   1D11               ADC     R17, R1
+   \   000000E4   5005               SUBI    R16, 5
+   \   000000E6   4010               SBCI    R17, 0
+   \   000000E8   01F8               MOVW    R31:R30, R17:R16
+   \   000000EA   8100               LD      R16, Z
+   \   000000EC   3301               CPI     R16, 49
+   \   000000EE   F009               BREQ    $+2+2
+   \   000000F0   CF9E               RJMP    ??at_com_rx_2
+   \   000000F2   01FD               MOVW    R31:R30, R27:R26
+   \   000000F4   8104               LDD     R16, Z+4
+   \   000000F6   6001               ORI     R16, 0x01
+   \   000000F8   8304               STD     Z+4, R16
+   \   000000FA   E004               LDI     R16, 4
+   \   000000FC   CFE7               RJMP    ??at_com_rx_12
+    453                               else fl_at_com.err=1; 
+    454                     break;          
+    455              
+    456             case cATCPIN:
+    457                                if((At_com.buf[0]==0x30)&&(At_com.buf[1]==0xd))
+   \                     ??at_com_rx_10:
+   \   000000FE   01F8               MOVW    R31:R30, R17:R16
+   \   00000100   8120               LD      R18, Z
+   \   00000102   3320               CPI     R18, 48
+   \   00000104   F4A1               BRNE    ??at_com_rx_13
+   \   00000106   8101               LDD     R16, Z+1
+   \   00000108   300D               CPI     R16, 13
+   \   0000010A   F489               BRNE    ??at_com_rx_13
+    458                                       { 
+    459                                         if(simka==SIM_BASE) send_info(sizeof(stm_pin1_ok),stm_pin1_ok,0,0);
+   \   0000010C   9100....           LDS     R16, simka
+   \   00000110   2300               TST     R16
+   \   00000112   E040               LDI     R20, 0
+   \   00000114   E010               LDI     R17, 0
+   \   00000116   F419               BRNE    ??at_com_rx_14
+   \   00000118   ....               LDI     R18, LOW(stm_pin1_ok)
+   \   0000011A   ....               LDI     R19, (stm_pin1_ok) >> 8
+   \   0000011C   C002               RJMP    ??at_com_rx_15
+    460                                         else send_info(sizeof(stm_pin2_ok),stm_pin2_ok,0,0);
+   \                     ??at_com_rx_14:
+   \   0000011E   ....               LDI     R18, LOW((stm_pin1_ok + 15))
+   \   00000120   ....               LDI     R19, HIGH((stm_pin1_ok + 15))
+   \                     ??at_com_rx_15:
+   \   00000122   E00F               LDI     R16, 15
+   \   00000124   ........           CALL    send_info
+    461                                         
+    462                                         S5_GR; fl_at_com.ok=1;
+   \   00000128   9846               CBI     0x08, 0x06
+   \   0000012A   9A47               SBI     0x08, 0x07
+   \   0000012C   C022               RJMP    ??at_com_rx_16
+    463                                       }
+    464                                else
+    465                                    { 
+    466                                      if(simka==SIM_BASE) send_info(sizeof(stm_pin1_err),stm_pin1_err,0,0);
+   \                     ??at_com_rx_13:
+   \   0000012E   9100....           LDS     R16, simka
+   \   00000132   2300               TST     R16
+   \   00000134   E040               LDI     R20, 0
+   \   00000136   E010               LDI     R17, 0
+   \   00000138   F431               BRNE    ??at_com_rx_17
+   \   0000013A   ....               LDI     R18, LOW((stm_pin1_ok + 30))
+   \   0000013C   ....               LDI     R19, HIGH((stm_pin1_ok + 30))
+   \                     ??at_com_rx_18:
+   \   0000013E   E100               LDI     R16, 16
+   \   00000140   ........           CALL    send_info
+   \   00000144   CF74               RJMP    ??at_com_rx_2
+    467                                         else send_info(sizeof(stm_pin2_err),stm_pin2_err,0,0);
+   \                     ??at_com_rx_17:
+   \   00000146   ....               LDI     R18, LOW((stm_pin1_ok + 46))
+   \   00000148   ....               LDI     R19, HIGH((stm_pin1_ok + 46))
+   \   0000014A   CFF9               RJMP    ??at_com_rx_18
+    468                                      fl_at_com.err=1;
+    469                                    }
+    470                                
+    471                     break;            
+    472                     
+    473              case cATDGPRS:
+    474                         /*
+    475                         led_sost_s_on;
+    476                         if(fl_conf_modem.kod==0){fl_at_com.ok=1; SVD2_1_ON; while(1);}//proverkafl_at_com.ok=1;
+    477                           else
+    478                           {
+    479                           SVD1_1_ON; while(1);//proverka
+    480                            if((At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)&&(At_com.buf[At_com.cnt_rx-1]==0xd))fl_at_com.ok=1; 
+    481                            if((PIND & DCD)==0)fl_at_com.ok=1;else fl_at_com.err=1;
+    482                           //if(At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)fl_at_com.ok=1; было
+    483                           //    else fl_at_com.err=1;
+    484                           }  
+    485                           */
+    486                           
+    487                            if((At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)&&(At_com.buf[At_com.cnt_rx-1]==0xd))fl_at_com.ok=1;
+   \                     ??at_com_rx_8:
+   \   0000014C   01F8               MOVW    R31:R30, R17:R16
+   \   0000014E   0FE6               ADD     R30, R22
+   \   00000150   1DF1               ADC     R31, R1
+   \   00000152   9732               SBIW    R31:R30, 2
+   \   00000154   8120               LD      R18, Z
+   \   00000156   3321               CPI     R18, 49
+   \   00000158   F009               BREQ    $+2+2
+   \   0000015A   CF69               RJMP    ??at_com_rx_2
+   \   0000015C   01F8               MOVW    R31:R30, R17:R16
+   \   0000015E   A521               LDD     R18, Z+41
+   \   00000160   0F02               ADD     R16, R18
+   \   00000162   1D11               ADC     R17, R1
+   \   00000164   5001               SUBI    R16, 1
+   \   00000166   4010               SBCI    R17, 0
+   \   00000168   01F8               MOVW    R31:R30, R17:R16
+   \   0000016A   8100               LD      R16, Z
+   \   0000016C   300D               CPI     R16, 13
+   \   0000016E   F009               BREQ    $+2+2
+   \   00000170   CF5E               RJMP    ??at_com_rx_2
+   \                     ??at_com_rx_16:
+   \   00000172   01FD               MOVW    R31:R30, R27:R26
+   \   00000174   8104               LDD     R16, Z+4
+   \   00000176   6001               ORI     R16, 0x01
+   \   00000178   CF5D               RJMP    ??at_com_rx_3
+    488                            else fl_at_com.err=1;
+    489                          //  if((PINE & DCD0)==0)fl_at_com.ok=1;else fl_at_com.err=1;
+    490                                                       
+    491                     break;
+    492               case PLUS:
+    493                     return;
+    494               default:fl_at_com.err=1; At_com.cnt_rx=0;return;      
+   \                     ??at_com_rx_11:
+   \   0000017A   01FD               MOVW    R31:R30, R27:R26
+   \   0000017C   8124               LDD     R18, Z+4
+   \   0000017E   6022               ORI     R18, 0x02
+   \   00000180   8324               STD     Z+4, R18
+   \   00000182   01F8               MOVW    R31:R30, R17:R16
+   \   00000184   A611               STD     Z+41, R1
+   \                     ??at_com_rx_0:
+   \   00000186   91A9               LD      R26, Y+
+   \   00000188   91B9               LD      R27, Y+
+   \   0000018A   9508               RET
+    495              }
+    496             
+    497              
+    498          }
+    499          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    500          unsigned char at_com_scen_init(unsigned char *cnt,unsigned char *rp)
+   \                     at_com_scen_init:
+    501          {
+   \   00000000   01BD               MOVW    R23:R22, R27:R26
+    502            if(fl_at_com.tx_en==1)return(0);
+   \   00000002   ....               LDI     R30, LOW(cnt_com)
+   \   00000004   ....               LDI     R31, (cnt_com) >> 8
+   \   00000006   8144               LDD     R20, Z+4
+   \   00000008   FF43               SBRS    R20, 3
+   \   0000000A   C003               RJMP    ??at_com_scen_init_0
+   \                     ??at_com_scen_init_1:
+   \   0000000C   E000               LDI     R16, 0
+   \                     ??at_com_scen_init_2:
+   \   0000000E   01DB               MOVW    R27:R26, R23:R22
+   \   00000010   9508               RET
+    503            if(fl_at_com.rx_en==1)return(0);
+   \                     ??at_com_scen_init_0:
+   \   00000012   8144               LDD     R20, Z+4
+   \   00000014   FD44               SBRC    R20, 4
+   \   00000016   CFFA               RJMP    ??at_com_scen_init_1
+    504            if(fl_at_com.rx_rec==1)return(0);
+   \   00000018   8144               LDD     R20, Z+4
+   \   0000001A   FD45               SBRC    R20, 5
+   \   0000001C   CFF7               RJMP    ??at_com_scen_init_1
+    505            
+    506            switch(At_com.list_com[*cnt])
+   \   0000001E   01D8               MOVW    R27:R26, R17:R16
+   \   00000020   914C               LD      R20, X
+   \   00000022   E050               LDI     R21, 0
+   \   00000024   01DA               MOVW    R27:R26, R21:R20
+   \   00000026   ....               SUBI    R26, LOW((-(At_com + 43) & 0xFFFF))
+   \   00000028   ....               SBCI    R27, HIGH((-(At_com + 43) & 0xFFFF))
+   \   0000002A   914C               LD      R20, X
+   \   0000002C   5040               SUBI    R20, 0
+   \   0000002E   F111               BREQ    ??at_com_scen_init_3
+   \   00000030   5043               SUBI    R20, 3
+   \   00000032   F0B1               BREQ    ??at_com_scen_init_4
+   \   00000034   5046               SUBI    R20, 6
+   \   00000036   F0F1               BREQ    ??at_com_scen_init_3
+   \   00000038   954A               DEC     R20
+   \   0000003A   F409               BRNE    $+2+2
+   \   0000003C   C04F               RJMP    ??at_com_scen_init_5
+   \   0000003E   954A               DEC     R20
+   \   00000040   F1A9               BREQ    ??at_com_scen_init_6
+   \   00000042   5049               SUBI    R20, 9
+   \   00000044   F069               BREQ    ??at_com_scen_init_4
+   \   00000046   954A               DEC     R20
+   \   00000048   F409               BRNE    $+2+2
+   \   0000004A   C063               RJMP    ??at_com_scen_init_7
+   \   0000004C   954A               DEC     R20
+   \   0000004E   F041               BREQ    ??at_com_scen_init_4
+   \   00000050   954A               DEC     R20
+   \   00000052   F409               BRNE    $+2+2
+   \   00000054   C072               RJMP    ??at_com_scen_init_8
+   \   00000056   954A               DEC     R20
+   \   00000058   F149               BREQ    ??at_com_scen_init_6
+   \   0000005A   954A               DEC     R20
+   \   0000005C   F009               BREQ    $+2+2
+   \   0000005E   C07C               RJMP    ??at_com_scen_init_9
+    507            {
+    508            case cATE0V0:
+    509                     
+    510                     
+    511                     (*cnt)++;*rp=0;
+   \                     ??at_com_scen_init_4:
+   \   00000060   01D8               MOVW    R27:R26, R17:R16
+   \   00000062   910C               LD      R16, X
+   \   00000064   9503               INC     R16
+   \   00000066   930C               ST      X, R16
+   \   00000068   01D9               MOVW    R27:R26, R19:R18
+   \   0000006A   935C               ST      X, R21
+    512                     fl_at_com.tx_en=1;
+    513                     
+    514                     break;            
+    515            case cAT: 
+    516            
+    517            case cATCREG:
+    518                     if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}
+    519                     if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+    520                     {
+    521                     (*rp)++;
+    522                     if(*rp>=60){event_modem=EVM_AT_ERR;return(2);}//было 40
+    523                     fl_at_com.tx_en=1;
+   \                     ??at_com_scen_init_10:
+   \   0000006C   8104               LDD     R16, Z+4
+   \   0000006E   6008               ORI     R16, 0x08
+   \   00000070   8304               STD     Z+4, R16
+   \   00000072   C072               RJMP    ??at_com_scen_init_9
+   \                     ??at_com_scen_init_3:
+   \   00000074   8144               LDD     R20, Z+4
+   \   00000076   FF40               SBRS    R20, 0
+   \   00000078   C009               RJMP    ??at_com_scen_init_11
+   \   0000007A   01D8               MOVW    R27:R26, R17:R16
+   \   0000007C   910C               LD      R16, X
+   \   0000007E   9503               INC     R16
+   \   00000080   930C               ST      X, R16
+   \   00000082   01D9               MOVW    R27:R26, R19:R18
+   \   00000084   935C               ST      X, R21
+   \   00000086   8104               LDD     R16, Z+4
+   \   00000088   6008               ORI     R16, 0x08
+   \   0000008A   8304               STD     Z+4, R16
+   \                     ??at_com_scen_init_11:
+   \   0000008C   8104               LDD     R16, Z+4
+   \   0000008E   7006               ANDI    R16, 0x06
+   \   00000090   F409               BRNE    $+2+2
+   \   00000092   C062               RJMP    ??at_com_scen_init_9
+   \   00000094   01D9               MOVW    R27:R26, R19:R18
+   \   00000096   910C               LD      R16, X
+   \   00000098   9503               INC     R16
+   \   0000009A   930C               ST      X, R16
+   \   0000009C   910C               LD      R16, X
+   \   0000009E   330C               CPI     R16, 60
+   \   000000A0   F328               BRCS    ??at_com_scen_init_10
+   \                     ??at_com_scen_init_12:
+   \   000000A2   E003               LDI     R16, 3
+   \   000000A4   9300....           STS     event_modem, R16
+   \   000000A8   E002               LDI     R16, 2
+   \   000000AA   CFB1               RJMP    ??at_com_scen_init_2
+    524                     }
+    525                 break; 
+    526          
+    527                 
+    528            
+    529            case cATCGDCONT:
+    530            case cATCREG0:  
+    531                     if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}
+   \                     ??at_com_scen_init_6:
+   \   000000AC   8144               LDD     R20, Z+4
+   \   000000AE   FF40               SBRS    R20, 0
+   \   000000B0   C009               RJMP    ??at_com_scen_init_13
+   \   000000B2   01D8               MOVW    R27:R26, R17:R16
+   \   000000B4   910C               LD      R16, X
+   \   000000B6   9503               INC     R16
+   \   000000B8   930C               ST      X, R16
+   \   000000BA   01D9               MOVW    R27:R26, R19:R18
+   \   000000BC   935C               ST      X, R21
+   \   000000BE   8104               LDD     R16, Z+4
+   \   000000C0   6008               ORI     R16, 0x08
+   \   000000C2   8304               STD     Z+4, R16
+    532                     if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+   \                     ??at_com_scen_init_13:
+   \   000000C4   8104               LDD     R16, Z+4
+   \   000000C6   7006               ANDI    R16, 0x06
+   \   000000C8   F409               BRNE    $+2+2
+   \   000000CA   C046               RJMP    ??at_com_scen_init_9
+    533                     {
+    534                     (*rp)++;
+   \   000000CC   01D9               MOVW    R27:R26, R19:R18
+   \   000000CE   910C               LD      R16, X
+   \   000000D0   9503               INC     R16
+   \   000000D2   930C               ST      X, R16
+    535                     if(*rp>=3){event_modem=EVM_AT_ERR;return(2);}
+   \   000000D4   910C               LD      R16, X
+   \   000000D6   3003               CPI     R16, 3
+   \   000000D8   F248               BRCS    ??at_com_scen_init_10
+   \   000000DA   CFE3               RJMP    ??at_com_scen_init_12
+    536                     fl_at_com.tx_en=1;
+    537                     }
+    538                 break; 
+    539           
+    540           case cATSGAUTH: 
+    541          
+    542                     (*cnt)++;*rp=0;
+    543                     fl_at_com.tx_en=1;
+    544                     break;
+    545                     
+    546            case cATCGATT:
+    547                // if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+    548                 if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}
+   \                     ??at_com_scen_init_5:
+   \   000000DC   8144               LDD     R20, Z+4
+   \   000000DE   FF40               SBRS    R20, 0
+   \   000000E0   C009               RJMP    ??at_com_scen_init_14
+   \   000000E2   01D8               MOVW    R27:R26, R17:R16
+   \   000000E4   910C               LD      R16, X
+   \   000000E6   9503               INC     R16
+   \   000000E8   930C               ST      X, R16
+   \   000000EA   01D9               MOVW    R27:R26, R19:R18
+   \   000000EC   935C               ST      X, R21
+   \   000000EE   8104               LDD     R16, Z+4
+   \   000000F0   6008               ORI     R16, 0x08
+   \   000000F2   8304               STD     Z+4, R16
+    549                 if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+   \                     ??at_com_scen_init_14:
+   \   000000F4   8104               LDD     R16, Z+4
+   \   000000F6   7006               ANDI    R16, 0x06
+   \   000000F8   F179               BREQ    ??at_com_scen_init_9
+    550                     {
+    551                     (*rp)++;
+   \   000000FA   01D9               MOVW    R27:R26, R19:R18
+   \   000000FC   910C               LD      R16, X
+   \   000000FE   9503               INC     R16
+   \   00000100   930C               ST      X, R16
+    552                   //  if(*rp>=1){event_modem=EVM_AT_ERR;return(3);}
+    553                     if(*rp>=6){event_modem=EVM_AT_ERR;return(3);}
+   \   00000102   910C               LD      R16, X
+   \   00000104   3006               CPI     R16, 6
+   \   00000106   F408               BRCC    $+2+2
+   \   00000108   CFB1               RJMP    ??at_com_scen_init_10
+   \                     ??at_com_scen_init_15:
+   \   0000010A   E003               LDI     R16, 3
+   \   0000010C   9300....           STS     event_modem, R16
+   \   00000110   CF7E               RJMP    ??at_com_scen_init_2
+    554                     fl_at_com.tx_en=1;
+    555                     }
+    556                 break; 
+    557                 
+    558           case cATCGREG:
+    559                     //if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}
+    560                     if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+   \                     ??at_com_scen_init_7:
+   \   00000112   8104               LDD     R16, Z+4
+   \   00000114   FF00               SBRS    R16, 0
+   \   00000116   C005               RJMP    ??at_com_scen_init_16
+   \   00000118   E002               LDI     R16, 2
+   \   0000011A   9300....           STS     event_modem, R16
+   \   0000011E   E001               LDI     R16, 1
+   \   00000120   CF76               RJMP    ??at_com_scen_init_2
+    561                     if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+   \                     ??at_com_scen_init_16:
+   \   00000122   8104               LDD     R16, Z+4
+   \   00000124   7006               ANDI    R16, 0x06
+   \   00000126   F0C1               BREQ    ??at_com_scen_init_9
+    562                     {
+    563                     (*rp)++;
+   \   00000128   01D9               MOVW    R27:R26, R19:R18
+   \   0000012A   910C               LD      R16, X
+   \   0000012C   9503               INC     R16
+   \   0000012E   930C               ST      X, R16
+    564                     if(*rp>=20){event_modem=EVM_AT_ERR;return(3);}
+   \   00000130   910C               LD      R16, X
+   \   00000132   3104               CPI     R16, 20
+   \   00000134   F408               BRCC    $+2+2
+   \   00000136   CF9A               RJMP    ??at_com_scen_init_10
+   \   00000138   CFE8               RJMP    ??at_com_scen_init_15
+    565                     fl_at_com.tx_en=1;
+    566                     }
+    567                 break;  
+    568                 
+    569          case cATCPIN:
+    570                     if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}        
+   \                     ??at_com_scen_init_8:
+   \   0000013A   8144               LDD     R20, Z+4
+   \   0000013C   FF40               SBRS    R20, 0
+   \   0000013E   C009               RJMP    ??at_com_scen_init_17
+   \   00000140   01D8               MOVW    R27:R26, R17:R16
+   \   00000142   910C               LD      R16, X
+   \   00000144   9503               INC     R16
+   \   00000146   930C               ST      X, R16
+   \   00000148   01D9               MOVW    R27:R26, R19:R18
+   \   0000014A   935C               ST      X, R21
+   \   0000014C   8104               LDD     R16, Z+4
+   \   0000014E   6008               ORI     R16, 0x08
+   \   00000150   8304               STD     Z+4, R16
+    571                     if((fl_at_com.err==1)||(fl_at_com.tm_out==1)){event_modem=EVM_AT_ERR;return(3);}
+   \                     ??at_com_scen_init_17:
+   \   00000152   8104               LDD     R16, Z+4
+   \   00000154   7006               ANDI    R16, 0x06
+   \   00000156   F6C9               BRNE    ??at_com_scen_init_15
+    572                     
+    573                 break;         
+    574                 
+    575           
+    576           case PAUSA_REG:
+    577           case PAUSA5:  
+    578                    (*cnt)++;*rp=0;
+    579                     fl_at_com.tx_en=1; 
+    580                     break; 
+    581                 
+    582            }
+    583            
+    584           fl_at_com.ok=0; 
+    585           fl_at_com.tm_out=0;
+    586           fl_at_com.err=0;
+   \                     ??at_com_scen_init_9:
+   \   00000158   8104               LDD     R16, Z+4
+   \   0000015A   7F08               ANDI    R16, 0xF8
+   \   0000015C   8304               STD     Z+4, R16
+   \   0000015E   CF56               RJMP    ??at_com_scen_init_1
+    587           return(0);
+    588          }
+    589          
+    590          
+    591          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    592          void init_scen_stm_si(void)
+   \                     init_scen_stm_si:
+    593          {
+   \   00000000   ........           CALL    ?PROLOGUE4_L09
+   \   00000004   9724               SBIW    R29:R28, 4
+    594          
+    595           unsigned char buf[4];
+    596           unsigned char i;
+    597           
+    598           i=0;
+   \   00000006   E080               LDI     R24, 0
+    599           //st_gprs_atcom();
+    600          
+    601          cnt_com=0;
+   \   00000008   ....               LDI     R26, LOW(cnt_com)
+   \   0000000A   ....               LDI     R27, (cnt_com) >> 8
+   \   0000000C   938C               ST      X, R24
+    602          rep=0;
+   \   0000000E   01FD               MOVW    R31:R30, R27:R26
+   \   00000010   8381               STD     Z+1, R24
+    603          At_com.list_com[0]=cATE0V0;
+   \   00000012   E003               LDI     R16, 3
+   \   00000014   ....               LDI     R30, LOW(At_com)
+   \   00000016   ....               LDI     R31, (At_com) >> 8
+   \   00000018   A703               STD     Z+43, R16
+    604          At_com.list_com[1]=cATE0V0;
+   \   0000001A   A704               STD     Z+44, R16
+    605          At_com.list_com[2]=cATE0V0;
+   \   0000001C   A705               STD     Z+45, R16
+    606          At_com.list_com[3]=PAUSA5;
+   \   0000001E   E109               LDI     R16, 25
+   \   00000020   A706               STD     Z+46, R16
+    607          At_com.list_com[4]=cAT;
+   \   00000022   A787               STD     Z+47, R24
+    608          At_com.list_com[5]=cATCREG0;
+   \   00000024   E108               LDI     R16, 24
+   \   00000026   AB00               STD     Z+48, R16
+    609          
+    610           if(simka==SIM_BASE) RdFromFleshToArr(A_PIN_SIM1,&buf[0],4); 
+   \   00000028   9100....           LDS     R16, simka
+   \   0000002C   2300               TST     R16
+   \   0000002E   E044               LDI     R20, 4
+   \   00000030   E050               LDI     R21, 0
+   \   00000032   019E               MOVW    R19:R18, R29:R28
+   \   00000034   F411               BRNE    ??init_scen_stm_si_0
+   \   00000036   EA0F               LDI     R16, 175
+   \   00000038   C001               RJMP    ??init_scen_stm_si_1
+    611                          else RdFromFleshToArr(A_PIN_SIM2,&buf[0],4);              
+   \                     ??init_scen_stm_si_0:
+   \   0000003A   EB05               LDI     R16, 181
+   \                     ??init_scen_stm_si_1:
+   \   0000003C   E010               LDI     R17, 0
+   \   0000003E   ........           CALL    RdFromFleshToArr
+    612          if
+    613             ((buf[0]>=0x30)&&(buf[0]<=0x39)&&
+    614             (buf[1]>=0x30)&&(buf[1]<=0x39)&&
+    615             (buf[2]>=0x30)&&(buf[2]<=0x39)&&
+    616               (buf[3]>=0x30)&&(buf[3]<=0x39)){At_com.list_com[6]=cATCPIN;i=1; S5_RD;} else {S5_YL;}
+   \   00000042   8108               LD      R16, Y
+   \   00000044   3300               CPI     R16, 48
+   \   00000046   F0D0               BRCS    ??init_scen_stm_si_2
+   \   00000048   8108               LD      R16, Y
+   \   0000004A   330A               CPI     R16, 58
+   \   0000004C   F4B8               BRCC    ??init_scen_stm_si_2
+   \   0000004E   8109               LDD     R16, Y+1
+   \   00000050   3300               CPI     R16, 48
+   \   00000052   F0A0               BRCS    ??init_scen_stm_si_2
+   \   00000054   330A               CPI     R16, 58
+   \   00000056   F490               BRCC    ??init_scen_stm_si_2
+   \   00000058   810A               LDD     R16, Y+2
+   \   0000005A   3300               CPI     R16, 48
+   \   0000005C   F078               BRCS    ??init_scen_stm_si_2
+   \   0000005E   330A               CPI     R16, 58
+   \   00000060   F468               BRCC    ??init_scen_stm_si_2
+   \   00000062   810B               LDD     R16, Y+3
+   \   00000064   3300               CPI     R16, 48
+   \   00000066   F050               BRCS    ??init_scen_stm_si_2
+   \   00000068   330A               CPI     R16, 58
+   \   0000006A   F440               BRCC    ??init_scen_stm_si_2
+   \   0000006C   E107               LDI     R16, 23
+   \   0000006E   ....               LDI     R30, LOW(At_com)
+   \   00000070   ....               LDI     R31, (At_com) >> 8
+   \   00000072   AB01               STD     Z+49, R16
+   \   00000074   E081               LDI     R24, 1
+   \   00000076   9A46               SBI     0x08, 0x06
+   \   00000078   9847               CBI     0x08, 0x07
+   \   0000007A   C002               RJMP    ??init_scen_stm_si_3
+   \                     ??init_scen_stm_si_2:
+   \   0000007C   9A46               SBI     0x08, 0x06
+   \   0000007E   9A47               SBI     0x08, 0x07
+    617               
+    618               
+    619               
+    620          At_com.list_com[6+i]=cATCREG;
+   \                     ??init_scen_stm_si_3:
+   \   00000080   E090               LDI     R25, 0
+   \   00000082   ....               LDI     R30, LOW(At_com)
+   \   00000084   ....               LDI     R31, (At_com) >> 8
+   \   00000086   0FE8               ADD     R30, R24
+   \   00000088   1FF9               ADC     R31, R25
+   \   0000008A   E009               LDI     R16, 9
+   \   0000008C   AB01               STD     Z+49, R16
+    621          At_com.list_com[7+i]=PAUSA_REG;//5секунд
+   \   0000008E   E106               LDI     R16, 22
+   \   00000090   AB02               STD     Z+50, R16
+    622          At_com.list_com[8+i]=cATCGDCONT;
+   \   00000092   E00B               LDI     R16, 11
+   \   00000094   AB03               STD     Z+51, R16
+    623          At_com.list_com[9+i]=cATSGAUTH;  
+   \   00000096   E104               LDI     R16, 20
+   \   00000098   AB04               STD     Z+52, R16
+    624          At_com.list_com[10+i]=cATCGATT;
+   \   0000009A   E00A               LDI     R16, 10
+   \   0000009C   AB05               STD     Z+53, R16
+    625          At_com.list_com[11+i]=cATCGREG;
+   \   0000009E   E105               LDI     R16, 21
+   \   000000A0   AB06               STD     Z+54, R16
+    626          At_com.ln_list=12+i;
+   \   000000A2   5F84               SUBI    R24, 244
+   \   000000A4   ....               LDI     R30, LOW(At_com)
+   \   000000A6   ....               LDI     R31, (At_com) >> 8
+   \   000000A8   AF80               STD     Z+56, R24
+    627          At_com.cnt_rx=0;
+   \   000000AA   A791               STD     Z+41, R25
+    628          At_com.cnt_tm_out=0;
+   \   000000AC   AF92               STD     Z+58, R25
+   \   000000AE   AF93               STD     Z+59, R25
+    629          fl_at_com.rx_en=0;
+    630          fl_at_com.tx_en=1;
+   \   000000B0   01FD               MOVW    R31:R30, R27:R26
+   \   000000B2   8104               LDD     R16, Z+4
+   \   000000B4   7E0F               ANDI    R16, 0xEF
+   \   000000B6   6008               ORI     R16, 0x08
+   \   000000B8   8304               STD     Z+4, R16
+    631          
+    632          
+    633          
+    634          }
+   \   000000BA   9624               ADIW    R29:R28, 4
+   \   000000BC   E0E4               LDI     R30, 4
+   \   000000BE   ........           JMP     ?EPILOGUE_B4_L09
+    635          
+    636          
+    637          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    638          void init_scen_stm_sc(void)
+   \                     init_scen_stm_sc:
+    639          {
+   \   00000000   2F1B               MOV     R17, R27
+   \   00000002   2F2A               MOV     R18, R26
+    640          //st_gprs_att();
+    641          
+    642          cnt_com=0;
+   \   00000004   ....               LDI     R26, LOW(cnt_com)
+   \   00000006   ....               LDI     R27, (cnt_com) >> 8
+   \   00000008   E000               LDI     R16, 0
+   \   0000000A   930C               ST      X, R16
+    643          rep=0;
+   \   0000000C   9611               ADIW    R27:R26, 1
+   \   0000000E   930C               ST      X, R16
+   \   00000010   9711               SBIW    R27:R26, 1
+    644          At_com.list_com[0]=cATDGPRS;
+   \   00000012   ....               LDI     R30, LOW(At_com)
+   \   00000014   ....               LDI     R31, (At_com) >> 8
+   \   00000016   E00C               LDI     R16, 12
+   \   00000018   A703               STD     Z+43, R16
+    645          At_com.ln_list=1;
+   \   0000001A   E001               LDI     R16, 1
+   \   0000001C   AF00               STD     Z+56, R16
+    646          At_com.cnt_rx=0;
+   \   0000001E   E000               LDI     R16, 0
+   \   00000020   A701               STD     Z+41, R16
+    647          At_com.cnt_tm_out=0;
+   \   00000022   AF02               STD     Z+58, R16
+   \   00000024   AF03               STD     Z+59, R16
+    648          fl_at_com.rx_en=0;
+    649          fl_at_com.tx_en=1;
+   \   00000026   9614               ADIW    R27:R26, 4
+   \   00000028   910C               LD      R16, X
+   \   0000002A   9714               SBIW    R27:R26, 4
+   \   0000002C   7E0F               ANDI    R16, 0xEF
+   \   0000002E   6008               ORI     R16, 0x08
+   \   00000030   9614               ADIW    R27:R26, 4
+   \   00000032   930C               ST      X, R16
+    650          }
+   \   00000034   2FA2               MOV     R26, R18
+   \   00000036   2FB1               MOV     R27, R17
+   \   00000038   9508               RET
+    651          
+    652          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    653          unsigned char at_com_scen_stm_sc(unsigned char *cnt,unsigned char *rp)
+   \                     at_com_scen_stm_sc:
+    654          {
+   \   00000000   2F5B               MOV     R21, R27
+   \   00000002   2F6A               MOV     R22, R26
+    655            if(fl_at_com.tx_en==1)return(0);
+   \   00000004   ....               LDI     R30, LOW(cnt_com)
+   \   00000006   ....               LDI     R31, (cnt_com) >> 8
+   \   00000008   8144               LDD     R20, Z+4
+   \   0000000A   FF43               SBRS    R20, 3
+   \   0000000C   C004               RJMP    ??at_com_scen_stm_sc_0
+   \                     ??at_com_scen_stm_sc_1:
+   \   0000000E   E000               LDI     R16, 0
+   \                     ??at_com_scen_stm_sc_2:
+   \   00000010   2FA6               MOV     R26, R22
+   \   00000012   2FB5               MOV     R27, R21
+   \   00000014   9508               RET
+    656            if(fl_at_com.rx_en==1)return(0);
+   \                     ??at_com_scen_stm_sc_0:
+   \   00000016   8144               LDD     R20, Z+4
+   \   00000018   FD44               SBRC    R20, 4
+   \   0000001A   CFF9               RJMP    ??at_com_scen_stm_sc_1
+    657            if(fl_at_com.rx_rec==1)return(0);
+   \   0000001C   8144               LDD     R20, Z+4
+   \   0000001E   FD45               SBRC    R20, 5
+   \   00000020   CFF6               RJMP    ??at_com_scen_stm_sc_1
+    658            
+    659            switch(At_com.list_com[*cnt])
+   \   00000022   01D8               MOVW    R27:R26, R17:R16
+   \   00000024   910C               LD      R16, X
+   \   00000026   E010               LDI     R17, 0
+   \   00000028   01D8               MOVW    R27:R26, R17:R16
+   \   0000002A   ....               SUBI    R26, LOW((-(At_com + 43) & 0xFFFF))
+   \   0000002C   ....               SBCI    R27, HIGH((-(At_com + 43) & 0xFFFF))
+   \   0000002E   910C               LD      R16, X
+   \   00000030   500C               SUBI    R16, 12
+   \   00000032   F4D1               BRNE    ??at_com_scen_stm_sc_3
+    660            {
+    661          
+    662            case cATDGPRS:
+    663                     if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+   \   00000034   8104               LDD     R16, Z+4
+   \   00000036   FF00               SBRS    R16, 0
+   \   00000038   C005               RJMP    ??at_com_scen_stm_sc_4
+   \   0000003A   E002               LDI     R16, 2
+   \   0000003C   9300....           STS     event_modem, R16
+   \   00000040   E001               LDI     R16, 1
+   \   00000042   CFE6               RJMP    ??at_com_scen_stm_sc_2
+    664                     if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+   \                     ??at_com_scen_stm_sc_4:
+   \   00000044   8104               LDD     R16, Z+4
+   \   00000046   7006               ANDI    R16, 0x06
+   \   00000048   F079               BREQ    ??at_com_scen_stm_sc_3
+    665                     {
+    666                     (*rp)++;
+   \   0000004A   01D9               MOVW    R27:R26, R19:R18
+   \   0000004C   910C               LD      R16, X
+   \   0000004E   9503               INC     R16
+   \   00000050   930C               ST      X, R16
+    667                     if(*rp>=4){event_modem=EVM_AT_ERR;return(2);}
+   \   00000052   910C               LD      R16, X
+   \   00000054   3004               CPI     R16, 4
+   \   00000056   F028               BRCS    ??at_com_scen_stm_sc_5
+   \   00000058   E003               LDI     R16, 3
+   \   0000005A   9300....           STS     event_modem, R16
+   \   0000005E   E002               LDI     R16, 2
+   \   00000060   CFD7               RJMP    ??at_com_scen_stm_sc_2
+    668                     fl_at_com.tx_en=1;
+   \                     ??at_com_scen_stm_sc_5:
+   \   00000062   8104               LDD     R16, Z+4
+   \   00000064   6008               ORI     R16, 0x08
+   \   00000066   8304               STD     Z+4, R16
+    669                     }
+    670                 break; 
+    671            }
+    672            
+    673           fl_at_com.ok=0; 
+    674           fl_at_com.tm_out=0;
+    675           fl_at_com.err=0;
+   \                     ??at_com_scen_stm_sc_3:
+   \   00000068   8104               LDD     R16, Z+4
+   \   0000006A   7F08               ANDI    R16, 0xF8
+   \   0000006C   8304               STD     Z+4, R16
+   \   0000006E   CFCF               RJMP    ??at_com_scen_stm_sc_1
+    676           return(0);
+    677          }
+    678          
+    679          
+    680          /*
+    681          void init_scen_stm_dc(void)
+    682          {
+    683          
+    684          cnt_com=0;
+    685          rep=0;
+    686          
+    687          At_com.list_com[0]=PAUSA1;
+    688          At_com.list_com[1]=PLUS;
+    689          At_com.list_com[2]=PAUSA2;
+    690          At_com.list_com[3]=cATH;
+    691          At_com.ln_list=4;
+    692          At_com.cnt_rx=0;
+    693          At_com.cnt_tm_out=0;
+    694          fl_at_com.rx_en=0;
+    695          fl_at_com.tx_en=1;
+    696          }
+    697          
+    698          
+    699          unsigned char at_com_scen_stm_dc(unsigned char *cnt,unsigned char *rp)
+    700          {
+    701          if(fl_at_com.tx_en==1)return(0);
+    702            if(fl_at_com.rx_en==1)return(0);
+    703            if(fl_at_com.rx_rec==1)return(0);
+    704            
+    705            switch(At_com.list_com[*cnt])
+    706            {
+    707            case PAUSA1:
+    708            case PLUS:
+    709            case PAUSA2:
+    710                    (*cnt)++;*rp=0;
+    711                     fl_at_com.tx_en=1; 
+    712                     break;
+    713                  
+    714            case cATH:
+    715                 if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+    716                     if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+    717                     {
+    718                     (*rp)++;
+    719                     if(*rp>=6){event_modem=EVM_AT_ERR;return(2);}
+    720                     fl_at_com.tx_en=1;
+    721                     }
+    722                 break; 
+    723            }
+    724            
+    725           fl_at_com.ok=0; 
+    726           fl_at_com.tm_out=0;
+    727           fl_at_com.err=0;
+    728           return(0);
+    729          }
+    730          
+    731          */
+    732          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    733          void init_scen_stm_dc_1(void)
+   \                     init_scen_stm_dc_1:
+    734          {
+   \   00000000   2F1B               MOV     R17, R27
+   \   00000002   2F2A               MOV     R18, R26
+    735          
+    736          cnt_com=0;
+   \   00000004   ....               LDI     R26, LOW(cnt_com)
+   \   00000006   ....               LDI     R27, (cnt_com) >> 8
+   \   00000008   E000               LDI     R16, 0
+   \   0000000A   930C               ST      X, R16
+    737          rep=0;
+   \   0000000C   9611               ADIW    R27:R26, 1
+   \   0000000E   930C               ST      X, R16
+   \   00000010   9711               SBIW    R27:R26, 1
+    738          
+    739          At_com.list_com[0]=PAUSA1;
+   \   00000012   ....               LDI     R30, LOW(At_com)
+   \   00000014   ....               LDI     R31, (At_com) >> 8
+   \   00000016   E100               LDI     R16, 16
+   \   00000018   A703               STD     Z+43, R16
+    740          At_com.list_com[1]=PLUS;
+   \   0000001A   E00F               LDI     R16, 15
+   \   0000001C   A704               STD     Z+44, R16
+    741          At_com.list_com[2]=PAUSA2;
+   \   0000001E   E101               LDI     R16, 17
+   \   00000020   A705               STD     Z+45, R16
+    742          At_com.list_com[3]=cATH;
+   \   00000022   E00D               LDI     R16, 13
+   \   00000024   A706               STD     Z+46, R16
+    743          //At_com.list_com[4]=PAUSA4;
+    744          //At_com.list_com[5]=cATCGATT0;
+    745          //At_com.list_com[6]=PAUSA3;
+    746          //At_com.list_com[7]=cATCGATT;
+    747          At_com.ln_list=4;
+   \   00000026   E004               LDI     R16, 4
+   \   00000028   AF00               STD     Z+56, R16
+    748          At_com.cnt_rx=0;
+   \   0000002A   E000               LDI     R16, 0
+   \   0000002C   A701               STD     Z+41, R16
+    749          At_com.cnt_tm_out=0;
+   \   0000002E   AF02               STD     Z+58, R16
+   \   00000030   AF03               STD     Z+59, R16
+    750          fl_at_com.rx_en=0;
+    751          fl_at_com.tx_en=1;
+   \   00000032   9614               ADIW    R27:R26, 4
+   \   00000034   910C               LD      R16, X
+   \   00000036   9714               SBIW    R27:R26, 4
+   \   00000038   7E0F               ANDI    R16, 0xEF
+   \   0000003A   6008               ORI     R16, 0x08
+   \   0000003C   9614               ADIW    R27:R26, 4
+   \   0000003E   930C               ST      X, R16
+    752          }
+   \   00000040   2FA2               MOV     R26, R18
+   \   00000042   2FB1               MOV     R27, R17
+   \   00000044   9508               RET
+    753          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    754          unsigned char at_com_scen_stm_dc_1(unsigned char *cnt,unsigned char *rp)
+   \                     at_com_scen_stm_dc_1:
+    755          {
+   \   00000000   010D               MOVW    R1:R0, R27:R26
+    756          if(fl_at_com.tx_en==1)return(0);
+   \   00000002   ....               LDI     R30, LOW(cnt_com)
+   \   00000004   ....               LDI     R31, (cnt_com) >> 8
+   \   00000006   8144               LDD     R20, Z+4
+   \   00000008   FF43               SBRS    R20, 3
+   \   0000000A   C003               RJMP    ??at_com_scen_stm_dc_1_0
+   \                     ??at_com_scen_stm_dc_1_1:
+   \   0000000C   E000               LDI     R16, 0
+   \                     ??at_com_scen_stm_dc_1_2:
+   \   0000000E   01D0               MOVW    R27:R26, R1:R0
+   \   00000010   9508               RET
+    757            if(fl_at_com.rx_en==1)return(0);
+   \                     ??at_com_scen_stm_dc_1_0:
+   \   00000012   8144               LDD     R20, Z+4
+   \   00000014   FD44               SBRC    R20, 4
+   \   00000016   CFFA               RJMP    ??at_com_scen_stm_dc_1_1
+    758            if(fl_at_com.rx_rec==1)return(0);
+   \   00000018   8144               LDD     R20, Z+4
+   \   0000001A   FD45               SBRC    R20, 5
+   \   0000001C   CFF7               RJMP    ??at_com_scen_stm_dc_1_1
+    759            
+    760            switch(At_com.list_com[*cnt])
+   \   0000001E   8144               LDD     R20, Z+4
+   \   00000020   7046               ANDI    R20, 0x06
+   \   00000022   01D8               MOVW    R27:R26, R17:R16
+   \   00000024   916C               LD      R22, X
+   \   00000026   E070               LDI     R23, 0
+   \   00000028   01DB               MOVW    R27:R26, R23:R22
+   \   0000002A   ....               SUBI    R26, LOW((-(At_com + 43) & 0xFFFF))
+   \   0000002C   ....               SBCI    R27, HIGH((-(At_com + 43) & 0xFFFF))
+   \   0000002E   915C               LD      R21, X
+   \   00000030   505A               SUBI    R21, 10
+   \   00000032   F1B1               BREQ    ??at_com_scen_stm_dc_1_3
+   \   00000034   5053               SUBI    R21, 3
+   \   00000036   F0E1               BREQ    ??at_com_scen_stm_dc_1_4
+   \   00000038   955A               DEC     R21
+   \   0000003A   F159               BREQ    ??at_com_scen_stm_dc_1_5
+   \   0000003C   5051               SUBI    R21, 1
+   \   0000003E   F068               BRCS    ??at_com_scen_stm_dc_1_6
+   \   00000040   5054               SUBI    R21, 4
+   \   00000042   F010               BRCS    ??at_com_scen_stm_dc_1_7
+   \   00000044   F071               BREQ    ??at_com_scen_stm_dc_1_8
+   \   00000046   C009               RJMP    ??at_com_scen_stm_dc_1_6
+    761            {
+    762            case PAUSA1:
+    763            case PLUS:
+    764            case PAUSA2:
+    765            case PAUSA3:
+    766                    (*cnt)++;*rp=0;
+   \                     ??at_com_scen_stm_dc_1_7:
+   \   00000048   01D8               MOVW    R27:R26, R17:R16
+   \   0000004A   910C               LD      R16, X
+   \   0000004C   9503               INC     R16
+   \   0000004E   930C               ST      X, R16
+   \   00000050   01D9               MOVW    R27:R26, R19:R18
+   \   00000052   937C               ST      X, R23
+    767                     fl_at_com.tx_en=1; 
+    768                     break;
+    769            
+    770            case PAUSA4:
+    771                     if((PINE & DCD0)==0){event_modem=EVM_AT_OK;return(1);}else{event_modem=EVM_AT_ERR;return(3);}
+    772                   //  (*cnt)++;*rp=0;
+    773                   //  fl_at_com.tx_en=1; 
+    774                  //   break;
+    775             /*     
+    776            case cATH:
+    777                    
+    778                   if((fl_at_com.err==1)||(fl_at_com.tm_out==1)||fl_at_com.ok==1)
+    779                     {
+    780                     (*rp)++;
+    781                     if(*rp>=5)
+    782                               {
+    783                                 
+    784                               
+    785                               (*cnt)++;*rp=0;
+    786                              // if)(PIND & DCD=)==0){event_modem=EVM_AT_OK;return(1);}
+    787                              
+    788                              // if((PIND & DCD)==0){SVD1_1_ON;*cnt=*cnt+2; *rp=0;}
+    789                              //   else {(*cnt)++;*rp=0;}
+    790                               }
+    791                     fl_at_com.tx_en=1;
+    792                     }
+    793                 break; */
+    794           
+    795           case cATH:
+    796                    
+    797             //  if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}
+    798                          
+    799                   if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+    800                     if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+    801                     {
+    802                     (*rp)++;
+    803                     if(*rp>=6){event_modem=EVM_AT_ERR;return(2);}
+    804                     fl_at_com.tx_en=1;
+   \                     ??at_com_scen_stm_dc_1_9:
+   \   00000054   8104               LDD     R16, Z+4
+   \   00000056   6008               ORI     R16, 0x08
+   \   00000058   8304               STD     Z+4, R16
+    805                     }
+    806                   
+    807                 break;       
+    808                 
+    809           case cATCGATT0:
+    810                     if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+    811                     {
+    812                      (*cnt)++;
+    813                      fl_at_com.tx_en=1; 
+    814                     }
+    815                 break;
+    816                 
+    817            case cATCGATT:
+    818                 if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
+    819                     if((fl_at_com.err==1)||(fl_at_com.tm_out==1))
+    820                     {
+    821                     (*rp)++;
+    822                     //if(*rp>=1){event_modem=EVM_AT_ERR;return(3);}
+    823                     if(*rp>=2){event_modem=EVM_AT_ERR;return(3);}
+    824                     fl_at_com.tx_en=1;
+    825                     }
+    826                 break;              
+    827            }
+    828            
+    829           fl_at_com.ok=0; 
+    830           fl_at_com.tm_out=0;
+    831           fl_at_com.err=0;
+   \                     ??at_com_scen_stm_dc_1_6:
+   \   0000005A   8104               LDD     R16, Z+4
+   \   0000005C   7F08               ANDI    R16, 0xF8
+   \   0000005E   8304               STD     Z+4, R16
+   \   00000060   CFD5               RJMP    ??at_com_scen_stm_dc_1_1
+   \                     ??at_com_scen_stm_dc_1_8:
+   \   00000062   9966               SBIC    0x0C, 0x06
+   \   00000064   C029               RJMP    ??at_com_scen_stm_dc_1_10
+   \                     ??at_com_scen_stm_dc_1_11:
+   \   00000066   E002               LDI     R16, 2
+   \   00000068   9300....           STS     event_modem, R16
+   \   0000006C   E001               LDI     R16, 1
+   \   0000006E   CFCF               RJMP    ??at_com_scen_stm_dc_1_2
+   \                     ??at_com_scen_stm_dc_1_4:
+   \   00000070   8104               LDD     R16, Z+4
+   \   00000072   FD00               SBRC    R16, 0
+   \   00000074   CFF8               RJMP    ??at_com_scen_stm_dc_1_11
+   \   00000076   2344               TST     R20
+   \   00000078   F381               BREQ    ??at_com_scen_stm_dc_1_6
+   \   0000007A   01D9               MOVW    R27:R26, R19:R18
+   \   0000007C   910C               LD      R16, X
+   \   0000007E   9503               INC     R16
+   \   00000080   930C               ST      X, R16
+   \   00000082   910C               LD      R16, X
+   \   00000084   3006               CPI     R16, 6
+   \   00000086   F330               BRCS    ??at_com_scen_stm_dc_1_9
+   \   00000088   E003               LDI     R16, 3
+   \   0000008A   9300....           STS     event_modem, R16
+   \   0000008E   E002               LDI     R16, 2
+   \   00000090   CFBE               RJMP    ??at_com_scen_stm_dc_1_2
+   \                     ??at_com_scen_stm_dc_1_5:
+   \   00000092   2344               TST     R20
+   \   00000094   F311               BREQ    ??at_com_scen_stm_dc_1_6
+   \   00000096   01D8               MOVW    R27:R26, R17:R16
+   \   00000098   910C               LD      R16, X
+   \   0000009A   9503               INC     R16
+   \   0000009C   930C               ST      X, R16
+   \   0000009E   CFDA               RJMP    ??at_com_scen_stm_dc_1_9
+   \                     ??at_com_scen_stm_dc_1_3:
+   \   000000A0   8104               LDD     R16, Z+4
+   \   000000A2   FD00               SBRC    R16, 0
+   \   000000A4   CFE0               RJMP    ??at_com_scen_stm_dc_1_11
+   \   000000A6   2344               TST     R20
+   \   000000A8   F2C1               BREQ    ??at_com_scen_stm_dc_1_6
+   \   000000AA   01D9               MOVW    R27:R26, R19:R18
+   \   000000AC   910C               LD      R16, X
+   \   000000AE   9503               INC     R16
+   \   000000B0   930C               ST      X, R16
+   \   000000B2   910C               LD      R16, X
+   \   000000B4   3002               CPI     R16, 2
+   \   000000B6   F270               BRCS    ??at_com_scen_stm_dc_1_9
+   \                     ??at_com_scen_stm_dc_1_10:
+   \   000000B8   E003               LDI     R16, 3
+   \   000000BA   9300....           STS     event_modem, R16
+   \   000000BE   CFA7               RJMP    ??at_com_scen_stm_dc_1_2
+    832           return(0);
+    833          }
+    834          
+    835          
+    836          
+    837          
+    838          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    839          unsigned char modem_com_init(void)
+   \                     modem_com_init:
+    840          {
+   \   00000000   9722               SBIW    R29:R28, 2
+    841          unsigned char res_return;
+    842          unsigned char cnt_com=0;
+   \   00000002   E000               LDI     R16, 0
+   \   00000004   8308               ST      Y, R16
+    843          unsigned char rep=0;
+   \   00000006   8309               STD     Y+1, R16
+    844          
+    845          init_scen_stm_si();
+   \   00000008   ....               RCALL   init_scen_stm_si
+    846          
+    847          while(1)
+    848               {
+    849               at_com_tx(cnt_com);
+   \                     ??modem_com_init_0:
+   \   0000000A   8108               LD      R16, Y
+   \   0000000C   ....               RCALL   at_com_tx
+    850               at_com_rx(cnt_com);
+   \   0000000E   8108               LD      R16, Y
+   \   00000010   ....               RCALL   at_com_rx
+    851               res_return=at_com_scen_init(&cnt_com,&rep);
+    852                 switch (res_return)
+   \   00000012   019E               MOVW    R19:R18, R29:R28
+   \   00000014   5F2F               SUBI    R18, 255
+   \   00000016   4F3F               SBCI    R19, 255
+   \   00000018   018E               MOVW    R17:R16, R29:R28
+   \   0000001A   ....               RCALL   at_com_scen_init
+   \   0000001C   5001               SUBI    R16, 1
+   \   0000001E   F029               BREQ    ??modem_com_init_1
+   \   00000020   950A               DEC     R16
+   \   00000022   F029               BREQ    ??modem_com_init_2
+   \   00000024   950A               DEC     R16
+   \   00000026   F029               BREQ    ??modem_com_init_3
+   \   00000028   CFF0               RJMP    ??modem_com_init_0
+    853                     {
+    854                     case 1: return(1);//сценарий закончен корректно
+   \                     ??modem_com_init_1:
+   \   0000002A   E001               LDI     R16, 1
+   \   0000002C   C003               RJMP    ??modem_com_init_4
+    855                     case 2: return(2);// неответом на AT комманду
+   \                     ??modem_com_init_2:
+   \   0000002E   E002               LDI     R16, 2
+   \   00000030   C001               RJMP    ??modem_com_init_4
+    856                     case 3: return(3);// неответом на присоединение контекста
+   \                     ??modem_com_init_3:
+   \   00000032   E003               LDI     R16, 3
+   \                     ??modem_com_init_4:
+   \   00000034   9622               ADIW    R29:R28, 2
+   \   00000036   9508               RET
+    857                     }
+    858             
+    859              // if(at_com_scen_init(&cnt_com,&rep)>0) while(1);
+    860               //if (at_com_scen_init(&cnt_com,&rep)==1)return(1);
+    861               } 
+    862          }
+    863          
+    864          
+    865          
+    866          
+    867          
+    868          
+
+   \                                 In segment CODE, align 2, keep-with-next
+    869          void delay_modem_on(void)
+   \                     delay_modem_on:
+    870              {
+   \   00000000   93BA               ST      -Y, R27
+   \   00000002   93AA               ST      -Y, R26
+    871               //  set_rts_232;       
+    872              //   modem_on;
+    873                 flag=0;
+   \   00000004   ....               LDI     R26, LOW(Cnt_modem_on_off)
+   \   00000006   ....               LDI     R27, (Cnt_modem_on_off) >> 8
+   \   00000008   E000               LDI     R16, 0
+   \   0000000A   9611               ADIW    R27:R26, 1
+   \   0000000C   930C               ST      X, R16
+   \   0000000E   9711               SBIW    R27:R26, 1
+    874                 Cnt_modem_on_off=6;
+   \   00000010   E006               LDI     R16, 6
+   \   00000012   930C               ST      X, R16
+    875          
+    876                 while(1)
+    877                  {
+    878                  delay(1);
+   \                     ??delay_modem_on_0:
+   \   00000014   E001               LDI     R16, 1
+   \   00000016   E010               LDI     R17, 0
+   \   00000018   ........           CALL    delay
+    879                  if(flag==1)return;
+   \   0000001C   9611               ADIW    R27:R26, 1
+   \   0000001E   910C               LD      R16, X
+   \   00000020   9711               SBIW    R27:R26, 1
+   \   00000022   3001               CPI     R16, 1
+   \   00000024   F7B9               BRNE    ??delay_modem_on_0
+   \   00000026   91A9               LD      R26, Y+
+   \   00000028   91B9               LD      R27, Y+
+   \   0000002A   9508               RET
+    880                  }
+    881                 
+    882              
+    883              }
+    884              
+
+   \                                 In segment CODE, align 2, keep-with-next
+    885              void delay_modem_off(void)
+   \                     delay_modem_off:
+    886              {     
+   \   00000000   93BA               ST      -Y, R27
+   \   00000002   93AA               ST      -Y, R26
+    887                 //modem_off;
+    888                 flag=0;
+   \   00000004   ....               LDI     R26, LOW(Cnt_modem_on_off)
+   \   00000006   ....               LDI     R27, (Cnt_modem_on_off) >> 8
+   \   00000008   E000               LDI     R16, 0
+   \   0000000A   9611               ADIW    R27:R26, 1
+   \   0000000C   930C               ST      X, R16
+   \   0000000E   9711               SBIW    R27:R26, 1
+    889                 Cnt_modem_on_off=3;
+   \   00000010   E003               LDI     R16, 3
+   \   00000012   930C               ST      X, R16
+    890                 while(1)
+    891                  {
+    892                  delay(1);
+   \                     ??delay_modem_off_0:
+   \   00000014   E001               LDI     R16, 1
+   \   00000016   E010               LDI     R17, 0
+   \   00000018   ........           CALL    delay
+    893                  if(flag==1)return;
+   \   0000001C   9611               ADIW    R27:R26, 1
+   \   0000001E   910C               LD      R16, X
+   \   00000020   9711               SBIW    R27:R26, 1
+   \   00000022   3001               CPI     R16, 1
+   \   00000024   F7B9               BRNE    ??delay_modem_off_0
+   \   00000026   91A9               LD      R26, Y+
+   \   00000028   91B9               LD      R27, Y+
+   \   0000002A   9508               RET
+    894                  }
+    895                 
+    896              
+    897              }
+
+   \                                 In segment NEAR_ID, align 1, keep-with-next
+   \                     `?<Initializer for <Constant "ate0v0">>`:
+   \   00000000   746130653076       DB "ate0v0"
+   \              00          
+   \                     `?<Initializer for <Constant "at+ipr=57600">>`:
+   \   00000007   7461692B7270       DB "at+ipr=57600"
+   \              353D36373030
+   \              00          
+   \                     `?<Initializer for <Constant "at+ipr=115200">>`:
+   \   00000014   7461692B7270       DB "at+ipr=115200"
+   \              313D35313032
+   \              0030        
+   \                     `?<Initializer for <Constant "at+ifc=2,2">>`:
+   \   00000022   7461692B6366       DB "at+ifc=2,2"
+   \              323D322C00  
+   \                     `?<Initializer for <Constant "at&c">>`:
+   \   0000002D   7461632600         DB "at&c"
+   \                     `?<Initializer for <Constant "at&d">>`:
+   \   00000032   7461642600         DB "at&d"
+   \                     `?<Initializer for <Constant "at&w">>`:
+   \   00000037   7461772600         DB "at&w"
+   \                     `?<Initializer for <Constant "at+creg?">>`:
+   \   0000003C   7461632B6572       DB "at+creg?"
+   \              3F6700      
+   \                     `?<Initializer for <Constant "at+cgatt=1">>`:
+   \   00000045   7461632B6167       DB "at+cgatt=1"
+   \              7474313D00  
+   \                     `?<Initializer for <Constant "at+cgdcont=1,">>`:
+   \   00000050   7461632B6467       DB "at+cgdcont=1,"
+   \              6F63746E313D
+   \              002C        
+   \                     `?<Initializer for <Constant "at+creg=0">>`:
+   \   0000005E   7461632B6572       DB "at+creg=0"
+   \              3D670030    
+   \                     `?<Initializer for <Constant "atd*99***1#">>`:
+   \   00000068   74612A643939       DB "atd*99***1#"
+   \              2A2A312A0023
+   \                     `?<Initializer for <Constant "ath">>`:
+   \   00000074   74610068           DB "ath"
+   \                     `?<Initializer for <Constant "at+cgatt=0">>`:
+   \   00000078   7461632B6167       DB "at+cgatt=0"
+   \              7474303D00  
+   \                     `?<Initializer for <Constant "at+cpin=">>`:
+   \   00000083   7461632B6970       DB "at+cpin="
+   \              3D6E00      
+   \                     `?<Initializer for <Constant "+++">>`:
+   \   0000008C   2B2B002B           DB "+++"
+   \                     `?<Initializer for <Constant "at^sgauth=1">>`:
+   \   00000090   7461735E6167       DB "at^sgauth=1"
+   \              74753D680031
+   \                     `?<Initializer for <Constant "at">>`:
+   \   0000009C   746100             DB "at"
+   \                     `?<Initializer for <Constant "ate0">>`:
+   \   0000009F   7461306500         DB "ate0"
+   \                     `?<Initializer for <Constant "atv0">>`:
+   \   000000A4   7461307600         DB "atv0"
+   \                     `?<Initializer for <Constant "at+cgreg?">>`:
+   \   000000A9   7461632B7267       DB "at+cgreg?"
+   \              6765003F    
+   \                     `?<Initializer for <Constant "at+ipr=9600">>`:
+   \   000000B3   7461692B7270       DB "at+ipr=9600"
+   \              393D30360030
+   \                     `?<Initializer for <Constant "at+ipr=19200">>`:
+   \   000000BF   7461692B7270       DB "at+ipr=19200"
+   \              313D32393030
+   \              00          
+
+   \                                 In segment SWITCH, align 2, keep-with-next
+   \                     `?<Jumptable for at_com_tx>_0`:
+   \   00000000   00                 DB      0
+   \   00000001   00                 DB      0
+   \   00000002   ....               DW      (??at_com_tx_0) /2
+   \   00000004   001A               DW      26
+   \   00000006   ....               DW      (??at_com_tx_1) /2
+   \   00000008   ....               DW      (??at_com_tx_3) /2
+   \   0000000A   ....               DW      (??at_com_tx_4) /2
+   \   0000000C   ....               DW      (??at_com_tx_5) /2
+   \   0000000E   ....               DW      (??at_com_tx_6) /2
+   \   00000010   ....               DW      (??at_com_tx_13) /2
+   \   00000012   ....               DW      (??at_com_tx_14) /2
+   \   00000014   ....               DW      (??at_com_tx_15) /2
+   \   00000016   ....               DW      (??at_com_tx_16) /2
+   \   00000018   ....               DW      (??at_com_tx_17) /2
+   \   0000001A   ....               DW      (??at_com_tx_18) /2
+   \   0000001C   ....               DW      (??at_com_tx_19) /2
+   \   0000001E   ....               DW      (??at_com_tx_24) /2
+   \   00000020   ....               DW      (??at_com_tx_25) /2
+   \   00000022   ....               DW      (??at_com_tx_26) /2
+   \   00000024   ....               DW      (??at_com_tx_30) /2
+   \   00000026   ....               DW      (??at_com_tx_34) /2
+   \   00000028   ....               DW      (??at_com_tx_32) /2
+   \   0000002A   ....               DW      (??at_com_tx_37) /2
+   \   0000002C   ....               DW      (??at_com_tx_35) /2
+   \   0000002E   ....               DW      (??at_com_tx_38) /2
+   \   00000030   ....               DW      (??at_com_tx_39) /2
+   \   00000032   ....               DW      (??at_com_tx_32) /2
+   \   00000034   ....               DW      (??at_com_tx_27) /2
+   \   00000036   ....               DW      (??at_com_tx_23) /2
+   \   00000038   ....               DW      (??at_com_tx_35) /2
+
+   \                                 In segment NEAR_I, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_I>`
+   \                     `?<Constant "ate0v0">`:
+   \   00000000                      DS 7
+   \   00000007                      REQUIRE `?<Initializer for <Constant "ate0v0">>`
+   \   00000007                      DS 13
+   \   00000014                      REQUIRE `?<Initializer for <Constant "at+ipr=57600">>`
+   \   00000014                      DS 14
+   \   00000022                      REQUIRE `?<Initializer for <Constant "at+ipr=115200">>`
+   \   00000022                      DS 11
+   \   0000002D                      REQUIRE `?<Initializer for <Constant "at+ifc=2,2">>`
+   \   0000002D                      DS 5
+   \   00000032                      REQUIRE `?<Initializer for <Constant "at&c">>`
+   \   00000032                      DS 5
+   \   00000037                      REQUIRE `?<Initializer for <Constant "at&d">>`
+   \   00000037                      DS 5
+   \   0000003C                      REQUIRE `?<Initializer for <Constant "at&w">>`
+   \   0000003C                      DS 9
+   \   00000045                      REQUIRE `?<Initializer for <Constant "at+creg?">>`
+   \   00000045                      DS 11
+   \   00000050                      REQUIRE `?<Initializer for <Constant "at+cgatt=1">>`
+   \   00000050                      DS 14
+   \   0000005E                      REQUIRE `?<Initializer for <Constant "at+cgdcont=1,">>`
+   \   0000005E                      DS 10
+   \   00000068                      REQUIRE `?<Initializer for <Constant "at+creg=0">>`
+   \   00000068                      DS 12
+   \   00000074                      REQUIRE `?<Initializer for <Constant "atd*99***1#">>`
+   \   00000074                      DS 4
+   \   00000078                      REQUIRE `?<Initializer for <Constant "ath">>`
+   \   00000078                      DS 11
+   \   00000083                      REQUIRE `?<Initializer for <Constant "at+cgatt=0">>`
+   \   00000083                      DS 9
+   \   0000008C                      REQUIRE `?<Initializer for <Constant "at+cpin=">>`
+   \   0000008C                      DS 4
+   \   00000090                      REQUIRE `?<Initializer for <Constant "+++">>`
+   \   00000090                      DS 12
+   \   0000009C                      REQUIRE `?<Initializer for <Constant "at^sgauth=1">>`
+   \   0000009C                      DS 3
+   \   0000009F                      REQUIRE `?<Initializer for <Constant "at">>`
+   \   0000009F                      DS 5
+   \   000000A4                      REQUIRE `?<Initializer for <Constant "ate0">>`
+   \   000000A4                      DS 5
+   \   000000A9                      REQUIRE `?<Initializer for <Constant "atv0">>`
+   \   000000A9                      DS 10
+   \   000000B3                      REQUIRE `?<Initializer for <Constant "at+cgreg?">>`
+   \   000000B3                      DS 12
+   \   000000BF                      REQUIRE `?<Initializer for <Constant "at+ipr=9600">>`
+   \   000000BF                      DS 13
+   \   000000CC                      REQUIRE `?<Initializer for <Constant "at+ipr=19200">>`
+    898              
+    899          
+    900          
+    901          
+
+   Maximum stack usage in bytes:
+
+     Function              CSTACK RSTACK
+     --------              ------ ------
+     at_com_rx                 2      2
+       -> check_rx_ok          2      2
+       -> send_info            2      2
+       -> send_info            2      2
+       -> send_info            2      2
+       -> send_info            2      2
+     at_com_scen_init          0      2
+     at_com_scen_stm_dc_1      0      2
+     at_com_scen_stm_sc        0      2
+     at_com_tx                 6      2
+       -> memset               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> RdFromFleshToArr     6      2
+       -> RdFromFleshToArr     6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> RdFromFleshToArr     6      2
+       -> RdFromFleshToArr     6      2
+       -> strcpy               6      2
+       -> strlen               6      2
+       -> strcpy               6      2
+       -> strcpy               6      2
+       -> strlen               6      2
+     check_rx_ok               0      2
+     delay_modem_off           2      2
+       -> delay                2      2
+     delay_modem_on            2      2
+       -> delay                2      2
+     init_scen_stm_dc_1        0      2
+     init_scen_stm_sc          0      2
+     init_scen_stm_si         10      2
+       -> RdFromFleshToArr    10      2
+       -> RdFromFleshToArr    10      2
+     modem_com_init            2      2
+       -> init_scen_stm_si     2      2
+       -> at_com_tx            2      2
+       -> at_com_rx            2      2
+       -> at_com_scen_init     2      2
+     sending_at_pac            4      2
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     _A_UDR3                           1
+     _A_UDR0                           1
+     _A_UCSR0B                         1
+     _A_PINE                           1
+     _A_PORTC                          1
+     stm_pin1_ok                      62
+     cnt_com                           5
+     At_com                           66
+     Cnt_modem_on_off                  2
+     sending_at_pac                  100
+     at_com_tx                      1108
+     check_rx_ok                      84
+     at_com_rx                       396
+     at_com_scen_init                352
+     init_scen_stm_si                194
+     init_scen_stm_sc                 58
+     at_com_scen_stm_sc              112
+     init_scen_stm_dc_1               70
+     at_com_scen_stm_dc_1            192
+     modem_com_init                   56
+     delay_modem_on                   44
+     delay_modem_off                  44
+     ?<Initializer for <Constant "ate0v0">>
+                                     204
+     ?<Jumptable for at_com_tx>_0     58
+     ?<Constant "ate0v0">            204
+      Others                          14
+
+ 
+     5 bytes in segment ABSOLUTE
+ 2 810 bytes in segment CODE
+    14 bytes in segment INITTAB
+    62 bytes in segment NEAR_F
+   204 bytes in segment NEAR_I
+   204 bytes in segment NEAR_ID
+    73 bytes in segment NEAR_Z
+    58 bytes in segment SWITCH
+ 
+ 3 134 bytes of CODE memory (+ 14 bytes shared)
+   277 bytes of DATA memory (+  5 bytes shared)
+
+Errors: none
+Warnings: 4

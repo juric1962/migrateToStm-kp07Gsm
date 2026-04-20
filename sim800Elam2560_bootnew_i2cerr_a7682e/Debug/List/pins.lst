@@ -1,0 +1,3073 @@
+##############################################################################
+#                                                                            #
+#                                                      24/Oct/2025  13:29:21 #
+# IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version                #
+# Copyright 1996-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\pins.c          #
+#    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\pins.c          #
+#                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a76 #
+#                    82e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_a7 #
+#                    682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cerr_a #
+#                    7682e\Debug\List\ -y --initializers_in_flash -z9        #
+#                    --no_inline --no_tbaa --cross_call_passes=1 --debug -e  #
+#                    -I "E:\box\IAR Systems\Embedded Workbench 4.0           #
+#                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded    #
+#                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size   #
+#                    4096 --dlib_config "E:\box\IAR Systems\Embedded         #
+#                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h"  #
+#    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\pins #
+#                    .lst                                                    #
+#    Object file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\Obj\pins. #
+#                    r90                                                     #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+E:\sim800Elam2560_bootnew_i2cerr_a7682e\pins.c
+      1          #include <iom2560.h> 
+
+   \                                 In segment ABSOLUTE, at 0x136
+   \   union <unnamed> volatile __ext_io _A_UDR3
+   \                     _A_UDR3:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x134
+   \   union <unnamed> volatile __ext_io _A_UBRR3
+   \                     _A_UBRR3:
+   \   00000000                      DS 2
+
+   \                                 In segment ABSOLUTE, at 0x131
+   \   union <unnamed> volatile __ext_io _A_UCSR3B
+   \                     _A_UCSR3B:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x130
+   \   union <unnamed> volatile __ext_io _A_UCSR3A
+   \                     _A_UCSR3A:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x108
+   \   union <unnamed> volatile __ext_io _A_PORTK
+   \                     _A_PORTK:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x107
+   \   union <unnamed> volatile __ext_io _A_DDRK
+   \                     _A_DDRK:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x105
+   \   union <unnamed> volatile __ext_io _A_PORTJ
+   \                     _A_PORTJ:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x104
+   \   union <unnamed> volatile __ext_io _A_DDRJ
+   \                     _A_DDRJ:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x102
+   \   union <unnamed> volatile __ext_io _A_PORTH
+   \                     _A_PORTH:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x101
+   \   union <unnamed> volatile __ext_io _A_DDRH
+   \                     _A_DDRH:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xd6
+   \   union <unnamed> volatile __io _A_UDR2
+   \                     _A_UDR2:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xd4
+   \   union <unnamed> volatile __io _A_UBRR2
+   \                     _A_UBRR2:
+   \   00000000                      DS 2
+
+   \                                 In segment ABSOLUTE, at 0xd1
+   \   union <unnamed> volatile __io _A_UCSR2B
+   \                     _A_UCSR2B:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xd0
+   \   union <unnamed> volatile __io _A_UCSR2A
+   \                     _A_UCSR2A:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xce
+   \   union <unnamed> volatile __io _A_UDR1
+   \                     _A_UDR1:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xcc
+   \   union <unnamed> volatile __io _A_UBRR1
+   \                     _A_UBRR1:
+   \   00000000                      DS 2
+
+   \                                 In segment ABSOLUTE, at 0xc9
+   \   union <unnamed> volatile __io _A_UCSR1B
+   \                     _A_UCSR1B:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xc8
+   \   union <unnamed> volatile __io _A_UCSR1A
+   \                     _A_UCSR1A:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xc6
+   \   union <unnamed> volatile __io _A_UDR0
+   \                     _A_UDR0:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xc4
+   \   union <unnamed> volatile __io _A_UBRR0
+   \                     _A_UBRR0:
+   \   00000000                      DS 2
+
+   \                                 In segment ABSOLUTE, at 0xc1
+   \   union <unnamed> volatile __io _A_UCSR0B
+   \                     _A_UCSR0B:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xc0
+   \   union <unnamed> volatile __io _A_UCSR0A
+   \                     _A_UCSR0A:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xb3
+   \   union <unnamed> volatile __io _A_OCR2A
+   \                     _A_OCR2A:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xb1
+   \   union <unnamed> volatile __io _A_TCCR2B
+   \                     _A_TCCR2B:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0xb0
+   \   union <unnamed> volatile __io _A_TCCR2A
+   \                     _A_TCCR2A:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x98
+   \   union <unnamed> volatile __io _A_OCR3A
+   \                     _A_OCR3A:
+   \   00000000                      DS 2
+
+   \                                 In segment ABSOLUTE, at 0x91
+   \   union <unnamed> volatile __io _A_TCCR3B
+   \                     _A_TCCR3B:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x7c
+   \   union <unnamed> volatile __io _A_ADMUX
+   \                     _A_ADMUX:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x7a
+   \   union <unnamed> volatile __io _A_ADCSRA
+   \                     _A_ADCSRA:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x71
+   \   union <unnamed> volatile __io _A_TIMSK3
+   \                     _A_TIMSK3:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x70
+   \   union <unnamed> volatile __io _A_TIMSK2
+   \                     _A_TIMSK2:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x6e
+   \   union <unnamed> volatile __io _A_TIMSK0
+   \                     _A_TIMSK0:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x6d
+   \   union <unnamed> volatile __io _A_PCMSK2
+   \                     _A_PCMSK2:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x68
+   \   union <unnamed> volatile __io _A_PCICR
+   \                     _A_PCICR:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x47
+   \   union <unnamed> volatile __io _A_OCR0A
+   \                     _A_OCR0A:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x46
+   \   union <unnamed> volatile __io _A_TCNT0
+   \                     _A_TCNT0:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x45
+   \   union <unnamed> volatile __io _A_TCCR0B
+   \                     _A_TCCR0B:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x44
+   \   union <unnamed> volatile __io _A_TCCR0A
+   \                     _A_TCCR0A:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x34
+   \   union <unnamed> volatile __io _A_PORTG
+   \                     _A_PORTG:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x33
+   \   union <unnamed> volatile __io _A_DDRG
+   \                     _A_DDRG:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x2e
+   \   union <unnamed> volatile __io _A_PORTE
+   \                     _A_PORTE:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x2d
+   \   union <unnamed> volatile __io _A_DDRE
+   \                     _A_DDRE:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x2c
+   \   union <unnamed> volatile __io _A_PINE
+   \                     _A_PINE:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x2b
+   \   union <unnamed> volatile __io _A_PORTD
+   \                     _A_PORTD:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x2a
+   \   union <unnamed> volatile __io _A_DDRD
+   \                     _A_DDRD:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x28
+   \   union <unnamed> volatile __io _A_PORTC
+   \                     _A_PORTC:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x27
+   \   union <unnamed> volatile __io _A_DDRC
+   \                     _A_DDRC:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x25
+   \   union <unnamed> volatile __io _A_PORTB
+   \                     _A_PORTB:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x24
+   \   union <unnamed> volatile __io _A_DDRB
+   \                     _A_DDRB:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x22
+   \   union <unnamed> volatile __io _A_PORTA
+   \                     _A_PORTA:
+   \   00000000                      DS 1
+
+   \                                 In segment ABSOLUTE, at 0x21
+   \   union <unnamed> volatile __io _A_DDRA
+   \                     _A_DDRA:
+   \   00000000                      DS 1
+      2          #include "dfpin.h"
+      3          #include "dfproc.h"
+      4          #include <string.h> 
+      5          #include <inavr.h>
+      6          #include "dfcnst.h"
+      7          #include "map_mbus.h"
+      8          #include "ozu_map.h"
+      9          #include "def_at.h"
+     10          #include "map_ad.h"
+     11          
+     12          #pragma location=A_DEBUG 
+
+   \                                 In segment EEPROM_AN, at 0x3
+     13          __eeprom __no_init unsigned char e_debug;
+   \                     e_debug:
+   \   00000000                      DS 1
+     14          
+     15          #pragma location=10
+
+   \                                 In segment EEPROM_AN, at 0xa
+     16          __eeprom __no_init unsigned char baud_port;
+   \                     baud_port:
+   \   00000000                      DS 1
+     17          #pragma location=11
+
+   \                                 In segment EEPROM_AN, at 0xb
+     18          __eeprom __no_init unsigned char stop_port;
+   \                     stop_port:
+   \   00000000                      DS 1
+     19          #pragma location=12
+
+   \                                 In segment EEPROM_AN, at 0xc
+     20          __eeprom __no_init unsigned char pariti_port;
+   \                     pariti_port:
+   \   00000000                      DS 1
+     21          
+     22          void control_temperatura(void);
+     23          extern void long_delay(unsigned long int period);
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     24           char At_buf[10];
+   \                     At_buf:
+   \   00000000                      DS 10
+     25          extern unsigned char Regim;
+     26          extern unsigned char buf_tx_232[VOL_TX_PPP];
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     27          unsigned char point_GSM;
+   \                     point_GSM:
+   \   00000000                      DS 1
+
+   \                                 In segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     28          char cnt_rx1;
+   \                     cnt_rx1:
+   \   00000000                      DS 1
+     29          void lock_it(void);
+     30          void s_port( unsigned char vv);
+     31          extern struct
+     32          {
+     33          char buf[LN_BUF_AT];
+     34          unsigned char cnt_tx;
+     35          unsigned char cnt_rx;
+     36          unsigned char ln_buf;
+     37          unsigned char list_com[VOL_LIST];// перечень исполняемых команд
+     38          unsigned char ln_list;//длина перечня
+     39          unsigned char cnt_com;//счетчик команд
+     40          unsigned int cnt_tm_out; //счетчик времени ожидания ответа
+     41          unsigned int vol_tm_out; //предел времени ожидания ответа
+     42          unsigned int cnt_rx_out; //счетчик межбайтовый промежуток
+     43          unsigned int vol_rx_out; //предел межбайтового промежутка
+     44          }At_com;
+     45          
+     46          
+     47          extern struct
+     48          {
+     49          unsigned char ok :1;//требуемый ответ
+     50          unsigned char err :1;//ошибочный, нетребуемый ответ
+     51          unsigned char tm_out :1;//отсутствие ответа
+     52          unsigned char tx_en :1;//послать комманду
+     53          unsigned char rx_en :1;//принимать ответы
+     54          unsigned char rx_rec :1;//принят ответ
+     55          unsigned char greg_ereg :1;//пакетник GPRS or LTE
+     56          //unsigned char tm_out_en:1;//разрешение анализа по превышению времени ожидания ответа
+     57          }
+     58          fl_at_com;
+     59          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     60          void init_pins_hiz_to_out(void)
+   \                     init_pins_hiz_to_out:
+     61          {
+     62            //Конфигурирование ног порта №0 RS232-1
+     63            PIN_OUT_PORT0;
+   \   00000000   ....               RCALL   ?Subroutine3
+     64            PIN_IN_PORT0;
+     65            SET_DTR0;
+     66            SET_RTS0;
+     67            
+     68            UCSR0B=UCSR0B | RXEN;
+   \                     ??CrossCallReturnLabel_0:
+   \   00000002   ....               RCALL   ?Subroutine1
+     69            UCSR0B=UCSR0B | TXEN; 
+     70            UCSR0B=UCSR0B | RXCIE;
+     71            UCSR0A=UCSR0A | TXC;
+   \                     ??CrossCallReturnLabel_113:
+   \   00000004   ....               RCALL   ?Subroutine13
+   \                     ??CrossCallReturnLabel_12:
+   \   00000006   6400               ORI     R16, 0x40
+   \   00000008                      REQUIRE ?Subroutine52
+   \   00000008                      ;               // Fall through to label ?Subroutine52
+     72            
+     73            
+     74          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine52:
+   \   00000000   930000C0           STS     192, R16
+   \   00000004   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine3:
+   \   00000000   B10D               IN      R16, 0x0D
+   \   00000002   600C               ORI     R16, 0x0C
+   \   00000004   B90D               OUT     0x0D, R16
+   \   00000006   B10E               IN      R16, 0x0E
+   \   00000008   6F00               ORI     R16, 0xF0
+   \   0000000A   B90E               OUT     0x0E, R16
+   \   0000000C   9873               CBI     0x0E, 0x03
+   \   0000000E   9872               CBI     0x0E, 0x02
+   \   00000010   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine1:
+   \   00000000   910000C1           LDS     R16, 193
+   \   00000004   6100               ORI     R16, 0x10
+   \   00000006   930000C1           STS     193, R16
+   \   0000000A   910000C1           LDS     R16, 193
+   \   0000000E   6008               ORI     R16, 0x08
+   \   00000010   930000C1           STS     193, R16
+   \   00000014   910000C1           LDS     R16, 193
+   \   00000018   6800               ORI     R16, 0x80
+   \   0000001A                      REQUIRE ?Subroutine55
+   \   0000001A                      ;               // Fall through to label ?Subroutine55
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine55:
+   \   00000000   930000C1           STS     193, R16
+   \   00000004   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine13:
+   \   00000000   910000C0           LDS     R16, 192
+   \   00000004   9508               RET
+     75          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     76          void init_pins_out_to_hiz(void)
+   \                     init_pins_out_to_hiz:
+     77          {
+     78            //Конфигурирование ног порта №0 RS232-1
+     79          
+     80           
+     81            PIN_HIZ_PORT0;
+   \   00000000   B10D               IN      R16, 0x0D
+   \   00000002   7F03               ANDI    R16, 0xF3
+   \   00000004   B90D               OUT     0x0D, R16
+     82           
+     83            UCSR0B=UCSR0B & ~RXEN;
+   \   00000006   910000C1           LDS     R16, 193
+   \   0000000A   7E0F               ANDI    R16, 0xEF
+   \   0000000C   ....               RCALL   ?Subroutine12
+     84            UCSR0B=UCSR0B & ~TXEN; 
+   \                     ??CrossCallReturnLabel_10:
+   \   0000000E   7F07               ANDI    R16, 0xF7
+   \   00000010   ....               RCALL   ?Subroutine12
+     85            UCSR0B=UCSR0B & ~RXCIE;
+   \                     ??CrossCallReturnLabel_11:
+   \   00000012   770F               ANDI    R16, 0x7F
+   \   00000014   930000C1           STS     193, R16
+     86            UCSR0A=UCSR0A & ~TXC;
+   \   00000018   ....               RCALL   ?Subroutine13
+   \                     ??CrossCallReturnLabel_13:
+   \   0000001A   7B0F               ANDI    R16, 0xBF
+   \   0000001C   ....               RJMP    ?Subroutine52
+     87            
+     88          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine12:
+   \   00000000   930000C1           STS     193, R16
+   \   00000004   910000C1           LDS     R16, 193
+   \   00000008   9508               RET
+     89          
+     90          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     91          void init_pins_ts_mod(void)
+   \                     init_pins_ts_mod:
+     92          {
+     93            PIN_IN_TS1_8;
+   \   00000000   91000107           LDS     R16, 263
+   \   00000004   720B               ANDI    R16, 0x2B
+   \   00000006   93000107           STS     263, R16
+   \   0000000A   B101               IN      R16, 0x01
+   \   0000000C   7F08               ANDI    R16, 0xF8
+   \   0000000E   ....               RCALL   ?Subroutine11
+   \                     ??CrossCallReturnLabel_8:
+   \   00000010   6D04               ORI     R16, 0xD4
+   \   00000012   93000108           STS     264, R16
+   \   00000016   B102               IN      R16, 0x02
+   \   00000018   6007               ORI     R16, 0x07
+   \   0000001A                      REQUIRE ?Subroutine17
+   \   0000001A                      ;               // Fall through to label ?Subroutine17
+     94          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine17:
+   \   00000000   B902               OUT     0x02, R16
+   \   00000002   91000105           LDS     R16, 261
+   \   00000006   6800               ORI     R16, 0x80
+   \   00000008   ....               RJMP    ?Subroutine53
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine11:
+   \   00000000   B901               OUT     0x01, R16
+   \   00000002   91000104           LDS     R16, 260
+   \   00000006   770F               ANDI    R16, 0x7F
+   \   00000008   93000104           STS     260, R16
+   \   0000000C   91000108           LDS     R16, 264
+   \   00000010   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine53:
+   \   00000000   93000105           STS     261, R16
+   \   00000004   9508               RET
+     95          
+     96          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+     97          void init_pins_mkd_mod(void)
+   \                     init_pins_mkd_mod:
+     98          {
+     99          PIN_IN_MKD1_5;
+   \   00000000   91000107           LDS     R16, 263
+   \   00000004   7E0B               ANDI    R16, 0xEB
+   \   00000006   93000107           STS     263, R16
+   \   0000000A   B101               IN      R16, 0x01
+   \   0000000C   7F0A               ANDI    R16, 0xFA
+   \   0000000E   ....               RCALL   ?Subroutine11
+   \                     ??CrossCallReturnLabel_9:
+   \   00000010   6104               ORI     R16, 0x14
+   \   00000012   93000108           STS     264, R16
+   \   00000016   B102               IN      R16, 0x02
+   \   00000018   6005               ORI     R16, 0x05
+   \   0000001A   ....               RCALL   ?Subroutine17
+    100          PIN_OUT_MKD;
+   \                     ??CrossCallReturnLabel_93:
+   \   0000001C   91000107           LDS     R16, 263
+   \   00000020   6400               ORI     R16, 0x40
+   \   00000022   93000107           STS     263, R16
+   \   00000026   9A09               SBI     0x01, 0x01
+    101          }
+   \   00000028   9508               RET
+    102          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    103          void init_pins(void)
+   \                     init_pins:
+    104          {
+    105            /*
+    106            //Конфигурирование ног порта №0 RS232-1
+    107            PIN_OUT_PORT0;
+    108            PIN_IN_PORT0;
+    109            SET_DTR0;
+    110            SET_RTS0;
+    111            */
+    112            
+    113            //Конфигурирование ног порта №1 RS485-1
+    114            PIN_OUT_PORT1;
+   \   00000000   ....               RCALL   ?Subroutine20
+   \                     ??CrossCallReturnLabel_27:
+   \   00000002   6004               ORI     R16, 0x04
+   \   00000004   ....               RCALL   ?Subroutine21
+    115            CLR_RTS1;
+   \                     ??CrossCallReturnLabel_31:
+   \   00000006   ....               RCALL   ?Subroutine15
+    116              
+    117            //Конфигурирование ног порта №2 RS232-2
+    118            PIN_OUT_PORT2;
+   \                     ??CrossCallReturnLabel_98:
+   \   00000008   91000101           LDS     R16, 257
+   \   0000000C   6004               ORI     R16, 0x04
+   \   0000000E   93000101           STS     257, R16
+    119            PIN_IN_PORT2;
+   \   00000012   9A29               SBI     0x05, 0x01
+    120            CLR_RTS2;
+   \   00000014   ....               RCALL   ?Subroutine16
+    121            
+    122            //Конфигурирование ног порта №3 RS485-2
+    123            PIN_OUT_PORT3;
+   \                     ??CrossCallReturnLabel_18:
+   \   00000016   9A54               SBI     0x0A, 0x04
+    124            CLR_RTS3;
+   \   00000018   985C               CBI     0x0B, 0x04
+    125          
+    126            // конфигурирование ног управления SIM
+    127            PIN_OUT_SIM;
+   \   0000001A   ....               RCALL   ?Subroutine20
+   \                     ??CrossCallReturnLabel_28:
+   \   0000001C   6300               ORI     R16, 0x30
+   \   0000001E   ....               RCALL   ?Subroutine21
+    128            SET_SIM1;
+   \                     ??CrossCallReturnLabel_32:
+   \   00000020   ....               RCALL   ?Subroutine6
+    129           
+    130            // конфигурирование ноги включения питания модема
+    131            PIN_OUT_PWR;
+   \                     ??CrossCallReturnLabel_90:
+   \   00000022   ....               RCALL   ?Subroutine20
+   \                     ??CrossCallReturnLabel_29:
+   \   00000024   6400               ORI     R16, 0x40
+   \   00000026   ....               RCALL   ?Subroutine21
+    132            CLR_PWR;
+   \                     ??CrossCallReturnLabel_33:
+   \   00000028   ....               RCALL   ?Subroutine18
+    133            
+    134            // конфигурирование ноги включение модема
+    135            PIN_OUT_PWRK;
+   \                     ??CrossCallReturnLabel_101:
+   \   0000002A   9A24               SBI     0x04, 0x04
+    136            SET_PWRK;
+   \   0000002C   9A2C               SBI     0x05, 0x04
+    137             
+    138             // конфигурирование ног ТС
+    139            PIN_IN_TC1
+   \   0000002E   9AA2               SBI     0x14, 0x02
+    140            PIN_IN_TC2
+   \   00000030   9A17               SBI     0x02, 0x07
+    141            
+    142            
+    143              
+    144           // PIN_IN_TS1_8;
+    145            PIN_OUT_TU;  
+   \   00000032   B101               IN      R16, 0x01
+   \   00000034   6108               ORI     R16, 0x18
+   \   00000036   B901               OUT     0x01, R16
+    146              
+    147              
+    148            // конфигурирование ноги TEN  
+    149            PIN_OUT_TEN;
+   \   00000038   ....               RCALL   ?Subroutine20
+   \                     ??CrossCallReturnLabel_30:
+   \   0000003A   6008               ORI     R16, 0x08
+   \   0000003C   ....               RCALL   ?Subroutine21
+    150            CLR_TEN;
+   \                     ??CrossCallReturnLabel_34:
+   \   0000003E   ....               RCALL   ??Subroutine19_0
+   \                     ??CrossCallReturnLabel_23:
+   \   00000040   7F07               ANDI    R16, 0xF7
+   \   00000042   ....               RCALL   ?Subroutine53
+    151          
+    152            // конфигурация ног светодиодов
+    153             PIN_OUT_S1;
+   \                     ??CrossCallReturnLabel_94:
+   \   00000044   B303               IN      R16, 0x13
+   \   00000046   6003               ORI     R16, 0x03
+   \   00000048   BB03               OUT     0x13, R16
+    154             PIN_OUT_S2_S5;
+   \   0000004A   B107               IN      R16, 0x07
+   \   0000004C   EF0F               LDI     R16, 255
+   \   0000004E   B907               OUT     0x07, R16
+    155             S1_OFF;
+   \   00000050   98A0               CBI     0x14, 0x00
+   \   00000052   ....               RJMP    ??Subroutine23_0
+    156             S2_OFF;
+    157             S3_OFF;
+    158             S4_OFF;
+    159             S5_OFF;
+    160          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine21:
+   \   00000000   93000104           STS     260, R16
+   \   00000004   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine20:
+   \   00000000   91000104           LDS     R16, 260
+   \   00000004   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine16:
+   \   00000000   91000102           LDS     R16, 258
+   \   00000004   6004               ORI     R16, 0x04
+   \   00000006   93000102           STS     258, R16
+   \   0000000A   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine19:
+   \   00000000   93000105           STS     261, R16
+   \                     ??Subroutine19_0:
+   \   00000004   91000105           LDS     R16, 261
+   \   00000008   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine18:
+   \   00000000   91000105           LDS     R16, 261
+   \   00000004   7B0F               ANDI    R16, 0xBF
+   \   00000006                      REQUIRE ?Subroutine53
+   \   00000006                      ;               // Fall through to label ?Subroutine53
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine6:
+   \   00000000   91000105           LDS     R16, 261
+   \   00000004   7E0F               ANDI    R16, 0xEF
+   \   00000006   93000105           STS     261, R16
+   \   0000000A   91000105           LDS     R16, 261
+   \   0000000E   6200               ORI     R16, 0x20
+   \   00000010   ....               RJMP    ?Subroutine53
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine23:
+   \   00000000   9AA0               SBI     0x14, 0x00
+   \                     ??Subroutine23_0:
+   \   00000002   98A1               CBI     0x14, 0x01
+   \   00000004   9840               CBI     0x08, 0x00
+   \   00000006   9841               CBI     0x08, 0x01
+   \   00000008   9844               CBI     0x08, 0x04
+   \   0000000A   9845               CBI     0x08, 0x05
+   \   0000000C   9842               CBI     0x08, 0x02
+   \   0000000E   9843               CBI     0x08, 0x03
+   \   00000010   9846               CBI     0x08, 0x06
+   \   00000012   9847               CBI     0x08, 0x07
+   \   00000014   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine15:
+   \   00000000   91000105           LDS     R16, 261
+   \   00000004   7F0B               ANDI    R16, 0xFB
+   \   00000006   ....               RJMP    ?Subroutine53
+    161          
+    162          
+    163          
+    164          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    165          void init_proc_state(void)
+   \                     init_proc_state:
+    166          {
+    167            // Инициализация порта №0
+    168            
+    169            UCSR0B=0;
+   \   00000000   ....               RCALL   ?Subroutine8
+    170           // UBRR0H=R9600_H;
+    171           // UBRR0L=R9600_L;  
+    172            
+    173             // A7682
+    174           UBRR0H=R115200_H;
+    175           UBRR0L=R115200_L;
+    176           
+    177          /*
+    178            UCSR0B=UCSR0B | RXEN;
+    179            UCSR0B=UCSR0B | TXEN; 
+    180            UCSR0B=UCSR0B | RXCIE;
+    181            UCSR0A=UCSR0A | TXC;
+    182           */
+    183             
+    184            // Инициализация порта №1
+    185            UCSR1B=0;
+    186            UCSR1B=UCSR1B | TXEN;
+   \                     ??CrossCallReturnLabel_105:
+   \   00000002   ....               RCALL   ?Subroutine28
+    187            
+    188            // Инициализация порта №2 RS-232 №2
+    189            UCSR2B=0;
+   \                     ??CrossCallReturnLabel_107:
+   \   00000004   E000               LDI     R16, 0
+   \   00000006   930000D1           STS     209, R16
+    190            CLR_RTS2;
+   \   0000000A   ....               RCALL   ?Subroutine16
+    191             UBRR2H=R9600_H;
+   \                     ??CrossCallReturnLabel_19:
+   \   0000000C   E000               LDI     R16, 0
+   \   0000000E   930000D5           STS     213, R16
+    192             UBRR2L=R9600_L; 
+   \   00000012   E607               LDI     R16, 103
+   \   00000014   930000D4           STS     212, R16
+    193            UCSR2B=UCSR2B | TXEN;
+   \   00000018   ....               RCALL   ?Subroutine10
+    194            
+    195            // Инициализация порта №3
+    196            UCSR3B=0;
+    197            UCSR3B=UCSR3B | TXEN;
+   \                     ??CrossCallReturnLabel_115:
+   \   0000001A   ....               RCALL   ?Subroutine29
+    198            
+    199           //таймер 0 
+    200           OCR0A=85;// 340mks
+   \                     ??CrossCallReturnLabel_117:
+   \   0000001C   E505               LDI     R16, 85
+   \   0000001E   BD07               OUT     0x27, R16
+    201           TCCR0A=0x02;
+   \   00000020   E002               LDI     R16, 2
+   \   00000022   BD04               OUT     0x24, R16
+    202           TCCR0B=0x03; //прескалер 64
+   \   00000024   E003               LDI     R16, 3
+   \   00000026   BD05               OUT     0x25, R16
+    203           TCNT0=0;
+   \   00000028   E000               LDI     R16, 0
+   \   0000002A   BD06               OUT     0x26, R16
+    204           TIMSK0=TIMSK0 | 0x02;
+   \   0000002C   9100006E           LDS     R16, 110
+   \   00000030   6002               ORI     R16, 0x02
+   \   00000032   9300006E           STS     110, R16
+    205            
+    206              //таймер2 
+    207            OCR2A=64;           //1,024 мсек
+   \   00000036   E400               LDI     R16, 64
+   \   00000038   930000B3           STS     179, R16
+    208            TCCR2A=0x02;
+   \   0000003C   E002               LDI     R16, 2
+   \   0000003E   930000B0           STS     176, R16
+    209            TCCR2B=0x06;  //прескалер 256
+   \   00000042   E006               LDI     R16, 6
+   \   00000044   930000B1           STS     177, R16
+    210            TIMSK2=TIMSK2 | 0x02;  
+   \   00000048   91000070           LDS     R16, 112
+   \   0000004C   6002               ORI     R16, 0x02
+   \   0000004E   93000070           STS     112, R16
+    211           
+    212           //таймер 3`
+    213            OCR3AH=0x3d; //15625
+   \   00000052   E30D               LDI     R16, 61
+   \   00000054   93000099           STS     153, R16
+    214            OCR3AL=0x09; 
+   \   00000058   E009               LDI     R16, 9
+   \   0000005A   93000098           STS     152, R16
+    215            TCCR3B=0x0d;       //преск 1024            // 1 сек
+   \   0000005E   E00D               LDI     R16, 13
+   \   00000060   93000091           STS     145, R16
+    216            TIMSK3=TIMSK3 | 0x02;  
+   \   00000064   91000071           LDS     R16, 113
+   \   00000068   6002               ORI     R16, 0x02
+   \   0000006A   93000071           STS     113, R16
+    217          
+    218            SCL_OUT;// i2C
+   \   0000006E   9A50               SBI     0x0A, 0x00
+    219            
+    220            ADCSRA=0xcf;
+   \   00000070   EC0F               LDI     R16, 207
+   \   00000072   9300007A           STS     122, R16
+    221            ADMUX=0x40;
+   \   00000076   E400               LDI     R16, 64
+   \   00000078   9300007C           STS     124, R16
+    222            
+    223            
+    224            PCMSK2=0x80;
+   \   0000007C   E800               LDI     R16, 128
+   \   0000007E   9300006D           STS     109, R16
+    225            PCICR=0x04;
+   \   00000082   E004               LDI     R16, 4
+   \   00000084   93000068           STS     104, R16
+    226            
+    227          }
+   \   00000088   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine8:
+   \   00000000   E000               LDI     R16, 0
+   \   00000002   930000C1           STS     193, R16
+   \   00000006   930000C5           STS     197, R16
+   \   0000000A   E008               LDI     R16, 8
+   \   0000000C   930000C4           STS     196, R16
+   \   00000010   E000               LDI     R16, 0
+   \   00000012                      REQUIRE ?Subroutine54
+   \   00000012                      ;               // Fall through to label ?Subroutine54
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine54:
+   \   00000000   930000C9           STS     201, R16
+   \   00000004   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine29:
+   \   00000000   91000131           LDS     R16, 305
+   \   00000004   6008               ORI     R16, 0x08
+   \   00000006                      REQUIRE ?Subroutine56
+   \   00000006                      ;               // Fall through to label ?Subroutine56
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine56:
+   \   00000000   93000131           STS     305, R16
+   \   00000004   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine28:
+   \   00000000   910000C9           LDS     R16, 201
+   \   00000004   6008               ORI     R16, 0x08
+   \   00000006   ....               RJMP    ?Subroutine54
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine10:
+   \   00000000   910000D1           LDS     R16, 209
+   \   00000004   6008               ORI     R16, 0x08
+   \   00000006   930000D1           STS     209, R16
+   \   0000000A   E000               LDI     R16, 0
+   \   0000000C   ....               RJMP    ?Subroutine56
+    228          
+    229          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    230          void init_modem_only(void)
+   \                     init_modem_only:
+    231          {
+    232            // Инициализация порта №0
+    233           
+    234            
+    235            UCSR0B=0;
+   \   00000000   ....               RCALL   ?Subroutine8
+    236           // UBRR0H=R9600_H;
+    237           // UBRR0L=R9600_L; 
+    238            
+    239           UBRR0H=R115200_H;
+    240           UBRR0L=R115200_L;
+    241            
+    242           
+    243          
+    244            // Инициализация порта №1
+    245            UCSR1B=0;
+    246          
+    247            // Инициализация порта №2
+    248            SET_RTS2;
+   \                     ??CrossCallReturnLabel_106:
+   \   00000002   ....               RCALL   ?Subroutine14
+    249            UCSR2B=0;
+    250            UBRR2H=R9600_H;
+    251            UBRR2L=R9600_L;  
+    252            //UBRR2H=R115200_H;
+    253           // UBRR2L=R115200_L;
+    254            UCSR2B=UCSR2B | RXEN;
+   \                     ??CrossCallReturnLabel_16:
+   \   00000004   910000D1           LDS     R16, 209
+   \   00000008   6100               ORI     R16, 0x10
+   \   0000000A   ....               RCALL   ?Subroutine30
+    255            UCSR2B=UCSR2B | TXEN;
+   \                     ??CrossCallReturnLabel_41:
+   \   0000000C   6008               ORI     R16, 0x08
+   \   0000000E   ....               RCALL   ?Subroutine30
+    256            UCSR2B=UCSR2B | RXCIE;
+   \                     ??CrossCallReturnLabel_42:
+   \   00000010   6800               ORI     R16, 0x80
+   \   00000012   930000D1           STS     209, R16
+    257            // Инициализация порта №3
+    258            
+    259            UCSR3B=0;
+   \   00000016   E000               LDI     R16, 0
+   \   00000018   93000131           STS     305, R16
+    260             
+    261            
+    262             if(Regim==MODEM_ONLY_R){SET_SIM2;}else {SET_SIM1;} //dobavka
+   \   0000001C   9100....           LDS     R16, Regim
+   \   00000020   3003               CPI     R16, 3
+   \   00000022   ....               RCALL   ??Subroutine19_0
+   \                     ??CrossCallReturnLabel_24:
+   \   00000024   F421               BRNE    ??init_modem_only_0
+   \   00000026   7D0F               ANDI    R16, 0xDF
+   \   00000028   ....               RCALL   ?Subroutine19
+   \                     ??CrossCallReturnLabel_21:
+   \   0000002A   6100               ORI     R16, 0x10
+   \   0000002C   C003               RJMP    ??init_modem_only_1
+   \                     ??init_modem_only_0:
+   \   0000002E   7E0F               ANDI    R16, 0xEF
+   \   00000030   ....               RCALL   ?Subroutine19
+   \                     ??CrossCallReturnLabel_22:
+   \   00000032   6200               ORI     R16, 0x20
+   \                     ??init_modem_only_1:
+   \   00000034   ....               RCALL   ?Subroutine53
+    263             
+    264            
+    265            
+    266           //////////////////////////////////////////////////////////
+    267             PIN_OUT_PORT0;
+   \                     ??CrossCallReturnLabel_95:
+   \   00000036   ....               RCALL   ?Subroutine3
+    268            PIN_IN_PORT0;
+    269            
+    270            
+    271            SET_DTR0;
+    272            SET_RTS0;
+    273             
+    274             CLR_PWRK;
+   \                     ??CrossCallReturnLabel_1:
+   \   00000038   982C               CBI     0x05, 0x04
+    275             SET_PWR;  
+   \   0000003A   ....               RCALL   ?Subroutine7
+    276             
+    277             __watchdog_reset();
+    278             long_delay(10000000);//
+    279             
+    280             
+    281             SET_PWRK;
+    282             S3_RD;
+   \                     ??CrossCallReturnLabel_4:
+   \   0000003C   9A44               SBI     0x08, 0x04
+   \   0000003E   9845               CBI     0x08, 0x05
+    283             __watchdog_reset();
+   \   00000040   ....               RCALL   ?Subroutine33
+    284             long_delay(10000000);//>3 sek
+    285             
+    286             CLR_PWRK;
+    287             S3_GR;
+   \                     ??CrossCallReturnLabel_46:
+   \   00000042   9844               CBI     0x08, 0x04
+   \   00000044   9A45               SBI     0x08, 0x05
+    288            
+    289             
+    290           __watchdog_reset();
+   \   00000046   95A8               WDR
+    291             long_delay(10000000);//>3 sek
+   \   00000048   ....               RCALL   ?Subroutine34
+    292            long_delay(10000000);//>3 sek
+   \                     ??CrossCallReturnLabel_123:
+   \   0000004A   ....               RCALL   ?Subroutine34
+    293            
+    294            
+    295            
+    296            
+    297            
+    298            UCSR0B=UCSR0B | TXEN;
+   \                     ??CrossCallReturnLabel_122:
+   \   0000004C   ....               RCALL   ?Subroutine2
+    299            UCSR0B=UCSR0B | RXEN;
+    300            UCSR0B=UCSR0B & ~TXCIE;
+    301              
+    302            UDR0='A';
+   \                     ??CrossCallReturnLabel_111:
+   \   0000004E   E401               LDI     R16, 65
+   \   00000050   ....               RCALL   ??Subroutine36_0
+    303             
+    304             
+    305             
+    306             
+    307             
+    308             
+    309             
+    310             
+    311            if(Regim==MODEM_ONLY_R){S1_RD;}else {S1_GR;} //dobavka 
+   \                     ??CrossCallReturnLabel_50:
+   \   00000052   9100....           LDS     R16, Regim
+   \   00000056   3003               CPI     R16, 3
+   \   00000058   F419               BRNE    ??init_modem_only_2
+   \   0000005A   9AA0               SBI     0x14, 0x00
+   \   0000005C   98A1               CBI     0x14, 0x01
+   \   0000005E   C002               RJMP    ??init_modem_only_3
+   \                     ??init_modem_only_2:
+   \   00000060   98A0               CBI     0x14, 0x00
+   \   00000062   9AA1               SBI     0x14, 0x01
+    312            
+    313            
+    314            
+    315            UCSR0B=UCSR0B | RXEN;
+   \                     ??init_modem_only_3:
+   \   00000064   ....               RCALL   ?Subroutine1
+    316            UCSR0B=UCSR0B | TXEN; 
+    317            UCSR0B=UCSR0B | RXCIE;
+    318           // UCSR0A=UCSR0A | TXC;
+    319            
+    320            S3_RD; 
+   \                     ??CrossCallReturnLabel_114:
+   \   00000066   9A44               SBI     0x08, 0x04
+   \   00000068   9845               CBI     0x08, 0x05
+    321            S4_RD;
+   \   0000006A   9A42               SBI     0x08, 0x02
+   \   0000006C   9843               CBI     0x08, 0x03
+    322            S5_GR;
+   \   0000006E   9846               CBI     0x08, 0x06
+   \   00000070   9A47               SBI     0x08, 0x07
+    323            
+    324          
+    325            
+    326            __enable_interrupt();
+   \   00000072   9478               SEI
+    327               while(1){ __watchdog_reset();control_temperatura();}
+   \                     ??init_modem_only_4:
+   \   00000074   95A8               WDR
+   \   00000076   ........           CALL    control_temperatura
+   \   0000007A   CFFC               RJMP    ??init_modem_only_4
+    328          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine30:
+   \   00000000   930000D1           STS     209, R16
+   \   00000004   910000D1           LDS     R16, 209
+   \   00000008   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine34:
+   \   00000000   E800               LDI     R16, 128
+   \   00000002   E916               LDI     R17, 150
+   \   00000004   E928               LDI     R18, 152
+   \   00000006   ....               RJMP    ??Subroutine57_0
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine57:
+   \   00000000   E400               LDI     R16, 64
+   \   00000002   E412               LDI     R17, 66
+   \   00000004   E02F               LDI     R18, 15
+   \                     ??Subroutine57_0:
+   \   00000006   E030               LDI     R19, 0
+   \                     ??Subroutine57_1:
+   \   00000008   ........           JMP     long_delay
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine2:
+   \   00000000   910000C1           LDS     R16, 193
+   \   00000004   6008               ORI     R16, 0x08
+   \   00000006   930000C1           STS     193, R16
+   \   0000000A   910000C1           LDS     R16, 193
+   \   0000000E   6100               ORI     R16, 0x10
+   \   00000010   930000C1           STS     193, R16
+   \   00000014   910000C1           LDS     R16, 193
+   \   00000018   7B0F               ANDI    R16, 0xBF
+   \   0000001A   ....               RJMP    ?Subroutine55
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine36:
+   \   00000000   910000D6           LDS     R16, 214
+   \                     ??Subroutine36_0:
+   \   00000004   930000C6           STS     198, R16
+   \   00000008   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine33:
+   \   00000000   95A8               WDR
+   \   00000002   E800               LDI     R16, 128
+   \   00000004   E916               LDI     R17, 150
+   \   00000006   E928               LDI     R18, 152
+   \   00000008   E030               LDI     R19, 0
+   \   0000000A   ........           CALL    long_delay
+   \   0000000E   982C               CBI     0x05, 0x04
+   \   00000010   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine7:
+   \   00000000   91000105           LDS     R16, 261
+   \   00000004   6400               ORI     R16, 0x40
+   \   00000006   93000105           STS     261, R16
+   \   0000000A   95A8               WDR
+   \   0000000C   E800               LDI     R16, 128
+   \   0000000E   E916               LDI     R17, 150
+   \   00000010   E928               LDI     R18, 152
+   \   00000012   E030               LDI     R19, 0
+   \   00000014   ........           CALL    long_delay
+   \   00000018   9A2C               SBI     0x05, 0x04
+   \   0000001A   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine14:
+   \   00000000   91000102           LDS     R16, 258
+   \   00000004   7F0B               ANDI    R16, 0xFB
+   \   00000006   93000102           STS     258, R16
+   \   0000000A   E000               LDI     R16, 0
+   \   0000000C   930000D1           STS     209, R16
+   \   00000010   930000D5           STS     213, R16
+   \   00000014   E607               LDI     R16, 103
+   \   00000016   930000D4           STS     212, R16
+   \   0000001A   9508               RET
+    329          
+    330          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    331          void long_delay_wait_answer(unsigned long int period)
+   \                     long_delay_wait_answer:
+    332          {
+   \   00000000   939A               ST      -Y, R25
+   \   00000002   938A               ST      -Y, R24
+    333            char i;
+    334            bad1:
+    335                if ( UCSR0A & 0x80) {
+   \                     ??long_delay_wait_answer_0:
+   \   00000004   914000C0           LDS     R20, 192
+   \   00000008   FF47               SBRS    R20, 7
+   \   0000000A   C014               RJMP    ??long_delay_wait_answer_1
+    336                  // накапливаем данные с порта UDR0 в массив
+    337                     At_com.cnt_rx_out=100;
+   \   0000000C   E644               LDI     R20, 100
+   \   0000000E   E050               LDI     R21, 0
+   \   00000010   ....               LDI     R30, LOW((At_com + 65))
+   \   00000012   ....               LDI     R31, HIGH((At_com + 65))
+   \   00000014   8340               ST      Z, R20
+   \   00000016   8351               STD     Z+1, R21
+    338                      
+    339                              if(cnt_rx1 < 100)
+   \   00000018   9140....           LDS     R20, cnt_rx1
+   \   0000001C   3644               CPI     R20, 100
+   \   0000001E   F450               BRCC    ??long_delay_wait_answer_1
+    340                                    {
+    341                                     buf_tx_232[cnt_rx1]=UDR0;
+   \   00000020   916000C6           LDS     R22, 198
+   \   00000024   01FA               MOVW    R31:R30, R21:R20
+   \   00000026   ....               RCALL   ??Subroutine39_0
+   \                     ??CrossCallReturnLabel_62:
+   \   00000028   8360               ST      Z, R22
+    342                                     cnt_rx1++;
+   \   0000002A   ....               LDI     R30, LOW(cnt_rx1)
+   \   0000002C   ....               LDI     R31, (cnt_rx1) >> 8
+   \   0000002E   8140               LD      R20, Z
+   \   00000030   9543               INC     R20
+   \   00000032   8340               ST      Z, R20
+    343                                     }
+    344                }
+    345             
+    346                
+    347            period--;
+   \                     ??long_delay_wait_answer_1:
+   \   00000034   5001               SUBI    R16, 1
+   \   00000036   4010               SBCI    R17, 0
+   \   00000038   4020               SBCI    R18, 0
+   \   0000003A   4030               SBCI    R19, 0
+    348            __watchdog_reset();
+   \   0000003C   95A8               WDR
+    349            if(period !=0) goto bad1;
+   \   0000003E   2F40               MOV     R20, R16
+   \   00000040   2B41               OR      R20, R17
+   \   00000042   2B42               OR      R20, R18
+   \   00000044   2B43               OR      R20, R19
+   \   00000046   F6F1               BRNE    ??long_delay_wait_answer_0
+    350            
+    351          /////////////////////////////////////////////////////////
+    352          
+    353           
+    354                    
+    355                    long_delay(1000);
+   \   00000048   EE08               LDI     R16, 232
+   \   0000004A   E013               LDI     R17, 3
+   \   0000004C   E020               LDI     R18, 0
+   \   0000004E   ....               RCALL   ??Subroutine57_0
+    356                  
+    357                    UDR2=buf_tx_232[0];
+   \                     ??CrossCallReturnLabel_121:
+   \   00000050   9100....           LDS     R16, buf_tx_232
+   \   00000054   930000D6           STS     214, R16
+    358                    UCSR2A = UCSR2A | 0x40;
+   \   00000058   910000D0           LDS     R16, 208
+   \   0000005C   6400               ORI     R16, 0x40
+   \   0000005E   930000D0           STS     208, R16
+    359                    
+    360                    
+    361                    for ( i=1;i< (cnt_rx1+1);i++) {
+   \   00000062   E001               LDI     R16, 1
+   \   00000064   C005               RJMP    ??long_delay_wait_answer_2
+    362                
+    363          wait_ready22:
+    364              if ( (UCSR2A & 0x40) ==0) goto wait_ready22;
+    365              UCSR2A = UCSR2A | 0x40;
+    366              if(i==cnt_rx1) goto exit_from1;
+    367              UDR2=buf_tx_232[i];
+   \                     ??long_delay_wait_answer_3:
+   \   00000066   ....               RCALL   ?Subroutine39
+   \                     ??CrossCallReturnLabel_63:
+   \   00000068   8110               LD      R17, Z
+   \   0000006A   931000D6           STS     214, R17
+   \   0000006E   9503               INC     R16
+   \                     ??long_delay_wait_answer_2:
+   \   00000070   2F20               MOV     R18, R16
+   \   00000072   E030               LDI     R19, 0
+   \   00000074   9180....           LDS     R24, cnt_rx1
+   \   00000078   E090               LDI     R25, 0
+   \   0000007A   9601               ADIW    R25:R24, 1
+   \   0000007C   1728               CP      R18, R24
+   \   0000007E   0739               CPC     R19, R25
+   \   00000080   F46C               BRGE    ??long_delay_wait_answer_4
+   \                     ??long_delay_wait_answer_5:
+   \   00000082   911000D0           LDS     R17, 208
+   \   00000086   FF16               SBRS    R17, 6
+   \   00000088   CFFC               RJMP    ??long_delay_wait_answer_5
+   \   0000008A   911000D0           LDS     R17, 208
+   \   0000008E   6410               ORI     R17, 0x40
+   \   00000090   931000D0           STS     208, R17
+   \   00000094   9110....           LDS     R17, cnt_rx1
+   \   00000098   1701               CP      R16, R17
+   \   0000009A   F729               BRNE    ??long_delay_wait_answer_3
+    368                /////////////////
+    369                                                 }
+    370                                         
+    371            
+    372          exit_from1:
+    373            cnt_rx1=0;  
+   \                     ??long_delay_wait_answer_4:
+   \   0000009C   9330....           STS     cnt_rx1, R19
+    374            
+    375            
+    376          }
+   \   000000A0   9189               LD      R24, Y+
+   \   000000A2   9199               LD      R25, Y+
+   \   000000A4   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine39:
+   \   00000000   01F9               MOVW    R31:R30, R19:R18
+   \                     ??Subroutine39_0:
+   \   00000002   ....               SUBI    R30, LOW((-(buf_tx_232) & 0xFFFF))
+   \   00000004   ....               SBCI    R31, (-(buf_tx_232) & 0xFFFF) >> 8
+   \   00000006   9508               RET
+    377          
+    378          
+    379          
+    380          
+    381          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    382          void send_at(void)
+   \                     send_at:
+    383          {
+    384             char At_ln_buf,i;
+    385              At_ln_buf=strlen(At_buf)+1;
+   \   00000000   ....               RCALL   ?Subroutine43
+   \                     ??CrossCallReturnLabel_71:
+   \   00000002   9523               INC     R18
+    386              At_buf[At_ln_buf-1]=0x0d; 
+   \   00000004   E00D               LDI     R16, 13
+   \   00000006   E030               LDI     R19, 0
+   \   00000008   01F9               MOVW    R31:R30, R19:R18
+   \   0000000A   ....               SUBI    R30, LOW((-(At_buf - 1) & 0xFFFF))
+   \   0000000C   ....               SBCI    R31, HIGH((-(At_buf - 1) & 0xFFFF))
+   \   0000000E   8300               ST      Z, R16
+    387              for ( i=0;i< At_ln_buf;i++) {
+   \   00000010   E000               LDI     R16, 0
+   \   00000012   C005               RJMP    ??CrossCallReturnLabel_69
+    388                
+    389          wait_ready:
+    390              if ( (UCSR0A & 0x20) ==0) goto wait_ready;
+   \                     ??send_at_0:
+   \   00000014   911000C0           LDS     R17, 192
+   \   00000018   FF15               SBRS    R17, 5
+   \   0000001A   CFFC               RJMP    ??send_at_0
+    391              
+    392              UDR0=At_buf[i];
+   \   0000001C   ....               RCALL   ?Subroutine42
+    393                                           }
+   \                     ??CrossCallReturnLabel_69:
+   \   0000001E   1702               CP      R16, R18
+   \   00000020   F3C8               BRCS    ??send_at_0
+    394              long_delay(1000000);
+   \   00000022   E400               LDI     R16, 64
+   \   00000024   E412               LDI     R17, 66
+   \   00000026   E02F               LDI     R18, 15
+   \   00000028   ....               RJMP    ??Subroutine57_1
+    395            //  i=UDR0;  // мусор выгрести
+    396          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine43:
+   \   00000000   ....               LDI     R16, LOW(At_buf)
+   \   00000002   ....               LDI     R17, (At_buf) >> 8
+   \   00000004   ........           CALL    strlen
+   \   00000008   2F20               MOV     R18, R16
+   \   0000000A   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine42:
+   \   00000000   E010               LDI     R17, 0
+   \   00000002   01F8               MOVW    R31:R30, R17:R16
+   \   00000004   ....               SUBI    R30, LOW((-(At_buf) & 0xFFFF))
+   \   00000006   ....               SBCI    R31, (-(At_buf) & 0xFFFF) >> 8
+   \   00000008   8110               LD      R17, Z
+   \   0000000A   931000C6           STS     198, R17
+   \   0000000E   9503               INC     R16
+   \   00000010   9508               RET
+    397          
+    398          
+    399          
+    400          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    401          void send_to_sim900(char num)
+   \                     send_to_sim900:
+    402          {
+    403             char i;
+    404             UCSR0B=UCSR0B | TXEN;
+   \   00000000   911000C1           LDS     R17, 193
+   \   00000004   6018               ORI     R17, 0x08
+   \   00000006   ....               RCALL   ?Subroutine44
+    405             UCSR0B=UCSR0B | RXEN;
+   \                     ??CrossCallReturnLabel_73:
+   \   00000008   6110               ORI     R17, 0x10
+   \   0000000A   ....               RCALL   ?Subroutine44
+    406             UCSR0B=UCSR0B & ~TXCIE;
+   \                     ??CrossCallReturnLabel_74:
+   \   0000000C   7B1F               ANDI    R17, 0xBF
+   \   0000000E   ....               RCALL   ?Subroutine44
+    407          //   UCSR0B=UCSR0B & ~RXCIE;
+    408              UCSR0B=UCSR0B | RXCIE;     // разрешить прием от SIM модуля
+   \                     ??CrossCallReturnLabel_75:
+   \   00000010   6810               ORI     R17, 0x80
+   \   00000012   931000C1           STS     193, R17
+    409              for ( i=0;i< num;i++) {
+   \   00000016   E020               LDI     R18, 0
+   \   00000018   C00A               RJMP    ??send_to_sim900_0
+    410                
+    411          wait_ready:
+    412              if ( (UCSR0A & 0x20) ==0) goto wait_ready;
+   \                     ??send_to_sim900_1:
+   \   0000001A   911000C0           LDS     R17, 192
+   \   0000001E   FF15               SBRS    R17, 5
+   \   00000020   CFFC               RJMP    ??send_to_sim900_1
+    413              
+    414              UDR0=buf_tx_232[i];
+   \   00000022   E030               LDI     R19, 0
+   \   00000024   ....               RCALL   ?Subroutine39
+   \                     ??CrossCallReturnLabel_64:
+   \   00000026   8110               LD      R17, Z
+   \   00000028   931000C6           STS     198, R17
+    415                                           }
+   \   0000002C   9523               INC     R18
+   \                     ??send_to_sim900_0:
+   \   0000002E   1720               CP      R18, R16
+   \   00000030   F3A0               BRCS    ??send_to_sim900_1
+    416              cnt_rx1=0;
+   \   00000032   E000               LDI     R16, 0
+   \   00000034   9300....           STS     cnt_rx1, R16
+    417           //   long_delay_wait_answer(500000); // УВЕЛИЧИЛ В 5 РАЗ
+    418            
+    419          }
+   \   00000038   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine44:
+   \   00000000   931000C1           STS     193, R17
+   \   00000004   911000C1           LDS     R17, 193
+   \   00000008   9508               RET
+    420          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    421          void send_atp(void)
+   \                     send_atp:
+    422          {
+    423             char At_ln_buf,i;
+    424              At_ln_buf=strlen(At_buf);
+   \   00000000   ....               RCALL   ?Subroutine43
+    425              
+    426              for ( i=0;i< At_ln_buf;i++) {
+   \                     ??CrossCallReturnLabel_72:
+   \   00000002   E000               LDI     R16, 0
+   \   00000004   C005               RJMP    ??CrossCallReturnLabel_70
+    427                
+    428          wait_ready:
+    429              if ( (UCSR0A & 0x20) ==0) goto wait_ready;
+   \                     ??send_atp_0:
+   \   00000006   911000C0           LDS     R17, 192
+   \   0000000A   FF15               SBRS    R17, 5
+   \   0000000C   CFFC               RJMP    ??send_atp_0
+    430              
+    431              UDR0=At_buf[i];
+   \   0000000E   ....               RCALL   ?Subroutine42
+    432                                           }
+   \                     ??CrossCallReturnLabel_70:
+   \   00000010   1702               CP      R16, R18
+   \   00000012   F3C8               BRCS    ??send_atp_0
+    433              long_delay(1000000);
+   \   00000014   ....               RJMP    ?Subroutine57
+    434            //  i=UDR0;  // мусор выгрести
+    435          }
+    436          
+    437          
+    438          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    439          void fun_init_sim900(void)
+   \                     fun_init_sim900:
+    440          {
+    441             UCSR0B=0;
+   \   00000000   ....               RCALL   ?Subroutine9
+    442            //UBRR0H=R9600_H;
+    443            //UBRR0L=R9600_L; 
+    444            
+    445           // A7682
+    446           UBRR0H=R115200_H;
+    447           UBRR0L=R115200_L; 
+    448            
+    449             SET_SIM1; //dobavka
+   \                     ??CrossCallReturnLabel_6:
+   \   00000002   ....               RCALL   ?Subroutine6
+    450             s_port('.');
+   \                     ??CrossCallReturnLabel_91:
+   \   00000004   E20E               LDI     R16, 46
+   \   00000006   ........           CALL    s_port
+    451             CLR_PWR;                              // выключить питание
+   \   0000000A   ....               RCALL   ?Subroutine18
+    452             SET_PWRK;
+   \                     ??CrossCallReturnLabel_102:
+   \   0000000C   9A2C               SBI     0x05, 0x04
+    453              __watchdog_reset();
+   \   0000000E   ....               RCALL   ?Subroutine35
+    454             long_delay(10000000/4);//
+   \                     ??CrossCallReturnLabel_48:
+   \   00000010   ....               RCALL   ??Subroutine57_0
+    455             
+    456             
+    457             SET_PWR; 
+   \                     ??CrossCallReturnLabel_120:
+   \   00000012   ....               RCALL   ??Subroutine19_0
+   \                     ??CrossCallReturnLabel_25:
+   \   00000014   6400               ORI     R16, 0x40
+   \   00000016   ....               RCALL   ?Subroutine53
+    458             CLR_PWRK;
+   \                     ??CrossCallReturnLabel_96:
+   \   00000018   982C               CBI     0x05, 0x04
+    459             
+    460             __watchdog_reset();
+   \   0000001A   ....               RCALL   ?Subroutine35
+    461             long_delay(10000000/4);//
+   \                     ??CrossCallReturnLabel_49:
+   \   0000001C   ....               RCALL   ?Subroutine32
+    462             s_port('.');
+    463             long_delay(10000000/4);//>3 sek
+   \                     ??CrossCallReturnLabel_45:
+   \   0000001E   EA00               LDI     R16, 160
+   \   00000020   E215               LDI     R17, 37
+   \   00000022   E226               LDI     R18, 38
+   \   00000024   ....               RCALL   ??Subroutine57_0
+    464             SET_PWRK;
+   \                     ??CrossCallReturnLabel_119:
+   \   00000026   9A2C               SBI     0x05, 0x04
+    465             __watchdog_reset();
+   \   00000028   95A8               WDR
+    466             long_delay(10000000);//>3 sek
+   \   0000002A   E800               LDI     R16, 128
+   \   0000002C   E916               LDI     R17, 150
+   \   0000002E   E928               LDI     R18, 152
+   \   00000030   ....               RCALL   ?Subroutine32
+    467             s_port('.');
+    468             CLR_PWRK;
+   \                     ??CrossCallReturnLabel_44:
+   \   00000032   982C               CBI     0x05, 0x04
+    469            
+    470           
+    471            
+    472            PIN_OUT_PORT0;
+   \   00000034   B10D               IN      R16, 0x0D
+   \   00000036   600C               ORI     R16, 0x0C
+   \   00000038   B90D               OUT     0x0D, R16
+    473            PIN_IN_PORT0;
+   \   0000003A   B10E               IN      R16, 0x0E
+   \   0000003C   6F00               ORI     R16, 0xF0
+   \   0000003E   B90E               OUT     0x0E, R16
+    474            
+    475            CLR_DTR0; 
+   \   00000040   9A73               SBI     0x0E, 0x03
+    476            CLR_RTS0;
+   \   00000042   9A72               SBI     0x0E, 0x02
+    477             __watchdog_reset();
+   \   00000044   95A8               WDR
+    478             long_delay(1000000/4);//>1.5 sek 
+   \   00000046   E900               LDI     R16, 144
+   \   00000048   ED10               LDI     R17, 208
+   \   0000004A   E023               LDI     R18, 3
+   \   0000004C   ....               RCALL   ?Subroutine32
+    479             s_port('.');
+    480            SET_DTR0;
+   \                     ??CrossCallReturnLabel_43:
+   \   0000004E   9873               CBI     0x0E, 0x03
+    481            SET_RTS0;
+   \   00000050   9872               CBI     0x0E, 0x02
+    482            
+    483            
+    484            
+    485            
+    486            
+    487            
+    488            
+    489            UCSR0B=UCSR0B | TXEN;
+   \   00000052   ....               RCALL   ?Subroutine2
+    490            UCSR0B=UCSR0B | RXEN;
+    491            
+    492            UCSR0B=UCSR0B & ~TXCIE;
+    493            /*  
+    494            UCSR0B=UCSR0B | RXCIE;  //
+    495            
+    496             UCSR2B=UCSR2B | RXEN;  //
+    497             UCSR2B=UCSR2B | TXEN;  //
+    498             UCSR2B=UCSR2B & ~TXCIE;  //
+    499             UCSR2B=UCSR2B | RXCIE;  //
+    500             
+    501             Regim=MODEM_ONLY;  //
+    502             __enable_interrupt();
+    503             
+    504             strcpy(At_buf, "AT+CBST=0,0,1");      // АВТО моду 
+    505             send_at(); 
+    506              
+    507               UBRR0H=R4800_H;
+    508               UBRR0L=R4800_L;
+    509              
+    510            //  strcpy(At_buf, "atv0");           
+    511            //  send_at();      
+    512              */
+    513              
+    514              __enable_interrupt();
+   \                     ??CrossCallReturnLabel_112:
+   \   00000054   9478               SEI
+    515          }
+   \   00000056   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine35:
+   \   00000000   95A8               WDR
+   \   00000002   EA00               LDI     R16, 160
+   \   00000004   E215               LDI     R17, 37
+   \   00000006   E226               LDI     R18, 38
+   \   00000008   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine32:
+   \   00000000   E030               LDI     R19, 0
+   \   00000002   ........           CALL    long_delay
+   \   00000006   E20E               LDI     R16, 46
+   \   00000008   ........           JMP     s_port
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine9:
+   \   00000000   E000               LDI     R16, 0
+   \   00000002   930000C1           STS     193, R16
+   \   00000006   930000C5           STS     197, R16
+   \   0000000A   E008               LDI     R16, 8
+   \   0000000C   930000C4           STS     196, R16
+   \   00000010   9508               RET
+    516          
+    517          
+    518          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    519          void init_modem_call(void)
+   \                     init_modem_call:
+    520          {
+   \   00000000   ........           CALL    ?PROLOGUE3_L09
+   \   00000004   9726               SBIW    R29:R28, 6
+    521            char sost_call,a,str_cmp[6];
+    522            int cnt_rx,i;
+    523            __watchdog_reset();
+   \   00000006   95A8               WDR
+    524            __disable_interrupt();
+   \   00000008   94F8               CLI
+    525            sost_call=0;
+   \   0000000A   E0A0               LDI     R26, 0
+    526            UCSR0B=0;
+   \   0000000C   93A000C1           STS     193, R26
+    527          //  UBRR0H=R9600_H;
+    528          //  UBRR0L=R9600_L; 
+    529            
+    530            
+    531             // A7682
+    532           UBRR0H=R115200_H;
+   \   00000010   93A000C5           STS     197, R26
+    533           UBRR0L=R115200_L;
+   \   00000014   E008               LDI     R16, 8
+   \   00000016   930000C4           STS     196, R16
+    534            
+    535           //UBRR0H=R115200_H;
+    536           //UBRR0L=R115200_L;
+    537            
+    538           
+    539          
+    540            
+    541          
+    542            // Инициализация порта №2
+    543            SET_RTS2;
+   \   0000001A   91000102           LDS     R16, 258
+   \   0000001E   7F0B               ANDI    R16, 0xFB
+   \   00000020   93000102           STS     258, R16
+    544            UCSR2B=0;
+   \   00000024   93A000D1           STS     209, R26
+    545            UBRR2H=R9600_H;
+   \   00000028   93A000D5           STS     213, R26
+    546            UBRR2L=R9600_L;  
+   \   0000002C   E607               LDI     R16, 103
+   \   0000002E   930000D4           STS     212, R16
+    547            
+    548           
+    549            
+    550            CLR_RTS1;
+   \   00000032   ....               RCALL   ?Subroutine15
+    551            UCSR1B=0;
+   \                     ??CrossCallReturnLabel_99:
+   \   00000034   93A000C9           STS     201, R26
+    552            UBRR1H=R9600_H;
+   \   00000038   93A000CD           STS     205, R26
+    553            UBRR1L=R9600_L; 
+   \   0000003C   E607               LDI     R16, 103
+   \   0000003E   930000CC           STS     204, R16
+    554            ///////////////////////////////////////////////////////
+    555             CLR_RTS3;
+   \   00000042   985C               CBI     0x0B, 0x04
+    556             UCSR3B=0;
+   \   00000044   93A00131           STS     305, R26
+    557             UBRR3H=R9600_H;
+   \   00000048   93A00135           STS     309, R26
+    558             UBRR3L=R9600_L; 
+   \   0000004C   93000134           STS     308, R16
+    559            
+    560             SET_SIM1; //dobavka
+   \   00000050   ....               RCALL   ?Subroutine6
+    561             
+    562             SET_PWR;  
+   \                     ??CrossCallReturnLabel_92:
+   \   00000052   ....               RCALL   ?Subroutine7
+    563             __watchdog_reset();
+    564             long_delay(10000000);//>3 sek
+    565             SET_PWRK;
+    566             __watchdog_reset();
+   \                     ??CrossCallReturnLabel_5:
+   \   00000054   ....               RCALL   ?Subroutine33
+    567             long_delay(10000000);//>3 sek
+    568             CLR_PWRK;
+    569            
+    570           
+    571            
+    572            PIN_OUT_PORT0;
+   \                     ??CrossCallReturnLabel_47:
+   \   00000056   ....               RCALL   ?Subroutine0
+    573            PIN_IN_PORT0;
+    574            
+    575            CLR_DTR0; 
+    576            CLR_RTS0;
+    577             __watchdog_reset();
+    578             long_delay(1000000);//>3 sek 
+    579            SET_DTR0;
+    580            SET_RTS0;
+    581            
+    582            
+    583            
+    584            
+    585            
+    586            
+    587            
+    588            UCSR0B=UCSR0B | TXEN;
+    589            UCSR0B=UCSR0B | RXEN;
+    590            UCSR0B=UCSR0B & ~TXCIE;
+    591              
+    592             UCSR2B=UCSR2B | RXEN;
+    593             UCSR2B=UCSR2B | TXEN;
+    594             UCSR2B=UCSR2B & ~TXCIE;
+    595             
+    596              UCSR3B=UCSR3B | RXEN;
+    597              UCSR3B=UCSR3B | TXEN;
+    598              UCSR3B=UCSR3B & ~TXCIE;
+    599              
+    600              UCSR1B=UCSR1B | RXEN;
+    601              UCSR1B=UCSR1B | TXEN;
+    602              UCSR1B=UCSR1B & ~TXCIE;
+    603              
+    604              strcpy(At_buf, "atv0");           
+   \                     ??CrossCallReturnLabel_103:
+   \   00000058   ....               LDI     R18, LOW((`?<Constant "+++">` + 15))
+   \   0000005A   ....               LDI     R19, HIGH((`?<Constant "+++">` + 15))
+   \   0000005C   ....               RCALL   ?Subroutine58
+    605              send_at();      
+    606              S1_RD;
+   \                     ??CrossCallReturnLabel_133:
+   \   0000005E   ....               RCALL   ?Subroutine23
+    607              S2_OFF;
+    608              S3_OFF;
+    609              S4_OFF;
+    610              S5_OFF;
+    611              
+    612              __enable_interrupt();
+   \                     ??CrossCallReturnLabel_35:
+   \   00000060   9478               SEI
+   \   00000062   C001               RJMP    ??init_modem_call_0
+    613              
+    614              while(1) {
+    615                 __watchdog_reset();
+    616              switch(sost_call)
+    617              {
+    618              case 0:
+    619                {
+    620                  S2_RD;
+    621                  if (PINE & RI0)  { sost_call=1; break;}     // call
+   \                     ??init_modem_call_1:
+   \   00000064   E0A1               LDI     R26, 1
+   \                     ??init_modem_call_0:
+   \   00000066   95A8               WDR
+   \   00000068   2F0A               MOV     R16, R26
+   \   0000006A   23AA               TST     R26
+   \   0000006C   F029               BREQ    ??init_modem_call_2
+   \   0000006E   950A               DEC     R16
+   \   00000070   F069               BREQ    ??init_modem_call_3
+   \   00000072   950A               DEC     R16
+   \   00000074   F069               BREQ    ??init_modem_call_4
+   \   00000076   C05D               RJMP    ??init_modem_call_5
+   \                     ??init_modem_call_2:
+   \   00000078   9A40               SBI     0x08, 0x00
+   \   0000007A   9841               CBI     0x08, 0x01
+   \   0000007C   9967               SBIC    0x0C, 0x07
+   \   0000007E   CFF2               RJMP    ??init_modem_call_1
+    622                  if (PINE & DCD0) { sost_call=2; cnt_rx=0; break;}   // connect
+   \   00000080   9B66               SBIS    0x0C, 0x06
+   \   00000082   CFF1               RJMP    ??init_modem_call_0
+   \   00000084   E0A2               LDI     R26, 2
+   \   00000086   E080               LDI     R24, 0
+   \   00000088   E090               LDI     R25, 0
+   \   0000008A   CFED               RJMP    ??init_modem_call_0
+    623                  break;
+    624                }
+    625                
+    626              case 1:
+    627                {
+    628                 S2_GR;
+   \                     ??init_modem_call_3:
+   \   0000008C   ....               RCALL   ?Subroutine25
+    629                 strcpy(At_buf, "ata");     // поднять трубку и ждать connect      
+    630                 send_at();  
+   \                     ??CrossCallReturnLabel_128:
+   \   0000008E   C051               RJMP    ??init_modem_call_5
+    631                 sost_call=0;
+    632                 break;
+    633                }
+    634              
+    635              case 2:
+    636                {
+    637                  S2_YL;
+   \                     ??init_modem_call_4:
+   \   00000090   ....               RCALL   ?Subroutine45
+    638              //    if ( UCSR0A & 0x80) UDR2=UDR0;  // перекидываеи данные из порта GSM в СОМ порт 232 и наоборот дуплексный режим
+    639              //    if ( UCSR2A & 0x80) UDR0=UDR2;
+    640                 
+    641                  // обратный канал простой все что пришло по портам, то и толкаю в модем
+    642                  if ( UCSR2A & 0x80) UDR0=UDR2;
+   \                     ??CrossCallReturnLabel_76:
+   \   00000092   FD07               SBRC    R16, 7
+   \   00000094   ....               RCALL   ?Subroutine36
+    643                  if ( UCSR1A & 0x80) UDR0=UDR1;
+   \                     ??CrossCallReturnLabel_51:
+   \   00000096   910000C8           LDS     R16, 200
+   \   0000009A   FF07               SBRS    R16, 7
+   \   0000009C   C003               RJMP    ??CrossCallReturnLabel_52
+   \   0000009E   910000CE           LDS     R16, 206
+   \   000000A2   ....               RCALL   ??Subroutine36_0
+    644                  if ( UCSR3A & 0x80) UDR0=UDR3;
+   \                     ??CrossCallReturnLabel_52:
+   \   000000A4   91000130           LDS     R16, 304
+   \   000000A8   FF07               SBRS    R16, 7
+   \   000000AA   C003               RJMP    ??CrossCallReturnLabel_53
+   \   000000AC   91000136           LDS     R16, 310
+   \   000000B0   ....               RCALL   ??Subroutine36_0
+    645                  
+    646                  
+    647               /////////////////////////////////  
+    648                  if ( UCSR0A & 0x80) {
+   \                     ??CrossCallReturnLabel_53:
+   \   000000B2   ....               RCALL   ?Subroutine13
+   \                     ??CrossCallReturnLabel_14:
+   \   000000B4   FF07               SBRS    R16, 7
+   \   000000B6   C020               RJMP    ??CrossCallReturnLabel_38
+    649                  // накапливаем данные с порта UDR0 в массив
+    650                     At_com.cnt_rx_out=100;
+   \   000000B8   ....               RCALL   ?Subroutine40
+    651                     a= UDR0;       
+   \                     ??CrossCallReturnLabel_67:
+   \   000000BA   910000C6           LDS     R16, 198
+    652                              if(cnt_rx < 1000)
+   \   000000BE   3E88               CPI     R24, 232
+   \   000000C0   E013               LDI     R17, 3
+   \   000000C2   0791               CPC     R25, R17
+   \   000000C4   F424               BRGE    ??init_modem_call_6
+    653                                    {
+    654                                     buf_tx_232[cnt_rx]=a;
+   \   000000C6   01FC               MOVW    R31:R30, R25:R24
+   \   000000C8   ....               RCALL   ??Subroutine39_0
+   \                     ??CrossCallReturnLabel_65:
+   \   000000CA   8300               ST      Z, R16
+    655                                     cnt_rx++;
+   \   000000CC   9601               ADIW    R25:R24, 1
+    656                                     }
+    657                              
+    658                              str_cmp[0]=str_cmp[1];
+   \                     ??init_modem_call_6:
+   \   000000CE   8119               LDD     R17, Y+1
+   \   000000D0   8318               ST      Y, R17
+    659                              str_cmp[1]=str_cmp[2];
+   \   000000D2   ....               RCALL   ?Subroutine46
+    660                              str_cmp[2]=str_cmp[3];
+    661                              str_cmp[3]=str_cmp[4];
+    662                              str_cmp[4]=a & ~0x20;     // убить регистр верхний нижний
+   \                     ??CrossCallReturnLabel_78:
+   \   000000D4   7D0F               ANDI    R16, 0xDF
+   \   000000D6   830C               STD     Y+4, R16
+    663                              
+    664                              if ( str_cmp[0]=='A'  && str_cmp[1]=='T' && str_cmp[2]=='D' && str_cmp[3]=='O' && str_cmp[4]=='N' ) {e_debug=4; 
+   \   000000D8   8148               LD      R20, Y
+   \   000000DA   3441               CPI     R20, 65
+   \   000000DC   F469               BRNE    ??CrossCallReturnLabel_38
+   \   000000DE   3514               CPI     R17, 84
+   \   000000E0   F459               BRNE    ??CrossCallReturnLabel_38
+   \   000000E2   3424               CPI     R18, 68
+   \   000000E4   F449               BRNE    ??CrossCallReturnLabel_38
+   \   000000E6   343F               CPI     R19, 79
+   \   000000E8   F439               BRNE    ??CrossCallReturnLabel_38
+   \   000000EA   340E               CPI     R16, 78
+   \   000000EC   F411               BRNE    ??init_modem_call_7
+   \   000000EE   ....               RCALL   ?Subroutine31
+    665                                           strcpy(At_buf, "OK");      //        
+    666                                           send_at(); }
+   \                     ??CrossCallReturnLabel_130:
+   \   000000F0   C003               RJMP    ??CrossCallReturnLabel_38
+   \                     ??init_modem_call_7:
+   \   000000F2   3406               CPI     R16, 70
+   \   000000F4   F409               BRNE    ??CrossCallReturnLabel_38
+    667                              
+    668                              
+    669                              if ( str_cmp[0]=='A'  && str_cmp[1]=='T' && str_cmp[2]=='D' && str_cmp[3]=='O' && str_cmp[4]=='F' ) {e_debug=0; 
+   \   000000F6   ....               RCALL   ?Subroutine24
+    670                              strcpy(At_buf, "OK");      //        
+    671                              send_at();
+    672                              lock_it();}  // перезагрузиться прейти в GPRS моду
+    673                              
+    674                  }
+    675            /////////////////////////////////////////////
+    676                  
+    677                  if (fl_at_com.rx_rec==1)  {
+   \                     ??CrossCallReturnLabel_38:
+   \   000000F8   ....               LDI     R30, LOW(fl_at_com)
+   \   000000FA   ....               LDI     R31, (fl_at_com) >> 8
+   \   000000FC   8100               LD      R16, Z
+   \   000000FE   FF05               SBRS    R16, 5
+   \   00000100   C016               RJMP    ??CrossCallReturnLabel_109
+    678                    fl_at_com.rx_rec=0;
+   \   00000102   ....               RCALL   ?Subroutine5
+    679                    SET_RTS1;
+    680                    SET_RTS3;
+    681                    long_delay(10000);
+    682                    __disable_interrupt();
+    683                    UDR2=UDR1=UDR3=buf_tx_232[0];
+    684                    UCSR2A = UCSR2A | 0x40;
+    685                    UCSR1A = UCSR1A | 0x40;
+    686                    UCSR3A = UCSR3A | 0x40;
+    687                    
+    688                    for ( i=1;i< (cnt_rx+1);i++) {
+   \                     ??CrossCallReturnLabel_2:
+   \   00000104   C00B               RJMP    ??CrossCallReturnLabel_82
+    689                
+    690          wait_ready2:
+    691              if ( (UCSR2A & 0x40) ==0) goto wait_ready2;
+    692              UCSR2A = UCSR2A | 0x40;
+    693              if(i==cnt_rx) goto exit_from;
+    694              UDR2=buf_tx_232[i];
+   \                     ??init_modem_call_8:
+   \   00000106   ....               RCALL   ?Subroutine38
+    695              
+    696          wait_ready1:
+    697              if ( (UCSR1A & 0x40) ==0) goto wait_ready1;
+   \                     ??CrossCallReturnLabel_60:
+   \   00000108   912000C8           LDS     R18, 200
+   \   0000010C   FF26               SBRS    R18, 6
+   \   0000010E   CFFC               RJMP    ??CrossCallReturnLabel_60
+    698              UCSR1A = UCSR1A | 0x40;
+   \   00000110   ....               RCALL   ?Subroutine49
+    699              UDR1=buf_tx_232[i];
+    700              
+    701              wait_ready3:
+    702              if ( (UCSR3A & 0x40) ==0) goto wait_ready3;
+   \                     ??CrossCallReturnLabel_84:
+   \   00000112   91200130           LDS     R18, 304
+   \   00000116   FF26               SBRS    R18, 6
+   \   00000118   CFFC               RJMP    ??CrossCallReturnLabel_84
+    703              UCSR3A = UCSR3A | 0x40;
+   \   0000011A   ....               RCALL   ?Subroutine48
+   \                     ??CrossCallReturnLabel_82:
+   \   0000011C   ....               RCALL   ?Subroutine47
+   \                     ??CrossCallReturnLabel_80:
+   \   0000011E   F434               BRGE    ??init_modem_call_9
+   \                     ??init_modem_call_10:
+   \   00000120   912000D0           LDS     R18, 208
+   \   00000124   FF26               SBRS    R18, 6
+   \   00000126   CFFC               RJMP    ??init_modem_call_10
+   \   00000128   ....               RCALL   ?Subroutine50
+   \                     ??CrossCallReturnLabel_86:
+   \   0000012A   F769               BRNE    ??init_modem_call_8
+    704              UDR3=buf_tx_232[i];
+    705              
+    706              
+    707                                           }
+    708                    
+    709          exit_from:          
+    710                    __enable_interrupt();
+   \                     ??init_modem_call_9:
+   \   0000012C   ....               RCALL   ?Subroutine4
+    711                  //  long_delay(100);
+    712                 //  ожидаем ухода последннего бита по порту 485 и снимаем RTS   
+    713                   
+    714                  CLR_RTS3;
+    715                         
+    716                  CLR_RTS1;
+    717                  
+    718                  cnt_rx=0;
+    719                  long_delay(100);
+    720                  a=UDR1;
+    721                  a=UDR2;
+    722                  a=UDR3;
+    723                  UCSR0B=UCSR0B | RXEN;  
+    724                  }
+    725           //////////////////////////////////////////////////////////////////////
+    726                  
+    727                  if ( (PINE & DCD0)==0 ) { sost_call=0; break;}   // потеря соединения
+   \                     ??CrossCallReturnLabel_109:
+   \   0000012E   9966               SBIC    0x0C, 0x06
+   \   00000130   CF9A               RJMP    ??init_modem_call_0
+   \                     ??init_modem_call_5:
+   \   00000132   E0A0               LDI     R26, 0
+   \   00000134   CF98               RJMP    ??init_modem_call_0
+    728                  break;
+    729                }
+    730                
+    731              default: { sost_call=0; break;}
+    732              }
+    733              }
+    734             
+    735          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine50:
+   \   00000000   912000D0           LDS     R18, 208
+   \   00000004   6420               ORI     R18, 0x40
+   \   00000006   932000D0           STS     208, R18
+   \   0000000A   1708               CP      R16, R24
+   \   0000000C   0719               CPC     R17, R25
+   \   0000000E   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine49:
+   \   00000000   912000C8           LDS     R18, 200
+   \   00000004   6420               ORI     R18, 0x40
+   \   00000006   932000C8           STS     200, R18
+   \   0000000A   933000CE           STS     206, R19
+   \   0000000E   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine48:
+   \   00000000   91200130           LDS     R18, 304
+   \   00000004   6420               ORI     R18, 0x40
+   \   00000006   93200130           STS     304, R18
+   \   0000000A   93300136           STS     310, R19
+   \   0000000E   5F0F               SUBI    R16, 255
+   \   00000010   4F1F               SBCI    R17, 255
+   \   00000012   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine47:
+   \   00000000   01FC               MOVW    R31:R30, R25:R24
+   \   00000002   9631               ADIW    R31:R30, 1
+   \   00000004   170E               CP      R16, R30
+   \   00000006   071F               CPC     R17, R31
+   \   00000008   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine46:
+   \   00000000   811A               LDD     R17, Y+2
+   \   00000002   8319               STD     Y+1, R17
+   \   00000004   812B               LDD     R18, Y+3
+   \   00000006   832A               STD     Y+2, R18
+   \   00000008   813C               LDD     R19, Y+4
+   \   0000000A   833B               STD     Y+3, R19
+   \   0000000C   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine45:
+   \   00000000   9A40               SBI     0x08, 0x00
+   \   00000002   9A41               SBI     0x08, 0x01
+   \   00000004   910000D0           LDS     R16, 208
+   \   00000008   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine58:
+   \   00000000   ....               LDI     R16, LOW(At_buf)
+   \   00000002   ....               LDI     R17, (At_buf) >> 8
+   \   00000004   ........           CALL    strcpy
+   \   00000008   ....               RJMP    send_at
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine40:
+   \   00000000   E604               LDI     R16, 100
+   \   00000002   E010               LDI     R17, 0
+   \   00000004   ....               LDI     R30, LOW((At_com + 65))
+   \   00000006   ....               LDI     R31, HIGH((At_com + 65))
+   \   00000008   8300               ST      Z, R16
+   \   0000000A   8311               STD     Z+1, R17
+   \   0000000C   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine38:
+   \   00000000   01F8               MOVW    R31:R30, R17:R16
+   \   00000002   ....               SUBI    R30, LOW((-(buf_tx_232) & 0xFFFF))
+   \   00000004   ....               SBCI    R31, (-(buf_tx_232) & 0xFFFF) >> 8
+   \   00000006   8130               LD      R19, Z
+   \   00000008   933000D6           STS     214, R19
+   \   0000000C   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine31:
+   \   00000000   E004               LDI     R16, 4
+   \   00000002   E043               LDI     R20, 3
+   \   00000004   E050               LDI     R21, 0
+   \   00000006   ........           CALL    __eeput8_16
+   \   0000000A   ....               LDI     R18, LOW((`?<Constant "+++">` + 8))
+   \   0000000C   ....               LDI     R19, HIGH((`?<Constant "+++">` + 8))
+   \   0000000E   ....               RJMP    ?Subroutine58
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine25:
+   \   00000000   9840               CBI     0x08, 0x00
+   \   00000002   9A41               SBI     0x08, 0x01
+   \   00000004   ....               LDI     R18, LOW((`?<Constant "+++">` + 11))
+   \   00000006   ....               LDI     R19, HIGH((`?<Constant "+++">` + 11))
+   \   00000008   ....               RJMP    ?Subroutine58
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine24:
+   \   00000000   E000               LDI     R16, 0
+   \   00000002   E043               LDI     R20, 3
+   \   00000004   E050               LDI     R21, 0
+   \   00000006   ........           CALL    __eeput8_16
+   \   0000000A   ....               LDI     R18, LOW((`?<Constant "+++">` + 8))
+   \   0000000C   ....               LDI     R19, HIGH((`?<Constant "+++">` + 8))
+   \   0000000E   ....               LDI     R16, LOW(At_buf)
+   \   00000010   ....               LDI     R17, (At_buf) >> 8
+   \   00000012   ........           CALL    strcpy
+   \   00000016   ....               RCALL   send_at
+   \   00000018   ........           JMP     lock_it
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine5:
+   \   00000000   7D0F               ANDI    R16, 0xDF
+   \   00000002   8300               ST      Z, R16
+   \   00000004   91000105           LDS     R16, 261
+   \   00000008   6004               ORI     R16, 0x04
+   \   0000000A   93000105           STS     261, R16
+   \   0000000E   9A5C               SBI     0x0B, 0x04
+   \   00000010   E100               LDI     R16, 16
+   \   00000012   E217               LDI     R17, 39
+   \   00000014   E020               LDI     R18, 0
+   \   00000016   E030               LDI     R19, 0
+   \   00000018   ........           CALL    long_delay
+   \   0000001C   94F8               CLI
+   \   0000001E   9100....           LDS     R16, buf_tx_232
+   \   00000022   93000136           STS     310, R16
+   \   00000026   930000CE           STS     206, R16
+   \   0000002A   930000D6           STS     214, R16
+   \   0000002E   910000D0           LDS     R16, 208
+   \   00000032   6400               ORI     R16, 0x40
+   \   00000034   930000D0           STS     208, R16
+   \   00000038   910000C8           LDS     R16, 200
+   \   0000003C   6400               ORI     R16, 0x40
+   \   0000003E   930000C8           STS     200, R16
+   \   00000042   91000130           LDS     R16, 304
+   \   00000046   6400               ORI     R16, 0x40
+   \   00000048   93000130           STS     304, R16
+   \   0000004C   E001               LDI     R16, 1
+   \   0000004E   E010               LDI     R17, 0
+   \   00000050   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine4:
+   \   00000000   9478               SEI
+   \   00000002   985C               CBI     0x0B, 0x04
+   \   00000004   91000105           LDS     R16, 261
+   \   00000008   7F0B               ANDI    R16, 0xFB
+   \   0000000A   93000105           STS     261, R16
+   \   0000000E   E080               LDI     R24, 0
+   \   00000010   E090               LDI     R25, 0
+   \   00000012   E604               LDI     R16, 100
+   \   00000014   E010               LDI     R17, 0
+   \   00000016   E020               LDI     R18, 0
+   \   00000018   E030               LDI     R19, 0
+   \   0000001A   ........           CALL    long_delay
+   \   0000001E   910000CE           LDS     R16, 206
+   \   00000022   910000D6           LDS     R16, 214
+   \   00000026   91000136           LDS     R16, 310
+   \   0000002A   910000C1           LDS     R16, 193
+   \   0000002E   6100               ORI     R16, 0x10
+   \   00000030   ....               RJMP    ?Subroutine55
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine0:
+   \   00000000   B10D               IN      R16, 0x0D
+   \   00000002   600C               ORI     R16, 0x0C
+   \   00000004   B90D               OUT     0x0D, R16
+   \   00000006   B10E               IN      R16, 0x0E
+   \   00000008   6F00               ORI     R16, 0xF0
+   \   0000000A   B90E               OUT     0x0E, R16
+   \   0000000C   9A73               SBI     0x0E, 0x03
+   \   0000000E   9A72               SBI     0x0E, 0x02
+   \   00000010   95A8               WDR
+   \   00000012   E400               LDI     R16, 64
+   \   00000014   E412               LDI     R17, 66
+   \   00000016   E02F               LDI     R18, 15
+   \   00000018   E030               LDI     R19, 0
+   \   0000001A   ........           CALL    long_delay
+   \   0000001E   9873               CBI     0x0E, 0x03
+   \   00000020   9872               CBI     0x0E, 0x02
+   \   00000022   910000C1           LDS     R16, 193
+   \   00000026   6008               ORI     R16, 0x08
+   \   00000028   930000C1           STS     193, R16
+   \   0000002C   910000C1           LDS     R16, 193
+   \   00000030   6100               ORI     R16, 0x10
+   \   00000032   930000C1           STS     193, R16
+   \   00000036   910000C1           LDS     R16, 193
+   \   0000003A   7B0F               ANDI    R16, 0xBF
+   \   0000003C   930000C1           STS     193, R16
+   \   00000040   910000D1           LDS     R16, 209
+   \   00000044   6100               ORI     R16, 0x10
+   \   00000046   930000D1           STS     209, R16
+   \   0000004A   910000D1           LDS     R16, 209
+   \   0000004E   6008               ORI     R16, 0x08
+   \   00000050   930000D1           STS     209, R16
+   \   00000054   910000D1           LDS     R16, 209
+   \   00000058   7B0F               ANDI    R16, 0xBF
+   \   0000005A   930000D1           STS     209, R16
+   \   0000005E   91000131           LDS     R16, 305
+   \   00000062   6100               ORI     R16, 0x10
+   \   00000064   93000131           STS     305, R16
+   \   00000068   91000131           LDS     R16, 305
+   \   0000006C   6008               ORI     R16, 0x08
+   \   0000006E   93000131           STS     305, R16
+   \   00000072   91000131           LDS     R16, 305
+   \   00000076   7B0F               ANDI    R16, 0xBF
+   \   00000078   93000131           STS     305, R16
+   \   0000007C   910000C9           LDS     R16, 201
+   \   00000080   6100               ORI     R16, 0x10
+   \   00000082   930000C9           STS     201, R16
+   \   00000086   910000C9           LDS     R16, 201
+   \   0000008A   6008               ORI     R16, 0x08
+   \   0000008C   930000C9           STS     201, R16
+   \   00000090   910000C9           LDS     R16, 201
+   \   00000094   7B0F               ANDI    R16, 0xBF
+   \   00000096   ....               RJMP    ?Subroutine54
+    736          
+    737          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+    738          void init_modem_call_inside(void)
+   \                     init_modem_call_inside:
+    739          {
+   \   00000000   ........           CALL    ?PROLOGUE4_L09
+   \   00000004   9762               SBIW    R29:R28, 18
+    740            char sost_call,a;
+    741            int cnt_rx,i;
+    742            char str_cmp[6],str_cmp1[12];
+    743            __watchdog_reset();
+   \   00000006   95A8               WDR
+    744            __disable_interrupt();
+   \   00000008   94F8               CLI
+    745            sost_call=0;
+    746            UCSR0B=0;
+   \   0000000A   ....               RCALL   ?Subroutine9
+    747           // UBRR0H=R9600_H;
+    748           // UBRR0L=R9600_L; 
+    749            
+    750             // A7682
+    751           UBRR0H=R115200_H;
+    752           UBRR0L=R115200_L;
+    753            
+    754           //UBRR0H=R115200_H;
+    755           //UBRR0L=R115200_L;
+    756            
+    757           
+    758          
+    759            
+    760          
+    761            // Инициализация порта №2
+    762            SET_RTS2;
+   \                     ??CrossCallReturnLabel_7:
+   \   0000000C   ....               RCALL   ?Subroutine14
+    763            UCSR2B=0;
+    764            UBRR2H=R9600_H;
+    765            UBRR2L=R9600_L;  
+    766            
+    767           
+    768            
+    769            CLR_RTS1;
+   \                     ??CrossCallReturnLabel_17:
+   \   0000000E   ....               RCALL   ?Subroutine15
+    770            UCSR1B=0;
+   \                     ??CrossCallReturnLabel_100:
+   \   00000010   ....               RCALL   ?Subroutine26
+    771            UBRR1H=R9600_H;
+    772            UBRR1L=R9600_L; 
+    773            ///////////////////////////////////////////////////////
+    774             CLR_RTS3;
+   \                     ??CrossCallReturnLabel_39:
+   \   00000012   985C               CBI     0x0B, 0x04
+    775             UCSR3B=0;
+   \   00000014   E000               LDI     R16, 0
+   \   00000016   93000131           STS     305, R16
+    776             UBRR3H=R9600_H;
+   \   0000001A   ....               RCALL   ?Subroutine51
+    777             UBRR3L=R9600_L; 
+    778           
+    779             PIN_OUT_PORT0;
+   \                     ??CrossCallReturnLabel_88:
+   \   0000001C   ....               RCALL   ?Subroutine0
+    780            PIN_IN_PORT0;
+    781            
+    782            CLR_DTR0; 
+    783            CLR_RTS0;
+    784             __watchdog_reset();
+    785             long_delay(1000000);//>3 sek 
+    786            SET_DTR0;
+    787            SET_RTS0;
+    788            
+    789            
+    790            
+    791            
+    792            
+    793            
+    794            UCSR0B=UCSR0B | TXEN;
+    795            UCSR0B=UCSR0B | RXEN;
+    796            UCSR0B=UCSR0B & ~TXCIE;
+    797          //  UCSR0B=UCSR0B | RXCIE;      // посмотреть 
+    798          //  Regim=MODEM_ONLY;
+    799              
+    800             UCSR2B=UCSR2B | RXEN;
+    801             UCSR2B=UCSR2B | TXEN;
+    802             UCSR2B=UCSR2B & ~TXCIE;
+    803             
+    804              UCSR3B=UCSR3B | RXEN;
+    805              UCSR3B=UCSR3B | TXEN;
+    806              UCSR3B=UCSR3B & ~TXCIE;
+    807              
+    808              UCSR1B=UCSR1B | RXEN;
+    809              UCSR1B=UCSR1B | TXEN;
+    810              UCSR1B=UCSR1B & ~TXCIE;
+    811              
+    812               __enable_interrupt();
+   \                     ??CrossCallReturnLabel_104:
+   \   0000001E   9478               SEI
+    813              strcpy(At_buf, "+++");       // перейти в онлайн командную моду      
+   \   00000020   ....               LDI     R18, LOW(`?<Constant "+++">`)
+   \   00000022   ....               LDI     R19, (`?<Constant "+++">`) >> 8
+   \   00000024   ....               LDI     R16, LOW(At_buf)
+   \   00000026   ....               LDI     R17, (At_buf) >> 8
+   \   00000028   ........           CALL    strcpy
+    814              send_atp();
+   \   0000002C   ....               RCALL   send_atp
+    815             __watchdog_reset();
+   \   0000002E   ....               RCALL   ?Subroutine27
+    816             long_delay(1000000);//>3 sek
+    817            __watchdog_reset();
+   \                     ??CrossCallReturnLabel_126:
+   \   00000030   ....               RCALL   ?Subroutine27
+    818             long_delay(1000000);//>3 sek
+    819              
+    820              
+    821              strcpy(At_buf, "ath");      // повесить трубку       
+   \                     ??CrossCallReturnLabel_125:
+   \   00000032   ....               LDI     R18, LOW((`?<Constant "+++">` + 4))
+   \   00000034   ....               LDI     R19, HIGH((`?<Constant "+++">` + 4))
+   \   00000036   ....               RCALL   ?Subroutine58
+    822              send_at();  
+    823              long_delay(1000000);//>3 sek
+   \                     ??CrossCallReturnLabel_132:
+   \   00000038   ....               RCALL   ?Subroutine57
+    824              
+    825           //   strcpy(At_buf, "at+cbst=12,0,1");      // пперейти в моду 9600
+    826           //   send_at(); 
+    827              
+    828              
+    829           //    strcpy(At_buf, "atv1");      // повесить трубку       
+    830           //   send_at();
+    831              
+    832              S1_RD;
+   \                     ??CrossCallReturnLabel_124:
+   \   0000003A   ....               RCALL   ?Subroutine23
+    833              S2_OFF;
+    834              S3_OFF;
+    835              S4_OFF;
+    836              S5_OFF;
+   \                     ??CrossCallReturnLabel_36:
+   \   0000003C   C012               RJMP    ??init_modem_call_inside_0
+    837              
+    838             
+    839              
+    840              sost_call=1;    //    вход в процедуру при состоянии call
+    841              
+    842              while(1) {
+    843                 __watchdog_reset();
+    844              switch(sost_call)
+    845              {
+    846              case 0:
+    847                {
+    848                  S2_RD;
+    849                  if (PINE & RI0)  { sost_call=1; break;}     // call
+    850                  if (PINE & DCD0) { sost_call=2; cnt_rx=0; break;}   // connect
+   \                     ??init_modem_call_inside_1:
+   \   0000003E   9B66               SBIS    0x0C, 0x06
+   \   00000040   C003               RJMP    ??init_modem_call_inside_2
+   \   00000042   E0A2               LDI     R26, 2
+   \   00000044   E080               LDI     R24, 0
+   \   00000046   E090               LDI     R25, 0
+   \                     ??init_modem_call_inside_2:
+   \   00000048   95A8               WDR
+   \   0000004A   2F0A               MOV     R16, R26
+   \   0000004C   23AA               TST     R26
+   \   0000004E   F029               BREQ    ??init_modem_call_inside_3
+   \   00000050   950A               DEC     R16
+   \   00000052   F049               BREQ    ??init_modem_call_inside_4
+   \   00000054   950A               DEC     R16
+   \   00000056   F049               BREQ    ??init_modem_call_inside_5
+   \   00000058   C09B               RJMP    ??init_modem_call_inside_6
+   \                     ??init_modem_call_inside_3:
+   \   0000005A   9A40               SBI     0x08, 0x00
+   \   0000005C   9841               CBI     0x08, 0x01
+   \   0000005E   9B67               SBIS    0x0C, 0x07
+   \   00000060   CFEE               RJMP    ??init_modem_call_inside_1
+   \                     ??init_modem_call_inside_0:
+   \   00000062   E0A1               LDI     R26, 1
+   \   00000064   CFF1               RJMP    ??init_modem_call_inside_2
+    851                  break;
+    852                }
+    853                
+    854              case 1:
+    855                {
+    856                 S2_GR;
+   \                     ??init_modem_call_inside_4:
+   \   00000066   ....               RCALL   ?Subroutine25
+    857                 strcpy(At_buf, "ata");     // поднять трубку и ждать connect      
+    858                 send_at();  
+   \                     ??CrossCallReturnLabel_127:
+   \   00000068   C093               RJMP    ??init_modem_call_inside_6
+    859                 sost_call=0;
+    860                 break;
+    861                }
+    862              
+    863              case 2:
+    864                {
+    865                  S2_YL;
+   \                     ??init_modem_call_inside_5:
+   \   0000006A   ....               RCALL   ?Subroutine45
+    866              //    if ( UCSR0A & 0x80) UDR2=UDR0;  // перекидываеи данные из порта GSM в СОМ порт 232 и наоборот дуплексный режим
+    867              //    if ( UCSR2A & 0x80) UDR0=UDR2;
+    868                 
+    869                  // обратный канал простой все что пришло по портам, то и толкаю в модем
+    870                  if ( UCSR2A & 0x80) UDR0=UDR2;
+   \                     ??CrossCallReturnLabel_77:
+   \   0000006C   FD07               SBRC    R16, 7
+   \   0000006E   ....               RCALL   ?Subroutine36
+    871                  if ( UCSR1A & 0x80) UDR0=UDR1;
+   \                     ??CrossCallReturnLabel_54:
+   \   00000070   910000C8           LDS     R16, 200
+   \   00000074   FF07               SBRS    R16, 7
+   \   00000076   C003               RJMP    ??CrossCallReturnLabel_55
+   \   00000078   910000CE           LDS     R16, 206
+   \   0000007C   ....               RCALL   ??Subroutine36_0
+    872                  if ( UCSR3A & 0x80) UDR0=UDR3;
+   \                     ??CrossCallReturnLabel_55:
+   \   0000007E   91000130           LDS     R16, 304
+   \   00000082   FF07               SBRS    R16, 7
+   \   00000084   C003               RJMP    ??CrossCallReturnLabel_56
+   \   00000086   91000136           LDS     R16, 310
+   \   0000008A   ....               RCALL   ??Subroutine36_0
+    873                  
+    874               /////////////////////////////////  
+    875                  if ( UCSR0A & 0x80) {
+   \                     ??CrossCallReturnLabel_56:
+   \   0000008C   ....               RCALL   ?Subroutine13
+   \                     ??CrossCallReturnLabel_15:
+   \   0000008E   FF07               SBRS    R16, 7
+   \   00000090   C062               RJMP    ??CrossCallReturnLabel_131
+    876                    a=UDR0;
+   \   00000092   91B000C6           LDS     R27, 198
+    877                  // накапливаем данные с порта UDR0 в массив
+    878                     At_com.cnt_rx_out=100;
+   \   00000096   ....               RCALL   ?Subroutine40
+    879                              
+    880                              if(cnt_rx < 1000)
+   \                     ??CrossCallReturnLabel_68:
+   \   00000098   3E88               CPI     R24, 232
+   \   0000009A   E003               LDI     R16, 3
+   \   0000009C   0790               CPC     R25, R16
+   \   0000009E   F424               BRGE    ??init_modem_call_inside_7
+    881                                    {
+    882                                     buf_tx_232[cnt_rx]=a;
+   \   000000A0   01FC               MOVW    R31:R30, R25:R24
+   \   000000A2   ....               RCALL   ??Subroutine39_0
+   \                     ??CrossCallReturnLabel_66:
+   \   000000A4   83B0               ST      Z, R27
+    883                                     cnt_rx++;
+   \   000000A6   9601               ADIW    R25:R24, 1
+    884                                     }
+    885                              
+    886                              
+    887                              str_cmp[0]=str_cmp[1];
+   \                     ??init_modem_call_inside_7:
+   \   000000A8   850D               LDD     R16, Y+13
+   \   000000AA   870C               STD     Y+12, R16
+    888                              str_cmp[1]=str_cmp[2];
+   \   000000AC   851E               LDD     R17, Y+14
+   \   000000AE   871D               STD     Y+13, R17
+    889                              str_cmp[2]=str_cmp[3];
+   \   000000B0   852F               LDD     R18, Y+15
+   \   000000B2   872E               STD     Y+14, R18
+    890                              str_cmp[3]=str_cmp[4];
+   \   000000B4   8938               LDD     R19, Y+16
+   \   000000B6   873F               STD     Y+15, R19
+    891                              str_cmp[4]=a & ~0x20;     // убить регистр верхний нижний
+   \   000000B8   2F0B               MOV     R16, R27
+   \   000000BA   7D0F               ANDI    R16, 0xDF
+   \   000000BC   8B08               STD     Y+16, R16
+    892                              
+    893                              if ( str_cmp[0]=='A'  && str_cmp[1]=='T' && str_cmp[2]=='D' && str_cmp[3]=='O' && str_cmp[4]=='N' ) {e_debug=4; 
+   \   000000BE   854C               LDD     R20, Y+12
+   \   000000C0   3441               CPI     R20, 65
+   \   000000C2   F469               BRNE    ??CrossCallReturnLabel_37
+   \   000000C4   3514               CPI     R17, 84
+   \   000000C6   F459               BRNE    ??CrossCallReturnLabel_37
+   \   000000C8   3424               CPI     R18, 68
+   \   000000CA   F449               BRNE    ??CrossCallReturnLabel_37
+   \   000000CC   343F               CPI     R19, 79
+   \   000000CE   F439               BRNE    ??CrossCallReturnLabel_37
+   \   000000D0   340E               CPI     R16, 78
+   \   000000D2   F411               BRNE    ??init_modem_call_inside_8
+   \   000000D4   ....               RCALL   ?Subroutine31
+    894                                           strcpy(At_buf, "OK");      //        
+    895                                           send_at(); }
+   \                     ??CrossCallReturnLabel_129:
+   \   000000D6   C003               RJMP    ??CrossCallReturnLabel_37
+   \                     ??init_modem_call_inside_8:
+   \   000000D8   3406               CPI     R16, 70
+   \   000000DA   F409               BRNE    ??CrossCallReturnLabel_37
+    896                              
+    897                              
+    898                              if ( str_cmp[0]=='A'  && str_cmp[1]=='T' && str_cmp[2]=='D' && str_cmp[3]=='O' && str_cmp[4]=='F' ) {e_debug=0; 
+   \   000000DC   ....               RCALL   ?Subroutine24
+    899                              strcpy(At_buf, "OK");      //        
+    900                              send_at();
+    901                              lock_it();}  // перезагрузиться прейти в GPRS моду
+    902                              
+    903                              //  запись контекста  в 12 разрядный регистр
+    904                              str_cmp1[0]=str_cmp1[1];
+   \                     ??CrossCallReturnLabel_37:
+   \   000000DE   8109               LDD     R16, Y+1
+   \   000000E0   8308               ST      Y, R16
+    905                              str_cmp1[1]=str_cmp1[2];
+   \   000000E2   ....               RCALL   ?Subroutine46
+    906                              str_cmp1[2]=str_cmp1[3];
+    907                              str_cmp1[3]=str_cmp1[4];
+    908                              str_cmp1[4]=str_cmp1[5];
+   \                     ??CrossCallReturnLabel_79:
+   \   000000E4   814D               LDD     R20, Y+5
+   \   000000E6   834C               STD     Y+4, R20
+    909                              str_cmp1[5]=str_cmp1[6];
+   \   000000E8   810E               LDD     R16, Y+6
+   \   000000EA   830D               STD     Y+5, R16
+    910                              str_cmp1[6]=str_cmp1[7];
+   \   000000EC   815F               LDD     R21, Y+7
+   \   000000EE   835E               STD     Y+6, R21
+    911                              str_cmp1[7]=str_cmp1[8];
+   \   000000F0   8508               LDD     R16, Y+8
+   \   000000F2   830F               STD     Y+7, R16
+    912                              str_cmp1[8]=str_cmp1[9];
+   \   000000F4   8579               LDD     R23, Y+9
+   \   000000F6   8778               STD     Y+8, R23
+    913                              str_cmp1[9]=str_cmp1[10];
+   \   000000F8   856A               LDD     R22, Y+10
+   \   000000FA   8769               STD     Y+9, R22
+    914                              str_cmp1[10]=str_cmp1[11];
+   \   000000FC   840B               LDD     R0, Y+11
+   \   000000FE   860A               STD     Y+10, R0
+    915                              str_cmp1[11]=a;
+   \   00000100   87BB               STD     Y+11, R27
+    916                              
+    917                              if ( str_cmp1[0]=='A'  &&
+    918                                   str_cmp1[1]=='T'  &&
+    919                                   str_cmp1[2]=='I'  &&
+    920                                   str_cmp1[3]=='F'  &&
+    921                                   str_cmp1[4]=='C'  &&
+    922                                //   str_cmp1[5]=='D'  &&
+    923                                   str_cmp1[6] =='='  && 
+    924                                   str_cmp1[7] <=0x33  && str_cmp1[7] >=0x30 &&
+    925                                   str_cmp1[8] ==','  &&  
+    926                                   str_cmp1[9] <=0x33  &&  str_cmp1[9] >=0x30 &&
+    927                                   str_cmp1[10]==','  &&   
+    928                                   str_cmp1[11] <=0x32  &&  str_cmp1[11] >=0x30  )      {
+   \   00000102   81B8               LD      R27, Y
+   \   00000104   34B1               CPI     R27, 65
+   \   00000106   F539               BRNE    ??CrossCallReturnLabel_131
+   \   00000108   3514               CPI     R17, 84
+   \   0000010A   F529               BRNE    ??CrossCallReturnLabel_131
+   \   0000010C   3429               CPI     R18, 73
+   \   0000010E   F519               BRNE    ??CrossCallReturnLabel_131
+   \   00000110   3436               CPI     R19, 70
+   \   00000112   F509               BRNE    ??CrossCallReturnLabel_131
+   \   00000114   3443               CPI     R20, 67
+   \   00000116   F4F9               BRNE    ??CrossCallReturnLabel_131
+   \   00000118   335D               CPI     R21, 61
+   \   0000011A   F4E9               BRNE    ??CrossCallReturnLabel_131
+   \   0000011C   3304               CPI     R16, 52
+   \   0000011E   F4D8               BRCC    ??CrossCallReturnLabel_131
+   \   00000120   3300               CPI     R16, 48
+   \   00000122   F0C8               BRCS    ??CrossCallReturnLabel_131
+   \   00000124   327C               CPI     R23, 44
+   \   00000126   F4B9               BRNE    ??CrossCallReturnLabel_131
+   \   00000128   3364               CPI     R22, 52
+   \   0000012A   F4A8               BRCC    ??CrossCallReturnLabel_131
+   \   0000012C   3360               CPI     R22, 48
+   \   0000012E   F098               BRCS    ??CrossCallReturnLabel_131
+   \   00000130   E21C               LDI     R17, 44
+   \   00000132   1601               CP      R0, R17
+   \   00000134   F481               BRNE    ??CrossCallReturnLabel_131
+   \   00000136   851B               LDD     R17, Y+11
+   \   00000138   3313               CPI     R17, 51
+   \   0000013A   F468               BRCC    ??CrossCallReturnLabel_131
+   \   0000013C   3310               CPI     R17, 48
+   \   0000013E   F058               BRCS    ??CrossCallReturnLabel_131
+    929                                                                                         baud_port=str_cmp1[7];
+   \   00000140   E04A               LDI     R20, 10
+   \   00000142   ....               RCALL   ?Subroutine37
+    930                                                                                         stop_port=str_cmp1[9];
+   \                     ??CrossCallReturnLabel_57:
+   \   00000144   2F06               MOV     R16, R22
+   \   00000146   E04B               LDI     R20, 11
+   \   00000148   ....               RCALL   ?Subroutine37
+    931                                                                                         pariti_port=str_cmp1[11];
+   \                     ??CrossCallReturnLabel_58:
+   \   0000014A   2F01               MOV     R16, R17
+   \   0000014C   E04C               LDI     R20, 12
+   \   0000014E   ....               RCALL   ?Subroutine37
+    932                                                                                         strcpy(At_buf, "OK");             
+   \                     ??CrossCallReturnLabel_59:
+   \   00000150   ....               LDI     R18, LOW((`?<Constant "+++">` + 8))
+   \   00000152   ....               LDI     R19, HIGH((`?<Constant "+++">` + 8))
+   \   00000154   ....               RCALL   ?Subroutine58
+    933                                                                                         send_at(); 
+    934                                     }
+    935                              
+    936                             
+    937                              
+    938                              
+    939                  }
+    940            /////////////////////////////////////////////
+    941                  
+    942                  if (fl_at_com.rx_rec==1)  {
+   \                     ??CrossCallReturnLabel_131:
+   \   00000156   ....               LDI     R30, LOW(fl_at_com)
+   \   00000158   ....               LDI     R31, (fl_at_com) >> 8
+   \   0000015A   8100               LD      R16, Z
+   \   0000015C   FF05               SBRS    R16, 5
+   \   0000015E   C016               RJMP    ??CrossCallReturnLabel_110
+    943                    fl_at_com.rx_rec=0;
+   \   00000160   ....               RCALL   ?Subroutine5
+    944                    
+    945                    SET_RTS1;
+    946                    SET_RTS3;
+    947                    long_delay(10000);
+    948                    __disable_interrupt();
+    949                    UDR2=UDR1=UDR3=buf_tx_232[0];
+    950                    UCSR2A = UCSR2A | 0x40;
+    951                    UCSR1A = UCSR1A | 0x40;
+    952                    UCSR3A = UCSR3A | 0x40;
+    953                    
+    954                    for ( i=1;i< (cnt_rx+1);i++) {
+   \                     ??CrossCallReturnLabel_3:
+   \   00000162   C00B               RJMP    ??CrossCallReturnLabel_83
+    955                
+    956          wait_ready2:
+    957              if ( (UCSR2A & 0x40) ==0) goto wait_ready2;
+    958              UCSR2A = UCSR2A | 0x40;
+    959              if(i==cnt_rx) goto exit_from;
+    960              UDR2=buf_tx_232[i];
+   \                     ??init_modem_call_inside_9:
+   \   00000164   ....               RCALL   ?Subroutine38
+    961              
+    962          wait_ready1:
+    963              if ( (UCSR1A & 0x40) ==0) goto wait_ready1;
+   \                     ??CrossCallReturnLabel_61:
+   \   00000166   912000C8           LDS     R18, 200
+   \   0000016A   FF26               SBRS    R18, 6
+   \   0000016C   CFFC               RJMP    ??CrossCallReturnLabel_61
+    964              UCSR1A = UCSR1A | 0x40;
+   \   0000016E   ....               RCALL   ?Subroutine49
+    965              UDR1=buf_tx_232[i];
+    966              
+    967              wait_ready3:
+    968              if ( (UCSR3A & 0x40) ==0) goto wait_ready3;
+   \                     ??CrossCallReturnLabel_85:
+   \   00000170   91200130           LDS     R18, 304
+   \   00000174   FF26               SBRS    R18, 6
+   \   00000176   CFFC               RJMP    ??CrossCallReturnLabel_85
+    969              UCSR3A = UCSR3A | 0x40;
+   \   00000178   ....               RCALL   ?Subroutine48
+   \                     ??CrossCallReturnLabel_83:
+   \   0000017A   ....               RCALL   ?Subroutine47
+   \                     ??CrossCallReturnLabel_81:
+   \   0000017C   F434               BRGE    ??init_modem_call_inside_10
+   \                     ??init_modem_call_inside_11:
+   \   0000017E   912000D0           LDS     R18, 208
+   \   00000182   FF26               SBRS    R18, 6
+   \   00000184   CFFC               RJMP    ??init_modem_call_inside_11
+   \   00000186   ....               RCALL   ?Subroutine50
+   \                     ??CrossCallReturnLabel_87:
+   \   00000188   F769               BRNE    ??init_modem_call_inside_9
+    970              UDR3=buf_tx_232[i];
+    971              
+    972              
+    973                                           }
+    974                    
+    975          exit_from:          
+    976                    __enable_interrupt();
+   \                     ??init_modem_call_inside_10:
+   \   0000018A   ....               RCALL   ?Subroutine4
+    977                 //   long_delay(100);
+    978                 //  ожидаем ухода последннего бита по порту 485 и снимаем RTS   
+    979                   
+    980                  CLR_RTS3;
+    981                         
+    982                  CLR_RTS1;
+    983                  
+    984                  cnt_rx=0;
+    985                  long_delay(100);
+    986                  a=UDR1;
+    987                  a=UDR2;
+    988                  a=UDR3;
+    989                  UCSR0B=UCSR0B | RXEN;  
+    990                  }
+    991           //////////////////////////////////////////////////////////////////////
+    992                  
+    993                  if ( (PINE & DCD0)==0 ) { sost_call=0; break;}   // потеря соединения
+   \                     ??CrossCallReturnLabel_110:
+   \   0000018C   9966               SBIC    0x0C, 0x06
+   \   0000018E   CF5C               RJMP    ??init_modem_call_inside_2
+   \                     ??init_modem_call_inside_6:
+   \   00000190   E0A0               LDI     R26, 0
+   \   00000192   CF5A               RJMP    ??init_modem_call_inside_2
+    994                  break;
+    995                }
+    996                
+    997              default: { sost_call=0; break;}
+    998              }
+    999              }
+   1000             
+   1001          }
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine37:
+   \   00000000   E050               LDI     R21, 0
+   \   00000002   ........           JMP     __eeput8_16
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine27:
+   \   00000000   95A8               WDR
+   \   00000002   ....               RJMP    ?Subroutine57
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine51:
+   \   00000000   93000135           STS     309, R16
+   \   00000004   E607               LDI     R16, 103
+   \   00000006   93000134           STS     308, R16
+   \   0000000A   9508               RET
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   \                     ?Subroutine26:
+   \   00000000   E000               LDI     R16, 0
+   \   00000002   930000C9           STS     201, R16
+   \   00000006   930000CD           STS     205, R16
+   \   0000000A   E607               LDI     R16, 103
+   \   0000000C   930000CC           STS     204, R16
+   \   00000010   9508               RET
+   1002          
+   1003          
+   1004          
+   1005          
+   1006          
+   1007          
+
+   \                                 In segment FARCODE, align 2, keep-with-next
+   1008          void init_ports_debug(void)
+   \                     init_ports_debug:
+   1009          {
+   1010             // Инициализация порта №1
+   1011            UCSR1B=0;
+   \   00000000   ....               RCALL   ?Subroutine26
+   1012            UBRR1H=R9600_H;
+   1013            UBRR1L=R9600_L;
+   1014            UCSR1B=UCSR1B | TXEN;
+   \                     ??CrossCallReturnLabel_40:
+   \   00000002   ....               RCALL   ?Subroutine28
+   1015            SET_RTS3;
+   \                     ??CrossCallReturnLabel_108:
+   \   00000004   9A5C               SBI     0x0B, 0x04
+   1016            
+   1017            // Инициализация порта №2 RS-232 №2
+   1018            UCSR2B=0;
+   \   00000006   E000               LDI     R16, 0
+   \   00000008   930000D1           STS     209, R16
+   1019            UBRR2H=R115200_H;
+   \   0000000C   930000D5           STS     213, R16
+   1020            UBRR2L=R115200_L;
+   \   00000010   E008               LDI     R16, 8
+   \   00000012   930000D4           STS     212, R16
+   1021            CLR_RTS2;
+   \   00000016   ....               RCALL   ?Subroutine16
+   1022            UCSR2B=UCSR2B | TXEN;
+   \                     ??CrossCallReturnLabel_20:
+   \   00000018   ....               RCALL   ?Subroutine10
+   1023            
+   1024            // Инициализация порта №3
+   1025            UCSR3B=0;
+   1026            UBRR3H=R9600_H;
+   \                     ??CrossCallReturnLabel_116:
+   \   0000001A   ....               RCALL   ?Subroutine51
+   1027            UBRR3L=R9600_L;
+   1028            UCSR3B=UCSR3B | TXEN;
+   \                     ??CrossCallReturnLabel_89:
+   \   0000001C   ....               RCALL   ?Subroutine29
+   1029            SET_RTS1;  
+   \                     ??CrossCallReturnLabel_118:
+   \   0000001E   ....               RCALL   ??Subroutine19_0
+   \                     ??CrossCallReturnLabel_26:
+   \   00000020   6004               ORI     R16, 0x04
+   \   00000022   ....               RCALL   ?Subroutine53
+   1030            
+   1031            S3_YL;
+   \                     ??CrossCallReturnLabel_97:
+   \   00000024   9A44               SBI     0x08, 0x04
+   \   00000026   9A45               SBI     0x08, 0x05
+   1032            S4_YL;
+   \   00000028   9A42               SBI     0x08, 0x02
+   \   0000002A   9A43               SBI     0x08, 0x03
+   1033           // S5_YL;
+   1034          }
+   \   0000002C   9508               RET
+
+   \                                 In segment NEAR_ID, align 1, keep-with-next
+   \                     `?<Initializer for <Constant "+++">>`:
+   \   00000000   2B2B002B           DB "+++"
+   \                     `?<Initializer for <Constant "ath">>`:
+   \   00000004   74610068           DB "ath"
+   \                     `?<Initializer for <Constant "OK">>`:
+   \   00000008   4B4F00             DB "OK"
+   \                     `?<Initializer for <Constant "ata">>`:
+   \   0000000B   74610061           DB "ata"
+   \                     `?<Initializer for <Constant "atv0">>`:
+   \   0000000F   7461307600         DB "atv0"
+
+   \                                 In segment NEAR_I, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_I>`
+   \                     `?<Constant "+++">`:
+   \   00000000                      DS 4
+   \   00000004                      REQUIRE `?<Initializer for <Constant "+++">>`
+   \   00000004                      DS 4
+   \   00000008                      REQUIRE `?<Initializer for <Constant "ath">>`
+   \   00000008                      DS 3
+   \   0000000B                      REQUIRE `?<Initializer for <Constant "OK">>`
+   \   0000000B                      DS 4
+   \   0000000F                      REQUIRE `?<Initializer for <Constant "ata">>`
+   \   0000000F                      DS 5
+   \   00000014                      REQUIRE `?<Initializer for <Constant "atv0">>`
+   1035          
+   1036          
+   1037          
+   1038          
+
+   Maximum stack usage in bytes:
+
+     Function                 CSTACK RSTACK
+     --------                 ------ ------
+     fun_init_sim900              0      3
+       -> s_port                  0      3
+       -> long_delay              0      3
+       -> long_delay              0      3
+       -> s_port                  0      3
+       -> long_delay              0      3
+       -> long_delay              0      3
+       -> s_port                  0      3
+       -> long_delay              0      3
+       -> s_port                  0      3
+     init_modem_call              9      6
+       -> long_delay              9      3
+       -> long_delay              9      3
+       -> long_delay              9      3
+       -> strcpy                  9      3
+       -> send_at                 9      3
+       -> strcpy                  9      3
+       -> send_at                 9      3
+       -> strcpy                  9      3
+       -> send_at                 9      3
+       -> strcpy                  9      3
+       -> send_at                 9      3
+       -> lock_it                 9      3
+       -> long_delay              9      3
+       -> long_delay              9      3
+     init_modem_call_inside      22      6
+       -> long_delay             22      3
+       -> strcpy                 22      3
+       -> send_atp               22      3
+       -> long_delay             22      3
+       -> long_delay             22      3
+       -> strcpy                 22      3
+       -> send_at                22      3
+       -> long_delay             22      3
+       -> strcpy                 22      3
+       -> send_at                22      3
+       -> strcpy                 22      3
+       -> send_at                22      3
+       -> strcpy                 22      3
+       -> send_at                22      3
+       -> lock_it                22      3
+       -> strcpy                 22      3
+       -> send_at                22      3
+       -> long_delay             22      3
+       -> long_delay             22      3
+     init_modem_only              0      3
+       -> long_delay              0      3
+       -> long_delay              0      3
+       -> long_delay              0      3
+       -> long_delay              0      3
+       -> control_temperatura     0      3
+     init_pins                    0      3
+     init_pins_hiz_to_out         0      3
+     init_pins_mkd_mod            0      3
+     init_pins_out_to_hiz         0      3
+     init_pins_ts_mod             0      3
+     init_ports_debug             0      3
+     init_proc_state              0      3
+     long_delay_wait_answer       2      3
+       -> long_delay              2      3
+     send_at                      0      3
+       -> strlen                  0      3
+       -> long_delay              0      3
+     send_atp                     0      3
+       -> strlen                  0      3
+       -> long_delay              0      3
+     send_to_sim900               0      3
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     _A_UDR3                           1
+     _A_UBRR3                          2
+     _A_UCSR3B                         1
+     _A_UCSR3A                         1
+     _A_PORTK                          1
+     _A_DDRK                           1
+     _A_PORTJ                          1
+     _A_DDRJ                           1
+     _A_PORTH                          1
+     _A_DDRH                           1
+     _A_UDR2                           1
+     _A_UBRR2                          2
+     _A_UCSR2B                         1
+     _A_UCSR2A                         1
+     _A_UDR1                           1
+     _A_UBRR1                          2
+     _A_UCSR1B                         1
+     _A_UCSR1A                         1
+     _A_UDR0                           1
+     _A_UBRR0                          2
+     _A_UCSR0B                         1
+     _A_UCSR0A                         1
+     _A_OCR2A                          1
+     _A_TCCR2B                         1
+     _A_TCCR2A                         1
+     _A_OCR3A                          2
+     _A_TCCR3B                         1
+     _A_ADMUX                          1
+     _A_ADCSRA                         1
+     _A_TIMSK3                         1
+     _A_TIMSK2                         1
+     _A_TIMSK0                         1
+     _A_PCMSK2                         1
+     _A_PCICR                          1
+     _A_OCR0A                          1
+     _A_TCNT0                          1
+     _A_TCCR0B                         1
+     _A_TCCR0A                         1
+     _A_PORTG                          1
+     _A_DDRG                           1
+     _A_PORTE                          1
+     _A_DDRE                           1
+     _A_PINE                           1
+     _A_PORTD                          1
+     _A_DDRD                           1
+     _A_PORTC                          1
+     _A_DDRC                           1
+     _A_PORTB                          1
+     _A_DDRB                           1
+     _A_PORTA                          1
+     _A_DDRA                           1
+     e_debug                           1
+     baud_port                         1
+     stop_port                         1
+     pariti_port                       1
+     At_buf                           10
+     point_GSM                         1
+     cnt_rx1                           1
+     init_pins_hiz_to_out              8
+     ?Subroutine52                     6
+     ?Subroutine3                     18
+     ?Subroutine1                     26
+     ?Subroutine55                     6
+     ?Subroutine13                     6
+     init_pins_out_to_hiz             30
+     ?Subroutine12                    10
+     init_pins_ts_mod                 26
+     ?Subroutine17                    10
+     ?Subroutine11                    18
+     ?Subroutine53                     6
+     init_pins_mkd_mod                42
+     init_pins                        84
+     ?Subroutine21                     6
+     ?Subroutine20                     6
+     ?Subroutine16                    12
+     ?Subroutine19                    10
+     ?Subroutine18                     6
+     ?Subroutine6                     18
+     ?Subroutine23                    22
+     ?Subroutine15                     8
+     init_proc_state                 138
+     ?Subroutine8                     18
+     ?Subroutine54                     6
+     ?Subroutine29                     6
+     ?Subroutine56                     6
+     ?Subroutine28                     8
+     ?Subroutine10                    14
+     init_modem_only                 124
+     ?Subroutine30                    10
+     ?Subroutine34                     8
+     ?Subroutine57                    12
+     ?Subroutine2                     28
+     ?Subroutine36                    10
+     ?Subroutine33                    18
+     ?Subroutine7                     28
+     ?Subroutine14                    28
+     long_delay_wait_answer          166
+     ?Subroutine39                     8
+     send_at                          42
+     ?Subroutine43                    12
+     ?Subroutine42                    18
+     send_to_sim900                   58
+     ?Subroutine44                    10
+     send_atp                         22
+     fun_init_sim900                  88
+     ?Subroutine35                    10
+     ?Subroutine32                    12
+     ?Subroutine9                     18
+     init_modem_call                 310
+     ?Subroutine50                    16
+     ?Subroutine49                    16
+     ?Subroutine48                    20
+     ?Subroutine47                    10
+     ?Subroutine46                    14
+     ?Subroutine45                    10
+     ?Subroutine58                    10
+     ?Subroutine40                    14
+     ?Subroutine38                    14
+     ?Subroutine31                    16
+     ?Subroutine25                    10
+     ?Subroutine24                    28
+     ?Subroutine5                     82
+     ?Subroutine4                     50
+     ?Subroutine0                    152
+     init_modem_call_inside          404
+     ?Subroutine37                     6
+     ?Subroutine27                     4
+     ?Subroutine51                    12
+     ?Subroutine26                    18
+     init_ports_debug                 46
+     ?<Initializer for <Constant "+++">>
+                                      20
+     ?<Constant "+++">                20
+      Others                          14
+
+ 
+    56 bytes in segment ABSOLUTE
+     4 bytes in segment EEPROM_AN
+ 2 572 bytes in segment FARCODE
+    14 bytes in segment INITTAB
+    20 bytes in segment NEAR_I
+    20 bytes in segment NEAR_ID
+    12 bytes in segment NEAR_Z
+ 
+ 2 592 bytes of CODE  memory (+ 14 bytes shared)
+    32 bytes of DATA  memory (+ 56 bytes shared)
+     0 bytes of XDATA memory (+  4 bytes shared)
+
+Errors: none
+Warnings: none

@@ -1,0 +1,589 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+//                                                     24/Oct/2025  13:29:18 /
+// IAR Atmel AVR C/C++ Compiler V4.12A/W32, Evaluation Version               /
+// Copyright 1996-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Source file  =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\logs.c         /
+//    Command line =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\logs.c         /
+//                    --cpu=m2560 -ms -o E:\sim800Elam2560_bootnew_i2cerr_a7 /
+//                    682e\Debug\Obj\ -lCN E:\sim800Elam2560_bootnew_i2cerr_ /
+//                    a7682e\Debug\List\ -lA E:\sim800Elam2560_bootnew_i2cer /
+//                    r_a7682e\Debug\List\ -y --initializers_in_flash -z9    /
+//                    --no_inline --no_tbaa --cross_call_passes=1 --debug    /
+//                    -e -I "E:\box\IAR Systems\Embedded Workbench 4.0       /
+//                    Evaluation\avr\INC\" -I "E:\box\IAR Systems\Embedded   /
+//                    Workbench 4.0 Evaluation\avr\INC\DLIB\" --eeprom_size  /
+//                    4096 --dlib_config "E:\box\IAR Systems\Embedded        /
+//                    Workbench 4.0 Evaluation\avr\LIB\DLIB\dlAVR-5s-ec-n.h" /
+//    List file    =  E:\sim800Elam2560_bootnew_i2cerr_a7682e\Debug\List\log /
+//                    s.s90                                                  /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME logs
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "5"
+        RTMODEL "__cpu_name", "ATmega2560"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?EPILOGUE_B4_L09
+        EXTERN ?EPILOGUE_B6_L09
+        EXTERN ?PROLOGUE4_L09
+        EXTERN ?PROLOGUE6_L09
+        EXTERN ?Register_R4_is_cg_reg
+        EXTERN ?Register_R5_is_cg_reg
+        EXTERN ?S_EC_MUL_L02
+        EXTERN ?need_segment_init
+
+        PUBWEAK `?<Segment init: NEAR_Z>`
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBLIC point_log_buf
+        PUBLIC serch_point_log
+        FUNCTION serch_point_log,021203H
+        LOCFRAME CSTACK, 12, STACK
+        LOCFRAME RSTACK, 6, STACK
+        PUBLIC write_log_info
+        FUNCTION write_log_info,021203H
+        LOCFRAME CSTACK, 12, STACK
+        LOCFRAME RSTACK, 6, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetByte3:8, ?RetHigh:8, ?RetLow:8
+        CFI VirtualResource ?Ret:25
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetByte3, ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Notused
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 SameValue
+        CFI R1 SameValue
+        CFI R2 SameValue
+        CFI R3 SameValue
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 SameValue
+        CFI R17 SameValue
+        CFI R18 SameValue
+        CFI R19 SameValue
+        CFI R20 SameValue
+        CFI R21 SameValue
+        CFI R22 SameValue
+        CFI R23 SameValue
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 SameValue
+        CFI R31 SameValue
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI Y SameValue
+        CFI EndCommon cfiCommon1
+        
+        EXTERN burst_ds_r
+        FUNCTION burst_ds_r,0202H
+        EXTERN WrArrayToFlesh
+        FUNCTION WrArrayToFlesh,0202H
+        EXTERN RdFromFleshToArr
+        FUNCTION RdFromFleshToArr,0202H
+        EXTERN buf_tx_232
+
+// E:\sim800Elam2560_bootnew_i2cerr_a7682e\logs.c
+//    1 #include "def_log.h"
+//    2 #include "map_ef.h"
+//    3 #include "def_link.h"
+//    4 #include "ozu_map.h"
+//    5 
+//    6 extern unsigned long int burst_ds_r(void);
+//    7 extern void WrArrayToFlesh(unsigned int adres_flesh,  unsigned char *adres_ozu, unsigned int num,unsigned char flag,unsigned char znach);   
+//    8 extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,unsigned int num);
+//    9 extern unsigned char buf_tx_232[VOL_TX_PPP];
+//   10 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   11 unsigned char point_log_buf;
+point_log_buf:
+        DS 1
+//   12 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   13  void write_log_info(unsigned char sost,unsigned char mesto)
+write_log_info:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function write_log_info
+//   14 {
+        FUNCALL write_log_info, burst_ds_r
+        LOCFRAME CSTACK, 12, STACK
+        LOCFRAME RSTACK, 3, STACK
+        FUNCALL write_log_info, WrArrayToFlesh
+        LOCFRAME CSTACK, 12, STACK
+        LOCFRAME RSTACK, 3, STACK
+        CALL	?PROLOGUE6_L09
+        CFI R5 Frame(CFA_Y, -1)
+        CFI R4 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -5)
+        CFI R24 Frame(CFA_Y, -6)
+        CFI CFA_Y Y+6
+        REQUIRE	?Register_R4_is_cg_reg
+        REQUIRE	?Register_R5_is_cg_reg
+        SBIW	R29:R28, 6
+        CFI CFA_Y Y+12
+        MOV	R25, R16
+        MOV	R24, R17
+//   15 
+//   16 unsigned char buf[6];
+//   17 
+//   18 *(unsigned long int*)&buf[0]=burst_ds_r();             
+        CALL	burst_ds_r
+        ST	Y, R16
+        STD	Y+1, R17
+        STD	Y+2, R18
+        STD	Y+3, R19
+//   19 buf[4]=sost;
+        STD	Y+4, R25
+//   20 buf[5]=mesto;
+        STD	Y+5, R24
+//   21 WrArrayToFlesh(BEG_BUF_LOG+point_log_buf*6,&buf[0],6,0,0);
+        LDI	R23, 0
+        LDI	R22, 0
+        LDI	R20, 6
+        LDI	R21, 0
+        MOVW	R19:R18, R29:R28
+        MOVW	R5:R4, R21:R20
+        LDS	R20, point_log_buf
+        RCALL	?Subroutine1
+??CrossCallReturnLabel_7:
+        SUBI	R16, 12
+        SBCI	R17, 254
+        MOVW	R21:R20, R5:R4
+        CALL	WrArrayToFlesh
+//   22 point_log_buf++;
+        LDI	R30, LOW(point_log_buf)
+        LDI	R31, (point_log_buf) >> 8
+        LD	R16, Z
+        INC	R16
+        ST	Z, R16
+//   23 if(point_log_buf>=L_LOG)point_log_buf=0;
+        CPI	R16, 40
+        BRCS	??write_log_info_0
+        ST	Z, R5
+//   24 }
+??write_log_info_0:
+        ADIW	R29:R28, 6
+        CFI CFA_Y Y+6
+        LDI	R30, 6
+        JMP	?EPILOGUE_B6_L09
+        CFI EndBlock cfiBlock0
+//   25 
+//   26 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   27 void serch_point_log (void)
+serch_point_log:
+        CFI Block cfiBlock1 Using cfiCommon0
+        CFI Function serch_point_log
+//   28 {
+        FUNCALL serch_point_log, RdFromFleshToArr
+        LOCFRAME CSTACK, 12, STACK
+        LOCFRAME RSTACK, 3, STACK
+        CALL	?PROLOGUE4_L09
+        CFI R27 Frame(CFA_Y, -1)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        SBIW	R29:R28, 8
+        CFI CFA_Y Y+12
+//   29 
+//   30 unsigned int i;
+//   31 union
+//   32      {
+//   33       unsigned char bytes[4]; 
+//   34       unsigned long int word;
+//   35      }temp_long,temp_long1;     
+//   36 
+//   37 
+//   38 RdFromFleshToArr(BEG_BUF_LOG,&buf_tx_232[0],(L_LOG*6));
+        LDI	R26, LOW(buf_tx_232)
+        LDI	R27, (buf_tx_232) >> 8
+        LDI	R20, 240
+        LDI	R21, 0
+        MOVW	R19:R18, R27:R26
+        LDI	R16, 244
+        LDI	R17, 1
+        CALL	RdFromFleshToArr
+//   39 
+//   40 temp_long.bytes[0]=buf_tx_232[0];
+        LD	R16, X
+        ST	Y, R16
+//   41 temp_long.bytes[1]=buf_tx_232[1];
+        MOVW	R31:R30, R27:R26
+        LDD	R16, Z+1
+        STD	Y+1, R16
+//   42 temp_long.bytes[2]=buf_tx_232[2];
+        LDD	R16, Z+2
+        STD	Y+2, R16
+//   43 temp_long.bytes[3]=buf_tx_232[3];
+        LDD	R16, Z+3
+        STD	Y+3, R16
+//   44 if(temp_long.word==0)
+        LD	R16, Y
+        LDD	R17, Y+1
+        LDD	R18, Y+2
+        LDD	R19, Y+3
+        OR	R16, R17
+        OR	R16, R18
+        OR	R16, R19
+        BRNE	??serch_point_log_0
+//   45    {
+//   46    point_log_buf=0;
+??serch_point_log_1:
+        LDI	R16, 0
+        STS	point_log_buf, R16
+//   47    return;
+        RJMP	??serch_point_log_2
+//   48    }
+//   49    
+//   50 for(i=0;i<(L_LOG-1);i++)
+??serch_point_log_0:
+        LDI	R24, 0
+        LDI	R25, 0
+        RJMP	??serch_point_log_3
+??serch_point_log_4:
+        ADIW	R25:R24, 1
+        CPI	R24, 39
+        LDI	R16, 0
+        CPC	R25, R16
+        BRCC	??serch_point_log_1
+//   51   {
+//   52   temp_long.bytes[0]=buf_tx_232[i*6];
+??serch_point_log_3:
+        MOVW	R21:R20, R25:R24
+        RCALL	?Subroutine1
+??CrossCallReturnLabel_8:
+        MOVW	R31:R30, R27:R26
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_0:
+        ST	Y, R18
+//   53   temp_long.bytes[1]=buf_tx_232[(i*6)+1];
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 1
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_1:
+        STD	Y+1, R18
+//   54   temp_long.bytes[2]=buf_tx_232[(i*6)+2];
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 2
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_2:
+        STD	Y+2, R18
+//   55   temp_long.bytes[3]=buf_tx_232[(i*6)+3];
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 3
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_3:
+        STD	Y+3, R18
+//   56   
+//   57   temp_long1.bytes[0]=buf_tx_232[(i*6)+6];
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 6
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_4:
+        STD	Y+4, R18
+//   58   temp_long1.bytes[1]=buf_tx_232[(i*6)+6+1];
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 7
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_5:
+        STD	Y+5, R18
+//   59   temp_long1.bytes[2]=buf_tx_232[(i*6)+6+2];
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 8
+        RCALL	?Subroutine0
+??CrossCallReturnLabel_6:
+        STD	Y+6, R18
+//   60   temp_long1.bytes[3]=buf_tx_232[(i*6)+6+3];
+        MOVW	R31:R30, R27:R26
+        ADIW	R31:R30, 9
+        ADD	R30, R16
+        ADC	R31, R17
+        LD	R16, Z
+        STD	Y+7, R16
+//   61   
+//   62   if(temp_long1.word<temp_long.word) 
+        LDD	R16, Y+4
+        LDD	R17, Y+5
+        LDD	R19, Y+7
+        LD	R20, Y
+        LDD	R21, Y+1
+        LDD	R22, Y+2
+        LDD	R23, Y+3
+        CP	R16, R20
+        CPC	R17, R21
+        CPC	R18, R22
+        CPC	R19, R23
+        BRCC	??serch_point_log_4
+//   63      {
+//   64      point_log_buf=i+1; 
+        INC	R24
+        STS	point_log_buf, R24
+//   65      if(point_log_buf>=L_LOG)point_log_buf=0; 
+        LDS	R16, point_log_buf
+        CPI	R16, 40
+        BRCS	$+2+2
+        RJMP	??serch_point_log_1
+??serch_point_log_2:
+        ADIW	R29:R28, 8
+        CFI CFA_Y Y+4
+        LDI	R30, 4
+        JMP	?EPILOGUE_B4_L09
+        CFI EndBlock cfiBlock1
+//   66      return;
+//   67      }
+//   68   }
+//   69   
+//   70  point_log_buf=0; 
+//   71 }  
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine1:
+        CFI Block cfiCond2 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_7
+        CFI R24 Frame(CFA_Y, -6)
+        CFI R25 Frame(CFA_Y, -5)
+        CFI R26 Frame(CFA_Y, -4)
+        CFI R27 Frame(CFA_Y, -3)
+        CFI R4 Frame(CFA_Y, -2)
+        CFI R5 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+12
+        CFI Block cfiCond3 Using cfiCommon0
+        CFI (cfiCond3) NoFunction
+        CFI (cfiCond3) Conditional ??CrossCallReturnLabel_8
+        CFI (cfiCond3) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond3) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond3) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond3) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond3) CFA_SP SP+6
+        CFI (cfiCond3) CFA_Y Y+12
+        CFI Block cfiPicker4 Using cfiCommon1
+        CFI (cfiPicker4) NoFunction
+        CFI (cfiPicker4) Picker
+        LDI	R16, 6
+        LDI	R17, 0
+        JMP	?S_EC_MUL_L02
+        CFI EndBlock cfiCond2
+        CFI EndBlock cfiCond3
+        CFI EndBlock cfiPicker4
+
+        RSEG FARCODE:CODE:NOROOT(1)
+?Subroutine0:
+        CFI Block cfiCond5 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_0
+        CFI R24 Frame(CFA_Y, -4)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_SP SP+6
+        CFI CFA_Y Y+12
+        CFI Block cfiCond6 Using cfiCommon0
+        CFI (cfiCond6) NoFunction
+        CFI (cfiCond6) Conditional ??CrossCallReturnLabel_1
+        CFI (cfiCond6) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond6) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond6) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond6) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond6) CFA_SP SP+6
+        CFI (cfiCond6) CFA_Y Y+12
+        CFI Block cfiCond7 Using cfiCommon0
+        CFI (cfiCond7) NoFunction
+        CFI (cfiCond7) Conditional ??CrossCallReturnLabel_2
+        CFI (cfiCond7) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond7) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond7) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond7) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond7) CFA_SP SP+6
+        CFI (cfiCond7) CFA_Y Y+12
+        CFI Block cfiCond8 Using cfiCommon0
+        CFI (cfiCond8) NoFunction
+        CFI (cfiCond8) Conditional ??CrossCallReturnLabel_3
+        CFI (cfiCond8) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond8) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond8) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond8) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond8) CFA_SP SP+6
+        CFI (cfiCond8) CFA_Y Y+12
+        CFI Block cfiCond9 Using cfiCommon0
+        CFI (cfiCond9) NoFunction
+        CFI (cfiCond9) Conditional ??CrossCallReturnLabel_4
+        CFI (cfiCond9) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond9) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond9) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond9) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond9) CFA_SP SP+6
+        CFI (cfiCond9) CFA_Y Y+12
+        CFI Block cfiCond10 Using cfiCommon0
+        CFI (cfiCond10) NoFunction
+        CFI (cfiCond10) Conditional ??CrossCallReturnLabel_5
+        CFI (cfiCond10) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond10) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond10) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond10) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond10) CFA_SP SP+6
+        CFI (cfiCond10) CFA_Y Y+12
+        CFI Block cfiCond11 Using cfiCommon0
+        CFI (cfiCond11) NoFunction
+        CFI (cfiCond11) Conditional ??CrossCallReturnLabel_6
+        CFI (cfiCond11) R24 Frame(CFA_Y, -4)
+        CFI (cfiCond11) R25 Frame(CFA_Y, -3)
+        CFI (cfiCond11) R26 Frame(CFA_Y, -2)
+        CFI (cfiCond11) R27 Frame(CFA_Y, -1)
+        CFI (cfiCond11) CFA_SP SP+6
+        CFI (cfiCond11) CFA_Y Y+12
+        CFI Block cfiPicker12 Using cfiCommon1
+        CFI (cfiPicker12) NoFunction
+        CFI (cfiPicker12) Picker
+        ADD	R30, R16
+        ADC	R31, R17
+        LD	R18, Z
+        RET
+        CFI EndBlock cfiCond5
+        CFI EndBlock cfiCond6
+        CFI EndBlock cfiCond7
+        CFI EndBlock cfiCond8
+        CFI EndBlock cfiCond9
+        CFI EndBlock cfiCond10
+        CFI EndBlock cfiCond11
+        CFI EndBlock cfiPicker12
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_Z>`:
+        DW	SFE(NEAR_Z) - SFB(NEAR_Z)
+        DW	SFB(NEAR_Z)
+        DP	0
+        REQUIRE ?need_segment_init
+
+        END
+//   72 
+//   73 
+//   74 
+// 
+// 294 bytes in segment FARCODE
+//   7 bytes in segment INITTAB
+//   1 byte  in segment NEAR_Z
+// 
+// 294 bytes of CODE memory (+ 7 bytes shared)
+//   1 byte  of DATA memory
+//
+//Errors: none
+//Warnings: none

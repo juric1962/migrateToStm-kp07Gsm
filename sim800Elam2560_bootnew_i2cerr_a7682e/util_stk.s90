@@ -1,0 +1,91 @@
+
+ EXTERN array_in_232
+
+ EXTERN saver_global_var
+
+RSEG CODE
+
+ NAME my_util_stack 
+ 
+
+  
+ PUBLIC move_to_saver,pop_from_saver
+ 
+; PUBLIC boot,reload_apl
+;  EXTERN move_to_saver,pop_from_saver,r_p_flash
+  PUBLIC boot_HUGE,reload_apl_HUGE
+  EXTERN boot,reload_apl
+; 
+;   ORG 0x20000
+;  
+; boot_HUGE:   
+;           jmp boot 
+; reload_apl_HUGE:
+;          jmp reload_apl 
+
+
+
+; загрузка страницы это подпрограмма  программа 
+; 1fe00*2 = 3fc00
+; бит EIND установлен
+  boot_HUGE:
+   push r30
+   push r31
+   ldi r30,0
+   ldi r31,0xfe
+   eijmp
+;point_debug:   
+;   pop r31
+;   pop r30
+;   ret
+ 
+; презагрузка программа в стеке ничего не пр€чем 
+; 1ff00*2 = 3fe00
+reload_apl_HUGE:
+ 
+
+   ldi r30,0
+   ldi r31,0xff
+   eijmp 
+ 
+ 
+ 
+            
+ move_to_saver:
+ 
+ push r16
+  
+ ldd  r16,Z+32
+ sts LWRD (saver_global_var),r16
+ ldd  r16,Z+33
+ sts LWRD (saver_global_var+1),r16
+ 
+ lds r16, array_in_232
+ std Z+32,r16
+ lds r16, array_in_232+1
+ std Z+33,r16
+ 
+ 
+ pop r16;
+ ret
+ 
+ 
+ 
+ pop_from_saver:
+ 
+ push r16
+ 
+ lds r16, saver_global_var
+ std Z+32,r16
+ lds r16, saver_global_var+1
+ std Z+33,r16
+ 
+ 
+  pop r16
+ 
+ 
+ 
+ ret
+
+
+end
