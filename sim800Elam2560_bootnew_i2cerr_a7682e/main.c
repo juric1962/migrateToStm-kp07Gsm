@@ -48,7 +48,7 @@ extern unsigned int prov_ozu;
 
 unsigned char check_memory_map(void);
 void vosstan_memory(void);
-void monitor_terminal(void); // проверка терминала
+void monitor_terminal(void); // РїСЂРѕРІРµСЂРєР° С‚РµСЂРјРёРЅР°Р»Р°
 void load_par_from_memory(void);
 void load_rw_pdp(void);
 void load_rw_pdp_r(void);
@@ -75,7 +75,7 @@ void main(void) {
   // if(Regim !=MODEM_ONLY)
   init_proc_state();
 
-  /////////////////////////  Для отладки потом убрать
+  /////////////////////////  Р”Р»СЏ РѕС‚Р»Р°РґРєРё РїРѕС‚РѕРј СѓР±СЂР°С‚СЊ
   //  UBRR2H=R9600_H;
   //  UBRR2L=R9600_L;
   ////////////////////////
@@ -83,16 +83,16 @@ void main(void) {
   WDTCSR = 0x18;
   WDTCSR = 0x0f;
 
-  long_delay(1000000); // для внешней флешки
+  long_delay(1000000); // РґР»СЏ РІРЅРµС€РЅРµР№ С„Р»РµС€РєРё
   __watchdog_reset();
 
   start_time();
 
   //
   //
-  // засинхронизировать часы 19 01 2024
-  //  после синхронизации в unix появляется значение времени
-  // переменная errRealTime.predUnix принимает значение unix
+  // Р·Р°СЃРёРЅС…СЂРѕРЅРёР·РёСЂРѕРІР°С‚СЊ С‡Р°СЃС‹ 19 01 2024
+  //  РїРѕСЃР»Рµ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё РІ unix РїРѕСЏРІР»СЏРµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµ РІСЂРµРјРµРЅРё
+  // РїРµСЂРµРјРµРЅРЅР°СЏ errRealTime.predUnix РїСЂРёРЅРёРјР°РµС‚ Р·РЅР°С‡РµРЅРёРµ unix
 
   for (I123 = 0; I123 < 20; I123++) {
     long_delay(100);
@@ -118,7 +118,7 @@ void main(void) {
   // s_port(dbbb++);  // dbg
   __watchdog_reset();
 
-  monitor_terminal(); // проверка терминала  13 05 2015!!!!!!!!!!!
+  monitor_terminal(); // РїСЂРѕРІРµСЂРєР° С‚РµСЂРјРёРЅР°Р»Р°  13 05 2015!!!!!!!!!!!
                       // s_port(dbbb++);  // dbg
   __watchdog_reset();
 
@@ -143,7 +143,7 @@ void main(void) {
   //  var3=RG_DEBAG;
   //   Regim=RG_DEBAG;
 
-  // Regim=MODEM_ONLY; // проверка терминала  13 05 2015!!!!!!!!!!!
+  // Regim=MODEM_ONLY; // РїСЂРѕРІРµСЂРєР° С‚РµСЂРјРёРЅР°Р»Р°  13 05 2015!!!!!!!!!!!
 
   //  if((Regim==MODEM_ONLY)||(Regim==MODEM_ONLY_R)){init_modem_only();}
   //  //dobavka 01 09 25

@@ -33,29 +33,29 @@ extern struct {
   unsigned char cnt_tx;
   unsigned char cnt_rx;
   unsigned char ln_buf;
-  unsigned char list_com[VOL_LIST]; // перечень исполняемых команд
-  unsigned char ln_list;            // длина перечня
-  unsigned char cnt_com;            // счетчик команд
-  unsigned int cnt_tm_out;          // счетчик времени ожидания ответа
-  unsigned int vol_tm_out;          // предел времени ожидания ответа
-  unsigned int cnt_rx_out;          // счетчик межбайтовый промежуток
-  unsigned int vol_rx_out;          // предел межбайтового промежутка
+  unsigned char list_com[VOL_LIST]; // РїРµСЂРµС‡РµРЅСЊ РёСЃРїРѕР»РЅСЏРµРјС‹С… РєРѕРјР°РЅРґ
+  unsigned char ln_list;            // РґР»РёРЅР° РїРµСЂРµС‡РЅСЏ
+  unsigned char cnt_com;            // СЃС‡РµС‚С‡РёРє РєРѕРјР°РЅРґ
+  unsigned int cnt_tm_out;          // СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё РѕР¶РёРґР°РЅРёСЏ РѕС‚РІРµС‚Р°
+  unsigned int vol_tm_out;          // РїСЂРµРґРµР» РІСЂРµРјРµРЅРё РѕР¶РёРґР°РЅРёСЏ РѕС‚РІРµС‚Р°
+  unsigned int cnt_rx_out;          // СЃС‡РµС‚С‡РёРє РјРµР¶Р±Р°Р№С‚РѕРІС‹Р№ РїСЂРѕРјРµР¶СѓС‚РѕРє
+  unsigned int vol_rx_out;          // РїСЂРµРґРµР» РјРµР¶Р±Р°Р№С‚РѕРІРѕРіРѕ РїСЂРѕРјРµР¶СѓС‚РєР°
 } At_com;
 
 extern struct {
-  unsigned char ok : 1;        // требуемый ответ
-  unsigned char err : 1;       // ошибочный, нетребуемый ответ
-  unsigned char tm_out : 1;    // отсутствие ответа
-  unsigned char tx_en : 1;     // послать комманду
-  unsigned char rx_en : 1;     // принимать ответы
-  unsigned char rx_rec : 1;    // принят ответ
-  unsigned char greg_ereg : 1; // пакетник GPRS or LTE
-  // unsigned char tm_out_en:1;//разрешение анализа по превышению времени
-  // ожидания ответа
+  unsigned char ok : 1;        // С‚СЂРµР±СѓРµРјС‹Р№ РѕС‚РІРµС‚
+  unsigned char err : 1;       // РѕС€РёР±РѕС‡РЅС‹Р№, РЅРµС‚СЂРµР±СѓРµРјС‹Р№ РѕС‚РІРµС‚
+  unsigned char tm_out : 1;    // РѕС‚СЃСѓС‚СЃС‚РІРёРµ РѕС‚РІРµС‚Р°
+  unsigned char tx_en : 1;     // РїРѕСЃР»Р°С‚СЊ РєРѕРјРјР°РЅРґСѓ
+  unsigned char rx_en : 1;     // РїСЂРёРЅРёРјР°С‚СЊ РѕС‚РІРµС‚С‹
+  unsigned char rx_rec : 1;    // РїСЂРёРЅСЏС‚ РѕС‚РІРµС‚
+  unsigned char greg_ereg : 1; // РїР°РєРµС‚РЅРёРє GPRS or LTE
+  // unsigned char tm_out_en:1;//СЂР°Р·СЂРµС€РµРЅРёРµ Р°РЅР°Р»РёР·Р° РїРѕ РїСЂРµРІС‹С€РµРЅРёСЋ РІСЂРµРјРµРЅРё
+  // РѕР¶РёРґР°РЅРёСЏ РѕС‚РІРµС‚Р°
 } fl_at_com;
 
 void init_pins_hiz_to_out(void) {
-  // Конфигурирование ног порта №0 RS232-1
+  // РљРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РЅРѕРі РїРѕСЂС‚Р° в„–0 RS232-1
   PIN_OUT_PORT0;
   PIN_IN_PORT0;
   SET_DTR0;
@@ -68,7 +68,7 @@ void init_pins_hiz_to_out(void) {
 }
 
 void init_pins_out_to_hiz(void) {
-  // Конфигурирование ног порта №0 RS232-1
+  // РљРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РЅРѕРі РїРѕСЂС‚Р° в„–0 RS232-1
 
   PIN_HIZ_PORT0;
 
@@ -87,50 +87,50 @@ void init_pins_mkd_mod(void) {
 
 void init_pins(void) {
   /*
-  //Конфигурирование ног порта №0 RS232-1
+  //РљРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РЅРѕРі РїРѕСЂС‚Р° в„–0 RS232-1
   PIN_OUT_PORT0;
   PIN_IN_PORT0;
   SET_DTR0;
   SET_RTS0;
   */
 
-  // Конфигурирование ног порта №1 RS485-1
+  // РљРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РЅРѕРі РїРѕСЂС‚Р° в„–1 RS485-1
   PIN_OUT_PORT1;
   CLR_RTS1;
 
-  // Конфигурирование ног порта №2 RS232-2
+  // РљРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РЅРѕРі РїРѕСЂС‚Р° в„–2 RS232-2
   PIN_OUT_PORT2;
   PIN_IN_PORT2;
   CLR_RTS2;
 
-  // Конфигурирование ног порта №3 RS485-2
+  // РљРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РЅРѕРі РїРѕСЂС‚Р° в„–3 RS485-2
   PIN_OUT_PORT3;
   CLR_RTS3;
 
-  // конфигурирование ног управления SIM
+  // РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РЅРѕРі СѓРїСЂР°РІР»РµРЅРёСЏ SIM
   PIN_OUT_SIM;
   SET_SIM1;
 
-  // конфигурирование ноги включения питания модема
+  // РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РЅРѕРіРё РІРєР»СЋС‡РµРЅРёСЏ РїРёС‚Р°РЅРёСЏ РјРѕРґРµРјР°
   PIN_OUT_PWR;
   CLR_PWR;
 
-  // конфигурирование ноги включение модема
+  // РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РЅРѕРіРё РІРєР»СЋС‡РµРЅРёРµ РјРѕРґРµРјР°
   PIN_OUT_PWRK;
   SET_PWRK;
 
-  // конфигурирование ног ТС
+  // РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РЅРѕРі РўРЎ
   PIN_IN_TC1
   PIN_IN_TC2
 
   // PIN_IN_TS1_8;
   PIN_OUT_TU;
 
-  // конфигурирование ноги TEN
+  // РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РЅРѕРіРё TEN
   PIN_OUT_TEN;
   CLR_TEN;
 
-  // конфигурация ног светодиодов
+  // РєРѕРЅС„РёРіСѓСЂР°С†РёСЏ РЅРѕРі СЃРІРµС‚РѕРґРёРѕРґРѕРІ
   PIN_OUT_S1;
   PIN_OUT_S2_S5;
   S1_OFF;
@@ -141,7 +141,7 @@ void init_pins(void) {
 }
 
 void init_proc_state(void) {
-  // Инициализация порта №0
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–0
 
   UCSR0B = 0;
   // UBRR0H=R9600_H;
@@ -158,38 +158,38 @@ void init_proc_state(void) {
     UCSR0A=UCSR0A | TXC;
    */
 
-  // Инициализация порта №1
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–1
   UCSR1B = 0;
   UCSR1B = UCSR1B | TXEN;
 
-  // Инициализация порта №2 RS-232 №2
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–2 RS-232 в„–2
   UCSR2B = 0;
   CLR_RTS2;
   UBRR2H = R9600_H;
   UBRR2L = R9600_L;
   UCSR2B = UCSR2B | TXEN;
 
-  // Инициализация порта №3
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–3
   UCSR3B = 0;
   UCSR3B = UCSR3B | TXEN;
 
-  // таймер 0
+  // С‚Р°Р№РјРµСЂ 0
   OCR0A = 85; // 340mks
   TCCR0A = 0x02;
-  TCCR0B = 0x03; // прескалер 64
+  TCCR0B = 0x03; // РїСЂРµСЃРєР°Р»РµСЂ 64
   TCNT0 = 0;
   TIMSK0 = TIMSK0 | 0x02;
 
-  // таймер2
-  OCR2A = 64; // 1,024 мсек
+  // С‚Р°Р№РјРµСЂ2
+  OCR2A = 64; // 1,024 РјСЃРµРє
   TCCR2A = 0x02;
-  TCCR2B = 0x06; // прескалер 256
+  TCCR2B = 0x06; // РїСЂРµСЃРєР°Р»РµСЂ 256
   TIMSK2 = TIMSK2 | 0x02;
 
-  // таймер 3`
+  // С‚Р°Р№РјРµСЂ 3`
   OCR3AH = 0x3d; // 15625
   OCR3AL = 0x09;
-  TCCR3B = 0x0d; // преск 1024            // 1 сек
+  TCCR3B = 0x0d; // РїСЂРµСЃРє 1024            // 1 СЃРµРє
   TIMSK3 = TIMSK3 | 0x02;
 
   SCL_OUT; // i2C
@@ -202,7 +202,7 @@ void init_proc_state(void) {
 }
 
 void init_modem_only(void) {
-  // Инициализация порта №0
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–0
 
   UCSR0B = 0;
   // UBRR0H=R9600_H;
@@ -211,10 +211,10 @@ void init_modem_only(void) {
   UBRR0H = R115200_H;
   UBRR0L = R115200_L;
 
-  // Инициализация порта №1
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–1
   UCSR1B = 0;
 
-  // Инициализация порта №2
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–2
   SET_RTS2;
   UCSR2B = 0;
   UBRR2H = R9600_H;
@@ -224,7 +224,7 @@ void init_modem_only(void) {
   UCSR2B = UCSR2B | RXEN;
   UCSR2B = UCSR2B | TXEN;
   UCSR2B = UCSR2B | RXCIE;
-  // Инициализация порта №3
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–3
 
   UCSR3B = 0;
 
@@ -291,7 +291,7 @@ void long_delay_wait_answer(unsigned long int period) {
   char i;
 bad1:
   if (UCSR0A & 0x80) {
-    // накапливаем данные с порта UDR0 в массив
+    // РЅР°РєР°РїР»РёРІР°РµРј РґР°РЅРЅС‹Рµ СЃ РїРѕСЂС‚Р° UDR0 РІ РјР°СЃСЃРёРІ
     At_com.cnt_rx_out = 100;
 
     if (cnt_rx1 < 100) {
@@ -341,7 +341,7 @@ void send_at(void) {
     UDR0 = At_buf[i];
   }
   long_delay(1000000);
-  //  i=UDR0;  // мусор выгрести
+  //  i=UDR0;  // РјСѓСЃРѕСЂ РІС‹РіСЂРµСЃС‚Рё
 }
 
 void send_to_sim900(char num) {
@@ -350,7 +350,7 @@ void send_to_sim900(char num) {
   UCSR0B = UCSR0B | RXEN;
   UCSR0B = UCSR0B & ~TXCIE;
   //   UCSR0B=UCSR0B & ~RXCIE;
-  UCSR0B = UCSR0B | RXCIE; // разрешить прием от SIM модуля
+  UCSR0B = UCSR0B | RXCIE; // СЂР°Р·СЂРµС€РёС‚СЊ РїСЂРёРµРј РѕС‚ SIM РјРѕРґСѓР»СЏ
   for (i = 0; i < num; i++) {
 
   wait_ready:
@@ -360,7 +360,7 @@ void send_to_sim900(char num) {
     UDR0 = buf_tx_232[i];
   }
   cnt_rx1 = 0;
-  //   long_delay_wait_answer(500000); // УВЕЛИЧИЛ В 5 РАЗ
+  //   long_delay_wait_answer(500000); // РЈР’Р•Р›РР§РР› Р’ 5 Р РђР—
 }
 
 void send_atp(void) {
@@ -376,7 +376,7 @@ void send_atp(void) {
     UDR0 = At_buf[i];
   }
   long_delay(1000000);
-  //  i=UDR0;  // мусор выгрести
+  //  i=UDR0;  // РјСѓСЃРѕСЂ РІС‹РіСЂРµСЃС‚Рё
 }
 
 void fun_init_sim900(void) {
@@ -390,7 +390,7 @@ void fun_init_sim900(void) {
 
   SET_SIM1; // dobavka
   s_port('.');
-  CLR_PWR; // выключить питание
+  CLR_PWR; // РІС‹РєР»СЋС‡РёС‚СЊ РїРёС‚Р°РЅРёРµ
   SET_PWRK;
   __watchdog_reset();
   long_delay(10000000 / 4); //
@@ -434,7 +434,7 @@ void fun_init_sim900(void) {
    Regim=MODEM_ONLY;  //
    __enable_interrupt();
 
-   strcpy(At_buf, "AT+CBST=0,0,1");      // АВТО моду
+   strcpy(At_buf, "AT+CBST=0,0,1");      // РђР’РўРћ РјРѕРґСѓ
    send_at();
 
      UBRR0H=R4800_H;
@@ -464,7 +464,7 @@ void init_modem_call(void) {
   // UBRR0H=R115200_H;
   // UBRR0L=R115200_L;
 
-  // Инициализация порта №2
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–2
   SET_RTS2;
   UCSR2B = 0;
   UBRR2H = R9600_H;
@@ -545,7 +545,7 @@ void init_modem_call(void) {
 
     case 1: {
       S2_GR;
-      strcpy(At_buf, "ata"); // поднять трубку и ждать connect
+      strcpy(At_buf, "ata"); // РїРѕРґРЅСЏС‚СЊ С‚СЂСѓР±РєСѓ Рё Р¶РґР°С‚СЊ connect
       send_at();
       sost_call = 0;
       break;
@@ -553,11 +553,11 @@ void init_modem_call(void) {
 
     case 2: {
       S2_YL;
-      //    if ( UCSR0A & 0x80) UDR2=UDR0;  // перекидываеи данные из порта GSM
-      //    в СОМ порт 232 и наоборот дуплексный режим if ( UCSR2A & 0x80)
+      //    if ( UCSR0A & 0x80) UDR2=UDR0;  // РїРµСЂРµРєРёРґС‹РІР°РµРё РґР°РЅРЅС‹Рµ РёР· РїРѕСЂС‚Р° GSM
+      //    РІ РЎРћРњ РїРѕСЂС‚ 232 Рё РЅР°РѕР±РѕСЂРѕС‚ РґСѓРїР»РµРєСЃРЅС‹Р№ СЂРµР¶РёРј if ( UCSR2A & 0x80)
       //    UDR0=UDR2;
 
-      // обратный канал простой все что пришло по портам, то и толкаю в модем
+      // РѕР±СЂР°С‚РЅС‹Р№ РєР°РЅР°Р» РїСЂРѕСЃС‚РѕР№ РІСЃРµ С‡С‚Рѕ РїСЂРёС€Р»Рѕ РїРѕ РїРѕСЂС‚Р°Рј, С‚Рѕ Рё С‚РѕР»РєР°СЋ РІ РјРѕРґРµРј
       if (UCSR2A & 0x80)
         UDR0 = UDR2;
       if (UCSR1A & 0x80)
@@ -567,7 +567,7 @@ void init_modem_call(void) {
 
       /////////////////////////////////
       if (UCSR0A & 0x80) {
-        // накапливаем данные с порта UDR0 в массив
+        // РЅР°РєР°РїР»РёРІР°РµРј РґР°РЅРЅС‹Рµ СЃ РїРѕСЂС‚Р° UDR0 РІ РјР°СЃСЃРёРІ
         At_com.cnt_rx_out = 100;
         a = UDR0;
         if (cnt_rx < 1000) {
@@ -579,7 +579,7 @@ void init_modem_call(void) {
         str_cmp[1] = str_cmp[2];
         str_cmp[2] = str_cmp[3];
         str_cmp[3] = str_cmp[4];
-        str_cmp[4] = a & ~0x20; // убить регистр верхний нижний
+        str_cmp[4] = a & ~0x20; // СѓР±РёС‚СЊ СЂРµРіРёСЃС‚СЂ РІРµСЂС…РЅРёР№ РЅРёР¶РЅРёР№
 
         if (str_cmp[0] == 'A' && str_cmp[1] == 'T' && str_cmp[2] == 'D' &&
             str_cmp[3] == 'O' && str_cmp[4] == 'N') {
@@ -594,7 +594,7 @@ void init_modem_call(void) {
           strcpy(At_buf, "OK"); //
           send_at();
           lock_it();
-        } // перезагрузиться прейти в GPRS моду
+        } // РїРµСЂРµР·Р°РіСЂСѓР·РёС‚СЊСЃСЏ РїСЂРµР№С‚Рё РІ GPRS РјРѕРґСѓ
       }
       /////////////////////////////////////////////
 
@@ -635,7 +635,7 @@ void init_modem_call(void) {
       exit_from:
         __enable_interrupt();
         //  long_delay(100);
-        //  ожидаем ухода последннего бита по порту 485 и снимаем RTS
+        //  РѕР¶РёРґР°РµРј СѓС…РѕРґР° РїРѕСЃР»РµРґРЅРЅРµРіРѕ Р±РёС‚Р° РїРѕ РїРѕСЂС‚Сѓ 485 Рё СЃРЅРёРјР°РµРј RTS
 
         CLR_RTS3;
 
@@ -653,7 +653,7 @@ void init_modem_call(void) {
       if ((PINE & DCD0) == 0) {
         sost_call = 0;
         break;
-      } // потеря соединения
+      } // РїРѕС‚РµСЂСЏ СЃРѕРµРґРёРЅРµРЅРёСЏ
       break;
     }
 
@@ -683,7 +683,7 @@ void init_modem_call_inside(void) {
   // UBRR0H=R115200_H;
   // UBRR0L=R115200_L;
 
-  // Инициализация порта №2
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–2
   SET_RTS2;
   UCSR2B = 0;
   UBRR2H = R9600_H;
@@ -712,7 +712,7 @@ void init_modem_call_inside(void) {
   UCSR0B = UCSR0B | TXEN;
   UCSR0B = UCSR0B | RXEN;
   UCSR0B = UCSR0B & ~TXCIE;
-  //  UCSR0B=UCSR0B | RXCIE;      // посмотреть
+  //  UCSR0B=UCSR0B | RXCIE;      // РїРѕСЃРјРѕС‚СЂРµС‚СЊ
   //  Regim=MODEM_ONLY;
 
   UCSR2B = UCSR2B | RXEN;
@@ -728,21 +728,21 @@ void init_modem_call_inside(void) {
   UCSR1B = UCSR1B & ~TXCIE;
 
   __enable_interrupt();
-  strcpy(At_buf, "+++"); // перейти в онлайн командную моду
+  strcpy(At_buf, "+++"); // РїРµСЂРµР№С‚Рё РІ РѕРЅР»Р°Р№РЅ РєРѕРјР°РЅРґРЅСѓСЋ РјРѕРґСѓ
   send_atp();
   __watchdog_reset();
   long_delay(1000000); //>3 sek
   __watchdog_reset();
   long_delay(1000000); //>3 sek
 
-  strcpy(At_buf, "ath"); // повесить трубку
+  strcpy(At_buf, "ath"); // РїРѕРІРµСЃРёС‚СЊ С‚СЂСѓР±РєСѓ
   send_at();
   long_delay(1000000); //>3 sek
 
-  //   strcpy(At_buf, "at+cbst=12,0,1");      // пперейти в моду 9600
+  //   strcpy(At_buf, "at+cbst=12,0,1");      // РїРїРµСЂРµР№С‚Рё РІ РјРѕРґСѓ 9600
   //   send_at();
 
-  //    strcpy(At_buf, "atv1");      // повесить трубку
+  //    strcpy(At_buf, "atv1");      // РїРѕРІРµСЃРёС‚СЊ С‚СЂСѓР±РєСѓ
   //   send_at();
 
   S1_RD;
@@ -751,7 +751,7 @@ void init_modem_call_inside(void) {
   S4_OFF;
   S5_OFF;
 
-  sost_call = 1; //    вход в процедуру при состоянии call
+  sost_call = 1; //    РІС…РѕРґ РІ РїСЂРѕС†РµРґСѓСЂСѓ РїСЂРё СЃРѕСЃС‚РѕСЏРЅРёРё call
 
   while (1) {
     __watchdog_reset();
@@ -772,7 +772,7 @@ void init_modem_call_inside(void) {
 
     case 1: {
       S2_GR;
-      strcpy(At_buf, "ata"); // поднять трубку и ждать connect
+      strcpy(At_buf, "ata"); // РїРѕРґРЅСЏС‚СЊ С‚СЂСѓР±РєСѓ Рё Р¶РґР°С‚СЊ connect
       send_at();
       sost_call = 0;
       break;
@@ -780,11 +780,11 @@ void init_modem_call_inside(void) {
 
     case 2: {
       S2_YL;
-      //    if ( UCSR0A & 0x80) UDR2=UDR0;  // перекидываеи данные из порта GSM
-      //    в СОМ порт 232 и наоборот дуплексный режим if ( UCSR2A & 0x80)
+      //    if ( UCSR0A & 0x80) UDR2=UDR0;  // РїРµСЂРµРєРёРґС‹РІР°РµРё РґР°РЅРЅС‹Рµ РёР· РїРѕСЂС‚Р° GSM
+      //    РІ РЎРћРњ РїРѕСЂС‚ 232 Рё РЅР°РѕР±РѕСЂРѕС‚ РґСѓРїР»РµРєСЃРЅС‹Р№ СЂРµР¶РёРј if ( UCSR2A & 0x80)
       //    UDR0=UDR2;
 
-      // обратный канал простой все что пришло по портам, то и толкаю в модем
+      // РѕР±СЂР°С‚РЅС‹Р№ РєР°РЅР°Р» РїСЂРѕСЃС‚РѕР№ РІСЃРµ С‡С‚Рѕ РїСЂРёС€Р»Рѕ РїРѕ РїРѕСЂС‚Р°Рј, С‚Рѕ Рё С‚РѕР»РєР°СЋ РІ РјРѕРґРµРј
       if (UCSR2A & 0x80)
         UDR0 = UDR2;
       if (UCSR1A & 0x80)
@@ -795,7 +795,7 @@ void init_modem_call_inside(void) {
       /////////////////////////////////
       if (UCSR0A & 0x80) {
         a = UDR0;
-        // накапливаем данные с порта UDR0 в массив
+        // РЅР°РєР°РїР»РёРІР°РµРј РґР°РЅРЅС‹Рµ СЃ РїРѕСЂС‚Р° UDR0 РІ РјР°СЃСЃРёРІ
         At_com.cnt_rx_out = 100;
 
         if (cnt_rx < 1000) {
@@ -807,7 +807,7 @@ void init_modem_call_inside(void) {
         str_cmp[1] = str_cmp[2];
         str_cmp[2] = str_cmp[3];
         str_cmp[3] = str_cmp[4];
-        str_cmp[4] = a & ~0x20; // убить регистр верхний нижний
+        str_cmp[4] = a & ~0x20; // СѓР±РёС‚СЊ СЂРµРіРёСЃС‚СЂ РІРµСЂС…РЅРёР№ РЅРёР¶РЅРёР№
 
         if (str_cmp[0] == 'A' && str_cmp[1] == 'T' && str_cmp[2] == 'D' &&
             str_cmp[3] == 'O' && str_cmp[4] == 'N') {
@@ -822,9 +822,9 @@ void init_modem_call_inside(void) {
           strcpy(At_buf, "OK"); //
           send_at();
           lock_it();
-        } // перезагрузиться прейти в GPRS моду
+        } // РїРµСЂРµР·Р°РіСЂСѓР·РёС‚СЊСЃСЏ РїСЂРµР№С‚Рё РІ GPRS РјРѕРґСѓ
 
-        //  запись контекста  в 12 разрядный регистр
+        //  Р·Р°РїРёСЃСЊ РєРѕРЅС‚РµРєСЃС‚Р°  РІ 12 СЂР°Р·СЂСЏРґРЅС‹Р№ СЂРµРіРёСЃС‚СЂ
         str_cmp1[0] = str_cmp1[1];
         str_cmp1[1] = str_cmp1[2];
         str_cmp1[2] = str_cmp1[3];
@@ -892,7 +892,7 @@ void init_modem_call_inside(void) {
       exit_from:
         __enable_interrupt();
         //   long_delay(100);
-        //  ожидаем ухода последннего бита по порту 485 и снимаем RTS
+        //  РѕР¶РёРґР°РµРј СѓС…РѕРґР° РїРѕСЃР»РµРґРЅРЅРµРіРѕ Р±РёС‚Р° РїРѕ РїРѕСЂС‚Сѓ 485 Рё СЃРЅРёРјР°РµРј RTS
 
         CLR_RTS3;
 
@@ -910,7 +910,7 @@ void init_modem_call_inside(void) {
       if ((PINE & DCD0) == 0) {
         sost_call = 0;
         break;
-      } // потеря соединения
+      } // РїРѕС‚РµСЂСЏ СЃРѕРµРґРёРЅРµРЅРёСЏ
       break;
     }
 
@@ -923,21 +923,21 @@ void init_modem_call_inside(void) {
 }
 
 void init_ports_debug(void) {
-  // Инициализация порта №1
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–1
   UCSR1B = 0;
   UBRR1H = R9600_H;
   UBRR1L = R9600_L;
   UCSR1B = UCSR1B | TXEN;
   SET_RTS3;
 
-  // Инициализация порта №2 RS-232 №2
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–2 RS-232 в„–2
   UCSR2B = 0;
   UBRR2H = R115200_H;
   UBRR2L = R115200_L;
   CLR_RTS2;
   UCSR2B = UCSR2B | TXEN;
 
-  // Инициализация порта №3
+  // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕСЂС‚Р° в„–3
   UCSR3B = 0;
   UBRR3H = R9600_H;
   UBRR3L = R9600_L;
