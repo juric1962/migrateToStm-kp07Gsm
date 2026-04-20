@@ -12,7 +12,7 @@ void com_disp_mbus(void);
 
 void WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
                     unsigned int num, unsigned char flag,
-                    unsigned char znach); // запись конфигурации кп во флеш
+                    unsigned char znach); // Р·Р°РїРёСЃСЊ РєРѕРЅС„РёРіСѓСЂР°С†РёРё РєРї РІРѕ С„Р»РµС€
 void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
                       unsigned int num);
 
@@ -88,7 +88,7 @@ void morg(void) {
     SOST_ON;
     SOUND_ON;
     return;
-  } // приход
+  } // РїСЂРёС…РѕРґ
   case 2: {
     if (glutch < 170) {
       // indicator=indicator & ~ST_VZ;
@@ -264,7 +264,7 @@ char read_ohr(void) {
   char cc;
   // unsigned char buf[4];
   //
-  //   ЎгдҐа ®Ў¬Ґ­  Їгбв Ё«Ё ­Ґв
+  //   РЋРіРґТђР° В®РЋВ¬ТђВ­В  Р‡РіР±РІ РЃВ«РЃ В­ТђРІ
   //
   if (obmen_full) {
     cc = bufer[0];
@@ -520,7 +520,7 @@ void test_alarm(void) {
     return;
   sost = SNAT;
   if (sel_modul == 1)
-    PORTB = PORTB & ~4; //  только в режиме МКД пищать
+    PORTB = PORTB & ~4; //  С‚РѕР»СЊРєРѕ РІ СЂРµР¶РёРјРµ РњРљР” РїРёС‰Р°С‚СЊ
   insert_query(nomer_tab, sost);
 
   insert_zapis_kd(nomer_tab, ZP_SNAT);
@@ -753,7 +753,7 @@ void com_disp_mbus(void) {
 void monitori(void) {
 
   //    if(sel_modul!=1)return;
-  if (sel_modul == 1) { // только в режиме МКД
+  if (sel_modul == 1) { // С‚РѕР»СЊРєРѕ РІ СЂРµР¶РёРјРµ РњРљР”
     morg();
     if (trevoga == 1) {
       ST_SHL_ON;
@@ -765,7 +765,7 @@ void monitori(void) {
   zp_prihod_uhod();
 
   //   if(trevoga==1){ SL_ON; } else {SL_OFF; }
-  //!!! выдавать светодиод тревоги !!!!!!!!!!!!!!!!!!
+  //!!! РІС‹РґР°РІР°С‚СЊ СЃРІРµС‚РѕРґРёРѕРґ С‚СЂРµРІРѕРіРё !!!!!!!!!!!!!!!!!!
 
   // if(trevoga==1) indicator=indicator | ST_SHL; else indicator=indicator &
   // ~ST_SHL;

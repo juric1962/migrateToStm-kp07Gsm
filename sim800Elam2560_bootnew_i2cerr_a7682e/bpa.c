@@ -6,10 +6,10 @@
 BPA bpa;
 
 extern union {
-  unsigned char mb[SEG3 * 2]; // байтовый массив
-} c2_byte;                    // 1я страница конфигурации
+  unsigned char mb[SEG3 * 2]; // Р±Р°Р№С‚РѕРІС‹Р№ РјР°СЃСЃРёРІ
+} c2_byte;                    // 1СЏ СЃС‚СЂР°РЅРёС†Р° РєРѕРЅС„РёРіСѓСЂР°С†РёРё
 
-// tii_moto.config=c2_byte.mb[8<<1]; время
+// tii_moto.config=c2_byte.mb[8<<1]; РІСЂРµРјСЏ
 
 void bpa_avtomat(void) {
   switch (bpa.sost) {
@@ -31,7 +31,7 @@ void bpa_avtomat(void) {
     bpa.sost = 0;
     break;
   }
-  case 3: // выключить
+  case 3: // РІС‹РєР»СЋС‡РёС‚СЊ
   {
     TU2_ON;
     bpa.time_off = TestUstBpa();

@@ -8,7 +8,7 @@
 #include <string.h>
 
 extern unsigned char state_led_md;
-// 23.03.07 âêëþ÷åíèå PAP äëÿ ñèìåíñà
+// 23.03.07 Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ PAP Ð´Ð»Ñ ÑÐ¸Ð¼ÐµÐ½ÑÐ°
 
 // void st_gprs_atcom(void);
 // void st_gprs_att(void);
@@ -43,8 +43,8 @@ extern enum t_event_modem event_modem;
 extern unsigned char simka; // dobavka
 
 struct {
-  unsigned char eho : 1; // ñîñòîÿíèå ýõî îòâåòà
-  unsigned char kod : 1; // ñîñòîÿíèå îòâåò-êîä
+  unsigned char eho : 1; // ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ ÑÑ…Ð¾ Ð¾Ñ‚Ð²ÐµÑ‚Ð°
+  unsigned char kod : 1; // ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ Ð¾Ñ‚Ð²ÐµÑ‚-ÐºÐ¾Ð´
 } fl_conf_modem;
 
 struct {
@@ -52,24 +52,24 @@ struct {
   unsigned char cnt_tx;
   unsigned char cnt_rx;
   unsigned char ln_buf;
-  unsigned char list_com[VOL_LIST]; // ïåðå÷åíü èñïîëíÿåìûõ êîìàíä
-  unsigned char ln_list;            // äëèíà ïåðå÷íÿ
-  unsigned char cnt_com;            // ñ÷åò÷èê êîìàíä
-  unsigned int cnt_tm_out;          // ñ÷åò÷èê âðåìåíè îæèäàíèÿ îòâåòà
-  unsigned int vol_tm_out;          // ïðåäåë âðåìåíè îæèäàíèÿ îòâåòà
-  unsigned int cnt_rx_out;          // ñ÷åò÷èê ìåæáàéòîâûé ïðîìåæóòîê
-  unsigned int vol_rx_out;          // ïðåäåë ìåæáàéòîâîãî ïðîìåæóòêà
+  unsigned char list_com[VOL_LIST]; // Ð¿ÐµÑ€ÐµÑ‡ÐµÐ½ÑŒ Ð¸ÑÐ¿Ð¾Ð»Ð½ÑÐµÐ¼Ñ‹Ñ… ÐºÐ¾Ð¼Ð°Ð½Ð´
+  unsigned char ln_list;            // Ð´Ð»Ð¸Ð½Ð° Ð¿ÐµÑ€ÐµÑ‡Ð½Ñ
+  unsigned char cnt_com;            // ÑÑ‡ÐµÑ‚Ñ‡Ð¸Ðº ÐºÐ¾Ð¼Ð°Ð½Ð´
+  unsigned int cnt_tm_out;          // ÑÑ‡ÐµÑ‚Ñ‡Ð¸Ðº Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ð¾Ð¶Ð¸Ð´Ð°Ð½Ð¸Ñ Ð¾Ñ‚Ð²ÐµÑ‚Ð°
+  unsigned int vol_tm_out;          // Ð¿Ñ€ÐµÐ´ÐµÐ» Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ð¾Ð¶Ð¸Ð´Ð°Ð½Ð¸Ñ Ð¾Ñ‚Ð²ÐµÑ‚Ð°
+  unsigned int cnt_rx_out;          // ÑÑ‡ÐµÑ‚Ñ‡Ð¸Ðº Ð¼ÐµÐ¶Ð±Ð°Ð¹Ñ‚Ð¾Ð²Ñ‹Ð¹ Ð¿Ñ€Ð¾Ð¼ÐµÐ¶ÑƒÑ‚Ð¾Ðº
+  unsigned int vol_rx_out;          // Ð¿Ñ€ÐµÐ´ÐµÐ» Ð¼ÐµÐ¶Ð±Ð°Ð¹Ñ‚Ð¾Ð²Ð¾Ð³Ð¾ Ð¿Ñ€Ð¾Ð¼ÐµÐ¶ÑƒÑ‚ÐºÐ°
 } At_com;
 
 struct {
-  unsigned char ok : 1;     // òðåáóåìûé îòâåò
-  unsigned char err : 1;    // îøèáî÷íûé, íåòðåáóåìûé îòâåò
-  unsigned char tm_out : 1; // îòñóòñòâèå îòâåòà
-  unsigned char tx_en : 1;  // ïîñëàòü êîììàíäó
-  unsigned char rx_en : 1;  // ïðèíèìàòü îòâåòû
-  unsigned char rx_rec : 1; // ïðèíÿò îòâåò
-  // unsigned char tm_out_en:1;//ðàçðåøåíèå àíàëèçà ïî ïðåâûøåíèþ âðåìåíè
-  // îæèäàíèÿ îòâåòà
+  unsigned char ok : 1;     // Ñ‚Ñ€ÐµÐ±ÑƒÐµÐ¼Ñ‹Ð¹ Ð¾Ñ‚Ð²ÐµÑ‚
+  unsigned char err : 1;    // Ð¾ÑˆÐ¸Ð±Ð¾Ñ‡Ð½Ñ‹Ð¹, Ð½ÐµÑ‚Ñ€ÐµÐ±ÑƒÐµÐ¼Ñ‹Ð¹ Ð¾Ñ‚Ð²ÐµÑ‚
+  unsigned char tm_out : 1; // Ð¾Ñ‚ÑÑƒÑ‚ÑÑ‚Ð²Ð¸Ðµ Ð¾Ñ‚Ð²ÐµÑ‚Ð°
+  unsigned char tx_en : 1;  // Ð¿Ð¾ÑÐ»Ð°Ñ‚ÑŒ ÐºÐ¾Ð¼Ð¼Ð°Ð½Ð´Ñƒ
+  unsigned char rx_en : 1;  // Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°Ñ‚ÑŒ Ð¾Ñ‚Ð²ÐµÑ‚Ñ‹
+  unsigned char rx_rec : 1; // Ð¿Ñ€Ð¸Ð½ÑÑ‚ Ð¾Ñ‚Ð²ÐµÑ‚
+  // unsigned char tm_out_en:1;//Ñ€Ð°Ð·Ñ€ÐµÑˆÐµÐ½Ð¸Ðµ Ð°Ð½Ð°Ð»Ð¸Ð·Ð° Ð¿Ð¾ Ð¿Ñ€ÐµÐ²Ñ‹ÑˆÐµÐ½Ð¸ÑŽ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸
+  // Ð¾Ð¶Ð¸Ð´Ð°Ð½Ð¸Ñ Ð¾Ñ‚Ð²ÐµÑ‚Ð°
 } fl_at_com;
 
 unsigned char Cnt_modem_on_off, flag;
@@ -106,23 +106,23 @@ void at_com_tx(unsigned char cnt) {
 
   switch (At_com.list_com[cnt]) {
   case cAT:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 100;
     strcpy(At_com.buf, "at");
     break;
   case cATE0:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 100;
     strcpy(At_com.buf, "ate0");
     break;
   case cATV0:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 100;
     strcpy(At_com.buf, "atv0");
     break;
   case cATE0V0:
     fl_conf_modem.kod = 1;
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 100;
     strcpy(At_com.buf, "ate0v0");
     break;
@@ -144,41 +144,41 @@ void at_com_tx(unsigned char cnt) {
       strcpy(At_com.buf, "at+ipr=115200");
       break;
     }
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 100;
     break;
   case cATIFC:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 100;
     strcpy(At_com.buf, "at+ifc=2,2");
     break;
   case cATC:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 100;
     strcpy(At_com.buf, "at&c");
     break;
   case cATD:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 3000;
     strcpy(At_com.buf, "at&d");
     break;
   case cATW:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 100;
     strcpy(At_com.buf, "at&w");
     break;
   case cATCREG:
-    At_com.vol_rx_out = 1000; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 1000; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 1200;
     strcpy(At_com.buf, "at+creg?");
     break;
   case cATCGATT:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 5000;
     strcpy(At_com.buf, "at+cgatt=1");
     break;
   case cATCGDCONT:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 200;
     strcpy(At_com.buf, "at+cgdcont=1,");
 
@@ -225,32 +225,32 @@ void at_com_tx(unsigned char cnt) {
     break;
 
   case cATCREG0:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 100;
     strcpy(At_com.buf, "at+creg=0");
     break;
 
   case cATDGPRS:
-    // At_com.vol_rx_out=10;   //ÎÒ ÑÊÎÐÎÑÒÈ
-    // At_com.vol_rx_out=5;   //ÎÒ ÑÊÎÐÎÑÒÈ
-    At_com.vol_rx_out = 3; // ÎÒ ÑÊÎÐÎÑÒÈ
+    // At_com.vol_rx_out=10;   //ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
+    // At_com.vol_rx_out=5;   //ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
+    At_com.vol_rx_out = 3; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 10000;
     strcpy(At_com.buf, "atd*99***1#");
     break;
   case cATH:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 3000;
     strcpy(At_com.buf, "ath");
     break;
 
   case cATCGATT0:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 500;
     strcpy(At_com.buf, "at+cgatt=0");
     break;
 
   case cATCPIN:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 2000;
     strcpy(At_com.buf, "at+cpin=");
 
@@ -264,7 +264,7 @@ void at_com_tx(unsigned char cnt) {
 
   case PLUS:
     At_com.cnt_tm_out = 0;
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 2300;
     strcpy(At_com.buf, "+++");
     fl_at_com.rx_rec = 0;
@@ -333,14 +333,14 @@ void at_com_tx(unsigned char cnt) {
     return;
 
   case cATSGAUTH:
-    At_com.vol_rx_out = 10; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 10; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 100;
     strcpy(At_com.buf, "at^sgauth=1");
     //   strcpy(At_com.buf, "at%cgpco=1");
     break;
 
   case cATCGREG:
-    At_com.vol_rx_out = 1000; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 1000; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 1200;
     strcpy(At_com.buf, "at+cgreg?");
     break;
@@ -491,7 +491,7 @@ void at_com_rx(unsigned char cnt) {
       SVD1_1_ON; while(1);//proverka
        if((At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)&&(At_com.buf[At_com.cnt_rx-1]==0xd))fl_at_com.ok=1;
        if((PIND & DCD)==0)fl_at_com.ok=1;else fl_at_com.err=1;
-      //if(At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)fl_at_com.ok=1; áûëî
+      //if(At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)fl_at_com.ok=1; Ð±Ñ‹Ð»Ð¾
       //    else fl_at_com.err=1;
       }
       */
@@ -542,7 +542,7 @@ unsigned char at_com_scen_init(unsigned char *cnt, unsigned char *rp) {
       if (*rp >= 60) {
         event_modem = EVM_AT_ERR;
         return (2);
-      } // áûëî 40
+      } // Ð±Ñ‹Ð»Ð¾ 40
       fl_at_com.tx_en = 1;
     }
     break;
@@ -664,7 +664,7 @@ void init_scen_stm_si(void) {
   }
 
   At_com.list_com[6 + i] = cATCREG;
-  At_com.list_com[7 + i] = PAUSA_REG; // 5ñåêóíä
+  At_com.list_com[7 + i] = PAUSA_REG; // 5ÑÐµÐºÑƒÐ½Ð´
   At_com.list_com[8 + i] = cATCGDCONT;
   At_com.list_com[9 + i] = cATSGAUTH;
   At_com.list_com[10 + i] = cATCGATT;
@@ -905,11 +905,11 @@ unsigned char modem_com_init(void) {
     res_return = at_com_scen_init(&cnt_com, &rep);
     switch (res_return) {
     case 1:
-      return (1); // ñöåíàðèé çàêîí÷åí êîððåêòíî
+      return (1); // ÑÑ†ÐµÐ½Ð°Ñ€Ð¸Ð¹ Ð·Ð°ÐºÐ¾Ð½Ñ‡ÐµÐ½ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð½Ð¾
     case 2:
-      return (2); // íåîòâåòîì íà AT êîììàíäó
+      return (2); // Ð½ÐµÐ¾Ñ‚Ð²ÐµÑ‚Ð¾Ð¼ Ð½Ð° AT ÐºÐ¾Ð¼Ð¼Ð°Ð½Ð´Ñƒ
     case 3:
-      return (3); // íåîòâåòîì íà ïðèñîåäèíåíèå êîíòåêñòà
+      return (3); // Ð½ÐµÐ¾Ñ‚Ð²ÐµÑ‚Ð¾Ð¼ Ð½Ð° Ð¿Ñ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ðµ ÐºÐ¾Ð½Ñ‚ÐµÐºÑÑ‚Ð°
     }
 
     // if(at_com_scen_init(&cnt_com,&rep)>0) while(1);

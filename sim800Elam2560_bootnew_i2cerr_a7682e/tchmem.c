@@ -38,10 +38,10 @@ extern unsigned int sost;
 
 void s_port(unsigned char ch);
 
-//  будем записывать только 4 байта в базу
-// базу храним во внешнем флеше
+//  СЃС”С„С…СЊ С‡СЂСЏС€С‘в€љС‚СЂР„в„– Р„СЋС‹в„–СЉСЋ 4 СЃСЂС‰Р„СЂ С‚ СЃСЂС‡С”
+// СЃСЂС‡С” С—РЃСЂСЌС€СЊ С‚СЋ С‚СЌС…В°СЌС…СЊ Р‡С‹С…В°С…
 //  1 2 3 4 5 6 7 8
-//  в базу пишем 2 3 4 5 байты
+//  С‚ СЃСЂС‡С” СЏС€В°С…СЊ 2 3 4 5 СЃСЂС‰Р„в€љ
 //
 /*
 char   test_tabletka(void )
@@ -59,7 +59,7 @@ RdFromFleshToArr(A_TOTAL_EN1,&buf[0],10);
                              // EEARH=0;
                              // EEARL=point_pos+i;
 
-                             // сравниваем поднесенной таблеткой
+                             // С‘РЃСЂС‚СЌС€С‚СЂС…СЊ СЏСЋС„СЌС…С‘С…СЌСЌСЋС‰ Р„СЂСЃС‹С…Р„СЉСЋС‰
 
                              if(tab_proxy[(point_pos+i)] !=arr_ds[i+1]) goto
 next_tabl;
@@ -81,7 +81,7 @@ char test_tabletka2(void) {
 
     RdFromFleshToArr(A_SEG6 + point_pos, &buf[0], 4);
     for (i = 0; i < 4; i++) {
-      // сравниваем поднесенной таблеткой
+      // С‘РЃСЂС‚СЌС€С‚СЂС…СЊ СЏСЋС„СЌС…С‘С…СЌСЌСЋС‰ Р„СЂСЃС‹С…Р„СЉСЋС‰
       if (buf[i] != arr_ds[i + 1])
         goto next_tab2;
     }
@@ -130,8 +130,8 @@ unsigned long int hash_tabletka2(void )
 
 void send_pin(char comand)
 //;
-//;               ЃђЋ‘Ђћ ЉЋ„
-//;               Њ‹Ђ„€Њ€ ‚Џ…ђ…„
+//;               Р‘Р РћРЎРђР® РљРћР”
+//;               РњР›РђР”РЁРРњР Р’РџР•Р Р•Р”
 {
   char countds;
 
@@ -155,7 +155,7 @@ void send_pin(char comand)
 }
 
 //;
-//;               —’…Ќ€… ЃЂ‰’Ђ
+//;               Р§РўР•РќРР• Р‘РђР™РўРђ
 //;
 char read_pin(void) {
   char countds, data_ds;
@@ -228,7 +228,7 @@ present_lo:
 //
 //
 bad_ds:
-           return(0);    // нет таблетки !!!!
+           return(0);    // СЌС…Р„ Р„СЂСЃС‹С…Р„СЉС€ !!!!
 
 present_hi:
 
@@ -263,7 +263,7 @@ char sbros(void) {
   sbr.count_0 = 0;
   for (we = 0; we < 150; we++) {
     delay(19);
-    // находим хотябы два нулевых отсчета поряд
+    // СЌСЂС—СЋС„С€СЊ С—СЋР„В СЃв€љ С„С‚СЂ СЌС”С‹С…С‚в€љС— СЋР„С‘СћС…Р„СЂ СЏСЋРЃВ С„
     switch (sbr.sost) {
     case 0: {
       if (PINK & TCH_I)
@@ -305,7 +305,7 @@ char sbros(void) {
     if (sbr.sost == 2) {
       delay(1871);
       return (0);
-    } // сбой при инициализации
+    } // С‘СЃСЋС‰ СЏРЃС€ С€СЌС€РЋС€СЂС‹С€С‡СЂРЋС€С€
     if (sbr.sost == 4) {
       delay(1871);
       return (1);
@@ -379,15 +379,15 @@ void ds_handler(void) {
 
       if ((arr_ds[4] == 0xff) || (ak == 1785) || (ak == 0) ||
           (tosch.kod > 1000000000))
-        continue; // по просьбе Тощевикова
+        continue; // СЏСЋ СЏРЃСЋС‘в„–СЃС… в•ҐСЋв€™С…С‚С€СЉСЋС‚СЂ
 
       if ((ds_crc == arr_ds[7])) {
 
         SOUND_ON; // probe
 
         nomer_tab = test_tabletka2();
-        glutch6 = 1000; // автодекрементный таймер для разблокировки считывания
-                        // таблетки
+        glutch6 = 1000; // СЂС‚Р„СЋС„С…СЉРЃС…СЊС…СЌР„СЌв€љС‰ Р„СЂС‰СЊС…РЃ С„С‹В  РЃСЂС‡СЃС‹СЋСЉС€РЃСЋС‚СЉС€ С‘СћС€Р„в€љС‚СЂСЌС€В 
+                        // Р„СЂСЃС‹С…Р„СЉС€
         bit_registr1 = bit_registr1 | BLOCK_TABLETKA;
         if ((nomer_tab != 254) && (sost == 4)) {
           bit_registr1 = bit_registr1 | TABLETKA;
@@ -409,7 +409,7 @@ void ds_handler(void) {
         //    bit_registr1=bit_registr1 | TABLETKA;
         //    goto end_ds;
 
-        // проверка повторного поднесения ключа
+        // СЏРЃСЋС‚С…РЃСЉСЂ СЏСЋС‚Р„СЋРЃСЌСЋСѓСЋ СЏСЋС„СЌС…С‘С…СЌС€В  СЉС‹в– СћСЂ
 
         if (podnos != 0) {
           if (kodec[0] != arr_ds[1]) {
@@ -447,7 +447,7 @@ void ds_handler(void) {
         }
       }
 
-    } // к фор
+    } // СЉ Р‡СЋРЃ
 
   end_ds:
     delay(267);

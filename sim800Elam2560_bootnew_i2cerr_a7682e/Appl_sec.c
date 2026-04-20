@@ -32,11 +32,11 @@ unsigned char write_to_buf(unsigned char *p_buf, unsigned int *ptr_in,
 
   if (*ptr_in >= *ptr_out) {
     if ((*ptr_out == 0) && (*ptr_in == (max_buf - 1)))
-      return (1); // выход буфер переполнен
+      return (1); // РІС‹С…РѕРґ Р±СѓС„РµСЂ РїРµСЂРµРїРѕР»РЅРµРЅ
     temp = (max_buf - 1) - (*ptr_in);
     temp = temp + (*ptr_out);
     if (l_data > temp)
-      return (1); // нельзя записать - переполнение
+      return (1); // РЅРµР»СЊР·СЏ Р·Р°РїРёСЃР°С‚СЊ - РїРµСЂРµРїРѕР»РЅРµРЅРёРµ
     temp = (*ptr_in) + l_data;
     if (temp > max_buf) {
       for (i = (*ptr_in); i < max_buf; i++) {
@@ -58,22 +58,22 @@ unsigned char write_to_buf(unsigned char *p_buf, unsigned int *ptr_in,
       else
         (*ptr_in) = temp;
     }
-    *crc = crc_m1(p_buf, max_buf, 0xffff); // запись CRC
+    *crc = crc_m1(p_buf, max_buf, 0xffff); // Р·Р°РїРёСЃСЊ CRC
   }
 
   else {
     if ((*ptr_out - *ptr_in) == 1)
-      return (1); // выход буфер переполнен
+      return (1); // РІС‹С…РѕРґ Р±СѓС„РµСЂ РїРµСЂРµРїРѕР»РЅРµРЅ
     temp = (*ptr_out) - (*ptr_in) - 1;
     if (l_data > temp)
-      return (1); // нельзя записать - переполнение
+      return (1); // РЅРµР»СЊР·СЏ Р·Р°РїРёСЃР°С‚СЊ - РїРµСЂРµРїРѕР»РЅРµРЅРёРµ
     temp = (*ptr_in) + l_data;
     for (i = (*ptr_in); i < temp; i++) {
       *(p_buf + i) = *(p_data + j);
       j++;
     }
     (*ptr_in) = temp;
-    *crc = crc_m1(p_buf, max_buf, 0xffff); // запись CRC
+    *crc = crc_m1(p_buf, max_buf, 0xffff); // Р·Р°РїРёСЃСЊ CRC
   }
   return (0);
 }
@@ -99,8 +99,8 @@ unsigned int read_from_buf(unsigned char *p_buf, unsigned int *ptr_in,
       *(p_data + j) = *(p_buf + i);
       j++;
     }
-    *ptr_out_kv = *ptr_in; // это нужно при приеме квитка, при преме квитка
-                           // нужно p_out=p_out_kv
+    *ptr_out_kv = *ptr_in; // СЌС‚Рѕ РЅСѓР¶РЅРѕ РїСЂРё РїСЂРёРµРјРµ РєРІРёС‚РєР°, РїСЂРё РїСЂРµРјРµ РєРІРёС‚РєР°
+                           // РЅСѓР¶РЅРѕ p_out=p_out_kv
     return (j);
   } else {
     for (i = (*ptr_out); i < max_buf; i++) {

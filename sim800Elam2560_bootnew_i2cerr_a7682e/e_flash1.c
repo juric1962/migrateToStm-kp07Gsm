@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define VOL_PUNKT 24 //(меню от 0 до VOL_PUNKT)
+#define VOL_PUNKT 24 //(РјРµРЅСЋ РѕС‚ 0 РґРѕ VOL_PUNKT)
 
 #ifdef VERS_BASE
 __flash char ozu_vers[] = {'O', 'K', '0', '1', '.', '0', '1',
@@ -42,7 +42,7 @@ extern void set_rlt(unsigned char address, unsigned char *data);
 
 extern unsigned char point_log_buf;
 
-extern struct { // в двоичном коде
+extern struct { // РІ РґРІРѕРёС‡РЅРѕРј РєРѕРґРµ
   char r_sec;
   char r_min;
   char r_hor;
@@ -230,9 +230,9 @@ void seq_read_ext_flesh(int address, int num, unsigned char *buf) {
       // delay(40);
     }
     //
-    //        при произвольном чтении
-    //        после приема последнего бита порт на вывод
-    //        и удерживается в 1 нет подтверждения
+    //        РїСЂРё РїСЂРѕРёР·РІРѕР»СЊРЅРѕРј С‡С‚РµРЅРёРё
+    //        РїРѕСЃР»Рµ РїСЂРёРµРјР° РїРѕСЃР»РµРґРЅРµРіРѕ Р±РёС‚Р° РїРѕСЂС‚ РЅР° РІС‹РІРѕРґ
+    //        Рё СѓРґРµСЂР¶РёРІР°РµС‚СЃСЏ РІ 1 РЅРµС‚ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ
     //
     if (j == (num - 1))
       PORTE = PORTE | SDA; //  no ack        //+r
@@ -324,7 +324,7 @@ void vosstan_memory(void) {
   *(unsigned int *)&buf[j] = crc_m1(&buf[0], j, 0xffff);
   WrArrayToFlesh(A_VER_MAP, &buf[0], j + 2, 0, 0);
 
-  // загрузка поумолчанию
+  // Р·Р°РіСЂСѓР·РєР° РїРѕСѓРјРѕР»С‡Р°РЅРёСЋ
   temp = sizeof(def_apn) - 1;
   j = 0;
   buf[0] = temp;
@@ -362,8 +362,8 @@ void vosstan_memory(void) {
   buf[OFS_IP + 1] = DEF_IP_SRV_1;
   buf[OFS_IP + 2] = DEF_IP_SRV_2;
   buf[OFS_IP + 3] = DEF_IP_SRV_3;
-  *(unsigned int *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP порт
-  *(unsigned int *)&buf[OFS_NUM] = DEF_NUM_SELF;  // свой номер по умолчанию
+  *(unsigned int *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP РїРѕСЂС‚
+  *(unsigned int *)&buf[OFS_NUM] = DEF_NUM_SELF;  // СЃРІРѕР№ РЅРѕРјРµСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
   *(unsigned int *)&buf[OFS_IP_PAR_CRC] = crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
   WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
 
@@ -505,7 +505,7 @@ unsigned char check_memory_map(void) {
   if (*(unsigned int *)&buf[L_C_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C_GPRS_MAX - 2, 0xffff)) {
 
-    // загрузка поумолчанию
+    // Р·Р°РіСЂСѓР·РєР° РїРѕСѓРјРѕР»С‡Р°РЅРёСЋ
     j = 0;
     temp = sizeof(def_apn) - 1;
     buf[0] = temp;
@@ -550,8 +550,8 @@ unsigned char check_memory_map(void) {
     buf[OFS_IP + 2] = DEF_IP_SRV_2;
     buf[OFS_IP + 3] = DEF_IP_SRV_3;
 
-    *(unsigned int *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP порт
-    *(unsigned int *)&buf[OFS_NUM] =                // свой номер по умолчанию
+    *(unsigned int *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP РїРѕСЂС‚
+    *(unsigned int *)&buf[OFS_NUM] =                // СЃРІРѕР№ РЅРѕРјРµСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 
         *(unsigned int *)&buf[OFS_IP_PAR_CRC] =
             crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
@@ -599,7 +599,7 @@ unsigned char check_memory_map(void) {
   if (*(unsigned int *)&buf[L_C1_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C1_GPRS_MAX - 2, 0xffff)) {
 
-    // загрузка поумолчанию
+    // Р·Р°РіСЂСѓР·РєР° РїРѕСѓРјРѕР»С‡Р°РЅРёСЋ
     j = 0;
     temp = sizeof(def_apn1) - 1;
     buf[0] = temp;
@@ -639,7 +639,7 @@ unsigned char check_memory_map(void) {
   if (*(unsigned int *)&buf[L_C2_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C2_GPRS_MAX - 2, 0xffff)) {
 
-    // загрузка поумолчанию
+    // Р·Р°РіСЂСѓР·РєР° РїРѕСѓРјРѕР»С‡Р°РЅРёСЋ
     j = 0;
     temp = sizeof(def_apn2) - 1;
     buf[0] = temp;
@@ -679,7 +679,7 @@ unsigned char check_memory_map(void) {
   if (*(unsigned int *)&buf[L_C3_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C3_GPRS_MAX - 2, 0xffff)) {
 
-    // загрузка поумолчанию
+    // Р·Р°РіСЂСѓР·РєР° РїРѕСѓРјРѕР»С‡Р°РЅРёСЋ
     j = 0;
     temp = sizeof(def_apn3) - 1;
     buf[0] = temp;
@@ -717,9 +717,9 @@ unsigned char check_memory_map(void) {
   return (0);
 }
 
-/// работа с терминаломработа с терминаломработа с терминаломработа с
-/// терминаломабота с терминаломработа с терминаломработа с терминаломработа с
-/// терминалом меню
+/// СЂР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ
+/// С‚РµСЂРјРёРЅР°Р»РѕРјР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ
+/// С‚РµСЂРјРёРЅР°Р»РѕРј РјРµРЅСЋ
 extern void s_port(unsigned char ch);
 /*
 void s_port(unsigned char ch)
@@ -1183,7 +1183,7 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
 
     RdFromFleshToArr(A_IP_PAR, &buf[0], L_IP_PAR);
-    *(unsigned int *)&buf[OFS_PORT] = cifra_long.word; // UDP порт
+    *(unsigned int *)&buf[OFS_PORT] = cifra_long.word; // UDP РїРѕСЂС‚
     *(unsigned int *)&buf[OFS_IP_PAR_CRC] =
         crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
     WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
@@ -1720,7 +1720,7 @@ void at_mon_232(void) {
     UCSR0B = UCSR0B | 0x90;
     break;
   }
-  case 0x2b: // верх
+  case 0x2b: // РІРµСЂС…
   {
 
     UCSR0B = UCSR0B & ~0x90;
@@ -1737,7 +1737,7 @@ void at_mon_232(void) {
     break;
   }
 
-  case 0x2d: // вниз
+  case 0x2d: // РІРЅРёР·
   {
     UCSR0B = UCSR0B & ~0x90;
     if (index_pa == 0)
@@ -1753,7 +1753,7 @@ void at_mon_232(void) {
     break;
   }
 
-  case 0x0d: // ввод
+  case 0x0d: // РІРІРѕРґ
   {
 
     UCSR0B = UCSR0B & ~0x90;
@@ -1779,7 +1779,7 @@ void monitor_terminal(void) {
   //
   //        rts invers
   //
-  if ((PINB & CTS_232) == CTS_232) // здесь надо DSR
+  if ((PINB & CTS_232) == CTS_232) // Р·РґРµСЃСЊ РЅР°РґРѕ DSR
   {
 
     OCR0 = 170; // 340mks
@@ -1824,9 +1824,9 @@ void monitor_terminal(void) {
 
       at_mon_232();
 
-    } while ((PINB & CTS_232) != 0); /// здесь надо DSR
+    } while ((PINB & CTS_232) != 0); /// Р·РґРµСЃСЊ РЅР°РґРѕ DSR
 
-    lock_it(); // должна быть функция перезагрузки
+    lock_it(); // РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С„СѓРЅРєС†РёСЏ РїРµСЂРµР·Р°РіСЂСѓР·РєРё
   }
 }
 

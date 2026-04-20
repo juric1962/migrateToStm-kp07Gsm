@@ -23,8 +23,8 @@
 TEST_MTC test_mtc;
 #endif
 
-// #define VOL_PUNKT 33 //(меню от 0 до VOL_PUNKT)  //dobavka
-#define VOL_PUNKT 41 //(меню от 0 до VOL_PUNKT)  //dobavka
+// #define VOL_PUNKT 33 //(РјРµРЅСЋ РѕС‚ 0 РґРѕ VOL_PUNKT)  //dobavka
+#define VOL_PUNKT 41 //(РјРµРЅСЋ РѕС‚ 0 РґРѕ VOL_PUNKT)  //dobavka
 
 #ifdef VERS_BASE
 __flash char ozu_vers[] = {'R', 'M', '0', '1', '.', '0', '1',
@@ -61,15 +61,15 @@ void read_boot_ver(void);
 /*
 extern struct
 {
-unsigned char ok :1;//требуемый ответ
-unsigned char err :1;//ошибочный, нетребуемый ответ
-unsigned char tm_out :1;//отсутствие ответа
-unsigned char tx_en :1;//послать комманду
-unsigned char rx_en :1;//принимать ответы
-unsigned char rx_rec :1;//принят ответ
-unsigned char greg_ereg :1;//пакетник GPRS or LTE
-//unsigned char tm_out_en:1;//разрешение анализа по превышению времени ожидания
-ответа
+unsigned char ok :1;//С‚СЂРµР±СѓРµРјС‹Р№ РѕС‚РІРµС‚
+unsigned char err :1;//РѕС€РёР±РѕС‡РЅС‹Р№, РЅРµС‚СЂРµР±СѓРµРјС‹Р№ РѕС‚РІРµС‚
+unsigned char tm_out :1;//РѕС‚СЃСѓС‚СЃС‚РІРёРµ РѕС‚РІРµС‚Р°
+unsigned char tx_en :1;//РїРѕСЃР»Р°С‚СЊ РєРѕРјРјР°РЅРґСѓ
+unsigned char rx_en :1;//РїСЂРёРЅРёРјР°С‚СЊ РѕС‚РІРµС‚С‹
+unsigned char rx_rec :1;//РїСЂРёРЅСЏС‚ РѕС‚РІРµС‚
+unsigned char greg_ereg :1;//РїР°РєРµС‚РЅРёРє GPRS or LTE
+//unsigned char tm_out_en:1;//СЂР°Р·СЂРµС€РµРЅРёРµ Р°РЅР°Р»РёР·Р° РїРѕ РїСЂРµРІС‹С€РµРЅРёСЋ РІСЂРµРјРµРЅРё РѕР¶РёРґР°РЅРёСЏ
+РѕС‚РІРµС‚Р°
 }
 fl_at_com;
 */
@@ -108,7 +108,7 @@ extern void s_port(unsigned char ch);
 extern void mov_lf(void);
 extern void mov_s(char size, char __flash *p);
 
-extern struct { // в двоичном коде
+extern struct { // РІ РґРІРѕРёС‡РЅРѕРј РєРѕРґРµ
   char r_sec;
   char r_min;
   char r_hor;
@@ -349,7 +349,7 @@ unsigned char ret_version(unsigned char unit, unsigned char *ptr) {
     for (i = 0; i < emei[0]; i++) {
       *ptr = emei[i + 1];
       ptr++;
-    } // высвечивает emei симкки
+    } // РІС‹СЃРІРµС‡РёРІР°РµС‚ emei СЃРёРјРєРєРё
 
     //
     /*
@@ -364,7 +364,7 @@ unsigned char ret_version(unsigned char unit, unsigned char *ptr) {
     for (i = 0; i < emei_emei[0]; i++) {
       *ptr = emei_emei[i + 1];
       ptr++;
-    } // высвечивает emei симкки
+    } // РІС‹СЃРІРµС‡РёРІР°РµС‚ emei СЃРёРјРєРєРё
     *ptr = 0;
     return (emei[0] + emei_emei[0] + 1);
 
@@ -406,7 +406,7 @@ unsigned char ret_version(unsigned char unit, unsigned char *ptr) {
     for (i = 0; i < csq[0]; i++) {
       *ptr = csq[i + 1];
       ptr++;
-    } // высвечивает emei симкки
+    } // РІС‹СЃРІРµС‡РёРІР°РµС‚ emei СЃРёРјРєРєРё
     if (fl_at_com.greg_ereg == 0) {
       *ptr++ = ' ';
       *ptr++ = 'G';
@@ -420,7 +420,7 @@ unsigned char ret_version(unsigned char unit, unsigned char *ptr) {
       *ptr++ = 'E';
       *ptr++ = ' ';
     }
-    // симка основная или резервная
+    // СЃРёРјРєР° РѕСЃРЅРѕРІРЅР°СЏ РёР»Рё СЂРµР·РµСЂРІРЅР°СЏ
     *ptr++ = ' ';
     *ptr++ = 's';
     *ptr++ = 'i';
@@ -458,7 +458,7 @@ void vosstan_memory(void) {
   *(unsigned int *)&buf[j] = crc_m1(&buf[0], j, 0xffff);
   WrArrayToFlesh(A_VER_MAP, &buf[0], j + 2, 0, 0);
 
-  // загрузка поумолчанию
+  // Р·Р°РіСЂСѓР·РєР° РїРѕСѓРјРѕР»С‡Р°РЅРёСЋ
   temp = sizeof(def_apn) - 1;
   j = 0;
   buf[0] = temp;
@@ -531,9 +531,9 @@ void vosstan_memory(void) {
   buf[OFS_IP + 1] = DEF_IP_SRV_1;
   buf[OFS_IP + 2] = DEF_IP_SRV_2;
   buf[OFS_IP + 3] = DEF_IP_SRV_3;
-  *(unsigned int *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP порт
-  //*(unsigned int*)&buf[OFS_NUM]=*(unsigned int*)&buf[0];          //свой номер
-  //не менять !!!!
+  *(unsigned int *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP РїРѕСЂС‚
+  //*(unsigned int*)&buf[OFS_NUM]=*(unsigned int*)&buf[0];          //СЃРІРѕР№ РЅРѕРјРµСЂ
+  //РЅРµ РјРµРЅСЏС‚СЊ !!!!
   *(unsigned int *)&buf[OFS_IP_PAR_CRC] = crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
   WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
 
@@ -707,7 +707,7 @@ unsigned char check_memory_map(void) {
   if (*(unsigned int *)&buf[L_C_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C_GPRS_MAX - 2, 0xffff)) {
 
-    // загрузка поумолчанию
+    // Р·Р°РіСЂСѓР·РєР° РїРѕСѓРјРѕР»С‡Р°РЅРёСЋ
     j = 0;
     temp = sizeof(def_apn) - 1;
     buf[0] = temp;
@@ -747,7 +747,7 @@ unsigned char check_memory_map(void) {
   if (*(unsigned int *)&buf[L_CR_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_CR_GPRS_MAX - 2, 0xffff)) {
 
-    // загрузка поумолчанию
+    // Р·Р°РіСЂСѓР·РєР° РїРѕСѓРјРѕР»С‡Р°РЅРёСЋ
     j = 0;
     temp = sizeof(def_apnr) - 1;
     buf[0] = temp;
@@ -792,8 +792,8 @@ unsigned char check_memory_map(void) {
     buf[OFS_IP + 2] = DEF_IP_SRV_2;
     buf[OFS_IP + 3] = DEF_IP_SRV_3;
 
-    *(unsigned int *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP порт
-    *(unsigned int *)&buf[OFS_NUM] =                // свой номер по умолчанию
+    *(unsigned int *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP РїРѕСЂС‚
+    *(unsigned int *)&buf[OFS_NUM] =                // СЃРІРѕР№ РЅРѕРјРµСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 
         *(unsigned int *)&buf[OFS_IP_PAR_CRC] =
             crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
@@ -876,7 +876,7 @@ unsigned char check_memory_map(void) {
   if (*(unsigned int *)&buf[L_C1_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C1_GPRS_MAX - 2, 0xffff)) {
 
-    // загрузка поумолчанию
+    // Р·Р°РіСЂСѓР·РєР° РїРѕСѓРјРѕР»С‡Р°РЅРёСЋ
     j = 0;
     temp = sizeof(def_apn1) - 1;
     buf[0] = temp;
@@ -916,7 +916,7 @@ unsigned char check_memory_map(void) {
   if (*(unsigned int *)&buf[L_C2_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C2_GPRS_MAX - 2, 0xffff)) {
 
-    // загрузка поумолчанию
+    // Р·Р°РіСЂСѓР·РєР° РїРѕСѓРјРѕР»С‡Р°РЅРёСЋ
     j = 0;
     temp = sizeof(def_apn2) - 1;
     buf[0] = temp;
@@ -956,7 +956,7 @@ unsigned char check_memory_map(void) {
   if (*(unsigned int *)&buf[L_C3_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C3_GPRS_MAX - 2, 0xffff)) {
 
-    // загрузка поумолчанию
+    // Р·Р°РіСЂСѓР·РєР° РїРѕСѓРјРѕР»С‡Р°РЅРёСЋ
     j = 0;
     temp = sizeof(def_apn3) - 1;
     buf[0] = temp;
@@ -1025,7 +1025,7 @@ unsigned char check_keys(void) {
 
   if(*(unsigned int*)&buf[L_KEYS-2]==crc_m1(&buf[0],L_KEYS-2,0xffff))
    {
-    for(i=0;i<L_KEYS;i++) keys[i]=buf[i];//загрузка ключей в массив ключей
+    for(i=0;i<L_KEYS;i++) keys[i]=buf[i];//Р·Р°РіСЂСѓР·РєР° РєР»СЋС‡РµР№ РІ РјР°СЃСЃРёРІ РєР»СЋС‡РµР№
     return(0);
    }
 
@@ -1039,9 +1039,9 @@ unsigned char check_keys(void) {
   return (0);
 }
 
-/// работа с терминаломработа с терминаломработа с терминаломработа с
-/// терминаломабота с терминаломработа с терминаломработа с терминаломработа с
-/// терминалом
+/// СЂР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ
+/// С‚РµСЂРјРёРЅР°Р»РѕРјР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ С‚РµСЂРјРёРЅР°Р»РѕРјСЂР°Р±РѕС‚Р° СЃ
+/// С‚РµСЂРјРёРЅР°Р»РѕРј
 
 void mov_massiv(char size, char *p) {
   while (size--)
@@ -1059,7 +1059,7 @@ void read_menu(unsigned char index_menu) {
   if (index_menu == 25)
     SET_TEN;
   if (index_menu != 25)
-    CLR_TEN; // для проверки нагревателя в этом пункте он включается
+    CLR_TEN; // РґР»СЏ РїСЂРѕРІРµСЂРєРё РЅР°РіСЂРµРІР°С‚РµР»СЏ РІ СЌС‚РѕРј РїСѓРЅРєС‚Рµ РѕРЅ РІРєР»СЋС‡Р°РµС‚СЃСЏ
 
   switch (index_menu)
 
@@ -1657,7 +1657,7 @@ void write_menu(unsigned char index_menu) {
   switch (index_menu) {
 
 #ifdef SCENARIO_TEST_MTC_ENABLE
-    // запустить сценарий тестирования модуля с специально раскаряченным ра
+    // Р·Р°РїСѓСЃС‚РёС‚СЊ СЃС†РµРЅР°СЂРёР№ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ РјРѕРґСѓР»СЏ СЃ СЃРїРµС†РёР°Р»СЊРЅРѕ СЂР°СЃРєР°СЂСЏС‡РµРЅРЅС‹Рј СЂР°
   case 1:
     if (buf_tx_232[0] == '1') {
       test_mtc.enable = 1;
@@ -1785,7 +1785,7 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
 
     RdFromFleshToArr(A_IP_PAR, &buf[0], L_IP_PAR);
-    *(unsigned int *)&buf[OFS_PORT] = cifra_long.word; // UDP порт
+    *(unsigned int *)&buf[OFS_PORT] = cifra_long.word; // UDP РїРѕСЂС‚
     *(unsigned int *)&buf[OFS_IP_PAR_CRC] =
         crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
     WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
@@ -2552,7 +2552,7 @@ bad_com_232:
 void at_mon_232(void) {
   unsigned int volatile local;
 
-  // * в фоновом режиме выводим все что пришло с сим модуля
+  // * РІ С„РѕРЅРѕРІРѕРј СЂРµР¶РёРјРµ РІС‹РІРѕРґРёРј РІСЃРµ С‡С‚Рѕ РїСЂРёС€Р»Рѕ СЃ СЃРёРј РјРѕРґСѓР»СЏ
   if ((UCSR2A & 0x20) == 0)
     goto no_Ready_com2;
   if (point_Tail != point_Head) {
@@ -2578,15 +2578,15 @@ no_Ready_com2:
 
   if ((local >= 3) && (buf_tx_232[local - 1] == 0x2b) &&
       ((buf_tx_232[local - 2] == 'T') || (buf_tx_232[local - 2] == 't')))
-    return; // at+ пропустить
+    return; // at+ РїСЂРѕРїСѓСЃС‚РёС‚СЊ
 
-  // тут будет сценарий проверки ТС платы расширения
+  // С‚СѓС‚ Р±СѓРґРµС‚ СЃС†РµРЅР°СЂРёР№ РїСЂРѕРІРµСЂРєРё РўРЎ РїР»Р°С‚С‹ СЂР°СЃС€РёСЂРµРЅРёСЏ
 #ifdef SCENARIO_TEST_MTC_ENABLE
   scenario_test_mtc();
 #endif
-  // тут будет сценарий проверки ТС платы расширения
+  // С‚СѓС‚ Р±СѓРґРµС‚ СЃС†РµРЅР°СЂРёР№ РїСЂРѕРІРµСЂРєРё РўРЎ РїР»Р°С‚С‹ СЂР°СЃС€РёСЂРµРЅРёСЏ
   if (local == 0)
-    return; /// заплатка от 23 06 22
+    return; /// Р·Р°РїР»Р°С‚РєР° РѕС‚ 23 06 22
             //************************
 
   switch (buf_tx_232[local - 1]) {
@@ -2600,7 +2600,7 @@ no_Ready_com2:
     UCSR0B = UCSR0B | 0x90;
     break;
   }
-  case 0x2b: // верх
+  case 0x2b: // РІРµСЂС…
   {
 
     UCSR0B = UCSR0B & ~0x90;
@@ -2617,7 +2617,7 @@ no_Ready_com2:
     break;
   }
 
-  case 0x2d: // вниз
+  case 0x2d: // РІРЅРёР·
   {
     UCSR0B = UCSR0B & ~0x90;
     if (index_pa == 0)
@@ -2635,7 +2635,7 @@ no_Ready_com2:
     break;
   }
 
-  case 0x0d: // ввод
+  case 0x0d: // РІРІРѕРґ
   {
 
     UCSR0B = UCSR0B & ~0x90;
@@ -2713,13 +2713,13 @@ void monitor_terminal(void) {
 
     } while ((PINB & CTS2) != 0); //
 
-    lock_it(); // должна быть функция перезагрузки
+    lock_it(); // РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С„СѓРЅРєС†РёСЏ РїРµСЂРµР·Р°РіСЂСѓР·РєРё
   }
 }
 
 //////
 
-// тестировние 485 в терминале
+// С‚РµСЃС‚РёСЂРѕРІРЅРёРµ 485 РІ С‚РµСЂРјРёРЅР°Р»Рµ
 
 void test_loop(void) {
   char i, dummy;
@@ -2729,13 +2729,13 @@ void test_loop(void) {
 
   UBRR1H = R4800_H;
   UBRR1L = R4800_L;
-  UCSR1B = UCSR1B | RXEN | TXEN; // разрешить прием и передачу без прерываний
+  UCSR1B = UCSR1B | RXEN | TXEN; // СЂР°Р·СЂРµС€РёС‚СЊ РїСЂРёРµРј Рё РїРµСЂРµРґР°С‡Сѓ Р±РµР· РїСЂРµСЂС‹РІР°РЅРёР№
 
   UBRR3H = R4800_H;
   UBRR3L = R4800_L;
-  UCSR3B = UCSR3B | RXEN | TXEN; // разрешить прием и передачу без прерываний
+  UCSR3B = UCSR3B | RXEN | TXEN; // СЂР°Р·СЂРµС€РёС‚СЊ РїСЂРёРµРј Рё РїРµСЂРµРґР°С‡Сѓ Р±РµР· РїСЂРµСЂС‹РІР°РЅРёР№
 
-  // очистить порты
+  // РѕС‡РёСЃС‚РёС‚СЊ РїРѕСЂС‚С‹
   //
   dummy = UDR1;
   dummy = UDR3;
@@ -2748,9 +2748,9 @@ void test_loop(void) {
     s_port(i + 0x30);
     UDR1 = i;
     //
-    // бросаем в порт 485_1
+    // Р±СЂРѕСЃР°РµРј РІ РїРѕСЂС‚ 485_1
     //
-    term.time_out_loop = 0; // в милисекундном таймере должна увеличиваться
+    term.time_out_loop = 0; // РІ РјРёР»РёСЃРµРєСѓРЅРґРЅРѕРј С‚Р°Р№РјРµСЂРµ РґРѕР»Р¶РЅР° СѓРІРµР»РёС‡РёРІР°С‚СЊСЃСЏ
   LoopWait_rs485_1:
     if (term.time_out_loop > 200) {
       s_port('r');
@@ -2759,7 +2759,7 @@ void test_loop(void) {
       continue;
     }
     //
-    // принимаю с 485_2
+    // РїСЂРёРЅРёРјР°СЋ СЃ 485_2
     //
     if ((UCSR3A & 0x80) == 0)
       goto LoopWait_rs485_1;
@@ -2784,13 +2784,13 @@ void test_loop2(void) {
 
   UBRR1H = R4800_H;
   UBRR1L = R4800_L;
-  UCSR1B = UCSR1B | RXEN | TXEN; // разрешить прием и передачу без прерываний
+  UCSR1B = UCSR1B | RXEN | TXEN; // СЂР°Р·СЂРµС€РёС‚СЊ РїСЂРёРµРј Рё РїРµСЂРµРґР°С‡Сѓ Р±РµР· РїСЂРµСЂС‹РІР°РЅРёР№
 
   UBRR3H = R4800_H;
   UBRR3L = R4800_L;
-  UCSR3B = UCSR3B | RXEN | TXEN; // разрешить прием и передачу без прерываний
+  UCSR3B = UCSR3B | RXEN | TXEN; // СЂР°Р·СЂРµС€РёС‚СЊ РїСЂРёРµРј Рё РїРµСЂРµРґР°С‡Сѓ Р±РµР· РїСЂРµСЂС‹РІР°РЅРёР№
 
-  // очистить порты
+  // РѕС‡РёСЃС‚РёС‚СЊ РїРѕСЂС‚С‹
   //
   dummy = UDR1;
   dummy = UDR3;
@@ -2803,9 +2803,9 @@ void test_loop2(void) {
     s_port(i + 0x30);
     UDR3 = i;
     //
-    // бросаем в порт 485_2
+    // Р±СЂРѕСЃР°РµРј РІ РїРѕСЂС‚ 485_2
     //
-    term.time_out_loop = 0; // в милисекундном таймере должна увеличиваться
+    term.time_out_loop = 0; // РІ РјРёР»РёСЃРµРєСѓРЅРґРЅРѕРј С‚Р°Р№РјРµСЂРµ РґРѕР»Р¶РЅР° СѓРІРµР»РёС‡РёРІР°С‚СЊСЃСЏ
   LoopWait_rs485_1:
     if (term.time_out_loop > 200) {
       s_port('r');
@@ -2814,7 +2814,7 @@ void test_loop2(void) {
       continue;
     }
     //
-    // принимаю с 485_1
+    // РїСЂРёРЅРёРјР°СЋ СЃ 485_1
     //
     if ((UCSR1A & 0x80) == 0)
       goto LoopWait_rs485_1;

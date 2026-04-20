@@ -8,7 +8,7 @@
 #include <iom2560.h>
 #include <string.h>
 extern unsigned char state_led_md;
-// 23.03.07 âêëþ÷åíèå PAP äëÿ ñèìåíñà
+// 23.03.07 Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ PAP Ð´Ð»Ñ ÑÐ¸Ð¼ÐµÐ½ÑÐ°
 
 // void st_gprs_atcom(void);
 // void st_gprs_att(void);
@@ -43,8 +43,8 @@ extern enum t_event_modem event_modem;
 extern unsigned char simka; // dobavka
 
 struct {
-  unsigned char eho : 1; // ñîñòîÿíèå ýõî îòâåòà
-  unsigned char kod : 1; // ñîñòîÿíèå îòâåò-êîä
+  unsigned char eho : 1; // ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ ÑÑ…Ð¾ Ð¾Ñ‚Ð²ÐµÑ‚Ð°
+  unsigned char kod : 1; // ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ Ð¾Ñ‚Ð²ÐµÑ‚-ÐºÐ¾Ð´
 } fl_conf_modem;
 
 char emei[40], emei_emei[40], csq[20];
@@ -54,27 +54,27 @@ struct {
   unsigned char cnt_tx;
   unsigned char cnt_rx;
   unsigned char ln_buf;
-  unsigned char list_com[VOL_LIST]; // ïåðå÷åíü èñïîëíÿåìûõ êîìàíä
-  unsigned char ln_list;            // äëèíà ïåðå÷íÿ
-  unsigned char cnt_com;            // ñ÷åò÷èê êîìàíä
-  unsigned int cnt_tm_out;          // ñ÷åò÷èê âðåìåíè îæèäàíèÿ îòâåòà
-  unsigned int vol_tm_out;          // ïðåäåë âðåìåíè îæèäàíèÿ îòâåòà
-  unsigned int cnt_rx_out;          // ñ÷åò÷èê ìåæáàéòîâûé ïðîìåæóòîê
-  unsigned int vol_rx_out;          // ïðåäåë ìåæáàéòîâîãî ïðîìåæóòêà
+  unsigned char list_com[VOL_LIST]; // Ð¿ÐµÑ€ÐµÑ‡ÐµÐ½ÑŒ Ð¸ÑÐ¿Ð¾Ð»Ð½ÑÐµÐ¼Ñ‹Ñ… ÐºÐ¾Ð¼Ð°Ð½Ð´
+  unsigned char ln_list;            // Ð´Ð»Ð¸Ð½Ð° Ð¿ÐµÑ€ÐµÑ‡Ð½Ñ
+  unsigned char cnt_com;            // ÑÑ‡ÐµÑ‚Ñ‡Ð¸Ðº ÐºÐ¾Ð¼Ð°Ð½Ð´
+  unsigned int cnt_tm_out;          // ÑÑ‡ÐµÑ‚Ñ‡Ð¸Ðº Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ð¾Ð¶Ð¸Ð´Ð°Ð½Ð¸Ñ Ð¾Ñ‚Ð²ÐµÑ‚Ð°
+  unsigned int vol_tm_out;          // Ð¿Ñ€ÐµÐ´ÐµÐ» Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ð¾Ð¶Ð¸Ð´Ð°Ð½Ð¸Ñ Ð¾Ñ‚Ð²ÐµÑ‚Ð°
+  unsigned int cnt_rx_out;          // ÑÑ‡ÐµÑ‚Ñ‡Ð¸Ðº Ð¼ÐµÐ¶Ð±Ð°Ð¹Ñ‚Ð¾Ð²Ñ‹Ð¹ Ð¿Ñ€Ð¾Ð¼ÐµÐ¶ÑƒÑ‚Ð¾Ðº
+  unsigned int vol_rx_out;          // Ð¿Ñ€ÐµÐ´ÐµÐ» Ð¼ÐµÐ¶Ð±Ð°Ð¹Ñ‚Ð¾Ð²Ð¾Ð³Ð¾ Ð¿Ñ€Ð¾Ð¼ÐµÐ¶ÑƒÑ‚ÐºÐ°
 } At_com;
 
 /*
 struct
 {
-unsigned char ok :1;//òðåáóåìûé îòâåò
-unsigned char err :1;//îøèáî÷íûé, íåòðåáóåìûé îòâåò
-unsigned char tm_out :1;//îòñóòñòâèå îòâåòà
-unsigned char tx_en :1;//ïîñëàòü êîììàíäó
-unsigned char rx_en :1;//ïðèíèìàòü îòâåòû
-unsigned char rx_rec :1;//ïðèíÿò îòâåò
-unsigned char greg_ereg :1;//ïàêåòíèê GPRS or LTE
-//unsigned char tm_out_en:1;//ðàçðåøåíèå àíàëèçà ïî ïðåâûøåíèþ âðåìåíè îæèäàíèÿ
-îòâåòà
+unsigned char ok :1;//Ñ‚Ñ€ÐµÐ±ÑƒÐµÐ¼Ñ‹Ð¹ Ð¾Ñ‚Ð²ÐµÑ‚
+unsigned char err :1;//Ð¾ÑˆÐ¸Ð±Ð¾Ñ‡Ð½Ñ‹Ð¹, Ð½ÐµÑ‚Ñ€ÐµÐ±ÑƒÐµÐ¼Ñ‹Ð¹ Ð¾Ñ‚Ð²ÐµÑ‚
+unsigned char tm_out :1;//Ð¾Ñ‚ÑÑƒÑ‚ÑÑ‚Ð²Ð¸Ðµ Ð¾Ñ‚Ð²ÐµÑ‚Ð°
+unsigned char tx_en :1;//Ð¿Ð¾ÑÐ»Ð°Ñ‚ÑŒ ÐºÐ¾Ð¼Ð¼Ð°Ð½Ð´Ñƒ
+unsigned char rx_en :1;//Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°Ñ‚ÑŒ Ð¾Ñ‚Ð²ÐµÑ‚Ñ‹
+unsigned char rx_rec :1;//Ð¿Ñ€Ð¸Ð½ÑÑ‚ Ð¾Ñ‚Ð²ÐµÑ‚
+unsigned char greg_ereg :1;//Ð¿Ð°ÐºÐµÑ‚Ð½Ð¸Ðº GPRS or LTE
+//unsigned char tm_out_en:1;//Ñ€Ð°Ð·Ñ€ÐµÑˆÐµÐ½Ð¸Ðµ Ð°Ð½Ð°Ð»Ð¸Ð·Ð° Ð¿Ð¾ Ð¿Ñ€ÐµÐ²Ñ‹ÑˆÐµÐ½Ð¸ÑŽ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ð¾Ð¶Ð¸Ð´Ð°Ð½Ð¸Ñ
+Ð¾Ñ‚Ð²ÐµÑ‚Ð°
 }
 fl_at_com;
 */
@@ -113,47 +113,47 @@ void at_com_tx(unsigned char cnt) {
 
   switch (At_com.list_com[cnt]) {
   case cATCSQ:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     // At_com.vol_tm_out=100;
     At_com.vol_tm_out = 200;
-    //          strcpy(At_com.buf, "AT+CIMI");             // èíôîðìàöèÿ î SIM
-    //          êàðòå SIMI
-    strcpy(At_com.buf, "AT+CSQ"); // èíôîðìàöèÿ î òåëåôîíå  êàðòå IMEI
+    //          strcpy(At_com.buf, "AT+CIMI");             // Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¾ SIM
+    //          ÐºÐ°Ñ€Ñ‚Ðµ SIMI
+    strcpy(At_com.buf, "AT+CSQ"); // Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¾ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ðµ  ÐºÐ°Ñ€Ñ‚Ðµ IMEI
     break;
 
   case cATIMEI:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     // At_com.vol_tm_out=100;
     At_com.vol_tm_out = 200;
-    //          strcpy(At_com.buf, "AT+CIMI");             // èíôîðìàöèÿ î SIM
-    //          êàðòå SIMI
-    strcpy(At_com.buf, "AT+SIMEI?"); // èíôîðìàöèÿ î òåëåôîíå  êàðòå IMEI
+    //          strcpy(At_com.buf, "AT+CIMI");             // Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¾ SIM
+    //          ÐºÐ°Ñ€Ñ‚Ðµ SIMI
+    strcpy(At_com.buf, "AT+SIMEI?"); // Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¾ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ðµ  ÐºÐ°Ñ€Ñ‚Ðµ IMEI
     break;
 
   case cATCIMI:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     // At_com.vol_tm_out=100;
-    At_com.vol_tm_out = 200; // óâåëè÷èòü âðåìÿ îæèäàíèÿ
-    //          strcpy(At_com.buf, "AT+CIMI");             // èíôîðìàöèÿ î SIM
-    //          êàðòå SIMI
-    strcpy(At_com.buf, "AT+CICCID"); // èíôîðìàöèÿ î SIM êàðòå CICCID
+    At_com.vol_tm_out = 200; // ÑƒÐ²ÐµÐ»Ð¸Ñ‡Ð¸Ñ‚ÑŒ Ð²Ñ€ÐµÐ¼Ñ Ð¾Ð¶Ð¸Ð´Ð°Ð½Ð¸Ñ
+    //          strcpy(At_com.buf, "AT+CIMI");             // Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¾ SIM
+    //          ÐºÐ°Ñ€Ñ‚Ðµ SIMI
+    strcpy(At_com.buf, "AT+CICCID"); // Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¾ SIM ÐºÐ°Ñ€Ñ‚Ðµ CICCID
     break;
 
   case cAT:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     // At_com.vol_tm_out=100;
     At_com.vol_tm_out = 120;
     strcpy(At_com.buf, "AT");
     break;
   case cATE0:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     // At_com.vol_tm_out=100;
     At_com.vol_tm_out = 120;
     strcpy(At_com.buf, "ate0");
     break;
   case cATV0:
     fl_conf_modem.kod = 1;
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     // At_com.vol_tm_out=100;
     At_com.vol_tm_out = 120;
     strcpy(At_com.buf, "atv0");
@@ -171,40 +171,40 @@ void at_com_tx(unsigned char cnt) {
                 }
     */
     strcpy(At_com.buf, "at+ipr=9600");
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     // At_com.vol_tm_out=100;
     At_com.vol_tm_out = 120;
     break;
 
   case cATC:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     // At_com.vol_tm_out=100;
     At_com.vol_tm_out = 120;
     strcpy(At_com.buf, "at&c");
     break;
   case cATD:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 3000;
     strcpy(At_com.buf, "at&d");
     break;
   case cATW:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     // At_com.vol_tm_out=100;
     At_com.vol_tm_out = 120;
     strcpy(At_com.buf, "at&w");
     break;
   case cATCREG:
-    At_com.vol_rx_out = 1000; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 1000; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 1200;
     strcpy(At_com.buf, "at+creg?");
     break;
   case cATCGATT:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 5000;
     strcpy(At_com.buf, "at+cgatt=1");
     break;
   case cATCGDCONT:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     //          At_com.vol_tm_out=200;
     At_com.vol_tm_out = 250;
     strcpy(At_com.buf, "at+cgdcont=1,");
@@ -252,33 +252,33 @@ void at_com_tx(unsigned char cnt) {
     break;
 
   case cATCREG0:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     // At_com.vol_tm_out=100;
     At_com.vol_tm_out = 120;
     strcpy(At_com.buf, "at+creg=0");
     break;
 
   case cATDGPRS:
-    // At_com.vol_rx_out=50;   //ÎÒ ÑÊÎÐÎÑÒÈ
-    // At_com.vol_rx_out=5;   //ÎÒ ÑÊÎÐÎÑÒÈ
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    // At_com.vol_rx_out=50;   //ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
+    // At_com.vol_rx_out=5;   //ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 10000;
     strcpy(At_com.buf, "atd*99***1#");
     break;
   case cATH:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 3000;
     strcpy(At_com.buf, "ath");
     break;
 
   case cATCGATT0:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 500;
     strcpy(At_com.buf, "at+cgatt=0");
     break;
 
   case cATCPIN:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 2000;
     strcpy(At_com.buf, "at+cpin=");
 
@@ -292,7 +292,7 @@ void at_com_tx(unsigned char cnt) {
 
   case PLUS:
     At_com.cnt_tm_out = 0;
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 2300;
     strcpy(At_com.buf, "+++");
     fl_at_com.rx_rec = 0;
@@ -361,7 +361,7 @@ void at_com_tx(unsigned char cnt) {
     return;
 
   case cATSGAUTH:
-    At_com.vol_rx_out = 50; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 50; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     // At_com.vol_tm_out=100;
     At_com.vol_tm_out = 120;
     strcpy(At_com.buf, "at^sgauth=1");
@@ -369,13 +369,13 @@ void at_com_tx(unsigned char cnt) {
     break;
 
   case cATCGREG:              // GPRS
-    At_com.vol_rx_out = 1000; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 1000; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 1200;
     strcpy(At_com.buf, "at+cgreg?");
     break;
 
   case cATCEREG:              // LTE
-    At_com.vol_rx_out = 1000; // ÎÒ ÑÊÎÐÎÑÒÈ
+    At_com.vol_rx_out = 1000; // ÐžÐ¢ Ð¡ÐšÐžÐ ÐžÐ¡Ð¢Ð˜
     At_com.vol_tm_out = 1200;
     strcpy(At_com.buf, "at+cereg?");
     break;
@@ -452,7 +452,7 @@ void at_com_rx(unsigned char cnt) {
 
   // At_com.buf[At_com.cnt_rx-1]=0;
 
-  // Åñëè îòâåò ñ ïîñëåäíè êîäîì 0xa òî çàòåðåòü åãî? ýòî ñïåöèôèêà sim800
+  // Ð•ÑÐ»Ð¸ Ð¾Ñ‚Ð²ÐµÑ‚ Ñ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸ ÐºÐ¾Ð´Ð¾Ð¼ 0xa Ñ‚Ð¾ Ð·Ð°Ñ‚ÐµÑ€ÐµÑ‚ÑŒ ÐµÐ³Ð¾? ÑÑ‚Ð¾ ÑÐ¿ÐµÑ†Ð¸Ñ„Ð¸ÐºÐ° sim800
   if (At_com.buf[At_com.cnt_rx - 1] == 0xa)
     At_com.cnt_rx--;
 
@@ -476,7 +476,7 @@ void at_com_rx(unsigned char cnt) {
     }
     check_rx_ok();
     break;
-    // òóïî ñ÷èòàþ ÷òî îòâåò åñòü óñòàíàâëèâàþ ñêîðîñòü 9600
+    // Ñ‚ÑƒÐ¿Ð¾ ÑÑ‡Ð¸Ñ‚Ð°ÑŽ Ñ‡Ñ‚Ð¾ Ð¾Ñ‚Ð²ÐµÑ‚ ÐµÑÑ‚ÑŒ ÑƒÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÑŽ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ 9600
   case cATIPR:
     UBRR0H = R9600_H;
     UBRR0L = R9600_L;
@@ -544,7 +544,7 @@ void at_com_rx(unsigned char cnt) {
       SVD1_1_ON; while(1);//proverka
        if((At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)&&(At_com.buf[At_com.cnt_rx-1]==0xd))fl_at_com.ok=1;
        if((PIND & DCD)==0)fl_at_com.ok=1;else fl_at_com.err=1;
-      //if(At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)fl_at_com.ok=1; áûëî
+      //if(At_com.buf[At_com.cnt_rx-2]==KOD_CONNECT)fl_at_com.ok=1; Ð±Ñ‹Ð»Ð¾
       //    else fl_at_com.err=1;
       }
       */
@@ -565,7 +565,7 @@ void at_com_rx(unsigned char cnt) {
     // if(At_com.cnt_rx >28 ) {fl_at_com.err=1;break;}
     // if((At_com.buf[At_com.cnt_rx-1]==0xd))
     you = &At_com.buf[0];
-    //   while(*you <=0xd) you++;    // ýòî îïàñíî
+    //   while(*you <=0xd) you++;    // ÑÑ‚Ð¾ Ð¾Ð¿Ð°ÑÐ½Ð¾
 
     for (i = 0; i < At_com.cnt_rx; i++) {
       if (*you != '+')
@@ -573,7 +573,7 @@ void at_com_rx(unsigned char cnt) {
       else
         goto find_plus;
     }
-    emei[0] = 0; // íå íàøëè ïëþñà
+    emei[0] = 0; // Ð½Ðµ Ð½Ð°ÑˆÐ»Ð¸ Ð¿Ð»ÑŽÑÐ°
     return;
 
   find_plus: {
@@ -586,7 +586,7 @@ void at_com_rx(unsigned char cnt) {
         emei[i + 1] = *you++;
     }
   }
-  //  emei[0] =At_com.cnt_rx-ii-1;   // â ïåðâîì áàéòå ëåæèò ê-âî áàéò emei
+  //  emei[0] =At_com.cnt_rx-ii-1;   // Ð² Ð¿ÐµÑ€Ð²Ð¾Ð¼ Ð±Ð°Ð¹Ñ‚Ðµ Ð»ÐµÐ¶Ð¸Ñ‚ Ðº-Ð²Ð¾ Ð±Ð°Ð¹Ñ‚ emei
   break;
 
   case cATIMEI:
@@ -600,7 +600,7 @@ void at_com_rx(unsigned char cnt) {
       else
         goto find_plus_;
     }
-    emei_emei[0] = 0; // íå íàøëè ïëþñà
+    emei_emei[0] = 0; // Ð½Ðµ Ð½Ð°ÑˆÐ»Ð¸ Ð¿Ð»ÑŽÑÐ°
     return;
 
   find_plus_:
@@ -629,7 +629,7 @@ void at_com_rx(unsigned char cnt) {
       else
         goto find_plus__;
     }
-    csq[0] = 0; // íå íàøëè ïëþñà
+    csq[0] = 0; // Ð½Ðµ Ð½Ð°ÑˆÐ»Ð¸ Ð¿Ð»ÑŽÑÐ°
     return;
 
   find_plus__:
@@ -686,7 +686,7 @@ unsigned char at_com_scen_init(unsigned char *cnt, unsigned char *rp) {
       if (*rp >= 60) {
         event_modem = EVM_AT_ERR;
         return (2);
-      } // áûëî 40
+      } // Ð±Ñ‹Ð»Ð¾ 40
       fl_at_com.tx_en = 1;
     }
     break;
@@ -733,7 +733,7 @@ unsigned char at_com_scen_init(unsigned char *cnt, unsigned char *rp) {
     }
     break;
     /*
-   // äëÿ GPRS ìîäóëÿ SIM800C
+   // Ð´Ð»Ñ GPRS Ð¼Ð¾Ð´ÑƒÐ»Ñ SIM800C
    case cATCGREG:
              //if(fl_at_com.ok==1){(*cnt)++;*rp=0;fl_at_com.tx_en=1;}
              if(fl_at_com.ok==1){event_modem=EVM_AT_OK;return(1);}
@@ -757,7 +757,7 @@ unsigned char at_com_scen_init(unsigned char *cnt, unsigned char *rp) {
          break;
   */
 
-    // äëÿ GPRS/LTE ìîäóëÿ A7682E  19 08 2025
+    // Ð´Ð»Ñ GPRS/LTE Ð¼Ð¾Ð´ÑƒÐ»Ñ A7682E  19 08 2025
 
   case cATCGREG:
 
@@ -765,24 +765,24 @@ unsigned char at_com_scen_init(unsigned char *cnt, unsigned char *rp) {
       fl_at_com.greg_ereg = 0;
       event_modem = EVM_AT_OK;
       return (1);
-    } // ÎÊ ðåæèì GPRS
+    } // ÐžÐš Ñ€ÐµÐ¶Ð¸Ð¼ GPRS
     if ((fl_at_com.err == 1) || (fl_at_com.tm_out == 1)) {
       (*rp)++;
       if (*rp >= 10) {
         (*cnt)++;
         *rp = 0;
         fl_at_com.tx_en = 1;
-      } // ïðîáóåì ðåæèì LTE íàäî ïîñòàâèòü 20
+      } // Ð¿Ñ€Ð¾Ð±ÑƒÐµÐ¼ Ñ€ÐµÐ¶Ð¸Ð¼ LTE Ð½Ð°Ð´Ð¾ Ð¿Ð¾ÑÑ‚Ð°Ð²Ð¸Ñ‚ÑŒ 20
       fl_at_com.tx_en = 1;
     }
     break;
 
-  case cATCEREG: // LTE PD ïîñëåäíÿÿ â ñïèñêå êîìàíä
+  case cATCEREG: // LTE PD Ð¿Ð¾ÑÐ»ÐµÐ´Ð½ÑÑ Ð² ÑÐ¿Ð¸ÑÐºÐµ ÐºÐ¾Ð¼Ð°Ð½Ð´
     if (fl_at_com.ok == 1) {
       fl_at_com.greg_ereg = 1;
       event_modem = EVM_AT_OK;
       return (1);
-    } //  ÎÊ ðåæèì LTE
+    } //  ÐžÐš Ñ€ÐµÐ¶Ð¸Ð¼ LTE
     if ((fl_at_com.err == 1) || (fl_at_com.tm_out == 1)) {
       (*rp)++;
       if (*rp >= 20) {
@@ -884,7 +884,7 @@ void init_scen_stm_si(void) {
   // P= & At_com.list_com[7+i];
 
   *P++ = cATCREG;
-  *P++ = PAUSA_REG; // 5ñåêóíä
+  *P++ = PAUSA_REG; // 5ÑÐµÐºÑƒÐ½Ð´
   *P++ = cATCSQ;
   *P++ = cATCGDCONT;
   //*P++=cATSGAUTH;
@@ -894,7 +894,7 @@ void init_scen_stm_si(void) {
 
   /*
   At_com.list_com[7+i]=cATCREG;
-  At_com.list_com[8+i]=PAUSA_REG;//5ñåêóíä
+  At_com.list_com[8+i]=PAUSA_REG;//5ÑÐµÐºÑƒÐ½Ð´
   At_com.list_com[9+i]=cATCGDCONT;
   At_com.list_com[10+i]=cATSGAUTH;
   At_com.list_com[11+i]=cATCGATT;
@@ -1156,11 +1156,11 @@ unsigned char modem_com_init(void) {
     res_return = at_com_scen_init(&cnt_com, &rep);
     switch (res_return) {
     case 1:
-      return (1); // ñöåíàðèé çàêîí÷åí êîððåêòíî
+      return (1); // ÑÑ†ÐµÐ½Ð°Ñ€Ð¸Ð¹ Ð·Ð°ÐºÐ¾Ð½Ñ‡ÐµÐ½ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð½Ð¾
     case 2:
-      return (2); // íåîòâåòîì íà AT êîììàíäó
+      return (2); // Ð½ÐµÐ¾Ñ‚Ð²ÐµÑ‚Ð¾Ð¼ Ð½Ð° AT ÐºÐ¾Ð¼Ð¼Ð°Ð½Ð´Ñƒ
     case 3:
-      return (3); // íåîòâåòîì íà ïðèñîåäèíåíèå êîíòåêñòà
+      return (3); // Ð½ÐµÐ¾Ñ‚Ð²ÐµÑ‚Ð¾Ð¼ Ð½Ð° Ð¿Ñ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ðµ ÐºÐ¾Ð½Ñ‚ÐµÐºÑÑ‚Ð°
     }
 
     // if(at_com_scen_init(&cnt_com,&rep)>0) while(1);

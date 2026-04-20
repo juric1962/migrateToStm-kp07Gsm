@@ -131,7 +131,7 @@ void RdFromFleshToArrInt(unsigned int adres_flesh, unsigned int *adres_ozu,
                          unsigned int num);
 void WrArrayToFleshInt(unsigned int adres_flesh, unsigned int *adres_ozu,
                        unsigned int num, unsigned char flag,
-                       unsigned int znach); // запись конфигурации кп во флеш
+                       unsigned int znach); // Р·Р°РїРёСЃСЊ РєРѕРЅС„РёРіСѓСЂР°С†РёРё РєРї РІРѕ С„Р»РµС€
 
 int crc_sum(unsigned char *ff, unsigned char kol);
 
@@ -195,15 +195,15 @@ void clr_var_ppp(void);
 
 void analiz_ppp_rx(void);
 
-void monitor1_tx_rs485_1(void); // GPRS-штатный RS485_1
+void monitor1_tx_rs485_1(void); // GPRS-С€С‚Р°С‚РЅС‹Р№ RS485_1
 void monitor1_rec_rs485_1(void);
 void monitor1_tm_rs485_1(void);
 
-void monitor1_tx_rs485_2(void); // GPRS-штатный RS485_2
+void monitor1_tx_rs485_2(void); // GPRS-С€С‚Р°С‚РЅС‹Р№ RS485_2
 void monitor1_rec_rs485_2(void);
 void monitor1_tm_rs485_2(void);
 
-void monitor1_tx_rs232_2(void); // GPRS-штатный RS232_2
+void monitor1_tx_rs232_2(void); // GPRS-С€С‚Р°С‚РЅС‹Р№ RS232_2
 void monitor1_rec_rs232_2(void);
 void monitor1_tm_rs232_2(void);
 
@@ -229,12 +229,12 @@ extern char bit_level;
 unsigned long int unix;
 
 extern union {
-  unsigned char mb[SEG3 * 2]; // байтовый массив
-} c2_byte;                    // 1я страница конфигурации
+  unsigned char mb[SEG3 * 2]; // Р±Р°Р№С‚РѕРІС‹Р№ РјР°СЃСЃРёРІ
+} c2_byte;                    // 1СЏ СЃС‚СЂР°РЅРёС†Р° РєРѕРЅС„РёРіСѓСЂР°С†РёРё
 
 extern union {
-  unsigned char mb[SEG99 * 2]; // байтовый массив
-} c1_byte;                     // страница конфигурации ГЗУ
+  unsigned char mb[SEG99 * 2]; // Р±Р°Р№С‚РѕРІС‹Р№ РјР°СЃСЃРёРІ
+} c1_byte;                     // СЃС‚СЂР°РЅРёС†Р° РєРѕРЅС„РёРіСѓСЂР°С†РёРё Р“Р—РЈ
 
 extern unsigned int modbus_mem1[SEG1];
 
@@ -283,7 +283,7 @@ unsigned int cnt_key_off;
 
 extern unsigned char keys[10];
 
-extern struct { // в двоичном коде
+extern struct { // РІ РґРІРѕРёС‡РЅРѕРј РєРѕРґРµ
   char r_sec;
   char r_min;
   char r_hor;
@@ -368,19 +368,19 @@ struct {
   unsigned char from_adc : 1;
 } fl_wdt;
 
-extern struct // структура, описывающая объект передачи по PPP
+extern struct // СЃС‚СЂСѓРєС‚СѓСЂР°, РѕРїРёСЃС‹РІР°СЋС‰Р°СЏ РѕР±СЉРµРєС‚ РїРµСЂРµРґР°С‡Рё РїРѕ PPP
 {
-  enum bool prozr;        // версия
-  enum t_version version; // версия
-  enum t_type type_pac;   // тип пакета
-  unsigned int num_src;   // номер отправителя
-  unsigned int num_dst;   // номер получателя
-  unsigned char id_pac;   // идентификатор пакета
-  unsigned char *p_opt;   // //указатель буфера опций
-  unsigned char l_opt;    // длина буфера опций
-  unsigned char kol_opt;  // количество опций
-  unsigned char *p_data;  // указатель буфера данных
-  unsigned int l_data;    // длина данных
+  enum bool prozr;        // РІРµСЂСЃРёСЏ
+  enum t_version version; // РІРµСЂСЃРёСЏ
+  enum t_type type_pac;   // С‚РёРї РїР°РєРµС‚Р°
+  unsigned int num_src;   // РЅРѕРјРµСЂ РѕС‚РїСЂР°РІРёС‚РµР»СЏ
+  unsigned int num_dst;   // РЅРѕРјРµСЂ РїРѕР»СѓС‡Р°С‚РµР»СЏ
+  unsigned char id_pac;   // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР°РєРµС‚Р°
+  unsigned char *p_opt;   // //СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РѕРїС†РёР№
+  unsigned char l_opt;    // РґР»РёРЅР° Р±СѓС„РµСЂР° РѕРїС†РёР№
+  unsigned char kol_opt;  // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕРїС†РёР№
+  unsigned char *p_data;  // СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РґР°РЅРЅС‹С…
+  unsigned int l_data;    // РґР»РёРЅР° РґР°РЅРЅС‹С…
 } Obj_ppp_tx;
 
 unsigned char buf_opt_tr[20];
@@ -389,13 +389,13 @@ unsigned int prov_ozu;
 unsigned char buf_tx_232[VOL_TX_PPP];
 unsigned int count_tx_ppp, vol_tx_ppp;
 
-// структуры буферов на прием
+// СЃС‚СЂСѓРєС‚СѓСЂС‹ Р±СѓС„РµСЂРѕРІ РЅР° РїСЂРёРµРј
 struct {
-  unsigned char data[VOL_RX_PPP]; // сам буфер
-  unsigned int ln_data;           // длина данных
-  enum bool rec;                  // пакет принят
-  enum bool busy;                 // буфер занят
-  enum bool check_busy;           // проверка занят ли буфер
+  unsigned char data[VOL_RX_PPP]; // СЃР°Рј Р±СѓС„РµСЂ
+  unsigned int ln_data;           // РґР»РёРЅР° РґР°РЅРЅС‹С…
+  enum bool rec;                  // РїР°РєРµС‚ РїСЂРёРЅСЏС‚
+  enum bool busy;                 // Р±СѓС„РµСЂ Р·Р°РЅСЏС‚
+  enum bool check_busy;           // РїСЂРѕРІРµСЂРєР° Р·Р°РЅСЏС‚ Р»Рё Р±СѓС„РµСЂ
 } Buf1_rx_ppp, Buf2_rx_ppp;       //
 
 enum bool fl_cts_232_ignor;
@@ -408,44 +408,44 @@ extern char ip_change;
 
 // unsigned char count_block_net,byte_state_net;
 
-//!!!!!!!!!!!!!!!!1параметры контроллера
+//!!!!!!!!!!!!!!!!1РїР°СЂР°РјРµС‚СЂС‹ РєРѕРЅС‚СЂРѕР»Р»РµСЂР°
 unsigned char ip_ls[4];
 unsigned int num_self, num_seq_cl, port_udp;
 
-struct // структура, описывающая объект передачи по PPP
+struct // СЃС‚СЂСѓРєС‚СѓСЂР°, РѕРїРёСЃС‹РІР°СЋС‰Р°СЏ РѕР±СЉРµРєС‚ РїРµСЂРµРґР°С‡Рё РїРѕ PPP
 {
-  enum bool link_no;      // связи нет
-  enum bool link_waits;   // ожидание квитка на контроль связи
-  enum bool link;         // контроль связи
-  enum bool nat;          // контроль nat
-  unsigned int cnt_link;  // счетчик
-  unsigned int cnt_nat;   // счетчик
-  unsigned int vol_link;  // значение
-  unsigned int vol_nat;   // //значение
-  unsigned int vol_waits; // значение времени квитка ожидания контроля связи
-  unsigned char cnt_try;  // счетчик попыток получить квиток
-  unsigned char vol_try;  // rjkbxtcndj попыток получить квиток
-  unsigned int vol_nat_r; // счетчик
+  enum bool link_no;      // СЃРІСЏР·Рё РЅРµС‚
+  enum bool link_waits;   // РѕР¶РёРґР°РЅРёРµ РєРІРёС‚РєР° РЅР° РєРѕРЅС‚СЂРѕР»СЊ СЃРІСЏР·Рё
+  enum bool link;         // РєРѕРЅС‚СЂРѕР»СЊ СЃРІСЏР·Рё
+  enum bool nat;          // РєРѕРЅС‚СЂРѕР»СЊ nat
+  unsigned int cnt_link;  // СЃС‡РµС‚С‡РёРє
+  unsigned int cnt_nat;   // СЃС‡РµС‚С‡РёРє
+  unsigned int vol_link;  // Р·РЅР°С‡РµРЅРёРµ
+  unsigned int vol_nat;   // //Р·РЅР°С‡РµРЅРёРµ
+  unsigned int vol_waits; // Р·РЅР°С‡РµРЅРёРµ РІСЂРµРјРµРЅРё РєРІРёС‚РєР° РѕР¶РёРґР°РЅРёСЏ РєРѕРЅС‚СЂРѕР»СЏ СЃРІСЏР·Рё
+  unsigned char cnt_try;  // СЃС‡РµС‚С‡РёРє РїРѕРїС‹С‚РѕРє РїРѕР»СѓС‡РёС‚СЊ РєРІРёС‚РѕРє
+  unsigned char vol_try;  // rjkbxtcndj РїРѕРїС‹С‚РѕРє РїРѕР»СѓС‡РёС‚СЊ РєРІРёС‚РѕРє
+  unsigned int vol_nat_r; // СЃС‡РµС‚С‡РёРє
 } Control;
 
 unsigned long int vol_cnt_no_link, vol_cnt_link_res, cnt_no_link, cnt_link_res;
 ; // dobavka
 
-unsigned char Appl_RS485_1_data_buf[LN_BUF_485_1]; // сам буфер
-unsigned char Appl_RS485_2_data_buf[LN_BUF_485_2]; // сам буфер
-unsigned char Appl_RS232_2_data_buf[LN_BUF_232_2]; // сам буфер
+unsigned char Appl_RS485_1_data_buf[LN_BUF_485_1]; // СЃР°Рј Р±СѓС„РµСЂ
+unsigned char Appl_RS485_2_data_buf[LN_BUF_485_2]; // СЃР°Рј Р±СѓС„РµСЂ
+unsigned char Appl_RS232_2_data_buf[LN_BUF_232_2]; // СЃР°Рј Р±СѓС„РµСЂ
 
-struct // структура описывающая работу приложения "RS485_1"
+struct // СЃС‚СЂСѓРєС‚СѓСЂР° РѕРїРёСЃС‹РІР°СЋС‰Р°СЏ СЂР°Р±РѕС‚Сѓ РїСЂРёР»РѕР¶РµРЅРёСЏ "RS485_1"
 {
-  enum bool fl_data_buf; // имеется ли забуферизированный пакет для передачи в
-                         // порт RS485_1
-  unsigned int ln_data_buf;  // забуферизированная длина буфера
-  unsigned int dst_buf;      // забуферизированный получатель
-  unsigned char cont_buf[8]; // забуферизированный контекст
-  unsigned char id_buf;      // забуферизированный id
-  unsigned int dst_tek;      // текущий получатель
-  unsigned char id_tek;      // текущий id
-  unsigned int pre_tx;       // задержка перед передачей
+  enum bool fl_data_buf; // РёРјРµРµС‚СЃСЏ Р»Рё Р·Р°Р±СѓС„РµСЂРёР·РёСЂРѕРІР°РЅРЅС‹Р№ РїР°РєРµС‚ РґР»СЏ РїРµСЂРµРґР°С‡Рё РІ
+                         // РїРѕСЂС‚ RS485_1
+  unsigned int ln_data_buf;  // Р·Р°Р±СѓС„РµСЂРёР·РёСЂРѕРІР°РЅРЅР°СЏ РґР»РёРЅР° Р±СѓС„РµСЂР°
+  unsigned int dst_buf;      // Р·Р°Р±СѓС„РµСЂРёР·РёСЂРѕРІР°РЅРЅС‹Р№ РїРѕР»СѓС‡Р°С‚РµР»СЊ
+  unsigned char cont_buf[8]; // Р·Р°Р±СѓС„РµСЂРёР·РёСЂРѕРІР°РЅРЅС‹Р№ РєРѕРЅС‚РµРєСЃС‚
+  unsigned char id_buf;      // Р·Р°Р±СѓС„РµСЂРёР·РёСЂРѕРІР°РЅРЅС‹Р№ id
+  unsigned int dst_tek;      // С‚РµРєСѓС‰РёР№ РїРѕР»СѓС‡Р°С‚РµР»СЊ
+  unsigned char id_tek;      // С‚РµРєСѓС‰РёР№ id
+  unsigned int pre_tx;       // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
 } Appl_RS485_1, Appl_RS485_2, Appl_RS232_2;
 
 struct {
@@ -465,16 +465,16 @@ extern struct {
 
 ///////////////////EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!структуры приложения
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!СЃС‚СЂСѓРєС‚СѓСЂС‹ РїСЂРёР»РѕР¶РµРЅРёСЏ
 struct {
   unsigned char id;
-  unsigned int p_in; // указатель свободной ячейки
+  unsigned int p_in; // СѓРєР°Р·Р°С‚РµР»СЊ СЃРІРѕР±РѕРґРЅРѕР№ СЏС‡РµР№РєРё
   unsigned int p_out;
   unsigned int p_out_kv;
   unsigned int crc;
-  unsigned int cnt_waits; // счетчик ожидания квитка
-  unsigned char cnt_try;  // счетчик попыток получить квиток
-  unsigned int l_data;    // длина посылаемых данных
+  unsigned int cnt_waits; // СЃС‡РµС‚С‡РёРє РѕР¶РёРґР°РЅРёСЏ РєРІРёС‚РєР°
+  unsigned char cnt_try;  // СЃС‡РµС‚С‡РёРє РїРѕРїС‹С‚РѕРє РїРѕР»СѓС‡РёС‚СЊ РєРІРёС‚РѕРє
+  unsigned int l_data;    // РґР»РёРЅР° РїРѕСЃС‹Р»Р°РµРјС‹С… РґР°РЅРЅС‹С…
   unsigned char state;
   unsigned char event;
   unsigned int tm_vzat;
@@ -520,11 +520,11 @@ struct {
 } sv1, sv2;
 // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
-///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!для РРР
+///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!РґР»СЏ Р Р Р 
 extern struct {
   unsigned char fl_7e : 1;    //
   unsigned char fl_7d : 1;    //
-  unsigned char switcher : 1; // переключатель буферов
+  unsigned char switcher : 1; // РїРµСЂРµРєР»СЋС‡Р°С‚РµР»СЊ Р±СѓС„РµСЂРѕРІ
 } fl_rx_ppp;
 
 unsigned char layer_PPP;
@@ -595,11 +595,11 @@ extern unsigned long int cnt_ip_tm_cntr;
 extern unsigned char rcvd_protokol;
 
 extern unsigned char i_scr_lcp, i_scan_lcp;
-extern unsigned char i_scj_lcp; // идентификаторы lcp
+extern unsigned char i_scj_lcp; // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂС‹ lcp
 extern unsigned char i_str_lcp, i_sta_lcp;
 
 extern unsigned char i_scr_ipcp, i_scan_ipcp;
-extern unsigned char i_scj_ipcp; // идентификаторы ipcp
+extern unsigned char i_scj_ipcp; // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂС‹ ipcp
 extern unsigned char i_str_ipcp, i_sta_ipcp;
 
 extern unsigned char i_scr_pap;
@@ -611,18 +611,18 @@ extern unsigned char Rs485_1_buf_rx_tx[MAX_BUF_RS485_1];
 extern unsigned char Rs485_2_buf_rx_tx[MAX_BUF_RS485_2];
 extern unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
 
-extern struct // структура описывающая работу порта "RS485_1"
+extern struct // СЃС‚СЂСѓРєС‚СѓСЂР° РѕРїРёСЃС‹РІР°СЋС‰Р°СЏ СЂР°Р±РѕС‚Сѓ РїРѕСЂС‚Р° "RS485_1"
 {
-  unsigned int cnt_bt_rx_tx;  // счетчик байтов на прием-передачу
-  unsigned int cnt_tm_tx_out; // счетчик времени на удержание rts после передачи
-  unsigned int cnt_tm_pre_tx; // счетчик времени на удержание rts перед передачи
+  unsigned int cnt_bt_rx_tx;  // СЃС‡РµС‚С‡РёРє Р±Р°Р№С‚РѕРІ РЅР° РїСЂРёРµРј-РїРµСЂРµРґР°С‡Сѓ
+  unsigned int cnt_tm_tx_out; // СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё РЅР° СѓРґРµСЂР¶Р°РЅРёРµ rts РїРѕСЃР»Рµ РїРµСЂРµРґР°С‡Рё
+  unsigned int cnt_tm_pre_tx; // СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё РЅР° СѓРґРµСЂР¶Р°РЅРёРµ rts РїРµСЂРµРґ РїРµСЂРµРґР°С‡Рё
   unsigned int
-      vol_tm_tx_out; // предел счетчик времени на удержание rts после передачи
-  unsigned int cnt_tm_rx_out; //  счетчик времени на определение конца приема
-  unsigned int vol_tm_rx_out; //  предел времени на определение конца приема
-  unsigned int cnt_tm_out;    // счетчик времени на прием
-  unsigned int vol_tm_out;    // предел счетчика времени на прием
-  unsigned char *p_data485;   // указатель на буфер передачи
+      vol_tm_tx_out; // РїСЂРµРґРµР» СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё РЅР° СѓРґРµСЂР¶Р°РЅРёРµ rts РїРѕСЃР»Рµ РїРµСЂРµРґР°С‡Рё
+  unsigned int cnt_tm_rx_out; //  СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё РЅР° РѕРїСЂРµРґРµР»РµРЅРёРµ РєРѕРЅС†Р° РїСЂРёРµРјР°
+  unsigned int vol_tm_rx_out; //  РїСЂРµРґРµР» РІСЂРµРјРµРЅРё РЅР° РѕРїСЂРµРґРµР»РµРЅРёРµ РєРѕРЅС†Р° РїСЂРёРµРјР°
+  unsigned int cnt_tm_out;    // СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё РЅР° РїСЂРёРµРј
+  unsigned int vol_tm_out;    // РїСЂРµРґРµР» СЃС‡РµС‚С‡РёРєР° РІСЂРµРјРµРЅРё РЅР° РїСЂРёРµРј
+  unsigned char *p_data485;   // СѓРєР°Р·Р°С‚РµР»СЊ РЅР° Р±СѓС„РµСЂ РїРµСЂРµРґР°С‡Рё
 } Rs485_1, Rs485_2, Rs232_2;
 
 extern unsigned char state_led_md;
@@ -1056,7 +1056,7 @@ void load_par_first_flash(void) {
     WrArrayToFleshInt(A_FIRST_ON, &buf, 1, 1, FLAG_FIRS_ON);
 
     ust_vhod = DEF_TM_VHOD;
-    WrArrayToFleshInt(A_SEG9, &ust_vhod, 1, 0, 0); // запись кон
+    WrArrayToFleshInt(A_SEG9, &ust_vhod, 1, 0, 0); // Р·Р°РїРёСЃСЊ РєРѕРЅ
 
     buf1[0] = TCH18_B1;
     buf1[1] = TCH18_B2;
@@ -1192,9 +1192,9 @@ void load_par_from_memory(void) {
 
   RdFromFleshToArrInt(A_SEG9, &ust_vhod, 1);
   RdFromFleshToArrInt(A_SEG8, &c_config_tc[0], SEG8);
-  c_config_tc[0x17] = 0; // это тригеры аварий ТИТ
+  c_config_tc[0x17] = 0; // СЌС‚Рѕ С‚СЂРёРіРµСЂС‹ Р°РІР°СЂРёР№ РўРРў
   RdFromFleshToArr(A_SEG99, (unsigned char *)&c1_byte.mb[0],
-                   SEG99 * 2); // параметры ГЗУ
+                   SEG99 * 2); // РїР°СЂР°РјРµС‚СЂС‹ Р“Р—РЈ
 
   // RdFromFleshToArr(A_SEG8,(unsigned char *)&c_config_tc[0],SEG8*2);
   // RdFromFleshToArr(A_SEG9,(unsigned char *)&ust_vhod,SEG9*2);
@@ -1215,8 +1215,8 @@ void start_func_stm_off(void) {
   }
 
   state_led_md = LED_MD_OFF;
-  command_AT = TRUE; // включен коммандный режим
-  CLR_PWR;           // исходное состояние
+  command_AT = TRUE; // РІРєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
+  CLR_PWR;           // РёСЃС…РѕРґРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
   SET_PWRK;
   state_modem = STM_OFF;
   cnt_stm_tm1 = DEF_TM_STM_OFF;
@@ -1237,8 +1237,8 @@ void start_func_stm_koff(void) {
   }
 
   state_led_md = LED_MD_OFF;
-  command_AT = TRUE; // включен коммандный режим
-  CLR_PWR;           // только через сброс питания
+  command_AT = TRUE; // РІРєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
+  CLR_PWR;           // С‚РѕР»СЊРєРѕ С‡РµСЂРµР· СЃР±СЂРѕСЃ РїРёС‚Р°РЅРёСЏ
   SET_PWRK;
   state_modem = STM_KOFF;
   ////  cnt_stm_tm1=DEF_TM_STM_KOFF;
@@ -1282,12 +1282,12 @@ void start_func_stm_on(void) {
   }
   /// EEEEEEEEEEEE dobavka
 
-  // A7682 по умолчанию 115200
+  // A7682 РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ 115200
   UBRR0H = R115200_H;
   UBRR0L = R115200_L;
 
   state_led_md = LED_MD_NO_CREG;
-  command_AT = TRUE; // включен коммандный режим
+  command_AT = TRUE; // РІРєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
   SET_RTS0;
   SET_PWR;
   CLR_PWRK;
@@ -1326,19 +1326,19 @@ void start_func_stm_scp(void) {
 
   UCSR0A = UCSR0A | TXC;
 
-  command_AT = FALSE; // выключен коммандный режим
+  command_AT = FALSE; // РІС‹РєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
 
   clr_var_ppp();
 
   count_tx_ppp = 0;
-  // для активации установки соединения PPP
+  // РґР»СЏ Р°РєС‚РёРІР°С†РёРё СѓСЃС‚Р°РЅРѕРІРєРё СЃРѕРµРґРёРЅРµРЅРёСЏ PPP
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   fl_lcp1.up = 1;
   fl_lcp1.down = 0;
-  // конфигурация соединения
+  // РєРѕРЅС„РёРіСѓСЂР°С†РёСЏ СЃРѕРµРґРёРЅРµРЅРёСЏ
 
-  // конфигурация канала
+  // РєРѕРЅС„РёРіСѓСЂР°С†РёСЏ РєР°РЅР°Р»Р°
 
   layer_PPP = LAYER_LCP;
   LCP_state = START_ST;
@@ -1354,7 +1354,7 @@ void start_func_stm_scp(void) {
   uk_out_act_LCP = 0;
 
   cnt_lcp_tm_out = VOL_LCP_TM_OUT;
-  fl_lcp.act_lcp_end = 1; // действия все закончены
+  fl_lcp.act_lcp_end = 1; // РґРµР№СЃС‚РІРёСЏ РІСЃРµ Р·Р°РєРѕРЅС‡РµРЅС‹
   fl_pap.act_pap_end = 1;
   fl_ipcp.act_ipcp_end = 1;
   fl_ip.act_ip_end = 1;
@@ -1368,7 +1368,7 @@ void start_func_stm_scp(void) {
   cnt_stm_tm2 = DEF_TM2_STM_SCP;
 }
 
-// подготовка буфера к отправке по PPP
+// РїРѕРґРіРѕС‚РѕРІРєР° Р±СѓС„РµСЂР° Рє РѕС‚РїСЂР°РІРєРµ РїРѕ PPP
 
 void form_buf_tx_ppp(void) {
   unsigned int i;
@@ -1382,20 +1382,20 @@ void form_buf_tx_ppp(void) {
   buf_tx_232[PPP_BEG] = 0x7e;
   buf_tx_232[PPP_PROT] = 0x21;
 
-  // заголовок IP
+  // Р·Р°РіРѕР»РѕРІРѕРє IP
   buf_tx_232[IP_VLEN] = 0x45;
   buf_tx_232[IP_TYPE] = 0;
 
-  // общая длина IP
+  // РѕР±С‰Р°СЏ РґР»РёРЅР° IP
   // 20 -IP
   // 8 -UDP
-  // 12 - Заголовок Данных
-  //+ Длина буфера опций
-  //+ Заполнитель
-  //+ Длина данных
+  // 12 - Р—Р°РіРѕР»РѕРІРѕРє Р”Р°РЅРЅС‹С…
+  //+ Р”Р»РёРЅР° Р±СѓС„РµСЂР° РѕРїС†РёР№
+  //+ Р—Р°РїРѕР»РЅРёС‚РµР»СЊ
+  //+ Р”Р»РёРЅР° РґР°РЅРЅС‹С…
   nopp = 0;
 
-  // Расчет заполнителя
+  // Р Р°СЃС‡РµС‚ Р·Р°РїРѕР»РЅРёС‚РµР»СЏ
   if (Obj_ppp_tx.prozr == FALSE) {
     if ((Obj_ppp_tx.l_opt <= 4) && (Obj_ppp_tx.l_opt > 0))
       nopp = 4 - Obj_ppp_tx.l_opt;
@@ -1406,7 +1406,7 @@ void form_buf_tx_ppp(void) {
     temp.word = 20 + 8 + Obj_ppp_tx.l_data;
 
   buf_tx_232[IP_LN] =
-      temp.bytes[1]; // длина IP пакета         ///////////////!!!!!!!!!!!!!!!!!
+      temp.bytes[1]; // РґР»РёРЅР° IP РїР°РєРµС‚Р°         ///////////////!!!!!!!!!!!!!!!!!
   buf_tx_232[IP_LN + 1] = temp.bytes[0]; ///////////////!!!!!!!!!!!!!!!!!
 
   buf_tx_232[IP_ID] = 0;
@@ -1436,7 +1436,7 @@ void form_buf_tx_ppp(void) {
   // buf_tx_232[20]=read_eeprom(ADR_IP_SRV+2);
   // buf_tx_232[21]=read_eeprom(ADR_IP_SRV+3);
 
-  // заголовок UDP
+  // Р·Р°РіРѕР»РѕРІРѕРє UDP
   // buf_tx_232[22]=UDP_PORT_H;
   // buf_tx_232[23]=UDP_PORT_L;
   // buf_tx_232[24]=UDP_PORT_H;
@@ -1452,55 +1452,55 @@ void form_buf_tx_ppp(void) {
   buf_tx_232[UDP_PDST] = port_udp >> 8;
   buf_tx_232[UDP_PDST + 1] = port_udp;
 
-  // общая длина UDP
+  // РѕР±С‰Р°СЏ РґР»РёРЅР° UDP
 
   // 8 -UDP
-  // 12 - Заголовок Данных
-  // + Длина буфера опций
-  // + Заполнитель
-  // + Длина данных
+  // 12 - Р—Р°РіРѕР»РѕРІРѕРє Р”Р°РЅРЅС‹С…
+  // + Р”Р»РёРЅР° Р±СѓС„РµСЂР° РѕРїС†РёР№
+  // + Р—Р°РїРѕР»РЅРёС‚РµР»СЊ
+  // + Р”Р»РёРЅР° РґР°РЅРЅС‹С…
 
   temp.word = temp.word - 20;
 
-  buf_tx_232[UDP_LN] = temp.bytes[1];     ///////////////длина UDP
+  buf_tx_232[UDP_LN] = temp.bytes[1];     ///////////////РґР»РёРЅР° UDP
   buf_tx_232[UDP_LN + 1] = temp.bytes[0]; ////////////
 
-  // buf_tx_232[UDP_CRC]=0;        //СRС UDP пакета
+  // buf_tx_232[UDP_CRC]=0;        //РЎRРЎ UDP РїР°РєРµС‚Р°
   // buf_tx_232[UDP_CRC+1]=0;
   *(unsigned int *)&buf_tx_232[UDP_CRC] = 0;
 
   if (Obj_ppp_tx.prozr == FALSE) {
-    // Транспортный заголовок
+    // РўСЂР°РЅСЃРїРѕСЂС‚РЅС‹Р№ Р·Р°РіРѕР»РѕРІРѕРє
     // buf_tx_232[30]=0;        //CRC
     // buf_tx_232[31]=0;
     //*(unsigned int*)&buf_tx_232[TR_CRC]=0;
 
     temp.word = temp.word - 8;
-    // buf_tx_232[32]=temp.bytes[1];        //полная длина
+    // buf_tx_232[32]=temp.bytes[1];        //РїРѕР»РЅР°СЏ РґР»РёРЅР°
     // buf_tx_232[33]=temp.bytes[0];
     *(unsigned int *)&buf_tx_232[TR_LEN] = temp.word;
 
-    // buf_tx_232[34]=0;        //шифр
+    // buf_tx_232[34]=0;        //С€РёС„СЂ
     // buf_tx_232[35]=0;
 
     *(unsigned int *)&buf_tx_232[TR_KOD] = 0;
 
-    buf_tx_232[TR_V] = Obj_ppp_tx.version;                            // версия
-    buf_tx_232[TR_V] = (buf_tx_232[TR_V] << 2) | Obj_ppp_tx.type_pac; // тип
+    buf_tx_232[TR_V] = Obj_ppp_tx.version;                            // РІРµСЂСЃРёСЏ
+    buf_tx_232[TR_V] = (buf_tx_232[TR_V] << 2) | Obj_ppp_tx.type_pac; // С‚РёРї
     buf_tx_232[TR_V] =
         (buf_tx_232[TR_V] << 4) |
-        ((12 + Obj_ppp_tx.l_opt + nopp) / 4); // длина траспортного заголовка
+        ((12 + Obj_ppp_tx.l_opt + nopp) / 4); // РґР»РёРЅР° С‚СЂР°СЃРїРѕСЂС‚РЅРѕРіРѕ Р·Р°РіРѕР»РѕРІРєР°
 
     buf_tx_232[TR_ID] = Obj_ppp_tx.id_pac;
 
     *(unsigned int *)&buf_tx_232[TR_SRC] =
-        Obj_ppp_tx.num_src; // номер отправителя
+        Obj_ppp_tx.num_src; // РЅРѕРјРµСЂ РѕС‚РїСЂР°РІРёС‚РµР»СЏ
     *(unsigned int *)&buf_tx_232[TR_DST] =
-        Obj_ppp_tx.num_dst; // номер получателя
+        Obj_ppp_tx.num_dst; // РЅРѕРјРµСЂ РїРѕР»СѓС‡Р°С‚РµР»СЏ
 
     pointer = &buf_tx_232[TR_OP_DATA];
 
-    // Забивка опции и заполнителя
+    // Р—Р°Р±РёРІРєР° РѕРїС†РёРё Рё Р·Р°РїРѕР»РЅРёС‚РµР»СЏ
     if (Obj_ppp_tx.l_opt != 0) {
       for (j = 0; j < Obj_ppp_tx.l_opt; j++) {
         *pointer = *Obj_ppp_tx.p_opt;
@@ -1514,7 +1514,7 @@ void form_buf_tx_ppp(void) {
         }
     }
 
-    // Забивка данных
+    // Р—Р°Р±РёРІРєР° РґР°РЅРЅС‹С…
     for (i = 0; i < Obj_ppp_tx.l_data; i++) {
       *pointer = *Obj_ppp_tx.p_data;
       pointer++;
@@ -1546,7 +1546,7 @@ void form_buf_tx_ppp(void) {
 
   *(unsigned int *)&buf_tx_232[IP_CRC] = calc_crc_ip(&buf_tx_232[IP_VLEN], 20);
 
-  temp.bytes[1] = buf_tx_232[UDP_LN]; ///////////////длина UDP
+  temp.bytes[1] = buf_tx_232[UDP_LN]; ///////////////РґР»РёРЅР° UDP
   temp.bytes[0] = buf_tx_232[UDP_LN + 1];
 
   // *(unsigned
@@ -1556,8 +1556,8 @@ void form_buf_tx_ppp(void) {
 
   i = buf_tx_232[IP_LN];
   i = (i << 8) +
-      buf_tx_232[IP_LN + 1]; // длина IP пакета ///////////////!!!!!!!!!!!!!!!!!
-  i = i + 5; // длина PPP пакета         ///////////////!!!!!!!!!!!!!!!!!
+      buf_tx_232[IP_LN + 1]; // РґР»РёРЅР° IP РїР°РєРµС‚Р° ///////////////!!!!!!!!!!!!!!!!!
+  i = i + 5; // РґР»РёРЅР° PPP РїР°РєРµС‚Р°         ///////////////!!!!!!!!!!!!!!!!!
 
   vol_tx_ppp = i;
   temp.word = vol_tx_ppp - 4;
@@ -1582,7 +1582,7 @@ void form_buf_tx_ppp(void) {
   /*
 
   temp.word=pppfcs16(PPPINITFCS16,&buf_tx_232[PPP_PROT],i-4) ^ 0xffff;    //
-  //длина IP+1 т.е buf_tx_232[i-3]=temp.bytes[0]; buf_tx_232[i-2]=temp.bytes[1];
+  //РґР»РёРЅР° IP+1 С‚.Рµ buf_tx_232[i-3]=temp.bytes[0]; buf_tx_232[i-2]=temp.bytes[1];
   buf_tx_232[i-1]=0x7e;
 
   vol_tx_ppp=i;
@@ -1646,7 +1646,7 @@ void monitor_rst(void) {
     if (Appl_seq_des == 1) {
       MCUSR = 0;
       return;
-    } // блокировка
+    } // Р±Р»РѕРєРёСЂРѕРІРєР°
 
     buf[0] = COOL_RESET;
     *(unsigned int *)&buf[1] = L_COOL_RESET;
@@ -1693,7 +1693,7 @@ void monitor_rst(void) {
     if (Appl_seq_des == 1) {
       MCUSR = 0;
       return;
-    } // блокировка
+    } // Р±Р»РѕРєРёСЂРѕРІРєР°
 
     buf[0] = HOT_RESET;
     *(unsigned int *)&buf[1] = L_HOT_RESET;
@@ -1720,8 +1720,8 @@ void monitor_over_net(void)
    {
      unsigned char buf[9];
 
-     if (Appl_seq_des==1)return;// блокировка опроса охранки
-     if(count_block_net!=0)return;//блокировка монитора
+     if (Appl_seq_des==1)return;// Р±Р»РѕРєРёСЂРѕРІРєР° РѕРїСЂРѕСЃР° РѕС…СЂР°РЅРєРё
+     if(count_block_net!=0)return;//Р±Р»РѕРєРёСЂРѕРІРєР° РјРѕРЅРёС‚РѕСЂР°
      if (((PINA & TCC2)&&(byte_state_net==YES_NET))|| (((PINA &
 TCC2)==0)&&(byte_state_net==NO_NET)))
           {
@@ -1747,13 +1747,13 @@ sizeof(Appl_seq_buf))==1)
 */
 
 void monitor_beg_state_seq(unsigned char zad) {
-  // здесь должна быть пауза чтобы определились текущие ТС
+  // Р·РґРµСЃСЊ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РїР°СѓР·Р° С‡С‚РѕР±С‹ РѕРїСЂРµРґРµР»РёР»РёСЃСЊ С‚РµРєСѓС‰РёРµ РўРЎ
   unsigned char buf[10];
   unsigned char i = 0;
 
   if (zad == 0) {
 
-    while (i < 200) // 400 мсек
+    while (i < 200) // 400 РјСЃРµРє
     {
       __watchdog_reset();
       delay(16000); // 1mcek
@@ -1800,7 +1800,7 @@ void monitor_beg_state_seq(unsigned char zad) {
   sv2.tc_old = sv2.tc;
 
   if (Appl_seq_des == 1)
-    return; // блокировка сообщдений
+    return; // Р±Р»РѕРєРёСЂРѕРІРєР° СЃРѕРѕР±С‰РґРµРЅРёР№
 
   buf[0] = SEQ_STATE;
   *(unsigned int *)&buf[1] = L_STATE;
@@ -2056,15 +2056,15 @@ void monitor_cntr_ch(void) {
 
   fl_ip.act_ip_end = 0;
 
-  Obj_ppp_tx.prozr = FALSE;          // версия
-  Obj_ppp_tx.version = VER2;         // версия
-  Obj_ppp_tx.type_pac = SOOB;        // тип пакета
-  Obj_ppp_tx.num_src = num_self;     // номер отправителя
-  Obj_ppp_tx.num_dst = NUM_SRV_LINK; // номер получателя
-  Obj_ppp_tx.id_pac = ID_CC;         // идентификатор пакета
-  Obj_ppp_tx.p_opt = &buf_opt_tr[0]; // //указатель буфера опций
+  Obj_ppp_tx.prozr = FALSE;          // РІРµСЂСЃРёСЏ
+  Obj_ppp_tx.version = VER2;         // РІРµСЂСЃРёСЏ
+  Obj_ppp_tx.type_pac = SOOB;        // С‚РёРї РїР°РєРµС‚Р°
+  Obj_ppp_tx.num_src = num_self;     // РЅРѕРјРµСЂ РѕС‚РїСЂР°РІРёС‚РµР»СЏ
+  Obj_ppp_tx.num_dst = NUM_SRV_LINK; // РЅРѕРјРµСЂ РїРѕР»СѓС‡Р°С‚РµР»СЏ
+  Obj_ppp_tx.id_pac = ID_CC;         // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР°РєРµС‚Р°
+  Obj_ppp_tx.p_opt = &buf_opt_tr[0]; // //СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РѕРїС†РёР№
 
-  Obj_ppp_tx.l_opt = 0; // длина буфера опций
+  Obj_ppp_tx.l_opt = 0; // РґР»РёРЅР° Р±СѓС„РµСЂР° РѕРїС†РёР№
   buf_opt_tr[0] = 1;
   buf_opt_tr[1] = 2;
   buf_opt_tr[2] = 3;
@@ -2077,10 +2077,10 @@ void monitor_cntr_ch(void) {
   buf_opt_tr[9] = 10;
   buf_opt_tr[10] = 11;
 
-  Obj_ppp_tx.kol_opt = 0; // количество опций
+  Obj_ppp_tx.kol_opt = 0; // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕРїС†РёР№
 
-  Obj_ppp_tx.l_data = 0;                       // длина данных
-  Obj_ppp_tx.p_data = &buf_tx_232[TR_OP_DATA]; // указатель буфера данных
+  Obj_ppp_tx.l_data = 0;                       // РґР»РёРЅР° РґР°РЅРЅС‹С…
+  Obj_ppp_tx.p_data = &buf_tx_232[TR_OP_DATA]; // СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РґР°РЅРЅС‹С…
 
   send_info(sizeof(msg_ctrl_ch), msg_ctrl_ch, 1, Obj_ppp_tx.id_pac);
 
@@ -2113,8 +2113,8 @@ void monitor_cntr_nat(void) {
   fl_ip.act_ip_end = 0;
 
   Obj_ppp_tx.prozr = TRUE;
-  Obj_ppp_tx.l_data = 1;     // длина данных
-  Obj_ppp_tx.p_data = &temp; // указатель буфера данных
+  Obj_ppp_tx.l_data = 1;     // РґР»РёРЅР° РґР°РЅРЅС‹С…
+  Obj_ppp_tx.p_data = &temp; // СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РґР°РЅРЅС‹С…
 
   send_info(sizeof(msg_ctrl_nat), msg_ctrl_nat, 0, 0);
 
@@ -2144,25 +2144,25 @@ void monitor_cntr_cl_seq(void) {
   Appl_seq.en_cntr_cl = FALSE;
 
   if (Appl_seq_des == 1)
-    return; // блокировка
+    return; // Р±Р»РѕРєРёСЂРѕРІРєР°
 
   clr_cntr_nat();
   fl_ip.act_ip_end = 0;
-  Obj_ppp_tx.prozr = FALSE;          // версия
-  Obj_ppp_tx.version = VER2;         // версия
-  Obj_ppp_tx.type_pac = ZAPR;        // тип пакета
-  Obj_ppp_tx.num_src = num_self;     // номер отправителя
-  Obj_ppp_tx.num_dst = NUM_SRV_LINK; // номер получателя
-  Obj_ppp_tx.id_pac = 0;             // идентификатор пакета
-  Obj_ppp_tx.p_opt = &buf_opt_tr[0]; // //указатель буфера опций
-  Obj_ppp_tx.l_opt = 0;              // длина буфера опций
+  Obj_ppp_tx.prozr = FALSE;          // РІРµСЂСЃРёСЏ
+  Obj_ppp_tx.version = VER2;         // РІРµСЂСЃРёСЏ
+  Obj_ppp_tx.type_pac = ZAPR;        // С‚РёРї РїР°РєРµС‚Р°
+  Obj_ppp_tx.num_src = num_self;     // РЅРѕРјРµСЂ РѕС‚РїСЂР°РІРёС‚РµР»СЏ
+  Obj_ppp_tx.num_dst = NUM_SRV_LINK; // РЅРѕРјРµСЂ РїРѕР»СѓС‡Р°С‚РµР»СЏ
+  Obj_ppp_tx.id_pac = 0;             // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР°РєРµС‚Р°
+  Obj_ppp_tx.p_opt = &buf_opt_tr[0]; // //СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РѕРїС†РёР№
+  Obj_ppp_tx.l_opt = 0;              // РґР»РёРЅР° Р±СѓС„РµСЂР° РѕРїС†РёР№
   buf_opt_tr[0] = PROT_SL_LS;
   buf_opt_tr[1] = COM_CNTR_CL;
   *(unsigned int *)&buf_opt_tr[2] = L_COM_CNTR_CL;
   *(unsigned int *)&buf_opt_tr[4] = num_seq_cl;
-  Obj_ppp_tx.kol_opt = 0;             // количество опций
-  Obj_ppp_tx.l_data = 6;              // длина данных
-  Obj_ppp_tx.p_data = &buf_opt_tr[0]; // указатель буфера данных
+  Obj_ppp_tx.kol_opt = 0;             // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕРїС†РёР№
+  Obj_ppp_tx.l_data = 6;              // РґР»РёРЅР° РґР°РЅРЅС‹С…
+  Obj_ppp_tx.p_data = &buf_opt_tr[0]; // СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РґР°РЅРЅС‹С…
 
   send_info(sizeof(req_out_ctrl_cl), req_out_ctrl_cl, 1, Obj_ppp_tx.id_pac);
 
@@ -2188,7 +2188,7 @@ unsigned char buf[10];
 
 sv1.tc=struct_tcc1.real_tc;
 
-if (Appl_seq_des==1)return;// блокировка опроса охранки
+if (Appl_seq_des==1)return;// Р±Р»РѕРєРёСЂРѕРІРєР° РѕРїСЂРѕСЃР° РѕС…СЂР°РЅРєРё
 
 
 if(fl_appl_seq1.send_state==1)
@@ -2307,7 +2307,7 @@ void monitor_change_state(void) {
     if (struct_tcc1.cnt_block_tc == 0) {
       if ((sv1.tc & 0x01) != (sv1.tc_old & 0x01)) {
         struct_tcc1.cnt_block_tc = VOL_BLOCK_TC;
-        // установить флаг есть событие
+        // СѓСЃС‚Р°РЅРѕРІРёС‚СЊ С„Р»Р°Рі РµСЃС‚СЊ СЃРѕР±С‹С‚РёРµ
         flag_msg = 1;
         sv1.tc_old = sv1.tc;
         send_info(sizeof(evc_ts1), evc_ts1, 0, 0);
@@ -2337,7 +2337,7 @@ void monitor_change_state(void) {
     if (struct_tcc2.cnt_block_tc == 0) {
       if ((sv2.tc & 0x01) != (sv2.tc_old & 0x01)) {
         struct_tcc2.cnt_block_tc = VOL_BLOCK_TC;
-        // установить флаг есть событие;
+        // СѓСЃС‚Р°РЅРѕРІРёС‚СЊ С„Р»Р°Рі РµСЃС‚СЊ СЃРѕР±С‹С‚РёРµ;
         send_info(sizeof(evc_ts2), evc_ts2, 0, 0);
         flag_msg = 1;
         sv2.tc_old = sv2.tc;
@@ -2377,7 +2377,7 @@ void monitor_change_state(void) {
         state_seq = ALRM;
         buf[7] = ALRM;
         buf[8] = sv1.tc & 0x01;
-        // установить флаг есть событие;
+        // СѓСЃС‚Р°РЅРѕРІРёС‚СЊ С„Р»Р°Рі РµСЃС‚СЊ СЃРѕР±С‹С‚РёРµ;
         flag_msg = 1;
         break;
       default:
@@ -2399,7 +2399,7 @@ void monitor_change_state(void) {
         buf[7] = VZT;
         buf[8] = sv1.tc & 0x01;
         flag_msg = 1;
-        // установить флаг есть событие;
+        // СѓСЃС‚Р°РЅРѕРІРёС‚СЊ С„Р»Р°Рі РµСЃС‚СЊ СЃРѕР±С‹С‚РёРµ;
         break;
       default:
         break;
@@ -2412,7 +2412,7 @@ void monitor_change_state(void) {
   }
 
   if (Appl_seq_des == 1)
-    return; // блокировка сообщений
+    return; // Р±Р»РѕРєРёСЂРѕРІРєР° СЃРѕРѕР±С‰РµРЅРёР№
 
   if ((flag_msg == 1) || (fl_appl_seq1.send_state == 1)) {
     if (fl_appl_seq1.send_state == 1)
@@ -2433,7 +2433,7 @@ void Application_SEQ_tx(void) {
     return;
 
   if (Appl_seq_des == 1)
-    return; // блокировка сообщений
+    return; // Р±Р»РѕРєРёСЂРѕРІРєР° СЃРѕРѕР±С‰РµРЅРёР№
 
   if (Appl_seq.cntr_cl == TRUE)
     return;
@@ -2441,13 +2441,13 @@ void Application_SEQ_tx(void) {
   if ((fl_lcp.act_lcp_end != 1) && (fl_pap.act_pap_end != 1) ||
       (fl_ipcp.act_ipcp_end != 1) || (fl_ip.act_ip_end != 1))
     return;
-  // проверять здесь готово ли для отправки буфер PPP
+  // РїСЂРѕРІРµСЂСЏС‚СЊ Р·РґРµСЃСЊ РіРѕС‚РѕРІРѕ Р»Рё РґР»СЏ РѕС‚РїСЂР°РІРєРё Р±СѓС„РµСЂ PPP
 
   Obj_ppp_tx.l_data = read_from_buf(
       &Appl_seq_buf[0], &Appl_seq.p_in, &Appl_seq.p_out, &Appl_seq.p_out_kv,
       &Appl_seq.crc, &buf_tx_232[TR_OP_DATA + C1_DATA], sizeof(Appl_seq_buf));
   if (Obj_ppp_tx.l_data != 0) {
-    // приращение идентификатора
+    // РїСЂРёСЂР°С‰РµРЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР°
     if (Appl_seq.l_data != Obj_ppp_tx.l_data) {
       if (fl_appl_seq.en_povtor == 0)
         Appl_seq.id++;
@@ -2459,7 +2459,7 @@ void Application_SEQ_tx(void) {
     fl_appl_seq.en_povtor = 0;
     Appl_seq.l_data = Obj_ppp_tx.l_data;
 
-    // формирование на передачу в буффер
+    // С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ РЅР° РїРµСЂРµРґР°С‡Сѓ РІ Р±СѓС„С„РµСЂ
     clr_cntr_nat();
 
     // clr_cntr_link_2(); // proverka
@@ -2467,23 +2467,23 @@ void Application_SEQ_tx(void) {
     fl_ip.act_ip_end = 0;
 
     Obj_ppp_tx.prozr = FALSE;
-    Obj_ppp_tx.version = VER2;     // версия
-    Obj_ppp_tx.type_pac = SOOB;    // тип пакета
-    Obj_ppp_tx.num_src = num_self; // номер отправителя
+    Obj_ppp_tx.version = VER2;     // РІРµСЂСЃРёСЏ
+    Obj_ppp_tx.type_pac = SOOB;    // С‚РёРї РїР°РєРµС‚Р°
+    Obj_ppp_tx.num_src = num_self; // РЅРѕРјРµСЂ РѕС‚РїСЂР°РІРёС‚РµР»СЏ
     Obj_ppp_tx.num_dst =
-        num_seq_cl; // номер получателя // потом установить подумать не
-                    // отошлется ли это другим котнроллерам
-    Obj_ppp_tx.id_pac = Appl_seq.id;   // идентификатор пакета
-    Obj_ppp_tx.p_opt = &buf_opt_tr[0]; // //указатель буфера опций
-    Obj_ppp_tx.l_opt = 0;              // длина буфера опций
-    Obj_ppp_tx.kol_opt = 0;            // количество опций
+        num_seq_cl; // РЅРѕРјРµСЂ РїРѕР»СѓС‡Р°С‚РµР»СЏ // РїРѕС‚РѕРј СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РїРѕРґСѓРјР°С‚СЊ РЅРµ
+                    // РѕС‚РѕС€Р»РµС‚СЃСЏ Р»Рё СЌС‚Рѕ РґСЂСѓРіРёРј РєРѕС‚РЅСЂРѕР»Р»РµСЂР°Рј
+    Obj_ppp_tx.id_pac = Appl_seq.id;   // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР°РєРµС‚Р°
+    Obj_ppp_tx.p_opt = &buf_opt_tr[0]; // //СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РѕРїС†РёР№
+    Obj_ppp_tx.l_opt = 0;              // РґР»РёРЅР° Р±СѓС„РµСЂР° РѕРїС†РёР№
+    Obj_ppp_tx.kol_opt = 0;            // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕРїС†РёР№
 
     buf_tx_232[TR_OP_DATA + C1_PROT] = PROT_C1;
     buf_tx_232[TR_OP_DATA + C1_PORT] = PORT_SEQ;
 
-    Obj_ppp_tx.l_data = 2 + Obj_ppp_tx.l_data; // длина данных
+    Obj_ppp_tx.l_data = 2 + Obj_ppp_tx.l_data; // РґР»РёРЅР° РґР°РЅРЅС‹С…
     Obj_ppp_tx.p_data =
-        &buf_tx_232[TR_OP_DATA + C1_PROT]; // указатель буфера данных
+        &buf_tx_232[TR_OP_DATA + C1_PROT]; // СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РґР°РЅРЅС‹С…
 
     send_info(sizeof(msg_evc), msg_evc, 1, Obj_ppp_tx.id_pac);
 
@@ -2545,7 +2545,7 @@ void check_wdt(void) {
 }
 
 void modem_engine(void) {
-  start_func_stm_on(); // подача питания-включение модема в рабочем режиме
+  start_func_stm_on(); // РїРѕРґР°С‡Р° РїРёС‚Р°РЅРёСЏ-РІРєР»СЋС‡РµРЅРёРµ РјРѕРґРµРјР° РІ СЂР°Р±РѕС‡РµРј СЂРµР¶РёРјРµ
   // fl_wdt.fl_main=1;
 
   while (1) {
@@ -2556,7 +2556,7 @@ void modem_engine(void) {
 
     supervisorwdt();
 
-    monitor_change_state(); // записи состоянии охраны
+    monitor_change_state(); // Р·Р°РїРёСЃРё СЃРѕСЃС‚РѕСЏРЅРёРё РѕС…СЂР°РЅС‹
 
     energy_plus();
 
@@ -2619,7 +2619,7 @@ void modem_engine(void) {
         init_scen_stm_si();
         cnt_stm_tm2 = DEF_TM2_STM_SI;
         event_modem = EVM_NONE;
-        command_AT = TRUE; // включен коммандный режим
+        command_AT = TRUE; // РІРєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
         break;
 
       case EVM_NONE:
@@ -2633,7 +2633,7 @@ void modem_engine(void) {
       break;
 
     case STM_SI:
-      // выполнение процедур - сценарий
+      // РІС‹РїРѕР»РЅРµРЅРёРµ РїСЂРѕС†РµРґСѓСЂ - СЃС†РµРЅР°СЂРёР№
       at_com_tx(cnt_com);
       at_com_rx(cnt_com);
       at_com_scen_init(&cnt_com, &rep);
@@ -2646,7 +2646,7 @@ void modem_engine(void) {
         init_scen_stm_sc();
         cnt_stm_tm2 = DEF_TM2_STM_SC;
         event_modem = EVM_NONE;
-        command_AT = TRUE; // включен коммандный режим
+        command_AT = TRUE; // РІРєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
         break;
       case EVM_AT_ERR:
         send_info(sizeof(evm_at_err), evm_at_err, 0, 0);
@@ -2657,11 +2657,11 @@ void modem_engine(void) {
       case EVM_NONE:
         if (Fl_ch_sim == 1) {
           send_info(sizeof(evm_ch_sim), evm_ch_sim, 0, 0);
-          // выключаем модем сразу!!!!
+          // РІС‹РєР»СЋС‡Р°РµРј РјРѕРґРµРј СЃСЂР°Р·Сѓ!!!!
           state_modem = STM_OFF;
           start_func_stm_koff();
           event_modem = EVM_NONE;
-          command_AT = TRUE; // включен коммандный режим
+          command_AT = TRUE; // РІРєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
                              /////////////////////////////////////////////
         }
         break;
@@ -2674,7 +2674,7 @@ void modem_engine(void) {
       break;
 
     case STM_SC:
-      // выполнение процедур - сценарий
+      // РІС‹РїРѕР»РЅРµРЅРёРµ РїСЂРѕС†РµРґСѓСЂ - СЃС†РµРЅР°СЂРёР№
 
       //   if ( PINE & RI0 ) S3_RD;
       //   if ( PINE & RI0 ) {init_modem_call_inside();}
@@ -2708,7 +2708,7 @@ void modem_engine(void) {
 
     case STM_SCP:
 
-      // выполнение процедур - сценарий
+      // РІС‹РїРѕР»РЅРµРЅРёРµ РїСЂРѕС†РµРґСѓСЂ - СЃС†РµРЅР°СЂРёР№
       analiz_ppp_rx();
 
       if (layer_PPP != LAYER_HW) {
@@ -2748,7 +2748,7 @@ void modem_engine(void) {
         cnt_stm_tm1 = 0;
         state_modem = STM_PPP;
         event_modem = EVM_NONE;
-        command_AT = FALSE; // выключен коммандный режим
+        command_AT = FALSE; // РІС‹РєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
 
         //!!!!!! dobavka
         if ((simka == SIM_RES) && (cnt_link_res == 0))
@@ -2777,11 +2777,11 @@ void modem_engine(void) {
         cnt_cts_off = 0;
         fl_cts_232_ignor = TRUE;
         state_modem = STM_DCP;
-        clr_var_ppp_rx(); // обнулить все что касается приему по GPRS и
-                          // запретить прием
+        clr_var_ppp_rx(); // РѕР±РЅСѓР»РёС‚СЊ РІСЃРµ С‡С‚Рѕ РєР°СЃР°РµС‚СЃСЏ РїСЂРёРµРјСѓ РїРѕ GPRS Рё
+                          // Р·Р°РїСЂРµС‚РёС‚СЊ РїСЂРёРµРј
         cnt_stm_tm2 = DEF_TM2_STM_DCP;
         event_modem = EVM_DCP;
-        command_AT = FALSE; // выключен коммандный режим
+        command_AT = FALSE; // РІС‹РєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
 
         break;
 
@@ -2800,19 +2800,19 @@ void modem_engine(void) {
       monitor_event_IPCP();
       monitor_act_IPCP();
 
-      monitor1_tx_rs485_1(); // GPRS-штатный RS485_1
+      monitor1_tx_rs485_1(); // GPRS-С€С‚Р°С‚РЅС‹Р№ RS485_1
       monitor1_rec_rs485_1();
       monitor1_tm_rs485_1();
 
-      monitor1_tx_rs485_2(); // GPRS-штатный RS485_2
+      monitor1_tx_rs485_2(); // GPRS-С€С‚Р°С‚РЅС‹Р№ RS485_2
       monitor1_rec_rs485_2();
       monitor1_tm_rs485_2();
 
-      monitor1_tx_rs232_2(); // GPRS-штатный RS232_2
+      monitor1_tx_rs232_2(); // GPRS-С€С‚Р°С‚РЅС‹Р№ RS232_2
       monitor1_rec_rs232_2();
       monitor1_tm_rs232_2();
 
-      Application_SEQ_tx(); // монитор передачи сообщений охраны
+      Application_SEQ_tx(); // РјРѕРЅРёС‚РѕСЂ РїРµСЂРµРґР°С‡Рё СЃРѕРѕР±С‰РµРЅРёР№ РѕС…СЂР°РЅС‹
 
       monitor_cntr_ch();
       monitor_cntr_cl_seq();
@@ -2832,12 +2832,12 @@ void modem_engine(void) {
           cnt_cts_off = 0;
           fl_cts_232_ignor = TRUE;
           state_modem = STM_KOFF;
-          clr_var_ppp_rx(); // обнулить все что касается приему по GPRS и
-                            // запретить прием
+          clr_var_ppp_rx(); // РѕР±РЅСѓР»РёС‚СЊ РІСЃРµ С‡С‚Рѕ РєР°СЃР°РµС‚СЃСЏ РїСЂРёРµРјСѓ РїРѕ GPRS Рё
+                            // Р·Р°РїСЂРµС‚РёС‚СЊ РїСЂРёРµРј
           start_func_stm_koff();
           state_modem = STM_KOFF;
           event_modem = EVM_NONE;
-          command_AT = TRUE; // включен коммандный режим
+          command_AT = TRUE; // РІРєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
                              // EEEEEEEEEEE dobavka
           //  st_gprs_att(); !!!!!!!!!!!!!!!!!!!!!11
         }
@@ -2872,11 +2872,11 @@ void modem_engine(void) {
         cnt_cts_off = 0;
         fl_cts_232_ignor = TRUE;
         state_modem = STM_DCP;
-        clr_var_ppp_rx(); // обнулить все что касается приему по GPRS и
-                          // запретить прием
+        clr_var_ppp_rx(); // РѕР±РЅСѓР»РёС‚СЊ РІСЃРµ С‡С‚Рѕ РєР°СЃР°РµС‚СЃСЏ РїСЂРёРµРјСѓ РїРѕ GPRS Рё
+                          // Р·Р°РїСЂРµС‚РёС‚СЊ РїСЂРёРµРј
         cnt_stm_tm2 = DEF_TM2_STM_DCP;
         event_modem = EVM_DCP;
-        command_AT = FALSE; // выключен коммандный режим
+        command_AT = FALSE; // РІС‹РєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
 
         break;
       }
@@ -2884,15 +2884,15 @@ void modem_engine(void) {
 
     case STM_DCP:
 
-      // GPRS-штатный RS485
+      // GPRS-С€С‚Р°С‚РЅС‹Р№ RS485
       monitor1_rec_rs485_1();
       monitor1_tm_rs485_1();
 
-      // GPRS-штатный RS485
+      // GPRS-С€С‚Р°С‚РЅС‹Р№ RS485
       monitor1_rec_rs485_2();
       monitor1_tm_rs485_2();
 
-      // GPRS-штатный RS232
+      // GPRS-С€С‚Р°С‚РЅС‹Р№ RS232
       monitor1_rec_rs232_2();
       monitor1_tm_rs232_2();
 
@@ -2936,28 +2936,28 @@ void modem_engine(void) {
 
           state_modem = STM_DC;
           cnt_stm_tm2 = DEF_TM2_STM_DC;
-          // обнуление ppp переменных
-          // и запртить передачу по GPRS
+          // РѕР±РЅСѓР»РµРЅРёРµ ppp РїРµСЂРµРјРµРЅРЅС‹С…
+          // Рё Р·Р°РїСЂС‚РёС‚СЊ РїРµСЂРµРґР°С‡Сѓ РїРѕ GPRS
           UCSR0B = UCSR0B & ~TXEN;
           UCSR0B = UCSR0B & ~TXCIE;
           clr_var_ppp();
           init_scen_stm_dc_1();
           event_modem = EVM_NONE;
-          command_AT = TRUE; // включен коммандный режим
+          command_AT = TRUE; // РІРєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
 
         }
         // SVD2_1_OFF;!!!!!
         // SVD2_2_OFF;!!!!!!!!!
         else {
-          /////////////////////  09 07 14 добавили кусок
-          // если PPP сессия часто рвется , то сбросить питание
-          // выключаем модем
+          /////////////////////  09 07 14 РґРѕР±Р°РІРёР»Рё РєСѓСЃРѕРє
+          // РµСЃР»Рё PPP СЃРµСЃСЃРёСЏ С‡Р°СЃС‚Рѕ СЂРІРµС‚СЃСЏ , С‚Рѕ СЃР±СЂРѕСЃРёС‚СЊ РїРёС‚Р°РЅРёРµ
+          // РІС‹РєР»СЋС‡Р°РµРј РјРѕРґРµРј
           count_ppp_down = 0;
           write_log_info(ST_CLR_PPP, CLR_PPP_RDY);
           state_modem = STM_OFF;
           start_func_stm_off();
           event_modem = EVM_NONE;
-          command_AT = TRUE; // включен коммандный режим
+          command_AT = TRUE; // РІРєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
         }
         break;
       }
@@ -2978,7 +2978,7 @@ void modem_engine(void) {
         init_scen_stm_sc();
         cnt_stm_tm2 = DEF_TM2_STM_SC;
         event_modem = EVM_NONE;
-        command_AT = TRUE; // включен коммандный режим
+        command_AT = TRUE; // РІРєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
 
         break;
       case EVM_AT_ERR:
@@ -2986,7 +2986,7 @@ void modem_engine(void) {
         state_modem = STM_KOFF;
         start_func_stm_koff();
         event_modem = EVM_NONE;
-        command_AT = TRUE; // включен коммандный режим
+        command_AT = TRUE; // РІРєР»СЋС‡РµРЅ РєРѕРјРјР°РЅРґРЅС‹Р№ СЂРµР¶РёРј
 
         break;
       }
@@ -3043,14 +3043,14 @@ void send_err485(unsigned char port, unsigned char err, unsigned char id,
   clr_cntr_nat();
   clr_cntr_link();
   Obj_ppp_tx.prozr = FALSE;
-  Obj_ppp_tx.version = VER2;         // версия
-  Obj_ppp_tx.type_pac = OTV;         // тип пакета
-  Obj_ppp_tx.num_src = num_self;     // номер отправителя
-  Obj_ppp_tx.num_dst = dst;          // номер получателя
-  Obj_ppp_tx.id_pac = id;            // идентификатор пакета
-  Obj_ppp_tx.p_opt = &buf_opt_tr[0]; // //указатель буфера опций
-  Obj_ppp_tx.l_opt = 0;              // длина буфера опций
-  Obj_ppp_tx.kol_opt = 0;            // количество опций
+  Obj_ppp_tx.version = VER2;         // РІРµСЂСЃРёСЏ
+  Obj_ppp_tx.type_pac = OTV;         // С‚РёРї РїР°РєРµС‚Р°
+  Obj_ppp_tx.num_src = num_self;     // РЅРѕРјРµСЂ РѕС‚РїСЂР°РІРёС‚РµР»СЏ
+  Obj_ppp_tx.num_dst = dst;          // РЅРѕРјРµСЂ РїРѕР»СѓС‡Р°С‚РµР»СЏ
+  Obj_ppp_tx.id_pac = id;            // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР°РєРµС‚Р°
+  Obj_ppp_tx.p_opt = &buf_opt_tr[0]; // //СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РѕРїС†РёР№
+  Obj_ppp_tx.l_opt = 0;              // РґР»РёРЅР° Р±СѓС„РµСЂР° РѕРїС†РёР№
+  Obj_ppp_tx.kol_opt = 0;            // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕРїС†РёР№
 
   buf_tx_232[TR_OP_DATA + C1_PROT] = PROT_C1;
   buf_tx_232[TR_OP_DATA + C1_PORT] = PORT_SYS;
@@ -3059,9 +3059,9 @@ void send_err485(unsigned char port, unsigned char err, unsigned char id,
   *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1] = LN_RS485_ERR;
   buf_tx_232[TR_OP_DATA + C1_DATA + 3] = port;
   buf_tx_232[TR_OP_DATA + C1_DATA + 4] = err;
-  Obj_ppp_tx.l_data = 5 + LN_RS485_ERR; // длина данных
+  Obj_ppp_tx.l_data = 5 + LN_RS485_ERR; // РґР»РёРЅР° РґР°РЅРЅС‹С…
   Obj_ppp_tx.p_data =
-      &buf_tx_232[TR_OP_DATA + C1_PROT]; // указатель буфера данных
+      &buf_tx_232[TR_OP_DATA + C1_PROT]; // СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РґР°РЅРЅС‹С…
 
   form_buf_tx_ppp();
   UCSR0A = UCSR0A | TXC;
@@ -3183,7 +3183,7 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
   if ((*(unsigned int *)(pointer + 6)) < 3)
     return (1);
   Rs485_1.cnt_tm_out = 0;
-  Rs485_1.vol_tm_out = *(unsigned int *)(pointer + 6); // 1000 миллисекунд
+  Rs485_1.vol_tm_out = *(unsigned int *)(pointer + 6); // 1000 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   switch (*pointer) {
   case B2400:
@@ -3191,15 +3191,15 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
     UBRR3L = R2400_L;
 
     if (Appl_RS485_1.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
 
       //  __disable_interrupt();
       SET_RTS1;
       //  __enable_interrupt();
 
-      Rs485_1.cnt_tm_pre_tx = Appl_RS485_1.pre_tx; // задержка перед передачей
+      Rs485_1.cnt_tm_pre_tx = Appl_RS485_1.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs485_1.cnt_tm_pre_tx = 17; // 17 миллисекунд
+      Rs485_1.cnt_tm_pre_tx = 17; // 17 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //   Rs485_1.vol_tm_tx_out=Rs485_1.vol_tm_tx_out+5;
     break;
@@ -3208,14 +3208,14 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
     UBRR3L = R4800_L;
 
     if (Appl_RS485_1.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
       //  __disable_interrupt();
       SET_RTS1;
       //   __enable_interrupt();
 
-      Rs485_1.cnt_tm_pre_tx = Appl_RS485_1.pre_tx; // задержка перед передачей
+      Rs485_1.cnt_tm_pre_tx = Appl_RS485_1.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs485_1.cnt_tm_pre_tx = 9; // 9 миллисекунд
+      Rs485_1.cnt_tm_pre_tx = 9; // 9 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //      Rs485_1.vol_tm_tx_out=Rs485_1.vol_tm_tx_out+3;
     break;
@@ -3224,14 +3224,14 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
     UBRR3L = R9600_L;
 
     if (Appl_RS485_1.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
       // __disable_interrupt();
       SET_RTS1;
       //  __enable_interrupt();
 
-      Rs485_1.cnt_tm_pre_tx = Appl_RS485_1.pre_tx; // задержка перед передачей
+      Rs485_1.cnt_tm_pre_tx = Appl_RS485_1.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs485_1.cnt_tm_pre_tx = 4; // 4 миллисекунд
+      Rs485_1.cnt_tm_pre_tx = 4; // 4 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //      Rs485_1.vol_tm_tx_out=Rs485_1.vol_tm_tx_out+2;
     break;
@@ -3240,15 +3240,15 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
     UBRR3L = R19200_L;
 
     if (Appl_RS485_1.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
 
       // __disable_interrupt();
       SET_RTS1;
       // __enable_interrupt();
 
-      Rs485_1.cnt_tm_pre_tx = Appl_RS485_1.pre_tx; // задержка перед передачей
+      Rs485_1.cnt_tm_pre_tx = Appl_RS485_1.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs485_1.cnt_tm_pre_tx = 2; // 2 миллисекунд
+      Rs485_1.cnt_tm_pre_tx = 2; // 2 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //      Rs485_1.vol_tm_tx_out=Rs485_1.vol_tm_tx_out+1;
     break;
@@ -3258,15 +3258,15 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
     UBRR3L = R38400_L;
 
     if (Appl_RS485_1.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
 
       // __disable_interrupt();
       SET_RTS1;
       // __enable_interrupt();
 
-      Rs485_1.cnt_tm_pre_tx = Appl_RS485_1.pre_tx; // задержка перед передачей
+      Rs485_1.cnt_tm_pre_tx = Appl_RS485_1.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs485_1.cnt_tm_pre_tx = 2; // 2 миллисекунд
+      Rs485_1.cnt_tm_pre_tx = 2; // 2 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //      Rs485_1.vol_tm_tx_out=Rs485_1.vol_tm_tx_out+1;
     break;
@@ -3332,7 +3332,7 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
   if ((*(unsigned int *)(pointer + 6)) < 3)
     return (1);
   Rs485_2.cnt_tm_out = 0;
-  Rs485_2.vol_tm_out = *(unsigned int *)(pointer + 6); // 1000 миллисекунд
+  Rs485_2.vol_tm_out = *(unsigned int *)(pointer + 6); // 1000 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   switch (*pointer) {
   case B2400:
@@ -3340,15 +3340,15 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
     UBRR1L = R2400_L;
 
     if (Appl_RS485_2.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
 
       //  __disable_interrupt();
       SET_RTS3;
       //  __enable_interrupt();
 
-      Rs485_2.cnt_tm_pre_tx = Appl_RS485_2.pre_tx; // задержка перед передачей
+      Rs485_2.cnt_tm_pre_tx = Appl_RS485_2.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs485_2.cnt_tm_pre_tx = 17; // 17 миллисекунд
+      Rs485_2.cnt_tm_pre_tx = 17; // 17 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //     Rs485_2.vol_tm_tx_out=Rs485_2.vol_tm_tx_out+5;
     break;
@@ -3357,14 +3357,14 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
     UBRR1L = R4800_L;
 
     if (Appl_RS485_2.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
       //  __disable_interrupt();
       SET_RTS3;
       //   __enable_interrupt();
 
-      Rs485_2.cnt_tm_pre_tx = Appl_RS485_2.pre_tx; // задержка перед передачей
+      Rs485_2.cnt_tm_pre_tx = Appl_RS485_2.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs485_2.cnt_tm_pre_tx = 9; // 9 миллисекунд
+      Rs485_2.cnt_tm_pre_tx = 9; // 9 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //    Rs485_2.vol_tm_tx_out=Rs485_2.vol_tm_tx_out+3;
     break;
@@ -3373,14 +3373,14 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
     UBRR1L = R9600_L;
 
     if (Appl_RS485_2.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
       // __disable_interrupt();
       SET_RTS3;
       //  __enable_interrupt();
 
-      Rs485_2.cnt_tm_pre_tx = Appl_RS485_2.pre_tx; // задержка перед передачей
+      Rs485_2.cnt_tm_pre_tx = Appl_RS485_2.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs485_2.cnt_tm_pre_tx = 4; // 4 миллисекунд
+      Rs485_2.cnt_tm_pre_tx = 4; // 4 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //     Rs485_2.vol_tm_tx_out=Rs485_2.vol_tm_tx_out+2;
     break;
@@ -3389,15 +3389,15 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
     UBRR1L = R19200_L;
 
     if (Appl_RS485_2.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
 
       // __disable_interrupt();
       SET_RTS3;
       // __enable_interrupt();
 
-      Rs485_2.cnt_tm_pre_tx = Appl_RS485_2.pre_tx; // задержка перед передачей
+      Rs485_2.cnt_tm_pre_tx = Appl_RS485_2.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs485_2.cnt_tm_pre_tx = 2; // 2 миллисекунд
+      Rs485_2.cnt_tm_pre_tx = 2; // 2 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //     Rs485_2.vol_tm_tx_out=Rs485_2.vol_tm_tx_out+1;
     break;
@@ -3407,15 +3407,15 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
     UBRR1L = R38400_L;
 
     if (Appl_RS485_2.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
 
       // __disable_interrupt();
       SET_RTS3;
       // __enable_interrupt();
 
-      Rs485_2.cnt_tm_pre_tx = Appl_RS485_2.pre_tx; // задержка перед передачей
+      Rs485_2.cnt_tm_pre_tx = Appl_RS485_2.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs485_2.cnt_tm_pre_tx = 2; // 2 миллисекунд
+      Rs485_2.cnt_tm_pre_tx = 2; // 2 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //     Rs485_2.vol_tm_tx_out=Rs485_2.vol_tm_tx_out+1;
     break;
@@ -3482,7 +3482,7 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
   if ((*(unsigned int *)(pointer + 6)) < 3)
     return (1);
   Rs232_2.cnt_tm_out = 0;
-  Rs232_2.vol_tm_out = *(unsigned int *)(pointer + 6); // 1000 миллисекунд
+  Rs232_2.vol_tm_out = *(unsigned int *)(pointer + 6); // 1000 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   switch (*pointer) {
   case B2400:
@@ -3490,15 +3490,15 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
     UBRR2L = R2400_L;
 
     if (Appl_RS232_2.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
 
       //  __disable_interrupt();
       SET_RTS2;
       //  __enable_interrupt();
 
-      Rs232_2.cnt_tm_pre_tx = Appl_RS232_2.pre_tx; // задержка перед передачей
+      Rs232_2.cnt_tm_pre_tx = Appl_RS232_2.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs232_2.cnt_tm_pre_tx = 17; // 17 миллисекунд
+      Rs232_2.cnt_tm_pre_tx = 17; // 17 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //   Rs232_2.vol_tm_tx_out=Rs232_2.vol_tm_tx_out+5;
     break;
@@ -3507,14 +3507,14 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
     UBRR2L = R4800_L;
 
     if (Appl_RS232_2.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
       //  __disable_interrupt();
       SET_RTS2;
       //   __enable_interrupt();
 
-      Rs232_2.cnt_tm_pre_tx = Appl_RS232_2.pre_tx; // задержка перед передачей
+      Rs232_2.cnt_tm_pre_tx = Appl_RS232_2.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs232_2.cnt_tm_pre_tx = 9; // 9 миллисекунд
+      Rs232_2.cnt_tm_pre_tx = 9; // 9 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //    Rs232_2.vol_tm_tx_out=Rs232_2.vol_tm_tx_out+3;
     break;
@@ -3523,14 +3523,14 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
     UBRR2L = R9600_L;
 
     if (Appl_RS232_2.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
       // __disable_interrupt();
       SET_RTS2;
       //  __enable_interrupt();
 
-      Rs232_2.cnt_tm_pre_tx = Appl_RS232_2.pre_tx; // задержка перед передачей
+      Rs232_2.cnt_tm_pre_tx = Appl_RS232_2.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs232_2.cnt_tm_pre_tx = 4; // 4 миллисекунд
+      Rs232_2.cnt_tm_pre_tx = 4; // 4 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //      Rs232_2.vol_tm_tx_out=Rs232_2.vol_tm_tx_out+2;
     break;
@@ -3539,15 +3539,15 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
     UBRR2L = R19200_L;
 
     if (Appl_RS232_2.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
 
       // __disable_interrupt();
       SET_RTS2;
       // __enable_interrupt();
 
-      Rs232_2.cnt_tm_pre_tx = Appl_RS232_2.pre_tx; // задержка перед передачей
+      Rs232_2.cnt_tm_pre_tx = Appl_RS232_2.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs232_2.cnt_tm_pre_tx = 2; // 2 миллисекунд
+      Rs232_2.cnt_tm_pre_tx = 2; // 2 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //      Rs232_2.vol_tm_tx_out=Rs232_2.vol_tm_tx_out+1;
     break;
@@ -3557,15 +3557,15 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
     UBRR2L = R38400_L;
 
     if (Appl_RS232_2.pre_tx != 0) {
-      // перехват порта для лафкина
+      // РїРµСЂРµС…РІР°С‚ РїРѕСЂС‚Р° РґР»СЏ Р»Р°С„РєРёРЅР°
 
       // __disable_interrupt();
       SET_RTS2;
       // __enable_interrupt();
 
-      Rs232_2.cnt_tm_pre_tx = Appl_RS232_2.pre_tx; // задержка перед передачей
+      Rs232_2.cnt_tm_pre_tx = Appl_RS232_2.pre_tx; // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ РїРµСЂРµРґР°С‡РµР№
     } else
-      Rs232_2.cnt_tm_pre_tx = 2; // 2 миллисекунд
+      Rs232_2.cnt_tm_pre_tx = 2; // 2 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
     //      Rs232_2.vol_tm_tx_out=Rs232_2.vol_tm_tx_out+1;
     break;
@@ -3654,7 +3654,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_NAT)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
       temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
 
       if (temp < 10) {
@@ -3674,7 +3674,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_NAT + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -3689,7 +3689,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_CC)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
       temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
 
       if (temp < 10) {
@@ -3709,7 +3709,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_CC + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -3724,7 +3724,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_WT)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
       temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
 
       if (temp < 5) {
@@ -3745,7 +3745,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_WT + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -3760,7 +3760,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_NUM_CL)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
       temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
 
       if (temp < 3) {
@@ -3781,7 +3781,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_NUM_CL + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -3795,7 +3795,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_VZ)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
       temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
 
       if (temp < 1) {
@@ -3816,7 +3816,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_VZ + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -3831,7 +3831,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_CL)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
       temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
 
       if (temp < 5) {
@@ -3852,7 +3852,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_CL + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -3867,7 +3867,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_DES_OHR)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
       temp = buf_rx_ppp[ind + 3];
 
       if (temp > 2) {
@@ -3901,7 +3901,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_DES_OHR + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -3916,7 +3916,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_NUM_SELF)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
       temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
 
       if (temp < 3) {
@@ -3941,7 +3941,7 @@ next_parametr:
 
     RdFromFleshToArr(A_IP_PAR + OFS_NUM,
                      &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt], 2);
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_NUM_SELF + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -3955,7 +3955,7 @@ next_parametr:
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_UDP)
         goto bad_com;
 
-      // запись
+      // Р·Р°РїРёСЃСЊ
       fl_rewrite.udp = 1;
       temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
       // WrArrayToFlesh(ABUF_PORT, &buf_rx_ppp[ind+3],L_CONF_UDP,0,0);
@@ -3972,7 +3972,7 @@ next_parametr:
 
     RdFromFleshToArr(A_IP_PAR + OFS_PORT,
                      &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt], 2);
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_UDP + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -3988,7 +3988,7 @@ next_parametr:
 
       fl_rewrite.ip = 1;
 
-      // запись
+      // Р·Р°РїРёСЃСЊ
       // WrArrayToFlesh(ABUF_IP, &buf_rx_ppp[ind+3],L_CONF_IP,0,0);
       // RdFromFleshToArr(ABUF_IP,&buf_tx_232[TR_OP_DATA+C1_DATA+4+cnt_bt],4);
 
@@ -4007,7 +4007,7 @@ next_parametr:
 
     RdFromFleshToArr(A_IP_PAR + OFS_IP,
                      &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt], 4);
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_IP + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -4023,7 +4023,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00;        // OK
 
     RdFromFleshToArr(A_C_GPRS, &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt],
@@ -4082,13 +4082,13 @@ next_parametr:
         e_rw_pdp = 0xff;
         temp = L_CONF_PDP;
         WrArrayToFlesh(ABUF_C_GPRS, 0, temp, 0x01, 0xff);
-        // записать во флешь признак перезаписи контекста
+        // Р·Р°РїРёСЃР°С‚СЊ РІРѕ С„Р»РµС€СЊ РїСЂРёР·РЅР°Рє РїРµСЂРµР·Р°РїРёСЃРё РєРѕРЅС‚РµРєСЃС‚Р°
       }
 
       else {
-        // запись
+        // Р·Р°РїРёСЃСЊ
         WrArrayToFlesh(ABUF_C_GPRS, &buf_rx_ppp[ind + 3], temp, 0, 0);
-        // записать во флешь признак перезаписи контекста
+        // Р·Р°РїРёСЃР°С‚СЊ РІРѕ С„Р»РµС€СЊ РїСЂРёР·РЅР°Рє РїРµСЂРµР·Р°РїРёСЃРё РєРѕРЅС‚РµРєСЃС‚Р°
         e_rw_pdp = 0;
       }
     } else {
@@ -4111,7 +4111,7 @@ next_parametr:
     if ((buf_rx_ppp[ind] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_WR_CONF_TIME)
         goto bad_com;
-      // запись времени
+      // Р·Р°РїРёСЃСЊ РІСЂРµРјРµРЅРё
       old_unix = unix;
       set_rlt(2, &buf_rx_ppp[ind + 3]);
       burst_ds_r();
@@ -4146,7 +4146,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00;        // OK
 
     RdFromFleshToArr(A_CR_GPRS, &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt],
@@ -4169,13 +4169,13 @@ next_parametr:
         e_rw_pdp_r = 0xff;
         temp = L_CONF_PDP_R;
         WrArrayToFlesh(ABUF_CR_GPRS, 0, temp, 0x01, 0xff);
-        // записать во флешь признак перезаписи контекста
+        // Р·Р°РїРёСЃР°С‚СЊ РІРѕ С„Р»РµС€СЊ РїСЂРёР·РЅР°Рє РїРµСЂРµР·Р°РїРёСЃРё РєРѕРЅС‚РµРєСЃС‚Р°
       }
 
       else {
-        // запись
+        // Р·Р°РїРёСЃСЊ
         WrArrayToFlesh(ABUF_CR_GPRS, &buf_rx_ppp[ind + 3], temp, 0, 0);
-        // записать во флешь признак перезаписи контекста
+        // Р·Р°РїРёСЃР°С‚СЊ РІРѕ С„Р»РµС€СЊ РїСЂРёР·РЅР°Рє РїРµСЂРµР·Р°РїРёСЃРё РєРѕРЅС‚РµРєСЃС‚Р°
         e_rw_pdp_r = 0;
       }
     } else {
@@ -4212,7 +4212,7 @@ next_parametr:
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     cnt_bt = cnt_bt + 1 + 3;
 
-    RdFromFleshToArr(A_KEYS, &keys[0], L_KEYS); // новый ключ
+    RdFromFleshToArr(A_KEYS, &keys[0], L_KEYS); // РЅРѕРІС‹Р№ РєР»СЋС‡
 
     break;
 
@@ -4222,7 +4222,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_NO_LINK)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
       temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
 
       if (temp != 0)
@@ -4245,7 +4245,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_NO_LINK + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -4260,7 +4260,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_LINK_RES)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
       temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
 
       if (temp < MIN_TM_LINK_RES) {
@@ -4282,7 +4282,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_LINK_RES + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -4296,7 +4296,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TP_TS)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
 
       RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
 
@@ -4345,7 +4345,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TP_TS + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -4361,7 +4361,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_NAT_R)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
       temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
 
       if (temp < 10) {
@@ -4381,7 +4381,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_NAT_R + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -4396,7 +4396,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TRAF)
         goto bad_com;
-      // запись
+      // Р·Р°РїРёСЃСЊ
 
       cnt_incom = 0;
       cnt_outcom = 0;
@@ -4410,7 +4410,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         (L_TRAF - 2) + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -4430,7 +4430,7 @@ next_parametr:
         goto bad_com;
     }
 
-    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
+    buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // С‡С‚РµРЅРёРµ
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = 1 + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt] = temp_to_grad(temperatura);
@@ -4440,7 +4440,7 @@ next_parametr:
 
   default:
   bad_com:
-    buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x02; // не поддерживается
+    buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x02; // РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ
   nocorr_com:
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind];
     *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = 1;
@@ -4454,7 +4454,7 @@ next_parametr:
   goto next_parametr;
 }
 
-///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Работа с портом RS485-1
+///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Р Р°Р±РѕС‚Р° СЃ РїРѕСЂС‚РѕРј RS485-1
 
 void monitor1_tx_rs485_1(void) {
   unsigned int i;
@@ -4473,7 +4473,7 @@ void monitor1_tx_rs485_1(void) {
     for (i = 0; i < Rs485_1.cnt_bt_rx_tx; i++)
       Rs485_1_buf_rx_tx[i] = Appl_RS485_1_data_buf[i];
     Rs485_1.p_data485 = &Rs485_1_buf_rx_tx[0];
-    // здесь должна быть функция настройки порта по контексту.
+    // Р·РґРµСЃСЊ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С„СѓРЅРєС†РёСЏ РЅР°СЃС‚СЂРѕР№РєРё РїРѕСЂС‚Р° РїРѕ РєРѕРЅС‚РµРєСЃС‚Сѓ.
 
     if (run_cont_485_1(&Appl_RS485_1.cont_buf[0]) == 1) {
       fl_485_1.busy = 0;
@@ -4488,16 +4488,16 @@ void monitor1_tx_rs485_1(void) {
     UBRR1L=R4800_L;
     UCSR1B=UCSR1B & ~(RXCIE | RXEN);
     Rs485_1.cnt_tm_tx_out=0;
-    Rs485_1.vol_tm_tx_out=5; // 5 миллисекунд
-    Rs485_1.cnt_tm_pre_tx=20;// 20 миллисекунд
+    Rs485_1.vol_tm_tx_out=5; // 5 РјРёР»Р»РёСЃРµРєСѓРЅРґ
+    Rs485_1.cnt_tm_pre_tx=20;// 20 РјРёР»Р»РёСЃРµРєСѓРЅРґ
     Rs485_1.cnt_tm_rx_out=0;
-    Rs485_1.vol_tm_rx_out=5;// 5 миллисекунд
+    Rs485_1.vol_tm_rx_out=5;// 5 РјРёР»Р»РёСЃРµРєСѓРЅРґ
     Rs485_1.cnt_tm_out=0;
-    Rs485_1.vol_tm_out=1000; // 1000 миллисекунд
+    Rs485_1.vol_tm_out=1000; // 1000 РјРёР»Р»РёСЃРµРєСѓРЅРґ
     */
     S3_RD;
     UCSR3B = UCSR3B & ~(RXCIE | RXEN);
-    SET_RTS1; // rts на передачу
+    SET_RTS1; // rts РЅР° РїРµСЂРµРґР°С‡Сѓ
   }
 }
 
@@ -4520,7 +4520,7 @@ void monitor1_tm_rs485_1(void) {
   if (PINE & DCD0)
     send_err485(
         NUM_RS485_1, RS_NO_LINK, Appl_RS485_1.id_tek,
-        Appl_RS485_1.dst_tek); // игнорировать передачу если нет GPRS канала
+        Appl_RS485_1.dst_tek); // РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ РїРµСЂРµРґР°С‡Сѓ РµСЃР»Рё РЅРµС‚ GPRS РєР°РЅР°Р»Р°
   fl_485_1.busy = 0;
   fl_tx485.mon1 = 0;
 }
@@ -4544,7 +4544,7 @@ void monitor1_rec_rs485_1(void) {
   clr_cntr_link();
 
   if ((PINE & DCD0) == 0) {
-    fl_485_1.over = 0; // игнорировать передачу если нет GPRS канала
+    fl_485_1.over = 0; // РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ РїРµСЂРµРґР°С‡Сѓ РµСЃР»Рё РЅРµС‚ GPRS РєР°РЅР°Р»Р°
     Rs485_1.cnt_bt_rx_tx = 0;
     fl_485_1.busy = 0;
     fl_tx485.mon1 = 0;
@@ -4561,7 +4561,7 @@ void monitor1_rec_rs485_1(void) {
     return;
   }
 
-  //!!!!!!!!!!!!!! здесь бы надо проверк на длину буфера для PPP
+  //!!!!!!!!!!!!!! Р·РґРµСЃСЊ Р±С‹ РЅР°РґРѕ РїСЂРѕРІРµСЂРє РЅР° РґР»РёРЅСѓ Р±СѓС„РµСЂР° РґР»СЏ PPP
   if (Rs485_1.cnt_bt_rx_tx + 70 > VOL_TX_PPP) {
     send_err485(NUM_RS485_1, RS_OVER_BUF_PPP_TX, Appl_RS485_1.id_tek,
                 Appl_RS485_1.dst_tek);
@@ -4574,23 +4574,23 @@ void monitor1_rec_rs485_1(void) {
   fl_ip.act_ip_end = 0;
 
   Obj_ppp_tx.prozr = FALSE;
-  Obj_ppp_tx.version = VER2;                 // версия
-  Obj_ppp_tx.type_pac = OTV;                 // тип пакета
-  Obj_ppp_tx.num_src = num_self;             // номер отправителя
-  Obj_ppp_tx.num_dst = Appl_RS485_1.dst_tek; // номер получателя
-  Obj_ppp_tx.id_pac = Appl_RS485_1.id_tek;   // идентификатор пакета
-  Obj_ppp_tx.p_opt = &buf_opt_tr[0];         // //указатель буфера опций
-  Obj_ppp_tx.l_opt = 0;                      // длина буфера опций
-  Obj_ppp_tx.kol_opt = 0;                    // количество опций
+  Obj_ppp_tx.version = VER2;                 // РІРµСЂСЃРёСЏ
+  Obj_ppp_tx.type_pac = OTV;                 // С‚РёРї РїР°РєРµС‚Р°
+  Obj_ppp_tx.num_src = num_self;             // РЅРѕРјРµСЂ РѕС‚РїСЂР°РІРёС‚РµР»СЏ
+  Obj_ppp_tx.num_dst = Appl_RS485_1.dst_tek; // РЅРѕРјРµСЂ РїРѕР»СѓС‡Р°С‚РµР»СЏ
+  Obj_ppp_tx.id_pac = Appl_RS485_1.id_tek;   // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР°РєРµС‚Р°
+  Obj_ppp_tx.p_opt = &buf_opt_tr[0];         // //СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РѕРїС†РёР№
+  Obj_ppp_tx.l_opt = 0;                      // РґР»РёРЅР° Р±СѓС„РµСЂР° РѕРїС†РёР№
+  Obj_ppp_tx.kol_opt = 0;                    // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕРїС†РёР№
 
   buf_tx_232[TR_OP_DATA + C1_PROT] = PROT_C1;
   buf_tx_232[TR_OP_DATA + C1_PORT] = PORT485_1;
 
   for (i = 0; i < Rs485_1.cnt_bt_rx_tx; i++)
     buf_tx_232[TR_OP_DATA + C1_DATA + i] = Rs485_1_buf_rx_tx[i];
-  Obj_ppp_tx.l_data = 2 + Rs485_1.cnt_bt_rx_tx; // длина данных
+  Obj_ppp_tx.l_data = 2 + Rs485_1.cnt_bt_rx_tx; // РґР»РёРЅР° РґР°РЅРЅС‹С…
   Obj_ppp_tx.p_data =
-      &buf_tx_232[TR_OP_DATA + C1_PROT]; // указатель буфера данных
+      &buf_tx_232[TR_OP_DATA + C1_PROT]; // СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РґР°РЅРЅС‹С…
   Rs485_1.cnt_bt_rx_tx = 0;
 
   form_buf_tx_ppp();
@@ -4608,10 +4608,10 @@ void monitor1_rec_rs485_1(void) {
   return;
 }
 
-/// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!Работа с портом
+/// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!Р Р°Р±РѕС‚Р° СЃ РїРѕСЂС‚РѕРј
 /// RS485-1
 
-///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Работа с портом RS485-2
+///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Р Р°Р±РѕС‚Р° СЃ РїРѕСЂС‚РѕРј RS485-2
 
 void monitor1_tx_rs485_2(void) {
   unsigned int i;
@@ -4630,7 +4630,7 @@ void monitor1_tx_rs485_2(void) {
     for (i = 0; i < Rs485_2.cnt_bt_rx_tx; i++)
       Rs485_2_buf_rx_tx[i] = Appl_RS485_2_data_buf[i];
     Rs485_2.p_data485 = &Rs485_2_buf_rx_tx[0];
-    // здесь должна быть функция настройки порта по контексту.
+    // Р·РґРµСЃСЊ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С„СѓРЅРєС†РёСЏ РЅР°СЃС‚СЂРѕР№РєРё РїРѕСЂС‚Р° РїРѕ РєРѕРЅС‚РµРєСЃС‚Сѓ.
 
     if (run_cont_485_2(&Appl_RS485_2.cont_buf[0]) == 1) {
       fl_485_2.busy = 0;
@@ -4639,7 +4639,7 @@ void monitor1_tx_rs485_2(void) {
     }
     S4_RD;
     UCSR1B = UCSR1B & ~(RXCIE | RXEN);
-    SET_RTS3; // rts на передачу
+    SET_RTS3; // rts РЅР° РїРµСЂРµРґР°С‡Сѓ
   }
 }
 
@@ -4662,7 +4662,7 @@ void monitor1_tm_rs485_2(void) {
   if (PINE & DCD0)
     send_err485(
         NUM_RS485_2, RS_NO_LINK, Appl_RS485_2.id_tek,
-        Appl_RS485_2.dst_tek); // игнорировать передачу если нет GPRS канала
+        Appl_RS485_2.dst_tek); // РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ РїРµСЂРµРґР°С‡Сѓ РµСЃР»Рё РЅРµС‚ GPRS РєР°РЅР°Р»Р°
   fl_485_2.busy = 0;
   fl_tx485.mon2 = 0;
 }
@@ -4686,7 +4686,7 @@ void monitor1_rec_rs485_2(void) {
   clr_cntr_link();
 
   if ((PINE & DCD0) == 0) {
-    fl_485_2.over = 0; // игнорировать передачу если нет GPRS канала
+    fl_485_2.over = 0; // РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ РїРµСЂРµРґР°С‡Сѓ РµСЃР»Рё РЅРµС‚ GPRS РєР°РЅР°Р»Р°
     Rs485_2.cnt_bt_rx_tx = 0;
     fl_485_2.busy = 0;
     fl_tx485.mon2 = 0;
@@ -4703,7 +4703,7 @@ void monitor1_rec_rs485_2(void) {
     return;
   }
 
-  //!!!!!!!!!!!!!! здесь бы надо проверк на длину буфера для PPP
+  //!!!!!!!!!!!!!! Р·РґРµСЃСЊ Р±С‹ РЅР°РґРѕ РїСЂРѕРІРµСЂРє РЅР° РґР»РёРЅСѓ Р±СѓС„РµСЂР° РґР»СЏ PPP
   if (Rs485_2.cnt_bt_rx_tx + 70 > VOL_TX_PPP) {
     send_err485(NUM_RS485_2, RS_OVER_BUF_PPP_TX, Appl_RS485_2.id_tek,
                 Appl_RS485_2.dst_tek);
@@ -4716,23 +4716,23 @@ void monitor1_rec_rs485_2(void) {
   fl_ip.act_ip_end = 0;
 
   Obj_ppp_tx.prozr = FALSE;
-  Obj_ppp_tx.version = VER2;                 // версия
-  Obj_ppp_tx.type_pac = OTV;                 // тип пакета
-  Obj_ppp_tx.num_src = num_self;             // номер отправителя
-  Obj_ppp_tx.num_dst = Appl_RS485_2.dst_tek; // номер получателя
-  Obj_ppp_tx.id_pac = Appl_RS485_2.id_tek;   // идентификатор пакета
-  Obj_ppp_tx.p_opt = &buf_opt_tr[0];         // //указатель буфера опций
-  Obj_ppp_tx.l_opt = 0;                      // длина буфера опций
-  Obj_ppp_tx.kol_opt = 0;                    // количество опций
+  Obj_ppp_tx.version = VER2;                 // РІРµСЂСЃРёСЏ
+  Obj_ppp_tx.type_pac = OTV;                 // С‚РёРї РїР°РєРµС‚Р°
+  Obj_ppp_tx.num_src = num_self;             // РЅРѕРјРµСЂ РѕС‚РїСЂР°РІРёС‚РµР»СЏ
+  Obj_ppp_tx.num_dst = Appl_RS485_2.dst_tek; // РЅРѕРјРµСЂ РїРѕР»СѓС‡Р°С‚РµР»СЏ
+  Obj_ppp_tx.id_pac = Appl_RS485_2.id_tek;   // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР°РєРµС‚Р°
+  Obj_ppp_tx.p_opt = &buf_opt_tr[0];         // //СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РѕРїС†РёР№
+  Obj_ppp_tx.l_opt = 0;                      // РґР»РёРЅР° Р±СѓС„РµСЂР° РѕРїС†РёР№
+  Obj_ppp_tx.kol_opt = 0;                    // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕРїС†РёР№
 
   buf_tx_232[TR_OP_DATA + C1_PROT] = PROT_C1;
   buf_tx_232[TR_OP_DATA + C1_PORT] = PORT485_2;
 
   for (i = 0; i < Rs485_2.cnt_bt_rx_tx; i++)
     buf_tx_232[TR_OP_DATA + C1_DATA + i] = Rs485_2_buf_rx_tx[i];
-  Obj_ppp_tx.l_data = 2 + Rs485_2.cnt_bt_rx_tx; // длина данных
+  Obj_ppp_tx.l_data = 2 + Rs485_2.cnt_bt_rx_tx; // РґР»РёРЅР° РґР°РЅРЅС‹С…
   Obj_ppp_tx.p_data =
-      &buf_tx_232[TR_OP_DATA + C1_PROT]; // указатель буфера данных
+      &buf_tx_232[TR_OP_DATA + C1_PROT]; // СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РґР°РЅРЅС‹С…
   Rs485_2.cnt_bt_rx_tx = 0;
 
   form_buf_tx_ppp();
@@ -4750,10 +4750,10 @@ void monitor1_rec_rs485_2(void) {
   return;
 }
 
-/// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!Работа с портом
+/// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!Р Р°Р±РѕС‚Р° СЃ РїРѕСЂС‚РѕРј
 /// RS485-2
 
-///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Работа с портом RS232-2
+///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Р Р°Р±РѕС‚Р° СЃ РїРѕСЂС‚РѕРј RS232-2
 
 void monitor1_tx_rs232_2(void) {
   unsigned int i;
@@ -4772,7 +4772,7 @@ void monitor1_tx_rs232_2(void) {
     for (i = 0; i < Rs232_2.cnt_bt_rx_tx; i++)
       Rs232_2_buf_rx_tx[i] = Appl_RS232_2_data_buf[i];
     Rs232_2.p_data485 = &Rs232_2_buf_rx_tx[0];
-    // здесь должна быть функция настройки порта по контексту.
+    // Р·РґРµСЃСЊ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С„СѓРЅРєС†РёСЏ РЅР°СЃС‚СЂРѕР№РєРё РїРѕСЂС‚Р° РїРѕ РєРѕРЅС‚РµРєСЃС‚Сѓ.
 
     if (run_cont_232_2(&Appl_RS232_2.cont_buf[0]) == 1) {
       fl_232_2.busy = 0;
@@ -4782,7 +4782,7 @@ void monitor1_tx_rs232_2(void) {
 
     S5_RD;
     UCSR2B = UCSR2B & ~(RXCIE | RXEN);
-    SET_RTS2; // rts на передачу
+    SET_RTS2; // rts РЅР° РїРµСЂРµРґР°С‡Сѓ
   }
 }
 
@@ -4805,7 +4805,7 @@ void monitor1_tm_rs232_2(void) {
   if (PINE & DCD0)
     send_err485(
         NUM_RS232_2, RS_NO_LINK, Appl_RS232_2.id_tek,
-        Appl_RS232_2.dst_tek); // игнорировать передачу если нет GPRS канала
+        Appl_RS232_2.dst_tek); // РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ РїРµСЂРµРґР°С‡Сѓ РµСЃР»Рё РЅРµС‚ GPRS РєР°РЅР°Р»Р°
   fl_232_2.busy = 0;
   fl_tx485.mon232_2 = 0;
 }
@@ -4829,7 +4829,7 @@ void monitor1_rec_rs232_2(void) {
   clr_cntr_link();
 
   if ((PINE & DCD0) == 0) {
-    fl_232_2.over = 0; // игнорировать передачу если нет GPRS канала
+    fl_232_2.over = 0; // РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ РїРµСЂРµРґР°С‡Сѓ РµСЃР»Рё РЅРµС‚ GPRS РєР°РЅР°Р»Р°
     Rs232_2.cnt_bt_rx_tx = 0;
     fl_232_2.busy = 0;
     fl_tx485.mon232_2 = 0;
@@ -4846,7 +4846,7 @@ void monitor1_rec_rs232_2(void) {
     return;
   }
 
-  //!!!!!!!!!!!!!! здесь бы надо проверк на длину буфера для PPP
+  //!!!!!!!!!!!!!! Р·РґРµСЃСЊ Р±С‹ РЅР°РґРѕ РїСЂРѕРІРµСЂРє РЅР° РґР»РёРЅСѓ Р±СѓС„РµСЂР° РґР»СЏ PPP
   if (Rs232_2.cnt_bt_rx_tx + 70 > VOL_TX_PPP) {
     send_err485(NUM_RS232_2, RS_OVER_BUF_PPP_TX, Appl_RS232_2.id_tek,
                 Appl_RS232_2.dst_tek);
@@ -4859,23 +4859,23 @@ void monitor1_rec_rs232_2(void) {
   fl_ip.act_ip_end = 0;
 
   Obj_ppp_tx.prozr = FALSE;
-  Obj_ppp_tx.version = VER2;                 // версия
-  Obj_ppp_tx.type_pac = OTV;                 // тип пакета
-  Obj_ppp_tx.num_src = num_self;             // номер отправителя
-  Obj_ppp_tx.num_dst = Appl_RS232_2.dst_tek; // номер получателя
-  Obj_ppp_tx.id_pac = Appl_RS232_2.id_tek;   // идентификатор пакета
-  Obj_ppp_tx.p_opt = &buf_opt_tr[0];         // //указатель буфера опций
-  Obj_ppp_tx.l_opt = 0;                      // длина буфера опций
-  Obj_ppp_tx.kol_opt = 0;                    // количество опций
+  Obj_ppp_tx.version = VER2;                 // РІРµСЂСЃРёСЏ
+  Obj_ppp_tx.type_pac = OTV;                 // С‚РёРї РїР°РєРµС‚Р°
+  Obj_ppp_tx.num_src = num_self;             // РЅРѕРјРµСЂ РѕС‚РїСЂР°РІРёС‚РµР»СЏ
+  Obj_ppp_tx.num_dst = Appl_RS232_2.dst_tek; // РЅРѕРјРµСЂ РїРѕР»СѓС‡Р°С‚РµР»СЏ
+  Obj_ppp_tx.id_pac = Appl_RS232_2.id_tek;   // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР°РєРµС‚Р°
+  Obj_ppp_tx.p_opt = &buf_opt_tr[0];         // //СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РѕРїС†РёР№
+  Obj_ppp_tx.l_opt = 0;                      // РґР»РёРЅР° Р±СѓС„РµСЂР° РѕРїС†РёР№
+  Obj_ppp_tx.kol_opt = 0;                    // РєРѕР»РёС‡РµСЃС‚РІРѕ РѕРїС†РёР№
 
   buf_tx_232[TR_OP_DATA + C1_PROT] = PROT_C1;
   buf_tx_232[TR_OP_DATA + C1_PORT] = PORT232_2;
 
   for (i = 0; i < Rs232_2.cnt_bt_rx_tx; i++)
     buf_tx_232[TR_OP_DATA + C1_DATA + i] = Rs232_2_buf_rx_tx[i];
-  Obj_ppp_tx.l_data = 2 + Rs232_2.cnt_bt_rx_tx; // длина данных
+  Obj_ppp_tx.l_data = 2 + Rs232_2.cnt_bt_rx_tx; // РґР»РёРЅР° РґР°РЅРЅС‹С…
   Obj_ppp_tx.p_data =
-      &buf_tx_232[TR_OP_DATA + C1_PROT]; // указатель буфера данных
+      &buf_tx_232[TR_OP_DATA + C1_PROT]; // СѓРєР°Р·Р°С‚РµР»СЊ Р±СѓС„РµСЂР° РґР°РЅРЅС‹С…
   Rs232_2.cnt_bt_rx_tx = 0;
 
   form_buf_tx_ppp();
@@ -4893,7 +4893,7 @@ void monitor1_rec_rs232_2(void) {
   return;
 }
 
-/// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!Работа с портом
+/// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!Р Р°Р±РѕС‚Р° СЃ РїРѕСЂС‚РѕРј
 /// RS232-2
 void monitor_wr_truffic(void) {
   unsigned char buf[14];

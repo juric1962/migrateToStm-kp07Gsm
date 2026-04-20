@@ -6,7 +6,7 @@
 extern unsigned char Rs485_1_buf_rx_tx[MAX_BUF_RS485_1];
 extern unsigned char Rs485_2_buf_rx_tx[MAX_BUF_RS485_2];
 extern unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
-extern struct { // в двоичном коде
+extern struct { // РІ РґРІРѕРёС‡РЅРѕРј РєРѕРґРµ
   char r_sec;
   char r_min;
   char r_hor;
@@ -17,18 +17,18 @@ extern struct { // в двоичном коде
   char r_control;
 } real_time;
 
-extern struct // структура описывающая работу порта "RS485_1"
+extern struct // СЃС‚СЂСѓРєС‚СѓСЂР° РѕРїРёСЃС‹РІР°СЋС‰Р°СЏ СЂР°Р±РѕС‚Сѓ РїРѕСЂС‚Р° "RS485_1"
 {
-  unsigned int cnt_bt_rx_tx;  // счетчик байтов на прием-передачу
-  unsigned int cnt_tm_tx_out; // счетчик времени на удержание rts после передачи
-  unsigned int cnt_tm_pre_tx; // счетчик времени на удержание rts перед передачи
+  unsigned int cnt_bt_rx_tx;  // СЃС‡РµС‚С‡РёРє Р±Р°Р№С‚РѕРІ РЅР° РїСЂРёРµРј-РїРµСЂРµРґР°С‡Сѓ
+  unsigned int cnt_tm_tx_out; // СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё РЅР° СѓРґРµСЂР¶Р°РЅРёРµ rts РїРѕСЃР»Рµ РїРµСЂРµРґР°С‡Рё
+  unsigned int cnt_tm_pre_tx; // СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё РЅР° СѓРґРµСЂР¶Р°РЅРёРµ rts РїРµСЂРµРґ РїРµСЂРµРґР°С‡Рё
   unsigned int
-      vol_tm_tx_out; // предел счетчик времени на удержание rts после передачи
-  unsigned int cnt_tm_rx_out; //  счетчик времени на определение конца приема
-  unsigned int vol_tm_rx_out; //  предел времени на определение конца приема
-  unsigned int cnt_tm_out;    // счетчик времени на прием
-  unsigned int vol_tm_out;    // предел счетчика времени на прием
-  unsigned char *p_data485;   // указатель на буфер передачи
+      vol_tm_tx_out; // РїСЂРµРґРµР» СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё РЅР° СѓРґРµСЂР¶Р°РЅРёРµ rts РїРѕСЃР»Рµ РїРµСЂРµРґР°С‡Рё
+  unsigned int cnt_tm_rx_out; //  СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё РЅР° РѕРїСЂРµРґРµР»РµРЅРёРµ РєРѕРЅС†Р° РїСЂРёРµРјР°
+  unsigned int vol_tm_rx_out; //  РїСЂРµРґРµР» РІСЂРµРјРµРЅРё РЅР° РѕРїСЂРµРґРµР»РµРЅРёРµ РєРѕРЅС†Р° РїСЂРёРµРјР°
+  unsigned int cnt_tm_out;    // СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё РЅР° РїСЂРёРµРј
+  unsigned int vol_tm_out;    // РїСЂРµРґРµР» СЃС‡РµС‚С‡РёРєР° РІСЂРµРјРµРЅРё РЅР° РїСЂРёРµРј
+  unsigned char *p_data485;   // СѓРєР°Р·Р°С‚РµР»СЊ РЅР° Р±СѓС„РµСЂ РїРµСЂРµРґР°С‡Рё
 } Rs485_1, Rs485_2, Rs232_2;
 
 extern struct {
@@ -47,7 +47,7 @@ extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
 extern void
 WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
                unsigned int num, unsigned char flag,
-               unsigned char znach); // запись конфигурации кп во флеш
+               unsigned char znach); // Р·Р°РїРёСЃСЊ РєРѕРЅС„РёРіСѓСЂР°С†РёРё РєРї РІРѕ С„Р»РµС€
 
 unsigned char proverka;
 
@@ -58,7 +58,7 @@ void tx_rs485_1(void) {
   for (i = 0; i < Rs485_1.cnt_bt_rx_tx; i++)
     Rs485_1_buf_rx_tx[i] = i;
   Rs485_1.p_data485 = &Rs485_1_buf_rx_tx[0];
-  // здесь должна быть функция настройки порта по контексту.
+  // Р·РґРµСЃСЊ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С„СѓРЅРєС†РёСЏ РЅР°СЃС‚СЂРѕР№РєРё РїРѕСЂС‚Р° РїРѕ РєРѕРЅС‚РµРєСЃС‚Сѓ.
 
   UBRR3H = R2400_H;
   UBRR3L = R2400_L;
@@ -68,15 +68,15 @@ void tx_rs485_1(void) {
   Rs485_1.cnt_tm_tx_out = 0;
   Rs485_1.vol_tm_tx_out = 15;
 
-  Rs485_1.cnt_tm_pre_tx = 20; // 20 миллисекунд
+  Rs485_1.cnt_tm_pre_tx = 20; // 20 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   Rs485_1.cnt_tm_rx_out = 0;
-  Rs485_1.vol_tm_rx_out = 10; // 5 миллисекунд
+  Rs485_1.vol_tm_rx_out = 10; // 5 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   Rs485_1.cnt_tm_out = 0;
-  Rs485_1.vol_tm_out = 600; // 600 миллисекунд
+  Rs485_1.vol_tm_out = 600; // 600 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
-  SET_RTS1; // rts на передачу
+  SET_RTS1; // rts РЅР° РїРµСЂРµРґР°С‡Сѓ
 }
 
 void tx_rs485_2(void) {
@@ -86,7 +86,7 @@ void tx_rs485_2(void) {
   for (i = 0; i < Rs485_2.cnt_bt_rx_tx; i++)
     Rs485_2_buf_rx_tx[i] = i;
   Rs485_2.p_data485 = &Rs485_2_buf_rx_tx[0];
-  // здесь должна быть функция настройки порта по контексту.
+  // Р·РґРµСЃСЊ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С„СѓРЅРєС†РёСЏ РЅР°СЃС‚СЂРѕР№РєРё РїРѕСЂС‚Р° РїРѕ РєРѕРЅС‚РµРєСЃС‚Сѓ.
 
   UBRR1H = R2400_H;
   UBRR1L = R2400_L;
@@ -96,15 +96,15 @@ void tx_rs485_2(void) {
   Rs485_2.cnt_tm_tx_out = 0;
   Rs485_2.vol_tm_tx_out = 15;
 
-  Rs485_2.cnt_tm_pre_tx = 20; // 20 миллисекунд
+  Rs485_2.cnt_tm_pre_tx = 20; // 20 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   Rs485_2.cnt_tm_rx_out = 0;
-  Rs485_2.vol_tm_rx_out = 10; // 5 миллисекунд
+  Rs485_2.vol_tm_rx_out = 10; // 5 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   Rs485_2.cnt_tm_out = 0;
-  Rs485_2.vol_tm_out = 600; // 600 миллисекунд
+  Rs485_2.vol_tm_out = 600; // 600 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
-  SET_RTS3; // rts на передачу
+  SET_RTS3; // rts РЅР° РїРµСЂРµРґР°С‡Сѓ
 }
 
 void tx_rs232_2(void) {
@@ -114,7 +114,7 @@ void tx_rs232_2(void) {
   for (i = 0; i < Rs232_2.cnt_bt_rx_tx; i++)
     Rs232_2_buf_rx_tx[i] = i;
   Rs232_2.p_data485 = &Rs232_2_buf_rx_tx[0];
-  // здесь должна быть функция настройки порта по контексту.
+  // Р·РґРµСЃСЊ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С„СѓРЅРєС†РёСЏ РЅР°СЃС‚СЂРѕР№РєРё РїРѕСЂС‚Р° РїРѕ РєРѕРЅС‚РµРєСЃС‚Сѓ.
 
   UBRR2H = R2400_H;
   UBRR2L = R2400_L;
@@ -124,15 +124,15 @@ void tx_rs232_2(void) {
   Rs232_2.cnt_tm_tx_out = 0;
   Rs232_2.vol_tm_tx_out = 15;
 
-  Rs232_2.cnt_tm_pre_tx = 20; // 20 миллисекунд
+  Rs232_2.cnt_tm_pre_tx = 20; // 20 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   Rs232_2.cnt_tm_rx_out = 0;
-  Rs232_2.vol_tm_rx_out = 10; // 5 миллисекунд
+  Rs232_2.vol_tm_rx_out = 10; // 5 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   Rs232_2.cnt_tm_out = 0;
-  Rs232_2.vol_tm_out = 600; // 600 миллисекунд
+  Rs232_2.vol_tm_out = 600; // 600 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
-  SET_RTS2; // rts на передачу
+  SET_RTS2; // rts РЅР° РїРµСЂРµРґР°С‡Сѓ
 }
 
 void tx_rs232_time(void) {
@@ -154,7 +154,7 @@ void tx_rs232_time(void) {
   // Rs232_2_buf_rx_tx[6]=real_time.r_year;
   Rs232_2_buf_rx_tx[0] = proverka;
   Rs232_2.p_data485 = &Rs232_2_buf_rx_tx[0];
-  // здесь должна быть функция настройки порта по контексту.
+  // Р·РґРµСЃСЊ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С„СѓРЅРєС†РёСЏ РЅР°СЃС‚СЂРѕР№РєРё РїРѕСЂС‚Р° РїРѕ РєРѕРЅС‚РµРєСЃС‚Сѓ.
 
   UBRR2H = R2400_H;
   UBRR2L = R2400_L;
@@ -162,15 +162,15 @@ void tx_rs232_time(void) {
   Rs232_2.cnt_tm_tx_out = 0;
   Rs232_2.vol_tm_tx_out = 5;
 
-  Rs232_2.cnt_tm_pre_tx = 5; // 20 миллисекунд
+  Rs232_2.cnt_tm_pre_tx = 5; // 20 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   Rs232_2.cnt_tm_rx_out = 0;
-  Rs232_2.vol_tm_rx_out = 10; // 5 миллисекунд
+  Rs232_2.vol_tm_rx_out = 10; // 5 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   Rs232_2.cnt_tm_out = 0;
-  Rs232_2.vol_tm_out = 10; // 600 миллисекунд
+  Rs232_2.vol_tm_out = 10; // 600 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
-  SET_RTS2; // rts на передачу
+  SET_RTS2; // rts РЅР° РїРµСЂРµРґР°С‡Сѓ
 }
 
 void test_fram(void) {
@@ -180,7 +180,7 @@ void test_fram(void) {
   Rs232_2.cnt_bt_rx_tx = 10;
   RdFromFleshToArr(10, &Rs232_2_buf_rx_tx[0], Rs232_2.cnt_bt_rx_tx);
   Rs232_2.p_data485 = &Rs232_2_buf_rx_tx[0];
-  // здесь должна быть функция настройки порта по контексту.
+  // Р·РґРµСЃСЊ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С„СѓРЅРєС†РёСЏ РЅР°СЃС‚СЂРѕР№РєРё РїРѕСЂС‚Р° РїРѕ РєРѕРЅС‚РµРєСЃС‚Сѓ.
 
   UBRR2H = R2400_H;
   UBRR2L = R2400_L;
@@ -188,13 +188,13 @@ void test_fram(void) {
   Rs232_2.cnt_tm_tx_out = 0;
   Rs232_2.vol_tm_tx_out = 5;
 
-  Rs232_2.cnt_tm_pre_tx = 5; // 20 миллисекунд
+  Rs232_2.cnt_tm_pre_tx = 5; // 20 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   Rs232_2.cnt_tm_rx_out = 0;
-  Rs232_2.vol_tm_rx_out = 10; // 5 миллисекунд
+  Rs232_2.vol_tm_rx_out = 10; // 5 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
   Rs232_2.cnt_tm_out = 0;
-  Rs232_2.vol_tm_out = 10; // 600 миллисекунд
+  Rs232_2.vol_tm_out = 10; // 600 РјРёР»Р»РёСЃРµРєСѓРЅРґ
 
-  SET_RTS2; // rts на передачу
+  SET_RTS2; // rts РЅР° РїРµСЂРµРґР°С‡Сѓ
 }
