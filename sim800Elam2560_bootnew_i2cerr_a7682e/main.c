@@ -40,7 +40,7 @@ void tx_rs232_time(void);
 void load_par_first(void);
 void serch_point_log(void);
 unsigned int crc_ozu(void);
-void monitor_rst(void);
+void monitor_rst(void); 
 
 extern unsigned char Regim;
 extern unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
