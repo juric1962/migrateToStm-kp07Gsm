@@ -1,0 +1,18 @@
+/* Minimal IAR linker configuration (ICF) for STM32F405
+   Adjust memory sizes/regions as needed for your board/toolchain */
+
+define symbol __ICFEDIT_region_ROM_start__ = 0x08000000;
+define symbol __ICFEDIT_region_ROM_size__  = 0x00100000; /* 1 MB */
+
+define symbol __ICFEDIT_region_RAM_start__ = 0x20000000;
+define symbol __ICFEDIT_region_RAM_size__  = 0x00030000; /* 192 KB */
+
+/* Place code and RO data in ROM */
+place in ROM_region { readonly }; 
+
+/* Place RW data in RAM */
+place in RAM_region { readwrite, block HEAP, block STACK };
+
+/* Regions */
+define region ROM_region  = mem:[from __ICFEDIT_region_ROM_start__ to __ICFEDIT_region_ROM_start__ + __ICFEDIT_region_ROM_size__ - 1];
+define region RAM_region  = mem:[from __ICFEDIT_region_RAM_start__ to __ICFEDIT_region_RAM_start__ + __ICFEDIT_region_RAM_size__ - 1];

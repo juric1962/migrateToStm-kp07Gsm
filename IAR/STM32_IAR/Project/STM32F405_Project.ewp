@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <name>STM32F405_Project</name>
+  <files>
+    <file>
+      <name>$PROJ_DIR$/Startup/startup_stm32f405xx.s</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$/Src/system_stm32f4xx.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$/Inc/stm32f4xx_hal_conf.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$/Linker/stm32f405_icf.icf</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$/project_files.txt</name>
+    </file>
+  </files>
+</project>
