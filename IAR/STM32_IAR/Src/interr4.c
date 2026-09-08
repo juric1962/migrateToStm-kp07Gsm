@@ -9,8 +9,11 @@
 #include "map_mbus.h"
 #include "ozu_map.h"
 #include "sec.h"
+#include "stm32f4xx_hal.h"
 #include <inavr.h>
 #include <iom2560.h>
+
+extern TIM_HandleTypeDef htim2;
 
 extern unsigned char trevoga;
 
@@ -690,8 +693,12 @@ void recive_buf2(unsigned char temp) {
 // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-#pragma vector = TIMER0_COMPA_vect
-__interrupt void TIMER0_COMPA_interrupt(void) {
+/*
+ * Mega128 Timer0 equivalent on STM32F405 using HAL TIM2.
+ * 192 MHz / (PSC+1)/(ARR+1) = 340 us
+ * => PSC = 0, ARR = 65279  (period = 65280 ticks)
+ */
+static void Timer0_ProcessTick(void) {
 
   fl_wdt.from_timer0 = 1;
 
@@ -748,10 +755,7 @@ __interrupt void TIMER0_COMPA_interrupt(void) {
     opros_ts(2, PINA, IO5, &str_tc3);
     opros_ts(3, PINK, IO6, &str_tc4);
     opros_ts(4, PINK, IO8, &str_tc5);
-
-  }
-
-  else {
+  } else {
     opros_ts(1, PINK, IO2, &str_tc2);
     opros_ts(2, PINA, IO3, &str_tc3);
     opros_ts(3, PINK, IO8, &str_tc4);
@@ -761,11 +765,13 @@ __interrupt void TIMER0_COMPA_interrupt(void) {
     opros_ts(7, PINA, IO7, &str_tc8);
   }
 }
+
+
+
 //////////////////////////////////////////////1/16000000///////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////////
-#pragma vector = TIMER2_COMPA_vect // 1 миллисекунда
-__interrupt void TIMER2_COMPA_interrupt(void) {
+static void Timer2_ProcessTick(void) {
 
   unsigned char temp;
   term.time_out_loop = 0;
@@ -1178,11 +1184,20 @@ t_345:;
   }
 }
 
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  if (htim->Instance == TIM2) {
+    Timer0_ProcessTick();
+  } else if (htim->Instance == TIM3) {
+    Timer3_ProcessTick();
+  } else if (htim->Instance == TIM5) {
+    Timer2_ProcessTick();
+  }
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma vector = TIMER3_COMPA_vect
-__interrupt void TIMER3_COMPA_interrupt(void) {
+static void Timer3_ProcessTick(void) {
 
   fl_wdt.from_timer3 = 1;
 

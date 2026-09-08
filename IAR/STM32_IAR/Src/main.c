@@ -2,6 +2,7 @@
 #include "dfpin.h"
 #include "map_ef.h"
 #include "ozu_map.h"
+#include "tim.h"
 #include <inavr.h>
 #include <iom2560.h>
 #include <stdlib.h>
@@ -71,6 +72,9 @@ void main(void) {
   unsigned char bufalo, I123;
 
   init_pins();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
+  MX_TIM5_Init();
 
   // if(Regim !=MODEM_ONLY)
   init_proc_state();
