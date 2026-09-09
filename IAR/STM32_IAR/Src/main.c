@@ -3,6 +3,7 @@
 #include "map_ef.h"
 #include "ozu_map.h"
 #include "tim.h"
+#include "adc_dma.h"
 #include <inavr.h>
 #include <iom2560.h>
 #include <stdlib.h>
@@ -75,6 +76,13 @@ void main(void) {
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_TIM5_Init();
+
+  /* Initialize DMA, ADC1 and TIM1 (TIM1 -> TRGO -> ADC1) */
+  MX_DMA_Init();
+  MX_ADC1_Init();
+  MX_TIM1_Init();
+  /* Start ADC in DMA circular mode and start TIM1 to produce triggers */
+  ADC1_DMA_Start();
 
   // if(Regim !=MODEM_ONLY)
   init_proc_state();
