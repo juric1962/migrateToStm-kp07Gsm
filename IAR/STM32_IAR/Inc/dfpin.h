@@ -1,572 +1,672 @@
+#include "stm32f4xx_hal.h"
 
-//Ноги порта №0 (RS-232 №1) "коннтроллер - GSM-модем"/////////////////////////////////////////////////////////////////
-
-#define RTS0 0x04  //RTS0  выход
-#define DTR0 0x08  //DTR0  выход
-#define CTS0 0x10  //CTS0  вход
-#define DSR0 0x20  //DSR0  вход
-#define DCD0 0x40  //DCD0  вход
-#define RI0  0x80  //RI0   вход
+//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ0 (RS-232 пїЅ1) "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - GSM-пїЅпїЅпїЅпїЅпїЅ"/////////////////////////////////////////////////////////////////
 
 
-//конфигурация ног на выход
+
+#define RTS0_PORT GPIOA
+#define RTS0_PIN  GPIO_PIN_12
+#define CTS0_PORT GPIOA
+#define CTS0_PIN  GPIO_PIN_11
+#define DTR0_PORT GPIOA
+#define DTR0_PIN  GPIO_PIN_8
+#define DCD0_PORT GPIOC
+#define DCD0_PIN  GPIO_PIN_8
+
+#define RTS1_PORT GPIOB
+#define RTS1_PIN  GPIO_PIN_12
+#define RTS3_PORT GPIOA
+#define RTS3_PIN  GPIO_PIN_4
+
+#define RTS2_PORT GPIOC
+#define RTS2_PIN  GPIO_PIN_2
+#define CTS2_PORT GPIOC
+#define CTS2_PIN  GPIO_PIN_3
+
+#define C_SIM1_PORT GPIOC
+#define C_SIM1_PIN  GPIO_PIN_10
+#define C_SIM2_PORT GPIOC
+#define C_SIM2_PIN  GPIO_PIN_11
+#define TEN_PORT    GPIOC
+#define TEN_PIN     GPIO_PIN_12
+#define PWR_PORT    GPIOD
+#define PWR_PIN     GPIO_PIN_2
+
+#define S1_R_PORT GPIOB
+#define S1_R_PIN  GPIO_PIN_7
+#define S1_G_PORT GPIOB
+#define S1_G_PIN  GPIO_PIN_6
+#define S2_R_PORT GPIOB
+#define S2_R_PIN  GPIO_PIN_9
+#define S2_G_PORT GPIOB
+#define S2_G_PIN  GPIO_PIN_8
+#define PWRK_PORT GPIOC
+#define PWRK_PIN  GPIO_PIN_13
+
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 #define PIN_OUT_PORT0\
 {\
-  DDRE=DDRE | RTS0 | DTR0;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = RTS0_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(RTS0_PORT, &gpio_init);\
+  gpio_init.Pin = DTR0_PIN;\
+  HAL_GPIO_Init(DTR0_PORT, &gpio_init);\
  }
 
 #define PIN_HIZ_PORT0\
 {\
-  DDRE=DDRE & (~RTS0) & (~DTR0);\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Mode = GPIO_MODE_INPUT;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  gpio_init.Pin = RTS0_PIN; HAL_GPIO_Init(RTS0_PORT, &gpio_init);\
+  gpio_init.Pin = DTR0_PIN; HAL_GPIO_Init(DTR0_PORT, &gpio_init);\
  }
 
 #define CLR_RTS0\
 {\
-  PORTE|=RTS0;\
+  HAL_GPIO_WritePin(RTS0_PORT, RTS0_PIN, GPIO_PIN_SET);\
  }
 
 #define SET_RTS0\
 {\
-  PORTE&=~RTS0;\
+  HAL_GPIO_WritePin(RTS0_PORT, RTS0_PIN, GPIO_PIN_RESET);\
  }
 
 #define CLR_DTR0\
 {\
-  PORTE|=DTR0;\
+  HAL_GPIO_WritePin(DTR0_PORT, DTR0_PIN, GPIO_PIN_SET);\
  }
 
 #define SET_DTR0\
 {\
-  PORTE&=~DTR0;\
+  HAL_GPIO_WritePin(DTR0_PORT, DTR0_PIN, GPIO_PIN_RESET);\
  }
 
-//конфигурация ног на вход
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
 #define PIN_IN_PORT0\
 {\
-  PORTE=PORTE | CTS0 | DSR0 | DCD0 | RI0;\
+  
+HAL_GPIO_WritePin(CTS0_PORT, CTS0_PIN, GPIO_PIN_SET);\
+HAL_GPIO_WritePin(DSR0_PORT, DSR0_PIN, GPIO_PIN_SET);\
+HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
  }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//Ноги порта №1 (RS-485 №1)//////////////////////////////////////////////////////////
-#define RTS1 0x04  //RTS1  выход
+//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ1 (RS-485 пїЅ1)//////////////////////////////////////////////////////////
+
 #define PIN_OUT_PORT1\
 {\
-  DDRJ=DDRJ | RTS1;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = RTS1_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(RTS1_PORT, &gpio_init);\
  }
 
 #define SET_RTS1\
 {\
-  PORTJ|=RTS1;\
+  HAL_GPIO_WritePin(RTS1_PORT, RTS1_PIN, GPIO_PIN_SET);\
  }
 #define CLR_RTS1\
 {\
-  PORTJ&=~RTS1;\
+  HAL_GPIO_WritePin(RTS1_PORT, RTS1_PIN, GPIO_PIN_RESET);\
  }
 /////////////////////////////////////////////////////////////////////////
 
 
 
-//Ноги порта №3 (RS-485 №2)///////////////////////////////////////////////////////////////
-#define RTS3 0x10  //RTS3  выход
+//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ3 (RS-485 пїЅ2)///////////////////////////////////////////////////////////////
+
 #define PIN_OUT_PORT3\
 {\
-  DDRD=DDRD | RTS3;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = RTS3_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(RTS3_PORT, &gpio_init);\
  }
 
 #define SET_RTS3\
 {\
-  PORTD|=RTS3;\
+  HAL_GPIO_WritePin(RTS3_PORT, RTS3_PIN, GPIO_PIN_SET);\
  }
 #define CLR_RTS3\
 {\
-  PORTD&=~RTS3;\
+  HAL_GPIO_WritePin(RTS3_PORT, RTS3_PIN, GPIO_PIN_RESET);\
  }
 //////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-//Ноги порта №2 (RS-232 №2) /////////////////////////////////////////////////////////////
+//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ2 (RS-232 пїЅ2) /////////////////////////////////////////////////////////////
 
-#define RTS2 0x04  //RTS0  выход
-#define CTS2 0x02  //CTS0  вход
 
-//конфигурация ног на выход
+
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 #define PIN_OUT_PORT2\
 {\
-  DDRH=DDRH | RTS2;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = RTS2_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(RTS2_PORT, &gpio_init);\
  }
 
 #define CLR_RTS2\
 {\
-  PORTH|=RTS2;\
+  HAL_GPIO_WritePin(RTS2_PORT, RTS2_PIN, GPIO_PIN_SET);\
  }
 
 #define SET_RTS2\
 {\
-  PORTH&=~RTS2;\
+  HAL_GPIO_WritePin(RTS2_PORT, RTS2_PIN, GPIO_PIN_RESET);\
  }
 
-//конфигурация ног на вход
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
 #define PIN_IN_PORT2\
 {\
-  PORTB=PORTB | CTS2;\
+  HAL_GPIO_WritePin(CTS2_PORT, CTS2_PIN, GPIO_PIN_SET);\
  }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//нога включения питания модема/////////////////////////////////
-#define  PWR 0x40
-//конфигурация ног на выход
+//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ/////////////////////////////////
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 #define PIN_OUT_PWR\
 {\
-  DDRJ=DDRJ | PWR;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = PWR_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(PWR_PORT, &gpio_init);\
  }
 
 #define SET_PWR\
 {\
-  PORTJ|=PWR;\
+  HAL_GPIO_WritePin(PWR_PORT, PWR_PIN, GPIO_PIN_SET);\
  }
 
 #define CLR_PWR\
 {\
-  PORTJ&=~PWR;\
+  HAL_GPIO_WritePin(PWR_PORT, PWR_PIN, GPIO_PIN_RESET);\
  }
 /////////////////////////////////////////////////////////////////////////////////
 
 
 
 
-//нога включения модема/////////////////////////////////
-#define  PWRK 0x10
-//конфигурация ног на выход
+//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ/////////////////////////////////
+
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 #define PIN_OUT_PWRK\
 {\
-  DDRB=DDRB | PWRK;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = PWRK_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(PWRK_PORT, &gpio_init);\
  }
 
 #define SET_PWRK\
 {\
-  PORTB|=PWRK;\
+  HAL_GPIO_WritePin(PWRK_PORT, PWRK_PIN, GPIO_PIN_SET);\
  }
 
 #define CLR_PWRK\
 {\
-  PORTB&=~PWRK;\
+  HAL_GPIO_WritePin(PWRK_PORT, PWRK_PIN, GPIO_PIN_RESET);\
  }
 /////////////////////////////////////////////////////////////////////////////////
 
 
-//ноги входов TC////////////////////////////////////////////////////////////////////
-#define TCC1 0x04
-#define TCC2 0x80
+//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ TC////////////////////////////////////////////////////////////////////
+
+
 
 #define PIN_IN_TC1\
 {\
-  PORTG=PORTG | TCC1;\
+  HAL_GPIO_WritePin(TSS1_PORT, TSS1_PIN, GPIO_PIN_SET);\
  }
 
 #define PIN_IN_TC2\
 {\
-  PORTA=PORTA | TCC2;\
+  HAL_GPIO_WritePin(TSS2_PORT, TSS2_PIN, GPIO_PIN_SET);\
  }
 //////////////////////////////////////////////////////////////////////////////////////////
 
-//ноги IO1-10]
-#define IO1  0x80
-#define IO2  0x40
-#define IO3  0x01
-#define IO4  0x80
-#define IO5  0x04
-#define IO6  0x10
-#define IO7  0x02
-#define IO8  0x04
-#define IO9  0x04
-#define IO10 0x02
-#define IO11 0x10
-#define IO12 0x08
+//пїЅпїЅпїЅпїЅ IO1-10]
+#define IO1  GPIO_PIN_6
+#define IO2  GPIO_PIN_15
+#define IO3  GPIO_PIN_14
+#define IO4  GPIO_PIN_4
+#define IO5  GPIO_PIN_13
+#define IO6  GPIO_PIN_5
+#define IO7  GPIO_PIN_6
+#define IO8  GPIO_PIN_7
+#define IO9  GPIO_PIN_5
+#define IO10 GPIO_PIN_0
+#define IO11 GPIO_PIN_1
+#define IO12 GPIO_PIN_2
 
-#define TCH_I  0x80
+#define IO1_PORT GPIOC
+#define IO1_PIN  GPIO_PIN_6
+
+#define IO2_PORT GPIOB
+#define IO2_PIN  GPIO_PIN_15
+
+#define IO3_PORT GPIOB
+#define IO3_PIN  GPIO_PIN_14
+
+#define IO4_PORT GPIOB
+#define IO4_PIN  GPIO_PIN_13
+
+#define IO5_PORT GPIOA
+#define IO5_PIN  GPIO_PIN_5
+
+#define IO6_PORT GPIOA
+#define IO6_PIN  GPIO_PIN_6
+
+#define IO7_PORT GPIOA
+#define IO7_PIN  GPIO_PIN_7
+
+#define IO8_PORT GPIOC
+#define IO8_PIN  GPIO_PIN_4
+
+#define IO9_PORT GPIOC
+#define IO9_PIN  GPIO_PIN_5
+
+#define IO10_PORT GPIOB
+#define IO10_PIN  GPIO_PIN_0
+
+#define IO11_PORT GPIOB
+#define IO11_PIN  GPIO_PIN_1
+
+#define IO12_PORT GPIOB
+#define IO12_PIN  GPIO_PIN_2
+
+#define TCH_I  GPIO_PIN_6
 
 #define PIN_IN_TS1_8\
 {\
-  DDRK=DDRK & (~IO1) & (~IO2) & (~IO6) & (~IO8);\
-  DDRA=DDRA & (~IO3) & (~IO5) & (~IO7);\
-  DDRJ=DDRJ & (~IO4);\
-  PORTK=PORTK | IO1 | IO2 | IO6 | IO8;\
-  PORTA=PORTA | IO3 | IO5 | IO7;\
-  PORTJ=PORTJ | IO4;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Mode = GPIO_MODE_INPUT;\
+  gpio_init.Pull = GPIO_PULLUP;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  gpio_init.Pin = IO1_PIN; HAL_GPIO_Init(IO1_PORT, &gpio_init);\
+  gpio_init.Pin = IO2_PIN; HAL_GPIO_Init(IO2_PORT, &gpio_init);\
+  gpio_init.Pin = IO6_PIN; HAL_GPIO_Init(IO6_PORT, &gpio_init);\
+  gpio_init.Pin = IO8_PIN; HAL_GPIO_Init(IO8_PORT, &gpio_init);\
+  gpio_init.Pin = IO3_PIN; HAL_GPIO_Init(IO3_PORT, &gpio_init);\
+  gpio_init.Pin = IO5_PIN; HAL_GPIO_Init(IO5_PORT, &gpio_init);\
+  gpio_init.Pin = IO7_PIN; HAL_GPIO_Init(IO7_PORT, &gpio_init);\
+  gpio_init.Pin = IO4_PIN; HAL_GPIO_Init(IO4_PORT, &gpio_init);\
+  
 }
 
 #define PIN_IN_MKD1_5\
 {\
-  DDRK=DDRK & (~IO6) & (~IO8);\
-  DDRA=DDRA & (~IO3) & (~IO5);\
-  DDRJ=DDRJ & (~IO4);\
-  PORTK=PORTK | IO6 | IO8;\
-  PORTA=PORTA | IO3 | IO5;\
-  PORTJ=PORTJ | IO4;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Mode = GPIO_MODE_INPUT;\
+  gpio_init.Pull = GPIO_PULLUP;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  gpio_init.Pin = IO6_PIN; HAL_GPIO_Init(IO6_PORT, &gpio_init);\
+  gpio_init.Pin = IO8_PIN; HAL_GPIO_Init(IO8_PORT, &gpio_init);\
+  gpio_init.Pin = IO3_PIN; HAL_GPIO_Init(IO3_PORT, &gpio_init);\
+  gpio_init.Pin = IO5_PIN; HAL_GPIO_Init(IO5_PORT, &gpio_init);\
+  gpio_init.Pin = IO4_PIN; HAL_GPIO_Init(IO4_PORT, &gpio_init);\
+  
 }
 
 #define PIN_OUT_TU\
 {\
-  DDRA=DDRA | IO11 | IO12;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = IO11_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(IO11_PORT, &gpio_init);\
+  gpio_init.Pin = IO12_PIN;\
+  HAL_GPIO_Init(IO12_PORT, &gpio_init);\
 }
 
 
 #define TU2_ON\
 {\
-  PORTA=PORTA | IO12;\
+  HAL_GPIO_WritePin(IO12_PORT, IO12_PIN, GPIO_PIN_SET);\
 }
 
 #define TU2_OFF\
 {\
-  PORTA=PORTA & (~IO12);\
+  HAL_GPIO_WritePin(IO12_PORT, IO12_PIN, GPIO_PIN_RESET);\
 }
 
 #define SOUND_ON\
 {\
-  PORTA=PORTA | IO12;\
+  HAL_GPIO_WritePin(IO12_PORT, IO12_PIN, GPIO_PIN_SET);\
 }
 
 #define SOUND_OFF\
 {\
-  PORTA=PORTA & (~IO12);\
+  HAL_GPIO_WritePin(IO12_PORT, IO12_PIN, GPIO_PIN_RESET);\
 }
-
-
-
 
 #define TU1_ON\
 {\
-  PORTA=PORTA | IO11;\
+  HAL_GPIO_WritePin(IO11_PORT, IO11_PIN, GPIO_PIN_SET);\
 }
 
 #define TU1_OFF\
 {\
-  PORTA=PORTA & (~IO11);\
+  HAL_GPIO_WritePin(IO11_PORT, IO11_PIN, GPIO_PIN_RESET);\
 }
-
-
 
 #define ST_SHL_ON\
 {\
-  PORTA=PORTA | IO11;\
+  HAL_GPIO_WritePin(IO11_PORT, IO11_PIN, GPIO_PIN_SET);\
 }
 
 #define ST_SHL_OFF\
 {\
-  PORTA=PORTA & (~IO11);\
+  HAL_GPIO_WritePin(IO11_PORT, IO11_PIN, GPIO_PIN_RESET);\
 }
-
 
 #define PIN_OUT_MKD\
 {\
-  DDRK=DDRK | IO2;\
-  DDRA=DDRA | IO7;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = IO2_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(IO2_PORT, &gpio_init);\
+\
+  gpio_init.Pin = IO7_PIN;\
+  HAL_GPIO_Init(IO7_PORT, &gpio_init);\
 }
-
 
 #define TCH_O_ONE\
 {\
-  PORTK=PORTK | IO2;\
+  HAL_GPIO_WritePin(IO2_PORT, IO2_PIN, GPIO_PIN_SET);\
 }
 
 #define TCH_O_ZERO\
 {\
-  PORTK=PORTK & (~IO2);\
+  HAL_GPIO_WritePin(IO2_PORT, IO2_PIN, GPIO_PIN_RESET);\
 }
-
-
 
 #define SOST_ON\
 {\
-  PORTA=PORTA | IO7;\
+  HAL_GPIO_WritePin(IO7_PORT, IO7_PIN, GPIO_PIN_SET);\
 }
 
 #define SOST_OFF\
 {\
-  PORTA=PORTA & (~IO7);\
+  HAL_GPIO_WritePin(IO7_PORT, IO7_PIN, GPIO_PIN_RESET);\
 }
 
-//ноги управления SIM////////////////////////////////////////////////////////////////////
-#define C_SIM1 0x20
-#define C_SIM2 0x10
+//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SIM////////////////////////////////////////////////////////////////////
+
+
 #define PIN_OUT_SIM\
 {\
-  DDRJ=DDRJ | C_SIM1 | C_SIM2;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = C_SIM1_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(C_SIM1_PORT, &gpio_init);\
+  gpio_init.Pin = C_SIM2_PIN;\
+  HAL_GPIO_Init(C_SIM2_PORT, &gpio_init);\
  }
 
 #define SET_SIM1\
 {\
-  PORTJ=PORTJ & ~C_SIM2;\
-  PORTJ=PORTJ | C_SIM1;\
+  HAL_GPIO_WritePin(C_SIM2_PORT, C_SIM2_PIN, GPIO_PIN_RESET);\
+  HAL_GPIO_WritePin(C_SIM1_PORT, C_SIM1_PIN, GPIO_PIN_SET);\
  }
 
 #define SET_SIM2\
 {\
-  PORTJ=PORTJ & ~C_SIM1;\
-  PORTJ=PORTJ | C_SIM2;\
+  HAL_GPIO_WritePin(C_SIM1_PORT, C_SIM1_PIN, GPIO_PIN_RESET);\
+  HAL_GPIO_WritePin(C_SIM2_PORT, C_SIM2_PIN, GPIO_PIN_SET);\
  }
 /////////////////////////////////////////////////////////
 
 
 
 
-//нога включения TEN /////////////////////////////////
-#define  TEN 0x08
-//конфигурация ног на выход
+//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ TEN /////////////////////////////////
+
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 #define PIN_OUT_TEN\
 {\
-  DDRJ=DDRJ | TEN;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = TEN_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(TEN_PORT, &gpio_init);\
  }
 
 #define SET_TEN\
 {\
-  PORTJ|=TEN;\
+  HAL_GPIO_WritePin(TEN_PORT, TEN_PIN, GPIO_PIN_SET);\
  }
 
 #define CLR_TEN\
 {\
-  PORTJ&=~TEN;\
+  HAL_GPIO_WritePin(TEN_PORT, TEN_PIN, GPIO_PIN_RESET);\
  }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//ноги светодиодов /////////////////////////////////
+//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ /////////////////////////////////
 
-#define S1_R 0x01  //светодиод статуса модема
-#define S1_G 0x02
-#define S2_R 0x01  //светодиод статуса порта №0 RS232-1
-#define S2_G 0x02
-#define S4_R 0x04  //светодиод статуса порта RS485-1
-#define S4_G 0x08
-#define S3_R 0x10  //светодиод статуса порта RS485-2
-#define S3_G 0x20
-#define S5_R 0x40  //светодиод статуса порта №3 RS232-2
-#define S5_G 0x80
 
-//конфигурация ног на выход
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 #define PIN_OUT_S1\
 {\
-  DDRG=DDRG | S1_R | S1_G;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = S1_R_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(S1_R_PORT, &gpio_init);\
+  gpio_init.Pin = S1_G_PIN;\
+  HAL_GPIO_Init(S1_G_PORT, &gpio_init);\
  }
 
 #define PIN_OUT_S2_S5\
 {\
-  DDRC=DDRC | S2_R | S2_G | S3_R | S3_G | S4_R | S4_G | S5_R | S5_G;\
+  GPIO_InitTypeDef gpio_init = {0};\
+  gpio_init.Pin = S2_R_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(S2_R_PORT, &gpio_init);\
+  gpio_init.Pin = S2_G_PIN;\
+  HAL_GPIO_Init(S2_G_PORT, &gpio_init);\
+
  }
 ///S1
 #define S1_OFF\
 {\
-  PORTG&=~S1_R;\
-  PORTG&=~S1_G;\
+  HAL_GPIO_WritePin(S1_R_PORT, S1_R_PIN, GPIO_PIN_RESET);\
+  HAL_GPIO_WritePin(S1_G_PORT, S1_G_PIN, GPIO_PIN_RESET);\
  }
 #define S1_YL\
 {\
-  PORTG|=S1_R;\
-  PORTG|=S1_G;\
+  HAL_GPIO_WritePin(S1_R_PORT, S1_R_PIN, GPIO_PIN_SET);\
+  HAL_GPIO_WritePin(S1_G_PORT, S1_G_PIN, GPIO_PIN_SET);\
  }
 #define S1_RD\
 {\
-  PORTG|=S1_R;\
-  PORTG&=~S1_G;\
+  HAL_GPIO_WritePin(S1_R_PORT, S1_R_PIN, GPIO_PIN_SET);\
+  HAL_GPIO_WritePin(S1_G_PORT, S1_G_PIN, GPIO_PIN_RESET);\
  }
 #define S1_GR\
 {\
-  PORTG&=~S1_R;\
-  PORTG|=S1_G;\
+  HAL_GPIO_WritePin(S1_R_PORT, S1_R_PIN, GPIO_PIN_RESET);\
+  HAL_GPIO_WritePin(S1_G_PORT, S1_G_PIN, GPIO_PIN_SET);\
  }
 #define S1_CH\
 {\
-  PORTG^=S1_R;\
-  PORTG^=S1_G;\
+  HAL_GPIO_TogglePin(S1_R_PORT, S1_R_PIN);\
+  HAL_GPIO_TogglePin(S1_G_PORT, S1_G_PIN);\
  }
 
 
 ///S2
 #define S2_OFF\
 {\
-  PORTC&=~S2_R;\
-  PORTC&=~S2_G;\
+  HAL_GPIO_WritePin(S2_R_PORT, S2_R_PIN, GPIO_PIN_RESET);\
+  HAL_GPIO_WritePin(S2_G_PORT, S2_G_PIN, GPIO_PIN_RESET);\
  }
 #define S2_YL\
 {\
-  PORTC|=S2_R;\
-  PORTC|=S2_G;\
+  HAL_GPIO_WritePin(S2_R_PORT, S2_R_PIN, GPIO_PIN_SET);\
+  HAL_GPIO_WritePin(S2_G_PORT, S2_G_PIN, GPIO_PIN_SET);\
  }
 #define S2_RD\
 {\
-  PORTC|=S2_R;\
-  PORTC&=~S2_G;\
+  HAL_GPIO_WritePin(S2_R_PORT, S2_R_PIN, GPIO_PIN_SET);\
+  HAL_GPIO_WritePin(S2_G_PORT, S2_G_PIN, GPIO_PIN_RESET);\
  }
 #define S2_GR\
 {\
-  PORTC&=~S2_R;\
-  PORTC|=S2_G;\
+  HAL_GPIO_WritePin(S2_R_PORT, S2_R_PIN, GPIO_PIN_RESET);\
+  HAL_GPIO_WritePin(S2_G_PORT, S2_G_PIN, GPIO_PIN_SET);\
  }
 #define S2_CH\
 {\
-  PORTC^=S2_R;\
-  PORTC^=S2_G;\
+  HAL_GPIO_TogglePin(S2_R_PORT, S2_R_PIN);\
+  HAL_GPIO_TogglePin(S2_G_PORT, S2_G_PIN);\
  }
 
 
 ///S3
 #define S3_OFF\
 {\
-  PORTC&=~S3_R;\
-  PORTC&=~S3_G;\
- }
+  __NOP();\
+   }
 #define S3_YL\
 {\
-  PORTC|=S3_R;\
-  PORTC|=S3_G;\
- }
+  __NOP();\
+   }
 #define S3_RD\
 {\
-  PORTC|=S3_R;\
-  PORTC&=~S3_G;\
- }
+  __NOP();\
+   }
 #define S3_GR\
 {\
-  PORTC&=~S3_R;\
-  PORTC|=S3_G;\
- }
+  __NOP();\
+   }
 #define S3_CH\
 {\
-  PORTC^=S3_R;\
-  PORTC^=S3_G;\
- }
+  __NOP();\
+  }
 
 
 ///S4
 #define S4_OFF\
 {\
-  PORTC&=~S4_R;\
-  PORTC&=~S4_G;\
- }
+  __NOP();\
+  }
 #define S4_YL\
 {\
-  PORTC|=S4_R;\
-  PORTC|=S4_G;\
- }
+  __NOP();\
+  }
 #define S4_RD\
 {\
-  PORTC|=S4_R;\
-  PORTC&=~S4_G;\
- }
+  __NOP();\
+  }
 #define S4_GR\
 {\
-  PORTC&=~S4_R;\
-  PORTC|=S4_G;\
- }
+  __NOP();\
+  }
 #define S4_CH\
 {\
-  PORTC^=S4_R;\
-  PORTC^=S4_G;\
- }
+  __NOP();\
+  }
 
 ///S5
 #define S5_OFF\
 {\
-  PORTC&=~S5_R;\
-  PORTC&=~S5_G;\
- }
+  __NOP();\
+  }
 #define S5_YL\
 {\
-  PORTC|=S5_R;\
-  PORTC|=S5_G;\
- }
+  __NOP();\
+  }
 #define S5_RD\
 {\
-  PORTC|=S5_R;\
-  PORTC&=~S5_G;\
- }
+  __NOP();\
+  }
 #define S5_GR\
 {\
-  PORTC&=~S5_R;\
-  PORTC|=S5_G;\
- }
+  __NOP();\
+   }
 #define S5_CH\
 {\
-  PORTC^=S5_R;\
-  PORTC^=S5_G;\
- }
-
-//I2C
-#define SDA 0x02
-#define SCL 0x01
-
-
-
-#define SDA_OUT\
-{\
-  DDRD|=SDA;\
- }
-
-#define SDA_IN\
-{\
-  DDRD&=~SDA;\
- }
-
-#define SET_SDA\
-{\
-  PORTD|=SDA;\
- }
-
-#define CLR_SDA\
-{\
-  PORTD&=~SDA;\
- }
+  __NOP();\
+  }
 
 
 
 
-// определить по новой
-/*
-#define SDA_OUT\
-{\
-  __no_operation();\
- }
 
-#define SDA_IN\
-{\
-  DDRD&=~SDA;\
- }
-
-#define SET_SDA\
-{\
-    DDRD&=~SDA;\
-    PORTD|=SDA;\
- }
-
-#define CLR_SDA\
-{\
-  PORTD&=~SDA;\
-    DDRD|=SDA;\
- }
-*/
 ///////////////////////////////////////////////////////////
 
 
-#define SCL_OUT\
-{\
-  DDRD|=SCL;\
- }
-#define SET_SCL\
-{\
-  PORTD|=SCL;\
- }
-
-#define CLR_SCL\
-{\
-  PORTD&=~SCL;\
- }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// stm32 tc define
+#define TS1_PORT   GPIOC
+#define TS1_PIN    GPIO_PIN_6
 
+#define TS2_PORT   GPIOB
+#define TS2_PIN    GPIO_PIN_15
+
+#define TS3_PORT   GPIOB
+#define TS3_PIN    GPIO_PIN_14
+
+#define TS4_PORT   GPIOC
+#define TS4_PIN    GPIO_PIN_4
+
+#define TS5_PORT   GPIOB
+#define TS5_PIN    GPIO_PIN_13
+
+#define TS6_PORT   GPIOA
+#define TS6_PIN    GPIO_PIN_5
+
+#define TS7_PORT   GPIOA
+#define TS7_PIN    GPIO_PIN_6
+
+#define TS8_PORT   GPIOA
+#define TS8_PIN    GPIO_PIN_7
+
+
+#define TSS1_PORT   GPIOC
+#define TSS1_PIN    GPIO_PIN_7
+
+#define TSS2_PORT   GPIOC
+#define TSS2_PIN    GPIO_PIN_1
+
+#define TU1_PORT   GPIOB
+#define TU1_PIN    GPIO_PIN_1
+
+#define TU2_PORT   GPIOB
+#define TU2_PIN    GPIO_PIN_2
 
 

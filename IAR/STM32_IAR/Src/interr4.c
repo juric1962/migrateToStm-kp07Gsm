@@ -8,8 +8,10 @@
 #include "map_ef.h"
 #include "map_mbus.h"
 #include "ozu_map.h"
+#include "rs485_state.h"
 #include "sec.h"
 #include "stm32f4xx_hal.h"
+#include "uart3.h"
 #include <inavr.h>
 #include <iom2560.h>
 
@@ -220,28 +222,9 @@ __no_init unsigned char Rs485_2_buf_rx_tx[MAX_BUF_RS485_2];
 __no_init unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
 #pragma dataseg = default
 
-struct // структура описывающая работу порта "RS485_1"
-{
-  unsigned int cnt_bt_rx_tx;  // счетчик байтов на прием-передачу
-  unsigned int cnt_tm_tx_out; // счетчик времени на удержание rts после передачи
-  unsigned int cnt_tm_pre_tx; // счетчик времени на удержание rts перед передачи
-  unsigned int
-      vol_tm_tx_out; // предел счетчик времени на удержание rts после передачи
-  unsigned int cnt_tm_rx_out; //  счетчик времени на определение конца приема
-  unsigned int vol_tm_rx_out; //  предел времени на определение конца приема
-  unsigned int cnt_tm_out;    // счетчик времени на прием
-  unsigned int vol_tm_out;    // предел счетчика времени на прием
-  unsigned char *p_data485;   // указатель на буфер передачи
-} Rs485_1, Rs485_2, Rs232_2;
+rs485_port_state_t Rs485_1, Rs485_2, Rs232_2;
 
-struct {
-  unsigned char busy : 1;
-  unsigned char rec : 1;
-  unsigned char tm_out : 1;
-  unsigned char tx : 1;
-  unsigned char over : 1;
-  unsigned char buffed : 1;
-} fl_485_1, fl_485_2, fl_232_2;
+rs485_port_flags_t fl_485_1, fl_485_2, fl_232_2;
 
 extern struct {
   unsigned char data[VOL_RX_PPP]; // сам буфер
@@ -331,25 +314,25 @@ struct struct_ts str_tc1, str_tc2, str_tc3, str_tc4, str_tc5, str_tc6, str_tc7,
 /// 11111111111111111111111111111 функции
 
 unsigned char cnt_tu1, cnt_tu2;
-
+// uart2
 void send_485_1(void) {
-  UCSR3B = UCSR3B & ~(RXCIE | RXEN);
-  UCSR3B = UCSR3B | TXCIE; // enable transmit 485_1
-  UDR3 = *Rs485_1.p_data485++;
+  //HAL_UART_AbortReceive_IT(&huart2);
+  __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
+  UART2_TransmitByte_IT(*Rs485_1.p_data485++);
   Rs485_1.cnt_bt_rx_tx--;
 }
-
+// uart3
 void send_485_2(void) {
-  UCSR1B = UCSR1B & ~(RXCIE | RXEN);
-  UCSR1B = UCSR1B | TXCIE; // enable transmit 485_2
-  UDR1 = *Rs485_2.p_data485++;
+  //HAL_UART_AbortReceive_IT(&huart3);
+  __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
+  UART3_TransmitByte_IT(*Rs485_2.p_data485++);
   Rs485_2.cnt_bt_rx_tx--;
 }
-
+//uart4
 void send_232_2(void) {
-  UCSR2B = UCSR2B & ~(RXCIE | RXEN);
-  UCSR2B = UCSR2B | TXCIE; // enable transmit 485_2
-  UDR2 = *Rs232_2.p_data485++;
+ // HAL_UART_AbortReceive_IT(&huart4);
+ __HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE); 
+  UART4_TransmitByte_IT(*Rs232_2.p_data485++);
   Rs232_2.cnt_bt_rx_tx--;
 }
 
@@ -382,13 +365,15 @@ void begin_ts(void) {
   str_tc16.count_tc = 30;
 }
 
-// void opros_ts(unsigned char num, unsigned char port, unsigned char pin,
-// struct struct_ts *ts, unsigned int *tii)
-void opros_ts(unsigned char num, unsigned char port, unsigned char pin,
+
+
+void opros_ts(uint8_t num,
+              GPIO_TypeDef *port,
+              uint16_t pin,
               struct struct_ts *ts)
 
 {
-  if (port & pin)
+  if (HAL_GPIO_ReadPin(port, pin) == GPIO_PIN_SET)
     ts->tek_pin = 0;
   else
     ts->tek_pin = 1;
@@ -418,7 +403,7 @@ void opros_ts(unsigned char num, unsigned char port, unsigned char pin,
   }
   ts->old_pin = ts->tek_pin;
 }
-
+/*
 void sending_ppp_proverka(void) {
   if (count_tx_ppp >= 20) {
     // UCSR0B=UCSR0B & ~TXEN;!!!!
@@ -432,6 +417,11 @@ void sending_ppp_proverka(void) {
     UDR3 = buf_tx_232[count_tx_ppp];
   count_tx_ppp++;
 }
+  */
+
+
+static uint8_t ppp_tx_uart1_byte;
+static uint8_t ppp_tx_uart2_byte;
 
 void sending_ppp_pac(void) {
   cnt_supervosor = 0;
@@ -449,6 +439,7 @@ void sending_ppp_pac(void) {
     fl_reg3.add_byte = 0;
     //  UCSR0B=UCSR0B & ~TXEN;!!!!!!!
     //  UCSR0B=UCSR0B & ~TXCIE; !!!!
+    __HAL_UART_DISABLE_IT(&huart1, UART_IT_TXE);
     S2_OFF;
     return;
   }
@@ -456,20 +447,32 @@ void sending_ppp_pac(void) {
   if (fl_reg3.add_byte == 1) {
     fl_reg3.add_byte = 0;
     if (buf_tx_232[count_tx_ppp] == 0x7e) {
-      UDR0 = 0x5e;
-      if (Regim == RG_DEBAG)
-        UDR3 = 0x5e;
+      ppp_tx_uart1_byte = 0x5e;
+      UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+
+      if (Regim == RG_DEBAG) {
+        ppp_tx_uart2_byte = 0x5e;
+        HAL_UART_Transmit(&huart2, &ppp_tx_uart2_byte, 1U, 10U);
+      }
       return;
     }
     if (buf_tx_232[count_tx_ppp] == 0x7d) {
-      UDR0 = 0x5d;
-      if (Regim == RG_DEBAG)
-        UDR3 = 0x5d;
+      ppp_tx_uart1_byte = 0x5d;
+      UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+
+      if (Regim == RG_DEBAG) {
+        ppp_tx_uart2_byte = 0x5d;
+        HAL_UART_Transmit(&huart2, &ppp_tx_uart2_byte, 1U, 10U);
+      }
       return;
     }
-    UDR0 = buf_tx_232[count_tx_ppp] + 0x20;
-    if (Regim == RG_DEBAG)
-      UDR3 = buf_tx_232[count_tx_ppp] + 0x20;
+    ppp_tx_uart1_byte = buf_tx_232[count_tx_ppp] + 0x20U;
+    UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+
+    if (Regim == RG_DEBAG) {
+      ppp_tx_uart2_byte = buf_tx_232[count_tx_ppp] + 0x20U;
+      HAL_UART_Transmit(&huart2, &ppp_tx_uart2_byte, 1U, 10U);
+    }
     return;
   }
 
@@ -481,32 +484,48 @@ void sending_ppp_pac(void) {
   if ((buf_tx_232[count_tx_ppp] == 0x7e) ||
       (buf_tx_232[count_tx_ppp] == 0x7d)) {
     fl_reg3.add_byte = 1;
-    UDR0 = 0x7d;
-    if (Regim == RG_DEBAG)
-      UDR3 = 0x7d;
+    ppp_tx_uart1_byte = 0x7d;
+    UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+
+    if (Regim == RG_DEBAG) {
+      ppp_tx_uart2_byte = 0x7d;
+      HAL_UART_Transmit(&huart2, &ppp_tx_uart2_byte, 1U, 10U);
+    }
     return;
   }
 
   if ((buf_tx_232[count_tx_ppp] == 17) || (buf_tx_232[count_tx_ppp] == 19)) {
     fl_reg3.add_byte = 1;
-    UDR0 = 0x7d;
-    if (Regim == RG_DEBAG)
-      UDR3 = 0x7d;
+    ppp_tx_uart1_byte = 0x7d;
+    UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+
+    if (Regim == RG_DEBAG) {
+      ppp_tx_uart2_byte = 0x7d;
+      HAL_UART_Transmit(&huart2, &ppp_tx_uart2_byte, 1U, 10U);
+    }
     return;
   }
 
   if ((buf_tx_232[count_tx_ppp] < 0x20) && (fl_ip.act_ip_end == 1)) {
     fl_reg3.add_byte = 1;
-    UDR0 = 0x7d;
-    if (Regim == RG_DEBAG)
-      UDR3 = 0x7d;
+    ppp_tx_uart1_byte = 0x7d;
+    UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+
+    if (Regim == RG_DEBAG) {
+      ppp_tx_uart2_byte = 0x7d;
+      HAL_UART_Transmit(&huart2, &ppp_tx_uart2_byte, 1U, 10U);
+    }
     return;
   }
 
 exit_tx:
-  UDR0 = buf_tx_232[count_tx_ppp];
-  if (Regim == RG_DEBAG)
-    UDR3 = buf_tx_232[count_tx_ppp];
+  ppp_tx_uart1_byte = buf_tx_232[count_tx_ppp];
+  UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+
+  if (Regim == RG_DEBAG) {
+    ppp_tx_uart2_byte = buf_tx_232[count_tx_ppp];
+    HAL_UART_Transmit(&huart2, &ppp_tx_uart2_byte, 1U, 10U);
+  }
 }
 
 void recive_buf1(unsigned char temp) {
@@ -580,8 +599,10 @@ void recive_buf1(unsigned char temp) {
           if (Buf2_rx_ppp.busy == TRUE) {
 
             Buf2_rx_ppp.check_busy = TRUE;
+            /* change
             UCSR0B = UCSR0B & ~RXEN;
             UCSR0B = UCSR0B & ~RXCIE;
+            */
           }
           return;
         }
@@ -670,8 +691,10 @@ void recive_buf2(unsigned char temp) {
           if (Buf1_rx_ppp.busy == TRUE) {
 
             Buf1_rx_ppp.check_busy = TRUE;
+            /* change
             UCSR0B = UCSR0B & ~RXEN;
             UCSR0B = UCSR0B & ~RXCIE;
+            */
           }
           return;
         }
@@ -704,7 +727,8 @@ static void Timer0_ProcessTick(void) {
 
   // __enable_interrupt();
 
-  if (PING & TCC1)
+ // if (PING & TCC1)
+ if (HAL_GPIO_ReadPin(TSS1_PORT, TSS1_PIN) == GPIO_PIN_SET)
     struct_tcc1.tek_pin = 1;
   else
     struct_tcc1.tek_pin = 0;
@@ -725,7 +749,9 @@ static void Timer0_ProcessTick(void) {
   }
   struct_tcc1.old_pin = struct_tcc1.tek_pin;
 
-  if (PINA & TCC2)
+  //if (PINA & TCC2)
+   if (HAL_GPIO_ReadPin(TSS2_PORT, TSS2_PIN) == GPIO_PIN_SET)
+  
     struct_tcc2.tek_pin = 1;
   else
     struct_tcc2.tek_pin = 0;
@@ -746,23 +772,23 @@ static void Timer0_ProcessTick(void) {
   }
   struct_tcc2.old_pin = struct_tcc2.tek_pin;
 
-  opros_ts(14, PING, TCC1, &str_tc15);
-  opros_ts(15, PINA, TCC2, &str_tc16);
+  opros_ts(14, TSS1_PORT, TSS1_PIN, &str_tc15);
+  opros_ts(15, TSS2_PORT, TSS2_PIN, &str_tc16);
 
   if (sel_modul == 1) {
-    opros_ts(0, PINA, IO3, &str_tc1);
-    opros_ts(1, PINJ, IO4, &str_tc2);
-    opros_ts(2, PINA, IO5, &str_tc3);
-    opros_ts(3, PINK, IO6, &str_tc4);
-    opros_ts(4, PINK, IO8, &str_tc5);
+    opros_ts(0, IO3_PORT, IO3_PIN, &str_tc1);
+    opros_ts(1, IO4_PORT, IO4_PIN, &str_tc2);
+    opros_ts(2, IO5_PORT, IO5_PIN, &str_tc3);
+    opros_ts(3, IO6_PORT, IO6_PIN, &str_tc4);
+    opros_ts(4, IO8_PORT, IO8_PIN, &str_tc5);
   } else {
-    opros_ts(1, PINK, IO2, &str_tc2);
-    opros_ts(2, PINA, IO3, &str_tc3);
-    opros_ts(3, PINK, IO8, &str_tc4);
-    opros_ts(4, PINJ, IO4, &str_tc5);
-    opros_ts(5, PINA, IO5, &str_tc6);
-    opros_ts(6, PINK, IO6, &str_tc7);
-    opros_ts(7, PINA, IO7, &str_tc8);
+    opros_ts(1, TS2_PORT, TS2_PIN, &str_tc2);
+    opros_ts(2, TS3_PORT, TS3_PIN, &str_tc3);
+    opros_ts(3, TS4_PORT, TS4_PIN, &str_tc4);
+    opros_ts(4, TS5_PORT, TS5_PIN, &str_tc5);
+    opros_ts(5, TS6_PORT, TS6_PIN, &str_tc6);
+    opros_ts(6, TS7_PORT, TS7_PIN, &str_tc7);
+    opros_ts(7, TS8_PORT, TS8_PIN, &str_tc8);
   }
 }
 
@@ -796,9 +822,7 @@ static void Timer2_ProcessTick(void) {
       fl_cts_232.on = 0;
       if (count_tx_ppp == 0) {
         S2_RD;
-        UDR0 = buf_tx_232[0];
-        if (Regim == RG_DEBAG)
-          UDR3 = buf_tx_232[0];
+        sendBytePPP(buf_tx_232[0]);
       } else
         sending_ppp_pac();
       ///     return;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -810,9 +834,15 @@ static void Timer2_ProcessTick(void) {
       fl_cts_232.on = 0;
       if (count_tx_ppp == 0) {
         S2_RD;
+        /* change to stm32
         UDR0 = buf_tx_232[0];
         if (Regim == RG_DEBAG)
           UDR3 = buf_tx_232[0];
+          */ 
+        
+        sendBytePPP(buf_tx_232[0]);
+        
+
       } else
         sending_ppp_pac();
     } else {
@@ -829,18 +859,28 @@ static void Timer2_ProcessTick(void) {
   if (Buf1_rx_ppp.check_busy == TRUE) {
     if (Buf1_rx_ppp.busy == FALSE) {
       Buf1_rx_ppp.check_busy = FALSE;
+      /* change 
       temp = UDR0;
       UCSR0B = UCSR0B | RXEN;
       UCSR0B = UCSR0B | RXCIE;
+*/
+__HAL_UART_FLUSH_DRREGISTER(&huart1);
+__HAL_UART_ENABLE_IT(&huart1,UART_IT_RXNE);
+      //temp = uart1_rx_byte;
+      //HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
     }
   }
 
   if (Buf2_rx_ppp.check_busy == TRUE) {
     if (Buf2_rx_ppp.busy == FALSE) {
       Buf2_rx_ppp.check_busy = FALSE;
+      /*
       temp = UDR0;
       UCSR0B = UCSR0B | RXEN;
       UCSR0B = UCSR0B | RXCIE;
+      */
+      __HAL_UART_FLUSH_DRREGISTER(&huart1);
+      __HAL_UART_ENABLE_IT(&huart1,UART_IT_RXNE);
     }
   }
 
@@ -857,8 +897,11 @@ next_step00:
   {
     At_com.cnt_tm_out--;
     if (At_com.cnt_tm_out == 0) {
+      /* change 
       UCSR0B = UCSR0B & ~RXEN;
       UCSR0B = UCSR0B & ~RXCIE;
+      */
+     //!! HAL_UART_AbortReceive_IT(&huart1);  
       At_com.cnt_rx_out = 0;
       fl_at_com.tm_out = 1;
       fl_at_com.rx_rec = 0;
@@ -874,8 +917,12 @@ next_step0:
     goto next_step1;
   At_com.cnt_rx_out--;
   if (At_com.cnt_rx_out == 0) {
+    /* change
     UCSR0B = UCSR0B & ~RXEN;
     UCSR0B = UCSR0B & ~RXCIE;
+*/
+    //!!! HAL_UART_AbortReceive_IT(&huart1); 
+
     fl_at_com.rx_rec = 1;
     S2_OFF;
   } // счетчик межбайтовый промежуток
@@ -898,7 +945,11 @@ nxt_step2:
   Rs485_1.cnt_tm_out--;
   if (Rs485_1.cnt_tm_out == 0) {
     S3_OFF;
+    /* change
     UCSR3B = UCSR3B & ~(RXEN | RXCIE);
+    */
+   // HAL_UART_AbortReceive_IT(&huart2); 
+   __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
     Rs485_1.cnt_bt_rx_tx = 0;
     Rs485_1.cnt_tm_rx_out = 0;
     fl_485_1.rec = 0;
@@ -914,7 +965,11 @@ nxt_step3:
     fl_485_1.rec = 1;
     Rs485_1.cnt_tm_out = 0;
     fl_485_1.tm_out = 0;
+    /* change
     UCSR3B = UCSR3B & ~(RXEN | RXCIE);
+    */
+    //HAL_UART_AbortReceive_IT(&huart2);
+    __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
   }
 nxt_step4:
   if (Rs485_1.cnt_tm_tx_out == 0)
@@ -927,7 +982,10 @@ nxt_step4:
     CLR_RTS1;
     S3_OFF;
     Rs485_1.cnt_tm_out = Rs485_1.vol_tm_out;
+    /* change
     UCSR3B = UCSR3B | RXEN | RXCIE;
+    */
+    HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
   } // togle to receiv mode ;
 
   // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
@@ -950,7 +1008,11 @@ next_step2:
   Rs485_2.cnt_tm_out--;
   if (Rs485_2.cnt_tm_out == 0) {
     S4_OFF;
+    /*
     UCSR1B = UCSR1B & ~(RXEN | RXCIE);
+    */
+    //HAL_UART_AbortReceive_IT(&huart3);
+    __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
     Rs485_2.cnt_bt_rx_tx = 0;
     Rs485_2.cnt_tm_rx_out = 0;
     fl_485_2.rec = 0;
@@ -966,7 +1028,8 @@ next_step3:
     fl_485_2.rec = 1;
     Rs485_2.cnt_tm_out = 0;
     fl_485_2.tm_out = 0;
-    UCSR1B = UCSR1B & ~(RXEN | RXCIE);
+    //UCSR1B = UCSR1B & ~(RXEN | RXCIE);
+    __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
   }
 next_step4:
   if (Rs485_2.cnt_tm_tx_out == 0)
@@ -979,7 +1042,7 @@ next_step4:
     CLR_RTS3;
     S4_OFF;
     Rs485_2.cnt_tm_out = Rs485_2.vol_tm_out;
-    UCSR1B = UCSR1B | RXEN | RXCIE;
+    __HAL_UART_ENABLE_IT(&huart3,UART_IT_RXNE);
   } // togle to receiv mode ;
 
   // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
@@ -1138,8 +1201,12 @@ lable_tm26:
     //  TIFR=TIFR | 0x20;//????
     //  TIMSK=TIMSK | 0x20;   //????// ICR enable
     TCH_O_ZERO;
-    EIFR = EIFR | 0x02;
-    EIMSK = EIMSK | 0x02; // INT1 enable
+   // EIFR = EIFR | 0x02;
+   // EIMSK = EIMSK | 0x02; // INT1 enable
+
+__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_6);
+HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
     flag_arhiv_prihod = dabl;
   }
 
@@ -1151,7 +1218,8 @@ erty78:
   if (window_prihod_uhod == 0) {
     tim_prihod_uhod = 3400;
     // TIMSK=TIMSK &~0x20;    //????// запретить ключ на это время
-    EIMSK = EIMSK & ~0x02; // disable myself
+    //EIMSK = EIMSK & ~0x02; // disable myself
+    HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
     if (podnos == 1) {
       prihod_uhod = 1;
       dabl = 1;
@@ -1194,8 +1262,33 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   }
 }
 
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+  if (huart->Instance == UART4) {
+     Uart4_ProcessRxCallback();
+  } else if (huart->Instance == USART1) {
+    Uart1_ProcessRxCallback();
+    // Handle UART receive complete callback
+  } else if (huart->Instance == USART3) {
+    Uart3_ProcessRxCallback();
+  } else if (huart->Instance == USART2) {
+    Uart2_ProcessRxCallback();
+  }
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
+  if (huart->Instance == UART4) {
+     Uart4_ProcessTxCallback();
+  } else if (huart->Instance == USART1) {
+    Uart1_ProcessTxCallback();
+    // Handle UART transmit complete callback
+  } else if (huart->Instance == USART3) {
+    Uart3_ProcessTxCallback();
+  }else if (huart->Instance == USART2) {
+    Uart2_ProcessTxCallback();
+  }
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 static void Timer3_ProcessTick(void) {
 
@@ -1486,242 +1579,10 @@ __interrupt void USART0_TX_interrupt(void)
 
 
 */
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma vector = USART1_RX_vect
 
-__interrupt void USART1_RX_interrupt(void)
-
-{
-  unsigned char data;
-
-  data = UDR1;
-  S4_GR;
-  Rs485_2.cnt_tm_rx_out = Rs485_2.vol_tm_rx_out;
-  Rs485_2.cnt_tm_out = 0;
-  if (Rs485_2.cnt_bt_rx_tx < MAX_BUF_RS485_2) {
-    Rs485_2_buf_rx_tx[Rs485_2.cnt_bt_rx_tx] = data;
-    Rs485_2.cnt_bt_rx_tx++;
-  } else
-    fl_485_2.over = 1;
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#pragma vector = USART1_TX_vect
-
-__interrupt void USART1_TX_interrupt(void)
-
-{
-
-  if (Rs485_2.cnt_bt_rx_tx == 0)
-    goto end_tx1;
-
-  UDR1 = *Rs485_2.p_data485++;
-  Rs485_2.cnt_bt_rx_tx--;
-  return;
-end_tx1:
-  UCSR1B = UCSR1B & ~TXCIE;
-  Rs485_2.cnt_bt_rx_tx = 0;
-  Rs485_2.cnt_tm_tx_out = Rs485_2.vol_tm_tx_out;
-  if (Rs485_2.cnt_tm_tx_out == 0) {
-    S4_OFF;
-    Rs485_2.cnt_tm_out = Rs485_2.vol_tm_out;
-    CLR_RTS3;                       // togle to receiv mode
-    UCSR1B = UCSR1B | RXEN | RXCIE; // togle to receiv mode ;
-  }
-}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma vector = USART2_RX_vect
-
-__interrupt void USART2_RX_interrupt(void)
-
-{
-  unsigned char data;
-  data = UDR2;
-
-  if ((Regim == MODEM_ONLY) || (Regim == MODEM_ONLY_R)) {
-    UDR0 = data;
-    return;
-  } // dobavka
-  if (fl_at_mom_232 == 1) {
-    if (vol_tx_ppp >= VOL_TX_PPP)
-      vol_tx_ppp = 0;
-    buf_tx_232[vol_tx_ppp] = data;
-    vol_tx_ppp++;
-    return;
-  }
-
-  S5_GR;
-  Rs232_2.cnt_tm_rx_out = Rs232_2.vol_tm_rx_out;
-  Rs232_2.cnt_tm_out = 0;
-  if (Rs232_2.cnt_bt_rx_tx < MAX_BUF_RS232_2) {
-    Rs232_2_buf_rx_tx[Rs232_2.cnt_bt_rx_tx] = data;
-    Rs232_2.cnt_bt_rx_tx++;
-  } else
-    fl_232_2.over = 1;
-}
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#pragma vector = USART2_TX_vect
-
-__interrupt void USART2_TX_interrupt(void)
-
-{
-
-  if (Rs232_2.cnt_bt_rx_tx == 0)
-    goto end_tx;
-
-  UDR2 = *Rs232_2.p_data485++;
-  Rs232_2.cnt_bt_rx_tx--;
-  return;
-end_tx:
-  UCSR2B = UCSR2B & ~TXCIE;
-  Rs232_2.cnt_bt_rx_tx = 0;
-  Rs232_2.cnt_tm_tx_out = Rs232_2.vol_tm_tx_out;
-  if (Rs232_2.cnt_tm_tx_out == 0) {
-    S5_OFF;
-    Rs232_2.cnt_tm_out = Rs232_2.vol_tm_out;
-    CLR_RTS2;                       // togle to receiv mode
-    UCSR2B = UCSR2B | RXEN | RXCIE; // togle to receiv mode ;
-  }
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma vector = USART3_RX_vect
-
-__interrupt void USART3_RX_interrupt(void)
-
-{
-  unsigned char data;
-
-  data = UDR3;
-  S3_GR;
-  Rs485_1.cnt_tm_rx_out = Rs485_1.vol_tm_rx_out;
-  Rs485_1.cnt_tm_out = 0;
-  if (Rs485_1.cnt_bt_rx_tx < MAX_BUF_RS485_1) {
-    Rs485_1_buf_rx_tx[Rs485_1.cnt_bt_rx_tx] = data;
-    Rs485_1.cnt_bt_rx_tx++;
-  } else
-    fl_485_1.over = 1;
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#pragma vector = USART3_TX_vect
-
-__interrupt void USART3_TX_interrupt(void)
-
-{
-
-  if (Rs485_1.cnt_bt_rx_tx == 0)
-    goto end_tx2;
-
-  UDR3 = *Rs485_1.p_data485++;
-  Rs485_1.cnt_bt_rx_tx--;
-  return;
-end_tx2:
-  UCSR3B = UCSR3B & ~TXCIE;
-  Rs485_1.cnt_bt_rx_tx = 0;
-  Rs485_1.cnt_tm_tx_out = Rs485_1.vol_tm_tx_out;
-  if (Rs485_1.cnt_tm_tx_out == 0) {
-    S3_OFF;
-    Rs485_1.cnt_tm_out = Rs485_1.vol_tm_out;
-    CLR_RTS1;                       // togle to receiv mode
-    UCSR3B = UCSR3B | RXEN | RXCIE; // togle to receiv mode ;
-  }
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-#pragma vector=ADC_vect
- __interrupt  void ADC_interrupt(void)
- {
-  // temperatura=ADC;
-
-   fl_wdt.from_adc=1;
-
-  //  __enable_interrupt();
-
-   count_summa_temperatura++;
-   summa_temperatura=summa_temperatura+ADC;
-
-       if(count_summa_temperatura>=1024)
-          {
-          count_summa_temperatura=0;
-          temperatura=summa_temperatura>>10;
-          summa_temperatura=0;
-        }
-
-       ADCSRA=ADCSRA | 0x47;
- }
-
-*/
-
-#pragma vector = ADC_vect
-__interrupt void ADC_interrupt(void) {
-  char i;
-  // три замера каждый замер по каналу через 115 мсек
-  //  1/11059200 *13*128*256*3=115 msec
-
-  fl_wdt.from_adc = 1;
-
-  i = ADMUX;
-  i = i & 0x07;
-  count_summa_adc[i]++;
-  summa_adc[i] = summa_adc[i] + ADC;
-
-  if (count_summa_adc[i] == 0) {
-    if (i == 0) {
-      modbus_mem1[AD_TEMP] = summa_adc[0] >> 8;
-      temperatura = modbus_mem1[AD_TEMP];
-    } else if (i == 1)
-      modbus_mem1[AD_TIT1] = summa_adc[1] >> 8;
-    else
-      modbus_mem1[AD_TIT1 + 1] = summa_adc[3] >> 8;
-
-    summa_adc[i] = 0;
-  }
-
-  if (i < 3) {
-
-    i++;
-    if (i == 2)
-      i = 3;
-
-    ADCSRB = 0x08;
-    ADMUX = (ADMUX & (~0x07)) | i;
-    ADCSRA = ADCSRA | 0x47;
-  } else {
-    ADCSRB = 0;
-    ADMUX = 0x40;
-    ADCSRA = ADCSRA | 0x47;
-  }
-}
-
-#pragma vector = PCINT2_vect
-__interrupt void PCINT2_interrupt(void) {
-
-  if (sel_modul != 1) {
-    if (PINK & IO1)
-      modbus_mem1[AD_TS] = modbus_mem1[AD_TS] & (~0x01);
-    else {
-      modbus_mem1[AD_TS] = modbus_mem1[AD_TS] | 0x01;
-      // cnt_tii[0]++;
-      // modbus_mem1[0]=cnt_tii[0];
-      modbus_mem1[AD_TII1]++;
-      arr_tii_32[0]++;
-    }
-  } else {
-    if ((PINK & TCH_I) != 0)
-      return;
-    bit_registr1 = bit_registr1 | DS_DETECT;
-    // EIMSK=EIMSK & ~ 0x02;    // disable myself
-    PCMSK2 = PCMSK2 & ~0x80;
-  }
-}

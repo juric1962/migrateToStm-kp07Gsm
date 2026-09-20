@@ -9,6 +9,21 @@
       <name>$PROJ_DIR$/Src/system_stm32f4xx.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$/Src/uart1.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$/Inc/uart1.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$/Src/uart3.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$/Inc/uart3.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$/Inc/rs485_state.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$/Inc/stm32f4xx_hal_conf.h</name>
     </file>
     <file>

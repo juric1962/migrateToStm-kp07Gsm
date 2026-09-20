@@ -559,6 +559,18 @@ void prov_uk_in(void) {
     event_modem = EVM_PPP_ERR; // переполнение буфера
 }
 
+void sendBytePPP(uint_8 data)
+{
+  ppp_tx_uart1_byte = data;
+      UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+
+      if (Regim == RG_DEBAG) {
+        ppp_tx_uart2_byte = data;
+        HAL_UART_Transmit(&huart2, &ppp_tx_uart2_byte, 1U, 10U);
+      }
+}
+
+
 void prov_uk_in_ipcp(void) {
   unsigned char temp;
 
@@ -615,13 +627,12 @@ void send_terminate_lcp(void)
   count_tx_ppp = 0;
   vol_tx_ppp = buf_tx_232[8] + 8;
 
-  UCSR0A = UCSR0A | TXC;
-  UCSR0B = UCSR0B | TXEN;
-  UCSR0B = UCSR0B | TXCIE;
+  //UCSR0A = UCSR0A | TXC;
+  //UCSR0B = UCSR0B | TXEN;
+  //UCSR0B = UCSR0B | TXCIE;
   S2_RD;
-  UDR0 = buf_tx_232[0];
-  if (Regim == RG_DEBAG)
-    UDR3 = buf_tx_232[0];
+  sendBytePPP(buf_tx_232[0]);
+  
 }
 
 void run_lcp_act(void) {
@@ -713,15 +724,13 @@ void run_lcp_act(void) {
     count_tx_ppp = 0;
     vol_tx_ppp = buf_tx_232[8] + 8;
 
-    UCSR0A = UCSR0A | TXC;
-    UCSR0B = UCSR0B | TXEN;
-    UCSR0B = UCSR0B | TXCIE;
+    //UCSR0A = UCSR0A | TXC;
+    //UCSR0B = UCSR0B | TXEN;
+    //UCSR0B = UCSR0B | TXCIE;
     if (check_cts() == 1)
       return;
     S2_RD;
-    UDR0 = buf_tx_232[0];
-    if (Regim == RG_DEBAG)
-      UDR3 = buf_tx_232[0];
+    sendBytePPP(buf_tx_232[0]);
 
     break;
 
@@ -752,15 +761,13 @@ void run_lcp_act(void) {
     buf_tx_232[11 + ln_ack_lcp] = 0x7e;
 
     count_tx_ppp = 0;
-    UCSR0A = UCSR0A | TXC;
-    UCSR0B = UCSR0B | TXEN;
-    UCSR0B = UCSR0B | TXCIE;
+     // UCSR0A = UCSR0A | TXC;
+     // UCSR0B = UCSR0B | TXEN;
+     // UCSR0B = UCSR0B | TXCIE;
     if (check_cts() == 1)
       return;
     S2_RD;
-    UDR0 = buf_tx_232[0];
-    if (Regim == RG_DEBAG)
-      UDR3 = buf_tx_232[0];
+    sendBytePPP(buf_tx_232[0]);
 
     break;
   case SCN:
@@ -792,15 +799,13 @@ void run_lcp_act(void) {
       buf_tx_232[11 + ln_nak_lcp] = 0x7e;
 
       count_tx_ppp = 0;
-      UCSR0A = UCSR0A | TXC;
-      UCSR0B = UCSR0B | TXEN;
-      UCSR0B = UCSR0B | TXCIE;
+      //UCSR0A = UCSR0A | TXC;
+      //UCSR0B = UCSR0B | TXEN;
+      //UCSR0B = UCSR0B | TXCIE;
       if (check_cts() == 1)
         return;
       S2_RD;
-      UDR0 = buf_tx_232[0];
-      if (Regim == RG_DEBAG)
-        UDR3 = buf_tx_232[0];
+     sendBytePPP(buf_tx_232[0]);
 
     } else {
       fl_lcp2.nac_rej = 0;
@@ -822,15 +827,13 @@ void run_lcp_act(void) {
       buf_tx_232[11 + ln_rej_lcp] = 0x7e;
 
       count_tx_ppp = 0;
-      UCSR0A = UCSR0A | TXC;
-      UCSR0B = UCSR0B | TXEN;
-      UCSR0B = UCSR0B | TXCIE;
+      //UCSR0A = UCSR0A | TXC;
+      //UCSR0B = UCSR0B | TXEN;
+      //UCSR0B = UCSR0B | TXCIE;
       if (check_cts() == 1)
         return;
       S2_RD;
-      UDR0 = buf_tx_232[0];
-      if (Regim == RG_DEBAG)
-        UDR3 = buf_tx_232[0];
+      sendBytePPP(buf_tx_232[0]);
     }
 
     break;
@@ -933,16 +936,14 @@ void monitor_act_PAP(void) {
     buf_tx_232[vol_tx_ppp - 1] = 0x7e;
 
     count_tx_ppp = 0;
-    UCSR0A = UCSR0A | TXC;
-    UCSR0B = UCSR0B | TXEN;
-    UCSR0B = UCSR0B | TXCIE;
+     // UCSR0A = UCSR0A | TXC;
+     // UCSR0B = UCSR0B | TXEN;
+     // UCSR0B = UCSR0B | TXCIE;
     if (check_cts() == 1)
       return;
 
     S2_RD;
-    UDR0 = buf_tx_232[0];
-    if (Regim == RG_DEBAG)
-      UDR3 = buf_tx_232[0];
+    sendBytePPP(buf_tx_232[0]);
   }
 }
 
@@ -1389,15 +1390,13 @@ void run_ipcp_act(void) {
 
     count_tx_ppp = 0;
 
-    UCSR0A = UCSR0A | TXC;
-    UCSR0B = UCSR0B | TXEN;
-    UCSR0B = UCSR0B | TXCIE;
+    ///UCSR0A = UCSR0A | TXC;
+    ///UCSR0B = UCSR0B | TXEN;
+    ///UCSR0B = UCSR0B | TXCIE;
     if (check_cts() == 1)
       return;
     S2_RD;
-    UDR0 = buf_tx_232[0];
-    if (Regim == RG_DEBAG)
-      UDR3 = buf_tx_232[0];
+    sendBytePPP(buf_tx_232[0]);
 
     break;
 
@@ -1442,15 +1441,13 @@ void run_ipcp_act(void) {
     buf_tx_232[vol_tx_ppp - 1] = 0x7e;
 
     count_tx_ppp = 0;
-    UCSR0A = UCSR0A | TXC;
-    UCSR0B = UCSR0B | TXEN;
-    UCSR0B = UCSR0B | TXCIE;
+    //UCSR0A = UCSR0A | TXC;
+    //UCSR0B = UCSR0B | TXEN;
+    //UCSR0B = UCSR0B | TXCIE;
     if (check_cts() == 1)
       return;
     S2_RD;
-    UDR0 = buf_tx_232[0];
-    if (Regim == RG_DEBAG)
-      UDR3 = buf_tx_232[0];
+   sendBytePPP(buf_tx_232[0]);
 
     break;
   case SCN:
@@ -1480,15 +1477,13 @@ void run_ipcp_act(void) {
       buf_tx_232[9 + ln_nak_ipcp] = 0x7e;
 
       count_tx_ppp = 0;
-      UCSR0A = UCSR0A | TXC;
-      UCSR0B = UCSR0B | TXEN;
-      UCSR0B = UCSR0B | TXCIE;
+      //UCSR0A = UCSR0A | TXC;
+      //UCSR0B = UCSR0B | TXEN;
+      //UCSR0B = UCSR0B | TXCIE;
       if (check_cts() == 1)
         return;
       S2_RD;
-      UDR0 = buf_tx_232[0];
-      if (Regim == RG_DEBAG)
-        UDR3 = buf_tx_232[0];
+      sendBytePPP(buf_tx_232[0]);
 
     } else {
       fl_ipcp2.nac_rej = 0;
@@ -1527,15 +1522,13 @@ void run_ipcp_act(void) {
       buf_tx_232[vol_tx_ppp - 1] = 0x7e;
 
       count_tx_ppp = 0;
-      UCSR0A = UCSR0A | TXC;
-      UCSR0B = UCSR0B | TXEN;
-      UCSR0B = UCSR0B | TXCIE;
+      //UCSR0A = UCSR0A | TXC;
+      //UCSR0B = UCSR0B | TXEN;
+      //UCSR0B = UCSR0B | TXCIE;
       if (check_cts() == 1)
         return;
       S2_RD;
-      UDR0 = buf_tx_232[0];
-      if (Regim == RG_DEBAG)
-        UDR3 = buf_tx_232[0];
+     sendBytePPP(buf_tx_232[0]);
     }
 
     break;
@@ -2736,15 +2729,13 @@ void send_no_sinc(unsigned char id, unsigned int dst, unsigned char error) {
       &buf_tx_232[TR_OP_DATA + C1_PROT]; // указатель буфера данных
 
   form_buf_tx_ppp();
-  UCSR0A = UCSR0A | TXC;
-  UCSR0B = UCSR0B | TXEN;
-  UCSR0B = UCSR0B | TXCIE;
+  //UCSR0A = UCSR0A | TXC;
+  //UCSR0B = UCSR0B | TXEN;
+  //UCSR0B = UCSR0B | TXCIE;
   if (check_cts() == 1)
     return;
   S2_RD;
-  UDR0 = buf_tx_232[0];
-  if (Regim == RG_DEBAG)
-    UDR3 = buf_tx_232[0];
+ sendBytePPP(buf_tx_232[0]);
   return;
 }
 
@@ -3107,15 +3098,13 @@ void send_size_pg(unsigned char id, unsigned int dst) {
       &buf_tx_232[TR_OP_DATA + C1_PROT]; // указатель буфера данных
 
   form_buf_tx_ppp();
-  UCSR0A = UCSR0A | TXC;
-  UCSR0B = UCSR0B | TXEN;
-  UCSR0B = UCSR0B | TXCIE;
+  //UCSR0A = UCSR0A | TXC;
+  //UCSR0B = UCSR0B | TXEN;
+  //UCSR0B = UCSR0B | TXCIE;
   if (check_cts() == 1)
     return;
   S2_RD;
-  UDR0 = buf_tx_232[0];
-  if (Regim == RG_DEBAG)
-    UDR3 = buf_tx_232[0];
+ sendBytePPP(buf_tx_232[0]);
   return;
 }
 
@@ -3664,15 +3653,13 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                   buf_rx_ppp[TR_ID]);
 
         form_buf_tx_ppp();
-        UCSR0A = UCSR0A | TXC;
-        UCSR0B = UCSR0B | TXEN;
-        UCSR0B = UCSR0B | TXCIE;
+        //UCSR0A = UCSR0A | TXC;
+        //UCSR0B = UCSR0B | TXEN;
+        //UCSR0B = UCSR0B | TXCIE;
         if (check_cts() == 1)
           return (1);
         S2_RD
-        UDR0 = buf_tx_232[0];
-        if (Regim == RG_DEBAG)
-          UDR3 = buf_tx_232[0];
+       sendBytePPP(buf_tx_232[0]);
         return (1);
       }
 
@@ -3802,15 +3789,13 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         Control.link_no = FALSE;
       }
 
-      UCSR0A = UCSR0A | TXC;
-      UCSR0B = UCSR0B | TXEN;
-      UCSR0B = UCSR0B | TXCIE;
+      //UCSR0A = UCSR0A | TXC;
+      //UCSR0B = UCSR0B | TXEN;
+      //UCSR0B = UCSR0B | TXCIE;
       if (check_cts() == 1)
         return (1);
       S2_RD
-      UDR0 = buf_tx_232[0];
-      if (Regim == RG_DEBAG)
-        UDR3 = buf_tx_232[0];
+      sendBytePPP(buf_tx_232[0]);
 
       return (1);
 
@@ -4010,9 +3995,9 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         send_info(sizeof(ans_out_prog), ans_out_prog, 1, buf_rx_ppp[TR_ID]);
 
         form_buf_tx_ppp();
-        UCSR0A = UCSR0A | TXC;
-        UCSR0B = UCSR0B | TXEN;
-        UCSR0B = UCSR0B | TXCIE;
+        //UCSR0A = UCSR0A | TXC;
+        //UCSR0B = UCSR0B | TXEN;
+        //UCSR0B = UCSR0B | TXCIE;
 
         if (reboot_byte != 0x55) {
           // if(check_cts()==1){S5_RD; while(1)__watchdog_reset(); return(0);}
@@ -4022,9 +4007,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         }
 
         S2_RD;
-        UDR0 = buf_tx_232[0];
-        if (Regim == RG_DEBAG)
-          UDR3 = buf_tx_232[0];
+        sendBytePPP(buf_tx_232[0]);
       }
 
       if (reboot_byte == 0x55) {
@@ -5396,15 +5379,13 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         send_info(sizeof(ans_out_mbus), ans_out_mbus, 1, Obj_ppp_tx.id_pac);
 
         form_buf_tx_ppp();
-        UCSR0A = UCSR0A | TXC;
-        UCSR0B = UCSR0B | TXEN;
-        UCSR0B = UCSR0B | TXCIE;
+        //UCSR0A = UCSR0A | TXC;
+        //UCSR0B = UCSR0B | TXEN;
+        //UCSR0B = UCSR0B | TXCIE;
         if (check_cts() == 1)
           return (1);
         S2_RD
-        UDR0 = buf_tx_232[0];
-        if (Regim == RG_DEBAG)
-          UDR3 = buf_tx_232[0];
+       sendBytePPP(buf_tx_232[0]);
         return (1);
       }
       break;

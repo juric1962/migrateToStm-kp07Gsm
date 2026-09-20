@@ -73,6 +73,20 @@ next_tabl;
                 }
 */
 
+//Tim10 тактируется от APB2
+//И работает на 2* APB2=168 МГц 
+//Прескалер 168-1=167 и период  таймера 1 mks 
+void delay(uint16_t wait_mks)
+{
+    uint16_t start = TIM10->CNT;
+
+    while ((uint16_t)(TIM10->CNT - start) < wait_mks)
+    {
+    }
+}
+
+
+
 char test_tabletka2(void) {
   int point_pos, i;
   unsigned char buf[4];
@@ -137,7 +151,7 @@ void send_pin(char comand)
 
   for (countds = 0; countds < 8; countds++) {
 
-    __disable_interrupt();
+    __disable_irq();
     TCH_O_ONE; //+r
     delay(6);
     // delay(4);
@@ -147,7 +161,7 @@ void send_pin(char comand)
     delay(108);
     //  delay(74);
     TCH_O_ZERO; //+r
-    __enable_interrupt();
+    __enable_irq();
     delay(108);
     // delay(74);
     comand = comand >> 1;
@@ -163,7 +177,7 @@ char read_pin(void) {
   for (countds = 0; countds < 8; countds++) {
     data_ds = data_ds >> 1;
 
-    __disable_interrupt();
+    __disable_irq();
     TCH_O_ONE; //+r
     delay(12);
 
@@ -175,13 +189,14 @@ char read_pin(void) {
     //              read pin
     //
     //
-    if (PINK & TCH_I)
+    //if (PINK & TCH_I)
+    if (HAL_GPIO_ReadPin(IO1_PORT, IO1_PIN) )
       data_ds = data_ds | 0x80; // ravil
     else
       data_ds = data_ds & ~0x80;
 
     // delay(100);
-    __enable_interrupt();
+    __enable_irq();
     delay(401);
     // delay(276);
   }
@@ -247,14 +262,14 @@ char sbros(void) {
   } sbr;
   delay(1871);
 
-  __disable_interrupt();
+  __disable_irq();
   TCH_O_ONE; //+r
-  __enable_interrupt();
+  __enable_irq();
   delay(1871);
   //   delay(1290);
-  __disable_interrupt();
+  __disable_irq();
   TCH_O_ZERO; //+r
-  __enable_interrupt();
+  __enable_irq();
   //
   //    wait_low
   //
@@ -266,14 +281,16 @@ char sbros(void) {
     // эрїюфшь їюЄ с√ фтр эєыхт√ї юЄёўхЄр яюЁ ф
     switch (sbr.sost) {
     case 0: {
-      if (PINK & TCH_I)
+     // if (PINK & TCH_I)
+      if (HAL_GPIO_ReadPin(IO1_PORT, IO1_PIN))
         break;
       else
         sbr.sost = 1;
       break;
     }
     case 1: {
-      if ((PINK & TCH_I) == 0) {
+      //if ((PINK & TCH_I) == 0) {
+        if (HAL_GPIO_ReadPin(IO1_PORT, IO1_PIN) == 0) {
         sbr.count_0++;
         break;
       } else {
@@ -287,7 +304,8 @@ char sbros(void) {
       break;
     }
     case 3: {
-      if (PINK & TCH_I) {
+      //if (PINK & TCH_I) {
+      if (HAL_GPIO_ReadPin(IO1_PORT, IO1_PIN) ) {
         sbr.count_0++;
         if (sbr.count_0 > 10)
           sbr.sost = 4;
@@ -454,10 +472,13 @@ void ds_handler(void) {
     //  delay(184);
 
     TCH_O_ZERO;
-    EIFR = EIFR | 0x02;
+    //EIFR = EIFR | 0x02;
     // EIMSK=EIMSK | 0x02;   // INT1 enable
-    PCIFR = PCIFR | 0x04;
-    PCMSK2 = PCMSK2 | 0x80;
+    //PCIFR = PCIFR | 0x04;
+    //PCMSK2 = PCMSK2 | 0x80;
+
+__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_6);
+HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
     //_NOP();
 
     SOUND_OFF;

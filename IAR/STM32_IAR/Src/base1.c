@@ -733,8 +733,9 @@ unsigned int crc_m1(unsigned char *ka, unsigned int num, unsigned int crc)
 }
 
 unsigned char check_cts(void) {
+  if(HAL_GPIO_ReadPin(CTS0_PORT, CTS0_PIN));
   // if (PINE & CTS0)
-  if ((PINE & CTS0) == 0) {
+ // if ((PINE & CTS0) == 0) {
     fl_cts_232.on = 1;
     return (1);
   } // proverka CTS
@@ -2728,7 +2729,8 @@ void modem_engine(void) {
         monitor_act_IPCP();
       }
 
-      if ((PINE & DCD0) == 0)
+      //if ((PINE & DCD0) == 0)
+      if(HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN))
         event_modem = EVM_DCD_ERR;
 
       //  if ( PINE & RI0 ) S3_RD;
@@ -2843,7 +2845,8 @@ void modem_engine(void) {
         }
       }
 
-      if ((PINE & DCD0) == 0)
+      //if ((PINE & DCD0) == 0)
+      if(HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN))
         event_modem = EVM_DCD_ERR;
 
       //    if ( PINE & RI0 ) S3_RD;
@@ -3129,17 +3132,17 @@ unsigned char check_cont_485_1(unsigned char *pointer) {
 }
 
 unsigned char run_cont_485_1(unsigned char *pointer) {
-
+uint32_t baud,wordlength,stopbit,parity;
   switch ((*(pointer + 1)) & 0x07) {
   case NON:
-    UCSR3C = UCSR3C & ~0x30;
+    parity = UART_PARITY_NONE;
     break;
   case ODD:
-    UCSR3C = UCSR3C | 0x30;
+    parity = UART_PARITY_ODD;
     break;
   case EVEN:
-    UCSR3C = UCSR3C & ~0x30;
-    UCSR3C = UCSR3C | 0x20;
+     parity = UART_PARITY_EVEN;
+   
     break;
   default:
     return (1);
@@ -3147,10 +3150,10 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
 
   switch (((*(pointer + 1)) >> 3) & 0x03) {
   case STOP1:
-    UCSR3C = UCSR3C & ~0x08;
+    stopbit = UART_STOPBITS_1;
     break;
   case STOP2:
-    UCSR3C = UCSR3C | 0x08;
+    stopbit = UART_STOPBITS_2;
     break;
   default:
     return (1);
@@ -3158,11 +3161,10 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
 
   switch (((*(pointer + 1)) >> 5) & 0x03) {
   case INF7:
-    UCSR3C = UCSR3C & ~0x06;
-    UCSR3C = UCSR3C | 0x04;
-    break;
+    return(1);
+    
   case INF8:
-    UCSR3C = UCSR3C | 0x06;
+    wordlength = UART_WORDLENGTH_8B;
     break;
   default:
     return (1);
@@ -3187,8 +3189,8 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
 
   switch (*pointer) {
   case B2400:
-    UBRR3H = R2400_H;
-    UBRR3L = R2400_L;
+    baud = 2400;
+   
 
     if (Appl_RS485_1.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3204,8 +3206,8 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
     //   Rs485_1.vol_tm_tx_out=Rs485_1.vol_tm_tx_out+5;
     break;
   case B4800:
-    UBRR3H = R4800_H;
-    UBRR3L = R4800_L;
+    baud = 4800;
+   
 
     if (Appl_RS485_1.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3220,8 +3222,8 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
     //      Rs485_1.vol_tm_tx_out=Rs485_1.vol_tm_tx_out+3;
     break;
   case B9600:
-    UBRR3H = R9600_H;
-    UBRR3L = R9600_L;
+    baud = 9600;
+   
 
     if (Appl_RS485_1.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3236,8 +3238,8 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
     //      Rs485_1.vol_tm_tx_out=Rs485_1.vol_tm_tx_out+2;
     break;
   case B19200:
-    UBRR3H = R19200_H;
-    UBRR3L = R19200_L;
+    baud = 19200;
+    
 
     if (Appl_RS485_1.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3254,8 +3256,8 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
     break;
 
   case B38400:
-    UBRR3H = R38400_H;
-    UBRR3L = R38400_L;
+    baud = 38400;
+    
 
     if (Appl_RS485_1.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3273,22 +3275,29 @@ unsigned char run_cont_485_1(unsigned char *pointer) {
   default:
     return (1);
   }
+HAL_UART_DeInit(&huart2);
+ huart2.Init.BaudRate   = baud;
+    huart2.Init.WordLength = wordlength;
+    huart2.Init.Parity     = parity;
+    huart2.Init.StopBits   = stopbit;
 
+    HAL_UART_Init(&huart2);
   return (0);
 }
 
 unsigned char run_cont_485_2(unsigned char *pointer) {
-
+// uart3
+  uint32_t baud,wordlength,stopbit,parity;
   switch ((*(pointer + 1)) & 0x07) {
   case NON:
-    UCSR1C = UCSR1C & ~0x30;
+    parity = UART_PARITY_NONE;
     break;
   case ODD:
-    UCSR1C = UCSR1C | 0x30;
+    parity = UART_PARITY_ODD;
     break;
   case EVEN:
-    UCSR1C = UCSR1C & ~0x30;
-    UCSR1C = UCSR1C | 0x20;
+     parity = UART_PARITY_EVEN;
+   
     break;
   default:
     return (1);
@@ -3296,10 +3305,10 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
 
   switch (((*(pointer + 1)) >> 3) & 0x03) {
   case STOP1:
-    UCSR1C = UCSR1C & ~0x08;
+    stopbit = UART_STOPBITS_1;
     break;
   case STOP2:
-    UCSR1C = UCSR1C | 0x08;
+    stopbit = UART_STOPBITS_2;
     break;
   default:
     return (1);
@@ -3307,11 +3316,10 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
 
   switch (((*(pointer + 1)) >> 5) & 0x03) {
   case INF7:
-    UCSR1C = UCSR1C & ~0x06;
-    UCSR1C = UCSR1C | 0x04;
-    break;
+    return(1);
+    
   case INF8:
-    UCSR1C = UCSR1C | 0x06;
+    wordlength = UART_WORDLENGTH_8B;
     break;
   default:
     return (1);
@@ -3336,8 +3344,7 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
 
   switch (*pointer) {
   case B2400:
-    UBRR1H = R2400_H;
-    UBRR1L = R2400_L;
+    baud = 2400;
 
     if (Appl_RS485_2.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3353,8 +3360,7 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
     //     Rs485_2.vol_tm_tx_out=Rs485_2.vol_tm_tx_out+5;
     break;
   case B4800:
-    UBRR1H = R4800_H;
-    UBRR1L = R4800_L;
+    baud = 4800;
 
     if (Appl_RS485_2.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3369,8 +3375,7 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
     //    Rs485_2.vol_tm_tx_out=Rs485_2.vol_tm_tx_out+3;
     break;
   case B9600:
-    UBRR1H = R9600_H;
-    UBRR1L = R9600_L;
+    baud = 9600;
 
     if (Appl_RS485_2.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3385,8 +3390,7 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
     //     Rs485_2.vol_tm_tx_out=Rs485_2.vol_tm_tx_out+2;
     break;
   case B19200:
-    UBRR1H = R19200_H;
-    UBRR1L = R19200_L;
+    baud = 19200;
 
     if (Appl_RS485_2.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3403,8 +3407,7 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
     break;
 
   case B38400:
-    UBRR1H = R38400_H;
-    UBRR1L = R38400_L;
+    baud = 38400;
 
     if (Appl_RS485_2.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3423,22 +3426,29 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
   default:
     return (1);
   }
+HAL_UART_DeInit(&huart3);
+ huart3.Init.BaudRate   = baud;
+    huart3.Init.WordLength = wordlength;
+    huart3.Init.Parity     = parity;
+    huart3.Init.StopBits   = stopbit;
 
+    HAL_UART_Init(&huart3);
   return (0);
 }
 
 unsigned char run_cont_232_2(unsigned char *pointer) {
-
+//huart4
+   uint32_t baud,wordlength,stopbit,parity;
   switch ((*(pointer + 1)) & 0x07) {
   case NON:
-    UCSR2C = UCSR2C & ~0x30;
+    parity = UART_PARITY_NONE;
     break;
   case ODD:
-    UCSR2C = UCSR2C | 0x30;
+    parity = UART_PARITY_ODD;
     break;
   case EVEN:
-    UCSR2C = UCSR2C & ~0x30;
-    UCSR2C = UCSR2C | 0x20;
+     parity = UART_PARITY_EVEN;
+   
     break;
   default:
     return (1);
@@ -3446,10 +3456,10 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
 
   switch (((*(pointer + 1)) >> 3) & 0x03) {
   case STOP1:
-    UCSR2C = UCSR2C & ~0x08;
+    stopbit = UART_STOPBITS_1;
     break;
   case STOP2:
-    UCSR2C = UCSR2C | 0x08;
+    stopbit = UART_STOPBITS_2;
     break;
   default:
     return (1);
@@ -3457,15 +3467,15 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
 
   switch (((*(pointer + 1)) >> 5) & 0x03) {
   case INF7:
-    UCSR2C = UCSR2C & ~0x06;
-    UCSR2C = UCSR2C | 0x04;
-    break;
+    return(1);
+    
   case INF8:
-    UCSR2C = UCSR2C | 0x06;
+    wordlength = UART_WORDLENGTH_8B;
     break;
   default:
     return (1);
   }
+
 
   if ((*(unsigned int *)(pointer + 2)) > 10000)
     return (1);
@@ -3486,8 +3496,7 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
 
   switch (*pointer) {
   case B2400:
-    UBRR2H = R2400_H;
-    UBRR2L = R2400_L;
+    baud = 2400;
 
     if (Appl_RS232_2.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3503,8 +3512,7 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
     //   Rs232_2.vol_tm_tx_out=Rs232_2.vol_tm_tx_out+5;
     break;
   case B4800:
-    UBRR2H = R4800_H;
-    UBRR2L = R4800_L;
+    baud = 4800;
 
     if (Appl_RS232_2.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3519,8 +3527,7 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
     //    Rs232_2.vol_tm_tx_out=Rs232_2.vol_tm_tx_out+3;
     break;
   case B9600:
-    UBRR2H = R9600_H;
-    UBRR2L = R9600_L;
+    baud = 9600;
 
     if (Appl_RS232_2.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3535,8 +3542,7 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
     //      Rs232_2.vol_tm_tx_out=Rs232_2.vol_tm_tx_out+2;
     break;
   case B19200:
-    UBRR2H = R19200_H;
-    UBRR2L = R19200_L;
+    baud = 19200;
 
     if (Appl_RS232_2.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3553,8 +3559,7 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
     break;
 
   case B38400:
-    UBRR2H = R38400_H;
-    UBRR2L = R38400_L;
+    baud = 38400;
 
     if (Appl_RS232_2.pre_tx != 0) {
       // перехват порта для лафкина
@@ -3573,7 +3578,13 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
   default:
     return (1);
   }
+HAL_UART_DeInit(&huart4);
+    huart4.Init.BaudRate   = baud;
+    huart4.Init.WordLength = wordlength;
+    huart4.Init.Parity     = parity;
+    huart4.Init.StopBits   = stopbit;
 
+    HAL_UART_Init(&huart4);
   return (0);
 }
 
@@ -4517,7 +4528,8 @@ void monitor1_tm_rs485_1(void) {
   clr_cntr_link();
 
   fl_485_1.tm_out = 0;
-  if (PINE & DCD0)
+  if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN) == 0) {
+  //if (PINE & DCD0)
     send_err485(
         NUM_RS485_1, RS_NO_LINK, Appl_RS485_1.id_tek,
         Appl_RS485_1.dst_tek); // игнорировать передачу если нет GPRS канала
@@ -4542,8 +4554,8 @@ void monitor1_rec_rs485_1(void) {
 
   clr_cntr_nat();
   clr_cntr_link();
-
-  if ((PINE & DCD0) == 0) {
+if(HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
+  // if ((PINE & DCD0) == 0) {
     fl_485_1.over = 0; // игнорировать передачу если нет GPRS канала
     Rs485_1.cnt_bt_rx_tx = 0;
     fl_485_1.busy = 0;
@@ -4659,7 +4671,8 @@ void monitor1_tm_rs485_2(void) {
   clr_cntr_link();
 
   fl_485_2.tm_out = 0;
-  if (PINE & DCD0)
+  if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN) == 0)
+  //if (PINE & DCD0)
     send_err485(
         NUM_RS485_2, RS_NO_LINK, Appl_RS485_2.id_tek,
         Appl_RS485_2.dst_tek); // игнорировать передачу если нет GPRS канала
@@ -4684,8 +4697,8 @@ void monitor1_rec_rs485_2(void) {
 
   clr_cntr_nat();
   clr_cntr_link();
-
-  if ((PINE & DCD0) == 0) {
+if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
+  //if ((PINE & DCD0) == 0) {
     fl_485_2.over = 0; // игнорировать передачу если нет GPRS канала
     Rs485_2.cnt_bt_rx_tx = 0;
     fl_485_2.busy = 0;
@@ -4802,7 +4815,8 @@ void monitor1_tm_rs232_2(void) {
   clr_cntr_link();
 
   fl_232_2.tm_out = 0;
-  if (PINE & DCD0)
+  if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN) == 0) 
+ // if (PINE & DCD0)
     send_err485(
         NUM_RS232_2, RS_NO_LINK, Appl_RS232_2.id_tek,
         Appl_RS232_2.dst_tek); // игнорировать передачу если нет GPRS канала
@@ -4827,8 +4841,8 @@ void monitor1_rec_rs232_2(void) {
 
   clr_cntr_nat();
   clr_cntr_link();
-
-  if ((PINE & DCD0) == 0) {
+if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
+ // if ((PINE & DCD0) == 0) {
     fl_232_2.over = 0; // игнорировать передачу если нет GPRS канала
     Rs232_2.cnt_bt_rx_tx = 0;
     fl_232_2.busy = 0;

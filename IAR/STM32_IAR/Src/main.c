@@ -4,6 +4,10 @@
 #include "ozu_map.h"
 #include "tim.h"
 #include "adc_dma.h"
+#include "gpio_inputs.h"
+#include "fm25w256_spi.h"
+#include "uart1.h"
+#include "uart3.h"
 #include <inavr.h>
 #include <iom2560.h>
 #include <stdlib.h>
@@ -72,7 +76,17 @@ void main(void) {
   // unsigned char buf[11];
   unsigned char bufalo, I123;
 
+  FM25W256_SPI_Init();
+  MX_UART1_Init();
+  UART1_Receive_IT(&uart1_rx_byte, 1U);
+  MX_UART3_Init();
+  UART3_Receive_IT(&uart3_rx_byte, 1U);
+  MX_UART4_Init();
+   HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
   init_pins();
+  MX_GPIO_TCs_Init();
+  MX_GPIO_TU_Init();
+  MX_GPIO_EXTI6_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_TIM5_Init();

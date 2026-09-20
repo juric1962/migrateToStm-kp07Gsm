@@ -82,26 +82,38 @@ fl_at_com;
 unsigned char Cnt_modem_on_off, flag;
 
 extern unsigned char Regim;
+void sending_at_pac(void)
+{
+    if (At_com.cnt_tx >= (At_com.ln_buf - 1))
+    {
+        At_com.cnt_tx = 0;
+        At_com.cnt_tm_out = At_com.vol_tm_out;
 
-void sending_at_pac(void) {
-  if (At_com.cnt_tx >= (At_com.ln_buf - 1)) {
-    At_com.cnt_tx = 0;
-    At_com.cnt_tm_out = At_com.vol_tm_out;
-    UCSR0B = UCSR0B | RXEN;
-    UCSR0B = UCSR0B | RXCIE;
-    // UCSR0B=UCSR0B & ~TXEN;!!!!!
-    //  UCSR0B=UCSR0B & ~TXCIE; !!!!
-    S2_OFF;
-    return;
-  }
+        // AVR:
+        // UCSR0B = UCSR0B | RXEN;
+        // UCSR0B = UCSR0B | RXCIE;
 
-  At_com.cnt_tx++;
-  UDR0 = At_com.buf[At_com.cnt_tx];
+        HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
 
-  if (Regim == RG_DEBAG)
-    UDR3 = At_com.buf[At_com.cnt_tx];
+        S2_OFF;
+
+        return;
+    }
+
+    At_com.cnt_tx++;
+
+    uart1_tx_byte = At_com.buf[At_com.cnt_tx];
+
+    HAL_UART_Transmit_IT(&huart1, &uart1_tx_byte, 1);
+
+    if (Regim == RG_DEBAG)
+    {
+        HAL_UART_Transmit(&huart2,
+                          &At_com.buf[At_com.cnt_tx],
+                          1,
+                          10);
+    }
 }
-
 void at_com_tx(unsigned char cnt) {
 
   if (cnt >= VOL_LIST)
