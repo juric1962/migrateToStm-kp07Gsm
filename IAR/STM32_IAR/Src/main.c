@@ -1,3 +1,4 @@
+#include "stm32f4xx_hal.h"
 #include "dfcnst.h"
 #include "dfpin.h"
 #include "map_ef.h"
@@ -8,8 +9,8 @@
 #include "fm25w256_spi.h"
 #include "uart1.h"
 #include "uart3.h"
-#include <inavr.h>
-#include <iom2560.h>
+//#include <inavr.h>
+//#include <iom2560.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -75,7 +76,10 @@ void init_modem_call(void);
 void main(void) {
   // unsigned char buf[11];
   unsigned char bufalo, I123;
-
+   HAL_Init();
+  SystemClock_Config();
+  bkpSRAMInit();    
+  rtcInit();
   FM25W256_SPI_Init();
   MX_UART1_Init();
   UART1_Receive_IT(&uart1_rx_byte, 1U);
@@ -83,13 +87,14 @@ void main(void) {
   UART3_Receive_IT(&uart3_rx_byte, 1U);
   MX_UART4_Init();
    HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
-  init_pins();
+  
   MX_GPIO_TCs_Init();
   MX_GPIO_TU_Init();
   MX_GPIO_EXTI6_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_TIM5_Init();
+   MX_TIM10_Init();
 
   /* Initialize DMA, ADC1 and TIM1 (TIM1 -> TRGO -> ADC1) */
   MX_DMA_Init();
@@ -97,60 +102,44 @@ void main(void) {
   MX_TIM1_Init();
   /* Start ADC in DMA circular mode and start TIM1 to produce triggers */
   ADC1_DMA_Start();
-
+  MX_IWDG_Init ();
+  HAL_IWDG_Start(&iwdg);
   // if(Regim !=MODEM_ONLY)
-  init_proc_state();
+  
 
   /////////////////////////  Для отладки потом убрать
   //  UBRR2H=R9600_H;
   //  UBRR2L=R9600_L;
   ////////////////////////
 
-  WDTCSR = 0x18;
-  WDTCSR = 0x0f;
 
   long_delay(1000000); // для внешней флешки
-  __watchdog_reset();
-
+ // __watchdog_reset();
+HAL_IWDG_Refresh(&iwdg);
   start_time();
 
-  //
-  //
-  // засинхронизировать часы 19 01 2024
-  //  после синхронизации в unix появляется значение времени
-  // переменная errRealTime.predUnix принимает значение unix
-
-  for (I123 = 0; I123 < 20; I123++) {
-    long_delay(100);
-    burst_ds_r();
-  }
-
+  
   load_par_first();
   if (check_memory_map() == 1)
     vosstan_memory();
 
   // s_port(dbbb++);  // dbg
   load_sel_modul();
-  if (sel_modul == 1)
+  if (sel_modul >= 1)
     init_pins_mkd_mod();
   if (sel_modul == 0)
     init_pins_ts_mod();
-  bufalo = 1;
-  if (sel_modul > 1) {
-    sel_modul = 1;
-    WrArrayToFlesh(A_SEL_MODUL, &bufalo, 1, 0, 0);
-    init_pins_mkd_mod();
-  }
+ 
   // s_port(dbbb++);  // dbg
-  __watchdog_reset();
+  HAL_IWDG_Refresh(&iwdg);
 
   monitor_terminal(); // проверка терминала  13 05 2015!!!!!!!!!!!
                       // s_port(dbbb++);  // dbg
-  __watchdog_reset();
+  HAL_IWDG_Refresh(&iwdg);
 
   if (check_keys() == 1) {
     while (1) {
-      __watchdog_reset();
+      HAL_IWDG_Refresh(&iwdg);
       S1_YL;
       S2_YL;
       S3_YL;
@@ -186,10 +175,10 @@ void main(void) {
   /// s_port(dbbb++);  // dbg
   load_rw_pdp_r();
   // s_port(dbbb++);  // dbg
-  __watchdog_reset();
+  HAL_IWDG_Refresh(&iwdg);
   serch_point_log();
   // s_port(dbbb++);  // dbg
-  __watchdog_reset();
+  HAL_IWDG_Refresh(&iwdg);
 
   load_par_first_flash();
   // s_port(dbbb++);  // dbg
@@ -208,7 +197,7 @@ void main(void) {
   start_a();
   // s_port(dbbb++);  // dbg
 
-  __enable_interrupt();
+  __enable_irq();
 
   long_delay(700000);
   long_delay(700000);

@@ -2034,6 +2034,7 @@ void energy_plus(void) {
 
   bpa_avtomat();
 
+  systemTimeUpdate()
   burst_ds_r();
 
   if (sel_modul == 1)

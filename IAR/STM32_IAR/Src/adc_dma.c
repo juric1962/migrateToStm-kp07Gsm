@@ -5,7 +5,7 @@ ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 TIM_HandleTypeDef htim1;
 
-uint16_t adc_buffer[2];
+uint16_t adc_buffer[3];
 volatile uint16_t Channel1 = 0;
 volatile uint16_t Channel2 = 0;
 
@@ -64,7 +64,7 @@ void MX_ADC1_Init(void) {
 
   hadc1.Instance = ADC1;
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
-  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc1.Init.Resolution = ADC_RESOLUTION_10B;
   hadc1.Init.ScanConvMode = ENABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
@@ -72,7 +72,7 @@ void MX_ADC1_Init(void) {
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
   hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T1_TRGO;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 2;
+  hadc1.Init.NbrOfConversion = 3;
   hadc1.Init.DMAContinuousRequests = ENABLE;
   hadc1.Init.EOCSelection = ADC_EOC_SEQ_CONV;
 
@@ -90,6 +90,20 @@ void MX_ADC1_Init(void) {
   sConfig.Rank = 2;
   sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
   HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+
+
+    /* Rank 3: internal temperature sensor */
+    sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
+    sConfig.Rank = 3;
+
+    /*
+     * Для внутреннего датчика необходимо большое
+     * время выборки.
+     */
+    sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
+
+    HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+
 
   /* Link DMA */
   __HAL_LINKDMA(&hadc1, DMA_Handle, hdma_adc1);
@@ -112,7 +126,7 @@ void MX_ADC1_Init(void) {
 
 void ADC1_DMA_Start(void) {
   /* Start DMA and ADC */
-  HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buffer, 2);
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buffer, 3);
   /* Start TIM1 to produce TRGO */
   HAL_TIM_Base_Start(&htim1);
 }

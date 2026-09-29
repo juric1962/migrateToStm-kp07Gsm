@@ -43,28 +43,8 @@
 #define PWRK_PORT GPIOC
 #define PWRK_PIN  GPIO_PIN_13
 
-//������������ ��� �� �����
-#define PIN_OUT_PORT0\
-{\
-  GPIO_InitTypeDef gpio_init = {0};\
-  gpio_init.Pin = RTS0_PIN;\
-  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
-  gpio_init.Pull = GPIO_NOPULL;\
-  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
-  HAL_GPIO_Init(RTS0_PORT, &gpio_init);\
-  gpio_init.Pin = DTR0_PIN;\
-  HAL_GPIO_Init(DTR0_PORT, &gpio_init);\
- }
 
-#define PIN_HIZ_PORT0\
-{\
-  GPIO_InitTypeDef gpio_init = {0};\
-  gpio_init.Mode = GPIO_MODE_INPUT;\
-  gpio_init.Pull = GPIO_NOPULL;\
-  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
-  gpio_init.Pin = RTS0_PIN; HAL_GPIO_Init(RTS0_PORT, &gpio_init);\
-  gpio_init.Pin = DTR0_PIN; HAL_GPIO_Init(DTR0_PORT, &gpio_init);\
- }
+
 
 #define CLR_RTS0\
 {\
@@ -86,14 +66,7 @@
   HAL_GPIO_WritePin(DTR0_PORT, DTR0_PIN, GPIO_PIN_RESET);\
  }
 
-//������������ ��� �� ����
-#define PIN_IN_PORT0\
-{\
-  
-HAL_GPIO_WritePin(CTS0_PORT, CTS0_PIN, GPIO_PIN_SET);\
-HAL_GPIO_WritePin(DSR0_PORT, DSR0_PIN, GPIO_PIN_SET);\
-HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
- }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -102,7 +75,6 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
 
 #define PIN_OUT_PORT1\
 {\
-  GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Pin = RTS1_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
   gpio_init.Pull = GPIO_NOPULL;\
@@ -126,7 +98,6 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
 
 #define PIN_OUT_PORT3\
 {\
-  GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Pin = RTS3_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
   gpio_init.Pull = GPIO_NOPULL;\
@@ -153,7 +124,6 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
 //������������ ��� �� �����
 #define PIN_OUT_PORT2\
 {\
-  GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Pin = RTS2_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
   gpio_init.Pull = GPIO_NOPULL;\
@@ -171,11 +141,6 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
   HAL_GPIO_WritePin(RTS2_PORT, RTS2_PIN, GPIO_PIN_RESET);\
  }
 
-//������������ ��� �� ����
-#define PIN_IN_PORT2\
-{\
-  HAL_GPIO_WritePin(CTS2_PORT, CTS2_PIN, GPIO_PIN_SET);\
- }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -184,7 +149,6 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
 //������������ ��� �� �����
 #define PIN_OUT_PWR\
 {\
-  GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Pin = PWR_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
   gpio_init.Pull = GPIO_NOPULL;\
@@ -211,7 +175,6 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
 //������������ ��� �� �����
 #define PIN_OUT_PWRK\
 {\
-  GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Pin = PWRK_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
   gpio_init.Pull = GPIO_NOPULL;\
@@ -234,17 +197,6 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
 //���� ������ TC////////////////////////////////////////////////////////////////////
 
 
-
-#define PIN_IN_TC1\
-{\
-  HAL_GPIO_WritePin(TSS1_PORT, TSS1_PIN, GPIO_PIN_SET);\
- }
-
-#define PIN_IN_TC2\
-{\
-  HAL_GPIO_WritePin(TSS2_PORT, TSS2_PIN, GPIO_PIN_SET);\
- }
-//////////////////////////////////////////////////////////////////////////////////////////
 
 //���� IO1-10]
 #define IO1  GPIO_PIN_6
@@ -326,7 +278,13 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
   gpio_init.Pin = IO3_PIN; HAL_GPIO_Init(IO3_PORT, &gpio_init);\
   gpio_init.Pin = IO5_PIN; HAL_GPIO_Init(IO5_PORT, &gpio_init);\
   gpio_init.Pin = IO4_PIN; HAL_GPIO_Init(IO4_PORT, &gpio_init);\
-  
+  gpio_init.Pin = IO2_PIN;\
+  gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
+  gpio_init.Pull = GPIO_NOPULL;\
+  gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
+  HAL_GPIO_Init(IO2_PORT, &gpio_init);\
+  gpio_init.Pin = IO7_PIN;\
+  HAL_GPIO_Init(IO7_PORT, &gpio_init);\
 }
 
 #define PIN_OUT_TU\
@@ -420,7 +378,6 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
 
 #define PIN_OUT_SIM\
 {\
-  GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Pin = C_SIM1_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
   gpio_init.Pull = GPIO_NOPULL;\
@@ -451,7 +408,6 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
 //������������ ��� �� �����
 #define PIN_OUT_TEN\
 {\
-  GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Pin = TEN_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
   gpio_init.Pull = GPIO_NOPULL;\
@@ -477,7 +433,6 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
 //������������ ��� �� �����
 #define PIN_OUT_S1\
 {\
-  GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Pin = S1_R_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
   gpio_init.Pull = GPIO_NOPULL;\
@@ -489,7 +444,6 @@ HAL_GPIO_WritePin(DCD0_PORT, DCD0_PIN, GPIO_PIN_SET);\
 
 #define PIN_OUT_S2_S5\
 {\
-  GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Pin = S2_R_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
   gpio_init.Pull = GPIO_NOPULL;\

@@ -1,37 +1,26 @@
 #include "uart4.h"
 
 UART_HandleTypeDef huart4;
+void MX_UART4_Init(void)
+{
+    huart4.Instance = UART4;
 
-void MX_UART4_Init(void) {
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_UART4_CLK_ENABLE();
+    huart4.Init.BaudRate = 115200U;
+    huart4.Init.WordLength = UART_WORDLENGTH_8B;
+    huart4.Init.StopBits = UART_STOPBITS_1;
+    huart4.Init.Parity = UART_PARITY_NONE;
+    huart4.Init.Mode = UART_MODE_TX_RX;
+    huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart4.Init.OverSampling = UART_OVERSAMPLING_16;
 
-  GPIO_InitTypeDef gpio = {0};
+    if (HAL_UART_Init(&huart4) != HAL_OK)
+    {
+        Error_Handler();
+    }
 
-  gpio.Pin = GPIO_PIN_0 | GPIO_PIN_1;
-  gpio.Mode = GPIO_MODE_AF_PP;
-  gpio.Pull = GPIO_NOPULL;
-  gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  gpio.Alternate = GPIO_AF8_UART4;
-  HAL_GPIO_Init(GPIOA, &gpio);
-
-  huart4.Instance = UART4;
-  huart4.Init.BaudRate = 9600;
-  huart4.Init.WordLength = UART_WORDLENGTH_8B;
-  huart4.Init.StopBits = UART_STOPBITS_1;
-  huart4.Init.Parity = UART_PARITY_NONE;
-  huart4.Init.Mode = UART_MODE_TX_RX;
-  huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart4.Init.OverSampling = UART_OVERSAMPLING_16;
-  HAL_UART_Init(&huart4);
-
-  __HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);
-  __HAL_UART_ENABLE_IT(&huart4, UART_IT_TXE);
-
-  HAL_NVIC_SetPriority(UART4_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(UART4_IRQn);
+    /* Enable UART4 interrupts */
+  
 }
-
 uint8_t uart4_rx_byte;
 
 void Uart4_ProcessRxCallback(void)

@@ -6,33 +6,22 @@
 UART_HandleTypeDef huart3;
 uint8_t uart3_rx_byte;
 static uint8_t uart3_tx_byte;
+void MX_USART3_UART_Init(void)
+{
+    huart3.Instance = USART3;
 
-void MX_UART3_Init(void) {
-  GPIO_InitTypeDef gpio = {0};
+    huart3.Init.BaudRate = 115200U;
+    huart3.Init.WordLength = UART_WORDLENGTH_8B;
+    huart3.Init.StopBits = UART_STOPBITS_1;
+    huart3.Init.Parity = UART_PARITY_NONE;
+    huart3.Init.Mode = UART_MODE_TX_RX;
+    huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart3.Init.OverSampling = UART_OVERSAMPLING_16;
 
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-  __HAL_RCC_USART3_CLK_ENABLE();
-
-  /* USART3: PB10 = TX, PB11 = RX, alternate function AF7. */
-  gpio.Pin = GPIO_PIN_10 | GPIO_PIN_11;
-  gpio.Mode = GPIO_MODE_AF_PP;
-  gpio.Pull = GPIO_NOPULL;
-  gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  gpio.Alternate = GPIO_AF7_USART3;
-  HAL_GPIO_Init(GPIOB, &gpio);
-
-  huart3.Instance = USART3;
-  huart3.Init.BaudRate = 9600U;
-  huart3.Init.WordLength = UART_WORDLENGTH_8B;
-  huart3.Init.StopBits = UART_STOPBITS_1;
-  huart3.Init.Parity = UART_PARITY_NONE;
-  huart3.Init.Mode = UART_MODE_TX_RX;
-  huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart3.Init.OverSampling = UART_OVERSAMPLING_16;
-  HAL_UART_Init(&huart3);
-
-  HAL_NVIC_SetPriority(USART3_IRQn, 0U, 0U);
-  HAL_NVIC_EnableIRQ(USART3_IRQn);
+    if (HAL_UART_Init(&huart3) != HAL_OK)
+    {
+        Error_Handler();
+    }
 }
 
 HAL_StatusTypeDef UART3_Receive_IT(uint8_t *buffer, uint16_t size) {

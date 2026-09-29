@@ -733,7 +733,7 @@ unsigned int crc_m1(unsigned char *ka, unsigned int num, unsigned int crc)
 }
 
 unsigned char check_cts(void) {
-  if(HAL_GPIO_ReadPin(CTS0_PORT, CTS0_PIN));
+  if(HAL_GPIO_ReadPin(CTS0_PORT, CTS0_PIN)) {
   // if (PINE & CTS0)
  // if ((PINE & CTS0) == 0) {
     fl_cts_232.on = 1;
@@ -743,10 +743,11 @@ unsigned char check_cts(void) {
 }
 
 void s_port(unsigned char ch) {
-wawa:
-  if ((UCSR2A & 0x20) == 0)
-    goto wawa;
-  UDR2 = ch;
+//wawa:
+//  if ((UCSR2A & 0x20) == 0)
+//    goto wawa;
+//  UDR2 = ch;
+  HAL_UART_Transmit(&huart4, &ch, 1, 10);
 }
 
 void mov_s(char size, char __flash *p) {
@@ -4124,7 +4125,22 @@ next_parametr:
         goto bad_com;
       // запись времени
       old_unix = unix;
-      set_rlt(2, &buf_rx_ppp[ind + 3]);
+     // set_rlt(2, &buf_rx_ppp[ind + 3]);
+  
+                                    RTC_TimeStructure.Seconds=buf_rx_ppp[ind+3];
+                                    RTC_TimeStructure.Minutes=buf_rx_ppp[ind+4];
+                                    RTC_TimeStructure.Hours=buf_rx_ppp[ind+5];
+                                    
+                                    RTC_DateStructure.Date=buf_rx_ppp[ind+6];
+                                    RTC_DateStructure.Month=buf_rx_ppp[ind+7];
+                                    RTC_DateStructure.Year=buf_rx_ppp[ind+8];
+                                    
+                                    HAL_RTC_SetTime(&hrtc,&RTC_TimeStructure,RTC_FORMAT_BIN);
+                                    HAL_RTC_SetDate(&hrtc,&RTC_DateStructure,RTC_FORMAT_BIN);
+                                    
+                                    
+
+
       burst_ds_r();
       if (((old_unix - unix) >= 600) || ((unix - old_unix) >= 600))
         bit_level = 1;
@@ -4928,7 +4944,7 @@ void monitor_wr_truffic(void) {
   if ((real_time.r_min != 0) && (fl_truffic.wr == 1))
     fl_truffic.wr = 0;
 }
-
+/*
 int proc_temp_to_grad(char t, unsigned int t_cod, unsigned int offset_cod,
                       unsigned char delta_t, unsigned char delta_cod) {
   return (t - (t_cod - offset_cod) * delta_t / delta_cod);
@@ -4951,6 +4967,10 @@ char temp_to_grad(unsigned int t) {
   if (t > 891 && t <= 939)
     return (proc_temp_to_grad(-30, t, 892, 10, 57));
   return (0x80);
+}
+*/
+char temp_to_grad(float t) {
+return ( t);
 }
 
 /*
@@ -5003,6 +5023,9 @@ char temp_to_grad(unsigned int t)
 */
 
 void control_temperatura(void) {
+  float min,max;
+  min = -10.0f;
+  max = -5.0f;
   /*
   if ( PINE & RI0 ) S3_RD;
   if ( (PINE & RI0 )==0 ) S3_GR;
@@ -5011,9 +5034,9 @@ void control_temperatura(void) {
   if ( PINE & DCD0 ) S4_RD;
  if ( (PINE & DCD0 )==0 ) S4_GR;
   */
-  if (temperatura > T_MINUS10)
+  if (temperatura < min)
     SET_TEN;
-  if (temperatura < T_MINUS5)
+  if (temperatura > max)
     CLR_TEN;
 }
 

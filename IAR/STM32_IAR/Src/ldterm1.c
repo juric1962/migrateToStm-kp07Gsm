@@ -1,5 +1,5 @@
 
-
+#include "eeprom.h"
 #include "def_conf.h"
 #include "map_ef.h"
 #include "ozu_map.h"
@@ -41,11 +41,6 @@ __flash char ozu_vers[] = {'R', 'M', '0', '0', '.', '0', '1',
                            ':', '1', '9', '1', '1', '0', '7'};
 #endif
 
-#pragma location = FIRST_ON
-__eeprom __no_init unsigned char e_first_on;
-
-#pragma location = A_DEBUG
-__eeprom __no_init unsigned char e_debug;
 
 TERM term;
 
@@ -1400,14 +1395,14 @@ void read_menu(unsigned char index_menu) {
 
     mov_lf();
     mov_s(sizeof(zp_temp), zp_temp);
-    sprintf(massiv, "%hhi\0", temp_to_grad(temperatura));
+    sprintf(massiv, "%fhi\0", temp_to_grad(temperatura));
     mov_massiv(strlen(massiv), massiv);
     s_port(' ');
     s_port('A');
     s_port('D');
     s_port('C');
     s_port(':');
-    sprintf(massiv, "%u\0", temperatura);
+    sprintf(massiv, "%f\0", temperatura);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -2316,7 +2311,21 @@ void write_menu(unsigned char index_menu) {
     else
       buf[2] = cifra_long.bytes[0];
 
-    set_rlt(2, &buf[0]);
+    //set_rlt(2, &buf[0]);
+
+                                    RTC_TimeStructure.Seconds=buf[0];
+                                    RTC_TimeStructure.Minutes=buf[1];
+                                    RTC_TimeStructure.Hours = buf[2];
+                                    
+                                    RTC_DateStructure.Date= buf[3];
+                                    RTC_DateStructure.Month=buf[4];
+                                    RTC_DateStructure.Year= buf[5];
+                                    
+                                    HAL_RTC_SetTime(&hrtc,&RTC_TimeStructure,RTC_FORMAT_BIN);
+                                    HAL_RTC_SetDate(&hrtc,&RTC_DateStructure,RTC_FORMAT_BIN);
+               
+
+
     vol_tx_ppp = 0;
     mov_s(sizeof(ok_t), ok_t);
     return;
@@ -2353,7 +2362,21 @@ void write_menu(unsigned char index_menu) {
     cifra_long.word = atol((char *)&buf_tx_232[6]);
     buf[5] = cifra_long.bytes[0];
 
-    set_rlt(2, &buf[0]);
+    //set_rlt(2, &buf[0]);
+
+
+                                    RTC_TimeStructure.Seconds=buf[0];
+                                    RTC_TimeStructure.Minutes=buf[1];
+                                    RTC_TimeStructure.Hours = buf[2];
+                                    
+                                    RTC_DateStructure.Date= buf[3];
+                                    RTC_DateStructure.Month=buf[4];
+                                    RTC_DateStructure.Year= buf[5];
+                                    
+                                    HAL_RTC_SetTime(&hrtc,&RTC_TimeStructure,RTC_FORMAT_BIN);
+                                    HAL_RTC_SetDate(&hrtc,&RTC_DateStructure,RTC_FORMAT_BIN);
+                                    
+
     vol_tx_ppp = 0;
     mov_s(sizeof(ok_t), ok_t);
     return;
@@ -2553,10 +2576,11 @@ void at_mon_232(void) {
   unsigned int volatile local;
 
   // * в фоновом режиме выводим все что пришло с сим модуля
-  if ((UCSR2A & 0x20) == 0)
-    goto no_Ready_com2;
+  //if ((UCSR2A & 0x20) == 0)
+  //  goto no_Ready_com2;
   if (point_Tail != point_Head) {
-    UDR2 = Appl_seq_buf[point_Tail];
+    //UDR2 = Appl_seq_buf[point_Tail];
+    HAL_UART_Transmit(&huart4, &Appl_seq_buf[point_Tail], 1, 10);
     point_Tail++;
     point_Tail = point_Tail & 0x3f;
   }
@@ -2592,18 +2616,18 @@ no_Ready_com2:
   switch (buf_tx_232[local - 1]) {
   case 0x1b: {
 
-    UCSR0B = UCSR0B & ~0x90;
+    //UCSR0B = UCSR0B & ~0x90;
     index_pa = 1;
     read_menu(index_pa - 1);
     buf_tx_232[local - 1] = 0xff;
     vol_tx_ppp = 0;
-    UCSR0B = UCSR0B | 0x90;
+    //UCSR0B = UCSR0B | 0x90;
     break;
   }
   case 0x2b: // верх
   {
 
-    UCSR0B = UCSR0B & ~0x90;
+    //UCSR0B = UCSR0B & ~0x90;
 
   pusto:
 
@@ -2613,13 +2637,13 @@ no_Ready_com2:
     read_menu(index_pa - 1);
     buf_tx_232[local - 1] = 0xff;
     vol_tx_ppp = 0;
-    UCSR0B = UCSR0B | 0x90;
+    //UCSR0B = UCSR0B | 0x90;
     break;
   }
 
   case 0x2d: // вниз
   {
-    UCSR0B = UCSR0B & ~0x90;
+    //UCSR0B = UCSR0B & ~0x90;
     if (index_pa == 0)
       index_pa = 1;
     if ((index_pa - 1) != 0)
@@ -2631,14 +2655,14 @@ no_Ready_com2:
     read_menu(index_pa - 1);
     buf_tx_232[local - 1] = 0xff;
     vol_tx_ppp = 0;
-    UCSR0B = UCSR0B | 0x90;
+    //UCSR0B = UCSR0B | 0x90;
     break;
   }
 
   case 0x0d: // ввод
   {
 
-    UCSR0B = UCSR0B & ~0x90;
+    //UCSR0B = UCSR0B & ~0x90;
     if (index_pa == 41)
       goto nene_pusto;
     if ((local == 1) || (index_pa == 0))
@@ -2648,7 +2672,7 @@ no_Ready_com2:
     read_menu(index_pa - 1);
     buf_tx_232[local - 1] = 0xff;
     vol_tx_ppp = 0;
-    UCSR0B = UCSR0B | 0x90;
+    //UCSR0B = UCSR0B | 0x90;
     break;
   }
   }
@@ -2662,13 +2686,14 @@ void monitor_terminal(void) {
   } temp_long;
 
   //
-  //        rts invers
+  //        invert
   //
 
-  if ((PINB & CTS2) == CTS2) {
+  //if ((PINB & CTS2) == CTS2) {
+    if (HAL_GPIO_ReadPin(CTS2_PORT, CTS2_PIN) == 0) {
     fl_at_mom_232 = 1;
     index_pa = 0;
-    temp_long.word = 0;
+    temp_long.word = HAL_GetTick();
     vol_tx_ppp = 1;
     buf_tx_232[0] = 0x0d;
     UCSR2B = 0;
@@ -2676,17 +2701,36 @@ void monitor_terminal(void) {
     UBRR2L = R4800_L; /* the baud rate */
     UCSR2B = UCSR2B | RXCIE | RXEN | TXEN;
 
-    WDTCSR = 0x18;
-    WDTCSR = 0x0f;
-    __watchdog_reset();
 
-    __enable_interrupt();
+HAL_UART_DeInit(&huart4);
+ huart4.Init.BaudRate   = 4800;
+    huart4.Init.WordLength = UART_WORDLENGTH_8B;
+    huart4.Init.Parity     = UART_PARITY_NONE;
+    huart4.Init.StopBits   = UART_STOPBITS_1;
+
+    HAL_UART_Init(&huart4);
+    HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
+    //WDTCSR = 0x18;
+    //WDTCSR = 0x0f;
+    HAL_IWDG_Refresh(&iwdg);
+
+   __enable_irq();
     delay(30000);
 
-    if (PINK & IO1)
+if (HAL_GPIO_ReadPin(IO1_PORT, IO1_PIN) == GPIO_PIN_SET)
+  {
       modbus_mem1[AD_TS] = modbus_mem1[AD_TS] & (~0x01);
-    else
+    }
+    else {
       modbus_mem1[AD_TS] = modbus_mem1[AD_TS] | 0x01;
+     
+    }
+
+
+   // if (PINK & IO1)
+   //   modbus_mem1[AD_TS] = modbus_mem1[AD_TS] & (~0x01);
+   // else
+   //   modbus_mem1[AD_TS] = modbus_mem1[AD_TS] | 0x01;
 
     S1_RD;
     S2_GR;
@@ -2695,23 +2739,19 @@ void monitor_terminal(void) {
     S5_RD;
 
     do {
-      __watchdog_reset();
-
-      //   control_temperatura();    09 11 2016
-
-      temp_long.word++;
-      if (temp_long.word >= 30000) {
+      HAL_IWDG_Refresh(&iwdg);
+      if ( (HAL_GetTick() - temp_long.word) >= 300 ) {
         S1_CH;
         S2_CH;
         S3_CH;
         S4_CH;
         S5_CH;
-        temp_long.word = 0;
+        temp_long.word =  HAL_GetTick();
       }
 
       at_mon_232();
 
-    } while ((PINB & CTS2) != 0); //
+    } while (HAL_GPIO_ReadPin(CTS2_PORT, CTS2_PIN) == 0); //
 
     lock_it(); // должна быть функция перезагрузки
   }
@@ -2726,6 +2766,22 @@ void test_loop(void) {
   mov_lf();
   mov_s(sizeof(str_loop_ok), str_loop_ok);
   mov_lf();
+
+HAL_UART_DeInit(&huart2);
+ huart2.Init.BaudRate   = 4800;
+    huart2.Init.WordLength = UART_WORDLENGTH_8B;
+    huart2.Init.Parity     = UART_PARITY_NONE;
+    huart2.Init.StopBits   = UART_STOPBITS_1;
+
+    HAL_UART_Init(&huart2);
+
+    HAL_UART_DeInit(&huart3);
+ huart3.Init.BaudRate   = 4800;
+    huart3.Init.WordLength = UART_WORDLENGTH_8B;
+    huart3.Init.Parity     = UART_PARITY_NONE;
+    huart3.Init.StopBits   = UART_STOPBITS_1;
+
+    HAL_UART_Init(&huart3);
 
   UBRR1H = R4800_H;
   UBRR1L = R4800_L;
@@ -2746,7 +2802,8 @@ void test_loop(void) {
     __watchdog_reset();
     s_port('s');
     s_port(i + 0x30);
-    UDR1 = i;
+    //UDR1 = i;
+    HAL_UART_Transmit(&huart3, &i, 1, 10);
     //
     // бросаем в порт 485_1
     //
@@ -2761,10 +2818,12 @@ void test_loop(void) {
     //
     // принимаю с 485_2
     //
-    if ((UCSR3A & 0x80) == 0)
+   // if ((UCSR3A & 0x80) == 0)
+    if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_RXNE) == 0)
       goto LoopWait_rs485_1;
     s_port('r');
-    dummy = UDR3;
+    HAL_UART_Receive(&huart2, &dummy, 1 , 0)
+    //dummy = USART2->DR;
     s_port(dummy + 0x30);
     //     tutu:
     //             _NOP();
@@ -2801,7 +2860,8 @@ void test_loop2(void) {
     __watchdog_reset();
     s_port('s');
     s_port(i + 0x30);
-    UDR3 = i;
+    //UDR3 = i;
+     HAL_UART_Transmit(&huart2, &i, 1, 10);
     //
     // бросаем в порт 485_2
     //
@@ -2816,10 +2876,10 @@ void test_loop2(void) {
     //
     // принимаю с 485_1
     //
-    if ((UCSR1A & 0x80) == 0)
+    if (__HAL_UART_GET_FLAG(&huart3, UART_FLAG_RXNE) == 0)
       goto LoopWait_rs485_1;
     s_port('r');
-    dummy = UDR1;
+     HAL_UART_Receive(&huart3, &dummy, 1 , 0)
     s_port(dummy + 0x30);
     //     tutu:
     //             _NOP();

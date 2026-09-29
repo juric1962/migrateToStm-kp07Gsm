@@ -317,16 +317,19 @@ void at_com_tx(unsigned char cnt) {
     At_com.ln_buf = strlen(At_com.buf);
     At_com.cnt_tx = 0;
     At_com.cnt_rx = 0;
-    UCSR0B = UCSR0B & ~RXEN;
-    UCSR0B = UCSR0B & ~RXCIE;
+    ///UCSR0B = UCSR0B & ~RXEN;
+    ///UCSR0B = UCSR0B & ~RXCIE;
     //  UCSR0B=UCSR0B | RXEN;  //proverka !!!!!!!1
     //  UCSR0B=UCSR0B | RXCIE; //proverka !!!!!!!1
-    UCSR0B = UCSR0B | TXEN;
-    UCSR0B = UCSR0B | TXCIE;
+    ///UCSR0B = UCSR0B | TXEN;
+    ///UCSR0B = UCSR0B | TXCIE;
     S2_RD;
-    UDR0 = At_com.buf[0];
+    //UDR0 = At_com.buf[0];
+    uart1_tx_byte = At_com.buf[0];
+    HAL_UART_Transmit_IT(&huart1, &uart1_tx_byte, 1);
     if (Regim == RG_DEBAG)
-      UDR3 = At_com.buf[0];
+    //  UDR3 = At_com.buf[0];
+  HAL_UART_Transmit(&huart2, &uart1_tx_byte, 1),10;
 
     return;
 
@@ -407,12 +410,19 @@ void at_com_tx(unsigned char cnt) {
   At_com.buf[At_com.ln_buf - 1] = 0x0d;
   At_com.cnt_tx = 0;
   At_com.cnt_rx = 0;
-  UCSR0B = UCSR0B | TXEN;
-  UCSR0B = UCSR0B | TXCIE;
+  ///UCSR0B = UCSR0B | TXEN;
+  ///UCSR0B = UCSR0B | TXCIE;
   S2_RD;
-  UDR0 = At_com.buf[0];
-  if (Regim == RG_DEBAG)
-    UDR3 = At_com.buf[0];
+  ///UDR0 = At_com.buf[0];
+  ///if (Regim == RG_DEBAG)
+  ///  UDR3 = At_com.buf[0];
+
+uart1_tx_byte = At_com.buf[0];
+    HAL_UART_Transmit_IT(&huart1, &uart1_tx_byte, 1);
+    if (Regim == RG_DEBAG)
+    //  UDR3 = At_com.buf[0];
+  HAL_UART_Transmit(&huart2, &uart1_tx_byte, 1),10;
+
 }
 
 void check_rx_ok(void) {
@@ -490,8 +500,18 @@ void at_com_rx(unsigned char cnt) {
     break;
     // тупо считаю что ответ есть устанавливаю скорость 9600
   case cATIPR:
-    UBRR0H = R9600_H;
-    UBRR0L = R9600_L;
+   /// UBRR0H = R9600_H;
+   /// UBRR0L = R9600_L;
+
+
+    HAL_UART_DeInit(&huart1);
+    huart1.Init.BaudRate   = 9600;
+    huart1.Init.WordLength = UART_WORDLENGTH_8B;
+    huart1.Init.Parity     = UART_PARITY_NONE;
+    huart1.Init.StopBits   = UART_STOPBITS_1;
+    HAL_UART_Init(&huart1);
+
+
     if (At_com.buf[At_com.cnt_rx - 1] != 0xd) {
       fl_at_com.err = 1;
       return;
@@ -962,7 +982,8 @@ unsigned char at_com_scen_stm_sc(unsigned char *cnt, unsigned char *rp) {
     if ((fl_at_com.err == 1) || (fl_at_com.tm_out == 1) ||
         (fl_at_com.ok == 1)) {
 
-      if ((PINE & DCD0) || (fl_at_com.ok == 1)) {
+  //    if ((PINE & DCD0) || (fl_at_com.ok == 1)) {
+  if ((HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN) == 0) || (fl_at_com.ok == 1)) {
         event_modem = EVM_AT_OK;
         return (1);
       } else {
@@ -1076,7 +1097,8 @@ unsigned char at_com_scen_stm_dc_1(unsigned char *cnt, unsigned char *rp) {
     break;
 
   case PAUSA4:
-    if ((PINE & DCD0) == 0) {
+   // if ((PINE & DCD0) == 0) {
+   if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
       event_modem = EVM_AT_OK;
       return (1);
     } else {

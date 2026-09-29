@@ -829,7 +829,8 @@ static void Timer2_ProcessTick(void) {
     }
 
     // if ((PINE & CTS0)==0)
-    if (PINE & CTS0) {
+    if(HAL_GPIO_ReadPin(CTS0_PORT, CTS0_PIN) == 0) {
+    //if (PINE & CTS0) {
       cnt_cts_off = 0;
       fl_cts_232.on = 0;
       if (count_tx_ppp == 0) {
@@ -1496,93 +1497,3 @@ next_tm6:
 next_tm7:;
   //////////////////////////////////////////
 }
-
-#pragma vector = USART0_RX_vect
-
-__interrupt void USART0_RX_interrupt(void)
-
-{
-  unsigned char data;
-  data = UDR0;
-  if ((Regim == MODEM_ONLY) || (Regim == MODEM_ONLY_R)) {
-    UDR2 = data;
-    return;
-  } // dobavka
-  if (Regim == RG_DEBAG)
-    UDR1 = data;
-  //* в терминальном режиме заполняем массив
-  if (fl_at_mom_232 == 1) {
-
-    Appl_seq_buf[point_Head] = data;
-    point_Head++;
-    point_Head = point_Head & 0x3f;
-    return;
-  }
-
-  //*
-
-  if (command_AT == TRUE) {
-    if (fl_at_com.rx_en == 0)
-      return; // dobavka 08.11.2007
-
-    S2_GR;
-    At_com.cnt_rx_out = At_com.vol_rx_out;
-    At_com.cnt_tm_out = 0;
-    if (At_com.cnt_rx < LN_BUF_AT) {
-      At_com.buf[At_com.cnt_rx] = data;
-      At_com.cnt_rx++;
-    }
-    return;
-  }
-
-  cnt_incom++;
-  if (fl_rx_ppp.switcher == 0)
-    recive_buf1(data);
-  else
-    recive_buf2(data);
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#pragma vector = USART0_TX_vect
-__interrupt void USART0_TX_interrupt(void)
-
-{
-
-  if (command_AT == TRUE)
-    sending_at_pac();
-
-  else {
-
-    if (fl_cts_232_ignor == TRUE) {
-      sending_ppp_pac();
-      return;
-    }
-
-    cnt_outcom++;
-
-    if (check_cts() == 1)
-      return;
-    sending_ppp_pac();
-  }
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-#pragma vector=USART0_UDRE_vect
-
-           __interrupt  void USART0_UDRE_interrupt(void)
-           {
-             sending_ppp_proverka();
-           }
-
-
-*/
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////

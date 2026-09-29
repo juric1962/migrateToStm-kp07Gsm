@@ -85,6 +85,20 @@ void delay(uint16_t wait_mks)
     }
 }
 
+void long_delay(uint32_t period)
+{
+  uint32_t i, per_n, per_m;
+   per_n = period / 50000;
+   per_m = period % 50000;
+   if (per_n == 0) {
+    delay((uint16_t)per_m);
+    return;
+   }
+  for (i = 0; i <  per_n ; i++) {
+     delay(50000); 
+    }
+  delay((uint16_t)per_m);
+}
 
 
 char test_tabletka2(void) {
