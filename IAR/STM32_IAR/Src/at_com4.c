@@ -1,11 +1,12 @@
+#include "stm32f4xx_hal.h"
 #include "at_com.h"
 #include "def_at.h"
 #include "dfcnst.h"
 #include "dfpin.h"
 #include "dfproc.h"
 #include "map_ef.h"
-#include <inavr.h>
-#include <iom2560.h>
+//#include <inavr.h>
+//#include <iom2560.h>
 #include <string.h>
 extern unsigned char state_led_md;
 // 23.03.07 включение PAP для сименса
@@ -15,21 +16,21 @@ extern unsigned char state_led_md;
 FL_AT_COM fl_at_com;
 void lock_it(void);
 
-__flash char stm_pin1_ok[] = {'S', 'T', 'M', ':', 'p', 'i', 'n', ' ',
+const char stm_pin1_ok[] = {'S', 'T', 'M', ':', 'p', 'i', 'n', ' ',
                               's', 'i', 'm', '1', ' ', 'o', 'k'};
-__flash char stm_pin2_ok[] = {'S', 'T', 'M', ':', 'p', 'i', 'n', ' ',
+const char stm_pin2_ok[] = {'S', 'T', 'M', ':', 'p', 'i', 'n', ' ',
                               's', 'i', 'm', '2', ' ', 'o', 'k'};
-__flash char stm_pin1_err[] = {'S', 'T', 'M', ':', 'p', 'i', 'n', ' ',
+const char stm_pin1_err[] = {'S', 'T', 'M', ':', 'p', 'i', 'n', ' ',
                                's', 'i', 'm', '1', ' ', 'e', 'r', 'r'};
-__flash char stm_pin2_err[] = {'S', 'T', 'M', ':', 'p', 'i', 'n', ' ',
+const char stm_pin2_err[] = {'S', 'T', 'M', ':', 'p', 'i', 'n', ' ',
                                's', 'i', 'm', '2', ' ', 'e', 'r', 'r'};
 
-void send_info(char size, char __flash *p, unsigned char fl_id,
+void send_info(char size, char const *p, unsigned char fl_id,
                unsigned char id);
 
-extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                             unsigned int num);
-extern void delay(unsigned int period);
+extern void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                             uint16_t num);
+extern void delay(uint16_t period);
 unsigned char cnt_com;
 unsigned char rep;
 
@@ -57,10 +58,10 @@ struct {
   unsigned char list_com[VOL_LIST]; // перечень исполняемых команд
   unsigned char ln_list;            // длина перечня
   unsigned char cnt_com;            // счетчик команд
-  unsigned int cnt_tm_out;          // счетчик времени ожидания ответа
-  unsigned int vol_tm_out;          // предел времени ожидания ответа
-  unsigned int cnt_rx_out;          // счетчик межбайтовый промежуток
-  unsigned int vol_rx_out;          // предел межбайтового промежутка
+  uint16_t cnt_tm_out;          // счетчик времени ожидания ответа
+  uint16_t vol_tm_out;          // предел времени ожидания ответа
+  uint16_t cnt_rx_out;          // счетчик межбайтовый промежуток
+  uint16_t vol_rx_out;          // предел межбайтового промежутка
 } At_com;
 
 /*

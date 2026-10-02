@@ -1,3 +1,6 @@
+#include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal_rtc.h"
+#include "stm32f4xx_hal_def.h"
 #include "def_at.h"
 #include "def_conf.h"
 #include "def_link.h"
@@ -18,7 +21,7 @@
 
 #define CHECK_TIME 15
 
-__flash unsigned char tab_crc[] = {
+const unsigned char tab_crc[] = {
     0,   94,  188, 226, 97,  63,  221, 131, 194, 156, 126, 32,  163, 253, 31,
     65,  157, 195, 33,  127, 252, 162, 64,  30,  95,  1,   227, 189, 62,  96,
     130, 220, 35,  125, 159, 193, 66,  28,  254, 160, 225, 191, 93,  3,   128,
@@ -38,100 +41,100 @@ __flash unsigned char tab_crc[] = {
     116, 42,  200, 150, 21,  75,  169, 247, 182, 232, 10,  84,  215, 137, 107,
     53};
 
-__flash char stm_pwr_on[] = {'S', 'T', 'M', ':', 'p', 'w', 'r', ' ', 'o', 'n'};
-__flash char stm_pwr_kon[] = {'S', 'T', 'M', ':', 'p', 'w',
+const char stm_pwr_on[] = {'S', 'T', 'M', ':', 'p', 'w', 'r', ' ', 'o', 'n'};
+const char stm_pwr_kon[] = {'S', 'T', 'M', ':', 'p', 'w',
                               'r', ' ', 'k', 'o', 'n'};
-__flash char stm_pwr_off[] = {
+const char stm_pwr_off[] = {
     'S', 'T', 'M', ':', 'p', 'w', 'r', ' ', 'o', 'f', 'f',
 };
-__flash char stm_pwr_koff[] = {
+const char stm_pwr_koff[] = {
     'S', 'T', 'M', ':', 'p', 'w', 'r', ' ', 'k', 'o', 'f', 'f',
 };
-__flash char stm_si[] = {'S', 'T', 'M', ':', 's', 'i'};
-__flash char stm_sc[] = {'S', 'T', 'M', ':', 's', 'c'};
-__flash char stm_scp[] = {'S', 'T', 'M', ':', 's', 'c', 'p'};
-__flash char stm_ppp[] = {'S', 'T', 'M', ':', 'p', 'p', 'p'};
-__flash char stm_rdc[] = {'S', 'T', 'M', ':', 'r', 'd', 'c'};
+const char stm_si[] = {'S', 'T', 'M', ':', 's', 'i'};
+const char stm_sc[] = {'S', 'T', 'M', ':', 's', 'c'};
+const char stm_scp[] = {'S', 'T', 'M', ':', 's', 'c', 'p'};
+const char stm_ppp[] = {'S', 'T', 'M', ':', 'p', 'p', 'p'};
+const char stm_rdc[] = {'S', 'T', 'M', ':', 'r', 'd', 'c'};
 
-__flash char stm_base_sim[] = {'S', 'T', 'M', ':', 'b', 'a',
+const char stm_base_sim[] = {'S', 'T', 'M', ':', 'b', 'a',
                                's', 'e', ' ', 's', 'i', 'm'}; // dobavka
-__flash char stm_res_sim[] = {'S', 'T', 'M', ':', 'r', 'e',
+const char stm_res_sim[] = {'S', 'T', 'M', ':', 'r', 'e',
                               's', ' ', 's', 'i', 'm'}; // dobavka
 
-__flash char evm_tm[] = {'E', 'V', 'M', ':', 't', 'm'};
-__flash char evm_at_ok[] = {'E', 'V', 'M', ':', 'a', 't', ' ', 'o', 'k'};
-__flash char evm_at_err[] = {'E', 'V', 'M', ':', 'a', 't', ' ', 'e', 'r', 'r'};
-__flash char evm_ppp_ok[] = {'E', 'V', 'M', ':', 'p', 'p', 'p', ' ', 'o', 'k'};
-__flash char evm_ppp_err[] = {'E', 'V', 'M', ':', 'p', 'p',
+const char evm_tm[] = {'E', 'V', 'M', ':', 't', 'm'};
+const char evm_at_ok[] = {'E', 'V', 'M', ':', 'a', 't', ' ', 'o', 'k'};
+const char evm_at_err[] = {'E', 'V', 'M', ':', 'a', 't', ' ', 'e', 'r', 'r'};
+const char evm_ppp_ok[] = {'E', 'V', 'M', ':', 'p', 'p', 'p', ' ', 'o', 'k'};
+const char evm_ppp_err[] = {'E', 'V', 'M', ':', 'p', 'p',
                               'p', ' ', 'e', 'r', 'r'};
-__flash char evm_dcd_err[] = {'E', 'V', 'M', ':', 'd', 'c',
+const char evm_dcd_err[] = {'E', 'V', 'M', ':', 'd', 'c',
                               'd', ' ', 'e', 'r', 'r'};
-__flash char evm_no_rec[] = {'E', 'V', 'M', ':', 'n', 'o', ' ', 'r', 'e', 'c'};
-__flash char evm_cts_err[] = {'E', 'V', 'M', ':', 'c', 't',
+const char evm_no_rec[] = {'E', 'V', 'M', ':', 'n', 'o', ' ', 'r', 'e', 'c'};
+const char evm_cts_err[] = {'E', 'V', 'M', ':', 'c', 't',
                               's', ' ', 'e', 'r', 'r'}; // dobavka
-__flash char evm_ch_sim[] = {'E', 'V', 'M', ':', 'c',
+const char evm_ch_sim[] = {'E', 'V', 'M', ':', 'c',
                              'h', ' ', 's', 'i', 'm'}; // dobavka
 
-//__flash char evc_heat_on[]=        {'E','V','C',':','h','e','a','t','
+//const char evc_heat_on[]=        {'E','V','C',':','h','e','a','t','
 //','o','n'};
-//__flash char evc_heat_off[]=       {'E','V','C',':','h','e','a','t','
+//const char evc_heat_off[]=       {'E','V','C',':','h','e','a','t','
 //','o','f','f'};
-__flash char evc_taken[] = {'E', 'V', 'C', ':', 't', 'a', 'k', 'e', 'n'};
-__flash char evc_alarm[] = {'E', 'V', 'C', ':', 'a', 'l', 'a', 'r', 'm'};
-//__flash char evc_feed_akb[]=       {'E','V','C',':','f','e','e','d','
+const char evc_taken[] = {'E', 'V', 'C', ':', 't', 'a', 'k', 'e', 'n'};
+const char evc_alarm[] = {'E', 'V', 'C', ':', 'a', 'l', 'a', 'r', 'm'};
+//const char evc_feed_akb[]=       {'E','V','C',':','f','e','e','d','
 //','a','k','b'};
-//__flash char evc_feed_220[]=       {'E','V','C',':','f','e','e','d','
+//const char evc_feed_220[]=       {'E','V','C',':','f','e','e','d','
 //','2','2','0'};
-__flash char evc_ts1[] = {'E', 'V', 'C', ':', 't', 's', '1'};
-__flash char evc_ts2[] = {'E', 'V', 'C', ':', 't', 's', '2'};
+const char evc_ts1[] = {'E', 'V', 'C', ':', 't', 's', '1'};
+const char evc_ts2[] = {'E', 'V', 'C', ':', 't', 's', '2'};
 
-__flash char evc_state[] = {'E', 'V', 'C', ':', 's', 't', 'a', 't', 'e'};
+const char evc_state[] = {'E', 'V', 'C', ':', 's', 't', 'a', 't', 'e'};
 
-__flash char evc_wdr[] = {'E', 'V', 'C', ':', 'w', 'd', 'r'};
-__flash char evc_bod[] = {'E', 'V', 'C', ':', 'b', 'o', 'd'};
-__flash char evc_rst[] = {'E', 'V', 'C', ':', 'r', 's', 't'};
-__flash char evc_pwr[] = {'E', 'V', 'C', ':', 'p', 'w', 'r'};
+const char evc_wdr[] = {'E', 'V', 'C', ':', 'w', 'd', 'r'};
+const char evc_bod[] = {'E', 'V', 'C', ':', 'b', 'o', 'd'};
+const char evc_rst[] = {'E', 'V', 'C', ':', 'r', 's', 't'};
+const char evc_pwr[] = {'E', 'V', 'C', ':', 'p', 'w', 'r'};
 
-__flash char msg_evc[] = {
+const char msg_evc[] = {
     'M', 'S', 'G', ':', 'e', 'v', 'c',
 };
-__flash char msg_ctrl_ch[] = {'M', 'S', 'G', ':', 'c', 't',
+const char msg_ctrl_ch[] = {'M', 'S', 'G', ':', 'c', 't',
                               'r', 'l', ' ', 'c', 'h'};
-__flash char msg_ctrl_nat[] = {'M', 'S', 'G', ':', 'c', 't',
+const char msg_ctrl_nat[] = {'M', 'S', 'G', ':', 'c', 't',
                                'r', 'l', ' ', 'n', 'a', 't'};
 
-__flash char req_out_ctrl_cl[] = {'R', 'E', 'Q', '-', '>', 'c',
+const char req_out_ctrl_cl[] = {'R', 'E', 'Q', '-', '>', 'c',
                                   't', 'r', 'l', ' ', 'c', 'l'};
 
 /*
-__flash char rec []=             {'R','E','C'};
+const char rec []=             {'R','E','C'};
 
-__flash char req_out_ctrl_cl[]={'R','E','Q','-','>','c','t','r','l','
+const char req_out_ctrl_cl[]={'R','E','Q','-','>','c','t','r','l','
 ','c','l'};
-__flash char ans_in_ctrl_cl[]={'A','N','S','-','<','c','t','r','l',' ','c','l'};
+const char ans_in_ctrl_cl[]={'A','N','S','-','<','c','t','r','l',' ','c','l'};
 
-__flash char req_in_485_1[]={'R','E','Q','-','<','4','8','5','_','1'};
-__flash char req_in_485_2[]={'R','E','Q','-','<','4','8','5','_','2'};
-__flash char req_in_232[]={'R','E','Q','-','<','2','3','2'};
-__flash char req_in_st_contr[]={'R','E','Q','-','<','s','t','
+const char req_in_485_1[]={'R','E','Q','-','<','4','8','5','_','1'};
+const char req_in_485_2[]={'R','E','Q','-','<','4','8','5','_','2'};
+const char req_in_232[]={'R','E','Q','-','<','2','3','2'};
+const char req_in_st_contr[]={'R','E','Q','-','<','s','t','
 ','c','o','n','t','r'};
-__flash char req_in_config[]={'R','E','Q','-','<','c','o','n','f','i','g'};
-__flash char req_in_prog[]={'R','E','Q','-','<','p','r','o','g'};
+const char req_in_config[]={'R','E','Q','-','<','c','o','n','f','i','g'};
+const char req_in_prog[]={'R','E','Q','-','<','p','r','o','g'};
 
 
-__flash char ans_out_485_1[]={'A','N','S','-','>','4','8','5','_','1'};
-__flash char ans_out_485_2[]={'A','N','S','-','>','4','8','5','_','2'};
-__flash char ans_out_232[]={'A','N','S','-','>','2','3','2'};
-__flash char ans_out_st_contr[]={'A','N','S','-','>','s','t','
+const char ans_out_485_1[]={'A','N','S','-','>','4','8','5','_','1'};
+const char ans_out_485_2[]={'A','N','S','-','>','4','8','5','_','2'};
+const char ans_out_232[]={'A','N','S','-','>','2','3','2'};
+const char ans_out_st_contr[]={'A','N','S','-','>','s','t','
 ','c','o','n','t','r'};
-__flash char ans_out_config[]={'A','N','S','-','>','c','o','n','f','i','g'};
-__flash char ans_out_prog[]={'A','N','S','-','>','p','r','o','g'};
+const char ans_out_config[]={'A','N','S','-','>','c','o','n','f','i','g'};
+const char ans_out_prog[]={'A','N','S','-','>','p','r','o','g'};
 */
-void RdFromFleshToArrInt(unsigned int adres_flesh, unsigned int *adres_ozu,
-                         unsigned int num);
-void WrArrayToFleshInt(unsigned int adres_flesh, unsigned int *adres_ozu,
-                       unsigned int num, unsigned char flag,
-                       unsigned int znach); // запись конфигурации кп во флеш
+void RdFromFleshToArrInt(uint16_t adres_flesh, uint16_t *adres_ozu,
+                         uint16_t num);
+void WrArrayToFleshInt(uint16_t adres_flesh, uint16_t *adres_ozu,
+                       uint16_t num, unsigned char flag,
+                       uint16_t znach); // запись конфигурации кп во флеш
 
 int crc_sum(unsigned char *ff, unsigned char kol);
 
@@ -149,13 +152,13 @@ void init_pins_hiz_to_out(void);
 void monitor_wr_truffic(void);
 
 void send_terminate_lcp(void);
-char temp_to_grad(unsigned int t);
+char temp_to_grad(uint16_t t);
 
 void supervisorwdt(void);
 
-void kodirovka(unsigned int kol_send_byte);
+void kodirovka(uint16_t kol_send_byte);
 
-void send_info(char size, char __flash *p, unsigned char fl_id,
+void send_info(char size, char const *p, unsigned char fl_id,
                unsigned char id);
 
 void mov_massiv(char size, char *p);
@@ -165,24 +168,24 @@ void control_temperatura(void);
 void init_modem_only(void);
 extern unsigned char Regim;
 
-extern unsigned int c_config_tc[SEG8];
+extern uint16_t c_config_tc[SEG8];
 extern unsigned char sel_modul;
-extern unsigned int ust_vhod;
+extern uint16_t ust_vhod;
 
 void send_err485(unsigned char port, unsigned char err, unsigned char id,
-                 unsigned int dst);
-unsigned int proc_config(unsigned char *buf_rx_ppp, unsigned char offset,
-                         unsigned int count_rx_ppp);
+                 uint16_t dst);
+uint16_t proc_config(unsigned char *buf_rx_ppp, unsigned char offset,
+                         uint16_t count_rx_ppp);
 unsigned char check_ln_conf(unsigned char *buf_rx_ppp, unsigned char offset,
-                            unsigned int count_rx_ppp);
+                            uint16_t count_rx_ppp);
 unsigned char check_cont_485_1(unsigned char *pointer);
 unsigned char check_cont_485_2(unsigned char *pointer);
 
 unsigned char ret_version(unsigned char unit, unsigned char *ptr);
 
-unsigned int calc_crc_ip(unsigned char *p, unsigned int count);
-unsigned int calc_crc_udp_2(unsigned char *buf_rx_ppp, unsigned int count);
-unsigned int pppfcs16(unsigned int fcs, unsigned char *cp, unsigned int len);
+uint16_t calc_crc_ip(unsigned char *p, uint16_t count);
+uint16_t calc_crc_udp_2(unsigned char *buf_rx_ppp, uint16_t count);
+uint16_t pppfcs16(uint16_t fcs, unsigned char *cp, uint16_t len);
 
 void monitor_event_PAP(void);
 void monitor_act_LCP(void);
@@ -226,7 +229,7 @@ extern unsigned char cnt_com;
 extern unsigned char rep;
 
 extern char bit_level;
-unsigned long int unix;
+uint32_t unix;
 
 extern union {
   unsigned char mb[SEG3 * 2]; // байтовый массив
@@ -236,27 +239,27 @@ extern union {
   unsigned char mb[SEG99 * 2]; // байтовый массив
 } c1_byte;                     // страница конфигурации ГЗУ
 
-extern unsigned int modbus_mem1[SEG1];
+extern uint16_t modbus_mem1[SEG1];
 
 extern struct struct_ts str_tc1, str_tc2, str_tc3, str_tc4, str_tc5, str_tc6,
     str_tc7, str_tc8;
 
-extern void WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
-                           unsigned int num, unsigned char flag,
+extern void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,
+                           uint16_t num, unsigned char flag,
                            unsigned char znach);
-extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                             unsigned int num);
+extern void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                             uint16_t num);
 extern void write_log_info(unsigned char sost, unsigned char mesto);
-extern unsigned long int burst_ds_r(void);
+extern uint32_t burst_ds_r(void);
 void set_rlt(unsigned char address, unsigned char *data);
-unsigned char write_to_buf(unsigned char *p_buf, unsigned int *ptr_in,
-                           unsigned int *ptr_out, unsigned int *ptr_out_kv,
-                           unsigned int *crc, unsigned char *p_data,
-                           unsigned int l_data, unsigned int max_buf);
-unsigned int read_from_buf(unsigned char *p_buf, unsigned int *ptr_in,
-                           unsigned int *ptr_out, unsigned int *ptr_out_kv,
-                           unsigned int *crc, unsigned char *p_data,
-                           unsigned int max_buf);
+unsigned char write_to_buf(unsigned char *p_buf, uint16_t *ptr_in,
+                           uint16_t *ptr_out, uint16_t *ptr_out_kv,
+                           uint16_t *crc, unsigned char *p_data,
+                           uint16_t l_data, uint16_t max_buf);
+uint16_t read_from_buf(unsigned char *p_buf, uint16_t *ptr_in,
+                           uint16_t *ptr_out, uint16_t *ptr_out_kv,
+                           uint16_t *crc, unsigned char *p_data,
+                           uint16_t max_buf);
 
 // enum t_version {VER1 = 1 ,VER2,VER3,VER4};
 // enum t_type {ZAPR,OTV,SOOB,KVIT};
@@ -279,7 +282,7 @@ enum t_event_modem event_modem;
 enum bool command_AT;
 
 unsigned char cnt_stm_tm1, cnt_stm_tm2;
-unsigned int cnt_key_off;
+uint16_t cnt_key_off;
 
 extern unsigned char keys[10];
 
@@ -301,13 +304,14 @@ extern struct {
   unsigned char cnt_reset;
 } fl_rewrite;
 
-#pragma location = A_RW_PDP
-__eeprom __no_init unsigned char e_rw_pdp;
 
-#pragma location = A_RW_PDP_R
-__eeprom __no_init unsigned char e_rw_pdp_r;
 
-__flash unsigned char auchCRCHi[] = {
+__no_init uint_8 e_first_on @ 0x40024000;
+ __no_init uint_8 e_debug    @ 0x40024001;
+__no_init uint_8 e_rw_pdp   @ 0x40024002;
+__no_init uint_8 e_rw_pdp_r @ 0x40024003;
+
+const unsigned char auchCRCHi[] = {
     0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,
     0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,
     0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,
@@ -331,7 +335,7 @@ __flash unsigned char auchCRCHi[] = {
     0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,
     0x00, 0xC1, 0x81, 0x40};
 
-__flash unsigned char auchCRCLo[] = {
+const unsigned char auchCRCLo[] = {
     0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06, 0x07, 0xC7,
     0x05, 0xC5, 0xC4, 0x04, 0xCC, 0x0C, 0x0D, 0xCD, 0x0F, 0xCF, 0xCE, 0x0E,
     0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09, 0x08, 0xC8, 0xD8, 0x18, 0x19, 0xD9,
@@ -373,33 +377,33 @@ extern struct // структура, описывающая объект пер�
   enum bool prozr;        // версия
   enum t_version version; // версия
   enum t_type type_pac;   // тип пакета
-  unsigned int num_src;   // номер отправителя
-  unsigned int num_dst;   // номер получателя
+  uint16_t num_src;   // номер отправителя
+  uint16_t num_dst;   // номер получателя
   unsigned char id_pac;   // идентификатор пакета
   unsigned char *p_opt;   // //указатель буфера опций
   unsigned char l_opt;    // длина буфера опций
   unsigned char kol_opt;  // количество опций
   unsigned char *p_data;  // указатель буфера данных
-  unsigned int l_data;    // длина данных
+  uint16_t l_data;    // длина данных
 } Obj_ppp_tx;
 
 unsigned char buf_opt_tr[20];
-unsigned int prov_ozu;
+uint16_t prov_ozu;
 
 unsigned char buf_tx_232[VOL_TX_PPP];
-unsigned int count_tx_ppp, vol_tx_ppp;
+uint16_t count_tx_ppp, vol_tx_ppp;
 
 // структуры буферов на прием
 struct {
   unsigned char data[VOL_RX_PPP]; // сам буфер
-  unsigned int ln_data;           // длина данных
+  uint16_t ln_data;           // длина данных
   enum bool rec;                  // пакет принят
   enum bool busy;                 // буфер занят
   enum bool check_busy;           // проверка занят ли буфер
 } Buf1_rx_ppp, Buf2_rx_ppp;       //
 
 enum bool fl_cts_232_ignor;
-unsigned int cnt_cts_off;
+uint16_t cnt_cts_off;
 struct {
   unsigned char on : 1;
 } fl_cts_232;
@@ -410,7 +414,7 @@ extern char ip_change;
 
 //!!!!!!!!!!!!!!!!1параметры контроллера
 unsigned char ip_ls[4];
-unsigned int num_self, num_seq_cl, port_udp;
+uint16_t num_self, num_seq_cl, port_udp;
 
 struct // структура, описывающая объект передачи по PPP
 {
@@ -418,17 +422,17 @@ struct // структура, описывающая объект передач
   enum bool link_waits;   // ожидание квитка на контроль связи
   enum bool link;         // контроль связи
   enum bool nat;          // контроль nat
-  unsigned int cnt_link;  // счетчик
-  unsigned int cnt_nat;   // счетчик
-  unsigned int vol_link;  // значение
-  unsigned int vol_nat;   // //значение
-  unsigned int vol_waits; // значение времени квитка ожидания контроля связи
+  uint16_t cnt_link;  // счетчик
+  uint16_t cnt_nat;   // счетчик
+  uint16_t vol_link;  // значение
+  uint16_t vol_nat;   // //значение
+  uint16_t vol_waits; // значение времени квитка ожидания контроля связи
   unsigned char cnt_try;  // счетчик попыток получить квиток
   unsigned char vol_try;  // rjkbxtcndj попыток получить квиток
-  unsigned int vol_nat_r; // счетчик
+  uint16_t vol_nat_r; // счетчик
 } Control;
 
-unsigned long int vol_cnt_no_link, vol_cnt_link_res, cnt_no_link, cnt_link_res;
+uint32_t vol_cnt_no_link, vol_cnt_link_res, cnt_no_link, cnt_link_res;
 ; // dobavka
 
 unsigned char Appl_RS485_1_data_buf[LN_BUF_485_1]; // сам буфер
@@ -439,13 +443,13 @@ struct // структура описывающая работу приложе�
 {
   enum bool fl_data_buf; // имеется ли забуферизированный пакет для передачи в
                          // порт RS485_1
-  unsigned int ln_data_buf;  // забуферизированная длина буфера
-  unsigned int dst_buf;      // забуферизированный получатель
+  uint16_t ln_data_buf;  // забуферизированная длина буфера
+  uint16_t dst_buf;      // забуферизированный получатель
   unsigned char cont_buf[8]; // забуферизированный контекст
   unsigned char id_buf;      // забуферизированный id
-  unsigned int dst_tek;      // текущий получатель
+  uint16_t dst_tek;      // текущий получатель
   unsigned char id_tek;      // текущий id
-  unsigned int pre_tx;       // задержка перед передачей
+  uint16_t pre_tx;       // задержка перед передачей
 } Appl_RS485_1, Appl_RS485_2, Appl_RS232_2;
 
 struct {
@@ -468,21 +472,21 @@ extern struct {
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!структуры приложения
 struct {
   unsigned char id;
-  unsigned int p_in; // указатель свободной ячейки
-  unsigned int p_out;
-  unsigned int p_out_kv;
-  unsigned int crc;
-  unsigned int cnt_waits; // счетчик ожидания квитка
+  uint16_t p_in; // указатель свободной ячейки
+  uint16_t p_out;
+  uint16_t p_out_kv;
+  uint16_t crc;
+  uint16_t cnt_waits; // счетчик ожидания квитка
   unsigned char cnt_try;  // счетчик попыток получить квиток
-  unsigned int l_data;    // длина посылаемых данных
+  uint16_t l_data;    // длина посылаемых данных
   unsigned char state;
   unsigned char event;
-  unsigned int tm_vzat;
-  unsigned int vol_tm_vzat;
+  uint16_t tm_vzat;
+  uint16_t vol_tm_vzat;
   enum bool cntr_cl;
   enum bool en_cntr_cl;
-  unsigned int cnt_cntr_cl;
-  unsigned int vol_cntr_cl;
+  uint16_t cnt_cntr_cl;
+  uint16_t vol_cntr_cl;
 } Appl_seq;
 
 unsigned char Appl_seq_des;
@@ -509,7 +513,7 @@ extern struct {
   unsigned char old_pin : 1;
   unsigned char fl_ch_tc : 1;
   unsigned char real_tc;
-  unsigned int count_tc;
+  uint16_t count_tc;
   unsigned char type;
   unsigned char cnt_block_tc;
 } struct_tcc1, struct_tcc2;
@@ -589,9 +593,9 @@ extern unsigned char cnt_rst_lcp, vol_cnt_rst_lcp;
 extern unsigned char cnt_rst_ipcp, vol_cnt_rst_ipcp;
 extern unsigned char cnt_rst_pap, vol_cnt_rst_pap;
 
-extern unsigned int cnt_lcp_tm_out, cnt_ipcp_tm_out;
-extern unsigned int cnt_pap_tm_out;
-extern unsigned long int cnt_ip_tm_cntr;
+extern uint16_t cnt_lcp_tm_out, cnt_ipcp_tm_out;
+extern uint16_t cnt_pap_tm_out;
+extern uint32_t cnt_ip_tm_cntr;
 extern unsigned char rcvd_protokol;
 
 extern unsigned char i_scr_lcp, i_scan_lcp;
@@ -613,32 +617,32 @@ extern unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
 
 extern struct // структура описывающая работу порта "RS485_1"
 {
-  unsigned int cnt_bt_rx_tx;  // счетчик байтов на прием-передачу
-  unsigned int cnt_tm_tx_out; // счетчик времени на удержание rts после передачи
-  unsigned int cnt_tm_pre_tx; // счетчик времени на удержание rts перед передачи
-  unsigned int
+  uint16_t cnt_bt_rx_tx;  // счетчик байтов на прием-передачу
+  uint16_t cnt_tm_tx_out; // счетчик времени на удержание rts после передачи
+  uint16_t cnt_tm_pre_tx; // счетчик времени на удержание rts перед передачи
+  uint16_t
       vol_tm_tx_out; // предел счетчик времени на удержание rts после передачи
-  unsigned int cnt_tm_rx_out; //  счетчик времени на определение конца приема
-  unsigned int vol_tm_rx_out; //  предел времени на определение конца приема
-  unsigned int cnt_tm_out;    // счетчик времени на прием
-  unsigned int vol_tm_out;    // предел счетчика времени на прием
+  uint16_t cnt_tm_rx_out; //  счетчик времени на определение конца приема
+  uint16_t vol_tm_rx_out; //  предел времени на определение конца приема
+  uint16_t cnt_tm_out;    // счетчик времени на прием
+  uint16_t vol_tm_out;    // предел счетчика времени на прием
   unsigned char *p_data485;   // указатель на буфер передачи
 } Rs485_1, Rs485_2, Rs232_2;
 
 extern unsigned char state_led_md;
 
-unsigned long int summa_temperatura;
-unsigned int temperatura;
-unsigned int count_summa_temperatura;
+uint32_t summa_temperatura;
+uint16_t temperatura;
+uint16_t count_summa_temperatura;
 
-unsigned long int cnt_outcom, cnt_incom;
+uint32_t cnt_outcom, cnt_incom;
 unsigned char time_cnt_ch_time;
 struct {
   unsigned char wr : 1;
 } fl_truffic;
 
-__no_init unsigned int crc_tii;
-__no_init unsigned int cnt_tii[8];
+__no_init uint16_t crc_tii;
+__no_init uint16_t cnt_tii[8];
 
 unsigned char sel_modul, count_ppp_down;
 
@@ -651,14 +655,14 @@ void lock_it(void) {
   } while (1);
 }
 
-void delay(unsigned int period) {
+void delay(uint16_t period) {
 bad:
   period--;
   if (period != 0)
     goto bad;
 }
 
-void long_delay(unsigned long int period) {
+void long_delay(uint32_t period) {
 bad1:
   period--;
   __watchdog_reset();
@@ -711,12 +715,12 @@ unsigned char crc_485(unsigned char num, unsigned char *p) {
   return (ds_crc1);
 }
 
-unsigned int crc_m1(unsigned char *ka, unsigned int num, unsigned int crc)
+uint16_t crc_m1(unsigned char *ka, uint16_t num, uint16_t crc)
 
 {
   unsigned char uchCRCHi, uIndex;
   unsigned char uchCRCLo;
-  unsigned int ii;
+  uint16_t ii;
   uchCRCLo = crc;
   uchCRCHi = crc >> 8;
 
@@ -750,7 +754,7 @@ void s_port(unsigned char ch) {
   HAL_UART_Transmit(&huart4, &ch, 1, 10);
 }
 
-void mov_s(char size, char __flash *p) {
+void mov_s(char size, char const *p) {
   while (size--)
     s_port(*p++);
 }
@@ -765,7 +769,7 @@ void mov_lf(void) {
   s_port(0xa);
 }
 
-unsigned int func_crc_tii(void) {
+uint16_t func_crc_tii(void) {
   unsigned char uchCRCHi;
   unsigned char uchCRCLo;
   unsigned char temp, i;
@@ -784,7 +788,7 @@ unsigned int func_crc_tii(void) {
   return (uchCRCHi << 8 | uchCRCLo);
 }
 
-unsigned int crc_ozu(void)
+uint16_t crc_ozu(void)
 
 {
   unsigned char uchCRCHi;
@@ -916,11 +920,12 @@ unsigned int crc_ozu(void)
 void load_rw_pdp(void) {
   char buf[70];
   unsigned char i, j, temp;
-  unsigned int kol;
+  uint16_t kol;
 
   buf[69] = 0;
 
-  if ((MCUSR & 0x01) != 0x01)
+  //if ((MCUSR & 0x01) != 0x01)
+  if ((__HAL_RCC_GET_FLAG(RCC_FLAG_PORRST)) == 0)
     return;
 
   if (e_rw_pdp != 0)
@@ -974,7 +979,7 @@ void load_rw_pdp(void) {
       return;
     }
 
-    *(unsigned int *)&buf_tx_232[L_C_GPRS_MAX - 2] =
+    *(uint16_t *)&buf_tx_232[L_C_GPRS_MAX - 2] =
         crc_m1(&buf_tx_232[0], L_C_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_C_GPRS, &buf_tx_232[0], L_C_GPRS_MAX, 0, 0);
   }
@@ -984,11 +989,13 @@ void load_rw_pdp(void) {
 void load_rw_pdp_r(void) {
   char buf[70];
   unsigned char i, j, temp;
-  unsigned int kol;
+  uint16_t kol;
 
   buf[69] = 0;
 
-  if ((MCUSR & 0x01) != 0x01)
+  //if ((MCUSR & 0x01) != 0x01)
+  if ((__HAL_RCC_GET_FLAG(RCC_FLAG_PORRST)) == 0)
+
     return;
 
   if (e_rw_pdp_r != 0)
@@ -1042,7 +1049,7 @@ void load_rw_pdp_r(void) {
       return;
     }
 
-    *(unsigned int *)&buf_tx_232[L_C_GPRS_MAX - 2] =
+    *(uint16_t *)&buf_tx_232[L_C_GPRS_MAX - 2] =
         crc_m1(&buf_tx_232[0], L_CR_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_CR_GPRS, &buf_tx_232[0], L_CR_GPRS_MAX, 0, 0);
   }
@@ -1050,7 +1057,7 @@ void load_rw_pdp_r(void) {
 }
 
 void load_par_first_flash(void) {
-  unsigned int buf;
+  uint16_t buf;
   unsigned char buf1[4];
 
   RdFromFleshToArrInt(A_FIRST_ON, &buf, 1);
@@ -1084,7 +1091,7 @@ void load_par_from_memory(void) {
   unsigned char buf[20], m;
 
   RdFromFleshToArr(A_IP_PAR, &buf[0], L_IP_PAR);
-  if (*(unsigned int *)&buf[OFS_IP_PAR_CRC] !=
+  if (*(uint16_t *)&buf[OFS_IP_PAR_CRC] !=
       crc_m1(&buf[0], L_IP_PAR - 2, 0xffff)) {
 
     ip_ls[0] = DEF_IP_SRV_0;
@@ -1099,12 +1106,12 @@ void load_par_from_memory(void) {
     ip_ls[1] = buf[OFS_IP + 1];
     ip_ls[2] = buf[OFS_IP + 2];
     ip_ls[3] = buf[OFS_IP + 3];
-    port_udp = *(unsigned int *)&buf[OFS_PORT];
-    num_self = *(unsigned int *)&buf[OFS_NUM];
+    port_udp = *(uint16_t *)&buf[OFS_PORT];
+    num_self = *(uint16_t *)&buf[OFS_NUM];
   }
 
   RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-  if (*(unsigned int *)&buf[OFS_C_PAR_CRC] !=
+  if (*(uint16_t *)&buf[OFS_C_PAR_CRC] !=
       crc_m1(&buf[0], L_C_PAR - 2, 0xffff)) {
 
     Control.vol_nat = DEF_CNTR_NAT;
@@ -1118,19 +1125,19 @@ void load_par_from_memory(void) {
 
   } else {
 
-    Control.vol_nat = *(unsigned int *)&buf[OFS_NAT];
-    Control.vol_link = *(unsigned int *)&buf[OFS_CCH];
+    Control.vol_nat = *(uint16_t *)&buf[OFS_NAT];
+    Control.vol_link = *(uint16_t *)&buf[OFS_CCH];
     Control.vol_waits = DEF_CNTR_LINK_WAITS;
-    Control.vol_try = *(unsigned int *)&buf[OFS_TM_CH] / Control.vol_waits;
+    Control.vol_try = *(uint16_t *)&buf[OFS_TM_CH] / Control.vol_waits;
 
-    vol_cnt_no_link = *(unsigned int *)&buf[OFS_TM_NO_LINK] * 60;   // dobavka
-    vol_cnt_link_res = *(unsigned int *)&buf[OFS_TM_LINK_RES] * 60; // dobavka
+    vol_cnt_no_link = *(uint16_t *)&buf[OFS_TM_NO_LINK] * 60;   // dobavka
+    vol_cnt_link_res = *(uint16_t *)&buf[OFS_TM_LINK_RES] * 60; // dobavka
 
-    Control.vol_nat_r = *(unsigned int *)&buf[OFS_NAT_R];
+    Control.vol_nat_r = *(uint16_t *)&buf[OFS_NAT_R];
   }
 
   RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
-  if (*(unsigned int *)&buf[OFS_SEQ_PAR_CRC] !=
+  if (*(uint16_t *)&buf[OFS_SEQ_PAR_CRC] !=
       crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff)) {
 
     Appl_seq_des = ~DEF_DES_SEQ;
@@ -1142,27 +1149,27 @@ void load_par_from_memory(void) {
   } else {
 
     Appl_seq_des = buf[OFS_DES_SEQ];
-    num_seq_cl = *(unsigned int *)&buf[OFS_NUM_CL];
-    Appl_seq.vol_tm_vzat = *(unsigned int *)&buf[OFS_TM_VZ];
-    Appl_seq.vol_cntr_cl = *(unsigned int *)&buf[OFS_TM_CL];
+    num_seq_cl = *(uint16_t *)&buf[OFS_NUM_CL];
+    Appl_seq.vol_tm_vzat = *(uint16_t *)&buf[OFS_TM_VZ];
+    Appl_seq.vol_cntr_cl = *(uint16_t *)&buf[OFS_TM_CL];
     struct_tcc1.type = buf[OFS_TP_TS];
     struct_tcc2.type = buf[OFS_TP_TS + 1];
   }
 
   RdFromFleshToArr(A_TRAF, &buf[0], L_TRAF);
-  if (*(unsigned int *)&buf[L_TRAF - 2] !=
+  if (*(uint16_t *)&buf[L_TRAF - 2] !=
       crc_m1(&buf[0], L_TRAF - 2, 0xffff)) {
-    *(unsigned long int *)&buf[0] = burst_ds_r();
-    *(unsigned long int *)&buf[4] = 0;
-    *(unsigned long int *)&buf[8] = 0;
-    *(unsigned int *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
+    *(uint32_t *)&buf[0] = burst_ds_r();
+    *(uint32_t *)&buf[4] = 0;
+    *(uint32_t *)&buf[8] = 0;
+    *(uint16_t *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
     WrArrayToFlesh(A_TRAF, &buf[0], L_TRAF, 0, 0);
     cnt_outcom = 0;
     cnt_incom = 0;
   } else {
 
-    cnt_outcom = *(unsigned long int *)&buf[4];
-    cnt_incom = *(unsigned long int *)&buf[8];
+    cnt_outcom = *(uint32_t *)&buf[4];
+    cnt_incom = *(uint32_t *)&buf[8];
   }
 
   for (m = 0; m < 8; m++) {
@@ -1177,14 +1184,14 @@ void load_par_from_memory(void) {
   if ( arr_cnt_tii_heap >99  | arr_cnt_tii_heap ==0 )
   {WrArrayToFlesh(A_IND_DNS,0,2,1,0);arr_cnt_tii_heap=0;}
   */
-  modbus_mem1[AD_IND_DNS] = *(unsigned long int *)&buf[0];
+  modbus_mem1[AD_IND_DNS] = *(uint32_t *)&buf[0];
   if (modbus_mem1[AD_IND_DNS] > 99 | modbus_mem1[AD_IND_DNS] == 0) {
     WrArrayToFlesh(A_IND_DNS, 0, 2, 1, 0);
     modbus_mem1[AD_IND_DNS] = 0;
   }
 
   RdFromFleshToArr(A_IND_GZU, &buf[0], 2);
-  modbus_mem1[AD_IND_GZU] = *(unsigned long int *)&buf[0];
+  modbus_mem1[AD_IND_GZU] = *(uint32_t *)&buf[0];
   if (modbus_mem1[AD_IND_GZU] > 54 | modbus_mem1[AD_IND_GZU] == 0) {
     WrArrayToFlesh(A_IND_GZU, 0, 2, 1, 0);
     modbus_mem1[AD_IND_GZU] = 0;
@@ -1373,12 +1380,12 @@ void start_func_stm_scp(void) {
 // подготовка буфера к отправке по PPP
 
 void form_buf_tx_ppp(void) {
-  unsigned int i;
+  uint16_t i;
   unsigned char nopp, j;
   unsigned char *pointer;
   union {
     unsigned char bytes[2];
-    unsigned int word;
+    uint16_t word;
   } temp;
 
   buf_tx_232[PPP_BEG] = 0x7e;
@@ -1421,7 +1428,7 @@ void form_buf_tx_ppp(void) {
 
   // buf_tx_232[IP_CRC]=0;
   // buf_tx_232[IP_CRC+1]=0; //IP - CRC
-  *(unsigned int *)&buf_tx_232[IP_CRC] = 0;
+  *(uint16_t *)&buf_tx_232[IP_CRC] = 0;
 
   buf_tx_232[IP_SRC] = ip_self[0];
   buf_tx_232[IP_SRC + 1] = ip_self[1];
@@ -1469,23 +1476,23 @@ void form_buf_tx_ppp(void) {
 
   // buf_tx_232[UDP_CRC]=0;        //СRС UDP пакета
   // buf_tx_232[UDP_CRC+1]=0;
-  *(unsigned int *)&buf_tx_232[UDP_CRC] = 0;
+  *(uint16_t *)&buf_tx_232[UDP_CRC] = 0;
 
   if (Obj_ppp_tx.prozr == FALSE) {
     // Транспортный заголовок
     // buf_tx_232[30]=0;        //CRC
     // buf_tx_232[31]=0;
-    //*(unsigned int*)&buf_tx_232[TR_CRC]=0;
+    //*(uint16_t*)&buf_tx_232[TR_CRC]=0;
 
     temp.word = temp.word - 8;
     // buf_tx_232[32]=temp.bytes[1];        //полная длина
     // buf_tx_232[33]=temp.bytes[0];
-    *(unsigned int *)&buf_tx_232[TR_LEN] = temp.word;
+    *(uint16_t *)&buf_tx_232[TR_LEN] = temp.word;
 
     // buf_tx_232[34]=0;        //шифр
     // buf_tx_232[35]=0;
 
-    *(unsigned int *)&buf_tx_232[TR_KOD] = 0;
+    *(uint16_t *)&buf_tx_232[TR_KOD] = 0;
 
     buf_tx_232[TR_V] = Obj_ppp_tx.version;                            // версия
     buf_tx_232[TR_V] = (buf_tx_232[TR_V] << 2) | Obj_ppp_tx.type_pac; // тип
@@ -1495,9 +1502,9 @@ void form_buf_tx_ppp(void) {
 
     buf_tx_232[TR_ID] = Obj_ppp_tx.id_pac;
 
-    *(unsigned int *)&buf_tx_232[TR_SRC] =
+    *(uint16_t *)&buf_tx_232[TR_SRC] =
         Obj_ppp_tx.num_src; // номер отправителя
-    *(unsigned int *)&buf_tx_232[TR_DST] =
+    *(uint16_t *)&buf_tx_232[TR_DST] =
         Obj_ppp_tx.num_dst; // номер получателя
 
     pointer = &buf_tx_232[TR_OP_DATA];
@@ -1524,13 +1531,13 @@ void form_buf_tx_ppp(void) {
     }
 
     // crc
-    *(unsigned int *)&buf_tx_232[TR_KOD] = 0;
+    *(uint16_t *)&buf_tx_232[TR_KOD] = 0;
 
-    *(unsigned int *)&buf_tx_232[TR_CRC] = 0;
-    *(unsigned int *)&buf_tx_232[TR_CRC] = crc_m1(
-        &buf_tx_232[TR_SRC], *(unsigned int *)&buf_tx_232[TR_LEN], 0xffff);
+    *(uint16_t *)&buf_tx_232[TR_CRC] = 0;
+    *(uint16_t *)&buf_tx_232[TR_CRC] = crc_m1(
+        &buf_tx_232[TR_SRC], *(uint16_t *)&buf_tx_232[TR_LEN], 0xffff);
 
-    kodirovka(*(unsigned int *)&buf_tx_232[TR_LEN]);
+    kodirovka(*(uint16_t *)&buf_tx_232[TR_LEN]);
 
   } else {
 
@@ -1546,14 +1553,14 @@ void form_buf_tx_ppp(void) {
   // buf_tx_232[12]=temp.bytes[0];
   // buf_tx_232[13]=temp.bytes[1];
 
-  *(unsigned int *)&buf_tx_232[IP_CRC] = calc_crc_ip(&buf_tx_232[IP_VLEN], 20);
+  *(uint16_t *)&buf_tx_232[IP_CRC] = calc_crc_ip(&buf_tx_232[IP_VLEN], 20);
 
   temp.bytes[1] = buf_tx_232[UDP_LN]; ///////////////длина UDP
   temp.bytes[0] = buf_tx_232[UDP_LN + 1];
 
   // *(unsigned
   // int*)&buf_tx_232[UDP_CRC]=calc_crc_udp(&buf_tx_232[UDP_PSRC],temp.word);
-  *(unsigned int *)&buf_tx_232[UDP_CRC] =
+  *(uint16_t *)&buf_tx_232[UDP_CRC] =
       calc_crc_udp_2(&buf_tx_232[0], temp.word);
 
   i = buf_tx_232[IP_LN];
@@ -1637,7 +1644,9 @@ void monitor_rst(void) {
 
   time_cnt_ch_time = CHECK_TIME;
 
-  if ((MCUSR & 0x01) == 0x01) {
+  //if ((MCUSR & 0x01) == 0x01) 
+  if (__HAL_RCC_GET_FLAG(RCC_FLAG_PORRST))
+  {
 
     simka = SIM_RES; // dobavka
     Fl_ch_sim = 1;   // dobavka
@@ -1646,13 +1655,14 @@ void monitor_rst(void) {
     write_log_info(ST_PIT_ON, RESET_POWER);
 
     if (Appl_seq_des == 1) {
-      MCUSR = 0;
+      //MCUSR = 0;
+      __HAL_RCC_CLEAR_RESET_FLAGS();
       return;
     } // блокировка
 
     buf[0] = COOL_RESET;
-    *(unsigned int *)&buf[1] = L_COOL_RESET;
-    *(unsigned long int *)&buf[3] = burst_ds_r();
+    *(uint16_t *)&buf[1] = L_COOL_RESET;
+    *(uint32_t *)&buf[3] = burst_ds_r();
 
     for (i = 0; i < 8; i++)
       cnt_tii[i] = 0;
@@ -1679,32 +1689,42 @@ void monitor_rst(void) {
       Fl_ch_sim = 1;
     } // dobavka
 
-    if ((MCUSR & 0x02) == 0x02) {
+    //if ((MCUSR & 0x02) == 0x02)
+    if (__HAL_RCC_GET_FLAG(RCC_FLAG_PINRST))
+     {
       write_log_info(ST_PIT_ON, RESET_EXT);
       send_info(sizeof(evc_rst), evc_rst, 0, 0);
     }
-    if ((MCUSR & 0x04) == 0x04) {
+    //if ((MCUSR & 0x04) == 0x04) 
+    if (__HAL_RCC_GET_FLAG(RCC_FLAG_BORRST))
+    {
       write_log_info(ST_PIT_ON, RESET_BROWN);
       send_info(sizeof(evc_bod), evc_bod, 0, 0);
     }
-    if ((MCUSR & 0x08) == 0x08) {
+    //if ((MCUSR & 0x08) == 0x08) 
+    if (__HAL_RCC_GET_FLAG(RCC_FLAG_IWDGRST))
+    {
       write_log_info(ST_PIT_ON, RESET_WDR);
       send_info(sizeof(evc_wdr), evc_wdr, 0, 0);
     }
 
     if (Appl_seq_des == 1) {
-      MCUSR = 0;
+      ///MCUSR = 0;
+      __HAL_RCC_CLEAR_RESET_FLAGS();
       return;
     } // блокировка
 
     buf[0] = HOT_RESET;
-    *(unsigned int *)&buf[1] = L_HOT_RESET;
-    *(unsigned long int *)&buf[3] = burst_ds_r();
-    if ((MCUSR & 0x02) == 0x02)
+    *(uint16_t *)&buf[1] = L_HOT_RESET;
+    *(uint32_t *)&buf[3] = burst_ds_r();
+    //if ((MCUSR & 0x02) == 0x02)
+    if (__HAL_RCC_GET_FLAG(RCC_FLAG_PINRST))
       buf[7] = RST_EXT;
-    if ((MCUSR & 0x04) == 0x04)
+    //if ((MCUSR & 0x04) == 0x04)
+    if (__HAL_RCC_GET_FLAG(RCC_FLAG_BORRST))
       buf[7] = RST_BROWN;
-    if ((MCUSR & 0x08) == 0x08)
+    //if ((MCUSR & 0x08) == 0x08)
+    if (__HAL_RCC_GET_FLAG(RCC_FLAG_IWDGRST))
       buf[7] = RST_WDR;
     buf[8] = 0;
     if (write_to_buf(&Appl_seq_buf[0], &Appl_seq.p_in, &Appl_seq.p_out,
@@ -1714,7 +1734,8 @@ void monitor_rst(void) {
     }
   }
 
-  MCUSR = 0;
+  //MCUSR = 0;
+  __HAL_RCC_CLEAR_RESET_FLAGS();
 }
 
 /*
@@ -1732,8 +1753,8 @@ TCC2)==0)&&(byte_state_net==NO_NET)))
 {byte_state_net=YES_NET;send_info(sizeof(evc_feed_220),evc_feed_220,0,0);}
             count_block_net=3;
             buf[0]=AKB_SET;
-            *(unsigned int*)&buf[1]=L_AKB_SET;
-            *(unsigned long int*)&buf[3]=burst_ds_r();
+            *(uint16_t*)&buf[1]=L_AKB_SET;
+            *(uint32_t*)&buf[3]=burst_ds_r();
             buf[7]=byte_state_net;
             buf[8]=0;
             if(write_to_buf(&Appl_seq_buf[0],&Appl_seq.p_in,&Appl_seq.p_out,&Appl_seq.p_out_kv,&Appl_seq.crc,&buf[0],L_AKB_SET+3,
@@ -1805,8 +1826,8 @@ void monitor_beg_state_seq(unsigned char zad) {
     return; // блокировка сообщдений
 
   buf[0] = SEQ_STATE;
-  *(unsigned int *)&buf[1] = L_STATE;
-  *(unsigned long int *)&buf[3] = burst_ds_r();
+  *(uint16_t *)&buf[1] = L_STATE;
+  *(uint32_t *)&buf[3] = burst_ds_r();
 
   switch (struct_tcc1.type) {
   case TC_SUHOI:
@@ -1861,8 +1882,8 @@ void monitor_beg_state_seq(unsigned char zad) {
                    Appl_seq.state=ST_VZAT;
                    state_seq=VZAT;
                    buf[0]=VZAT;
-                   *(unsigned int*)&buf[1]=L_VZAT;
-                   *(unsigned long int*)&buf[3]=burst_ds_r();
+                   *(uint16_t*)&buf[1]=L_VZAT;
+                   *(uint32_t*)&buf[3]=burst_ds_r();
                    buf[7]=sv1.tc & 0x01;
                    buf[8]=0;
                    if(write_to_buf(&Appl_seq_buf[0],&Appl_seq.p_in,&Appl_seq.p_out,&Appl_seq.p_out_kv,&Appl_seq.crc,&buf[0],L_VZAT+3,
@@ -1878,8 +1899,8 @@ void monitor_beg_state_seq(unsigned char zad) {
                    Appl_seq.state=ST_ALARM;
                    state_seq=ALARM;
                    buf[0]=ALARM;
-                   *(unsigned int*)&buf[1]=L_ALARM;
-                   *(unsigned long int*)&buf[3]=burst_ds_r();
+                   *(uint16_t*)&buf[1]=L_ALARM;
+                   *(uint32_t*)&buf[3]=burst_ds_r();
                    buf[7]=sv1.tc & 0x01;
                    buf[8]=0;
                    if(write_to_buf(&Appl_seq_buf[0],&Appl_seq.p_in,&Appl_seq.p_out,&Appl_seq.p_out_kv,&Appl_seq.crc,&buf[0],L_ALARM+3,
@@ -1896,8 +1917,8 @@ void monitor_beg_state_seq(unsigned char zad) {
 
               count_block_net=3;
               buf[0]=AKB_SET;
-              *(unsigned int*)&buf[1]=L_AKB_SET;
-              *(unsigned long int*)&buf[3]=burst_ds_r();
+              *(uint16_t*)&buf[1]=L_AKB_SET;
+              *(uint32_t*)&buf[3]=burst_ds_r();
               buf[7]=byte_state_net;
               buf[8]=0;
               if(write_to_buf(&Appl_seq_buf[0],&Appl_seq.p_in,&Appl_seq.p_out,&Appl_seq.p_out_kv,&Appl_seq.crc,&buf[0],L_AKB_SET+3,
@@ -2160,8 +2181,8 @@ void monitor_cntr_cl_seq(void) {
   Obj_ppp_tx.l_opt = 0;              // длина буфера опций
   buf_opt_tr[0] = PROT_SL_LS;
   buf_opt_tr[1] = COM_CNTR_CL;
-  *(unsigned int *)&buf_opt_tr[2] = L_COM_CNTR_CL;
-  *(unsigned int *)&buf_opt_tr[4] = num_seq_cl;
+  *(uint16_t *)&buf_opt_tr[2] = L_COM_CNTR_CL;
+  *(uint16_t *)&buf_opt_tr[4] = num_seq_cl;
   Obj_ppp_tx.kol_opt = 0;             // количество опций
   Obj_ppp_tx.l_data = 6;              // длина данных
   Obj_ppp_tx.p_data = &buf_opt_tr[0]; // указатель буфера данных
@@ -2197,8 +2218,8 @@ if(fl_appl_seq1.send_state==1)
 {
 fl_appl_seq1.send_state=0;
 buf[0]=SEQ_STATE;
-*(unsigned int*)&buf[1]=L_STATE;
-*(unsigned long int*)&buf[3]=burst_ds_r();
+*(uint16_t*)&buf[1]=L_STATE;
+*(uint32_t*)&buf[3]=burst_ds_r();
 buf[7]=state_seq;
 buf[8]=sv1.tc & 0x01;
 //buf[9]=0;
@@ -2249,8 +2270,8 @@ case ST_VZAT:
                          Appl_seq.state=ST_ALARM;
                          state_seq=ALARM;
                          buf[0]=ALARM;
-                         *(unsigned int*)&buf[1]=L_ALARM;
-                         *(unsigned long int*)&buf[3]=burst_ds_r();
+                         *(uint16_t*)&buf[1]=L_ALARM;
+                         *(uint32_t*)&buf[3]=burst_ds_r();
                          buf[7]=sv1.tc & 0x01;
                          buf[8]=0;
                          if(write_to_buf(&Appl_seq_buf[0],&Appl_seq.p_in,&Appl_seq.p_out,&Appl_seq.p_out_kv,&Appl_seq.crc,&buf[0],L_ALARM+3,
@@ -2276,8 +2297,8 @@ case ST_VZATIE:
                          Appl_seq.state=ST_VZAT;
                           state_seq=VZAT;
                           buf[0]=VZAT;
-                         *(unsigned int*)&buf[1]=L_VZAT;
-                         *(unsigned long int*)&buf[3]=burst_ds_r();
+                         *(uint16_t*)&buf[1]=L_VZAT;
+                         *(uint32_t*)&buf[3]=burst_ds_r();
                          buf[7]=sv1.tc & 0x01;
                          buf[8]=0;
                          if(write_to_buf(&Appl_seq_buf[0],&Appl_seq.p_in,&Appl_seq.p_out,&Appl_seq.p_out_kv,&Appl_seq.crc,&buf[0],L_VZAT+3,
@@ -2420,8 +2441,8 @@ void monitor_change_state(void) {
     if (fl_appl_seq1.send_state == 1)
       fl_appl_seq1.send_state = 0;
     buf[0] = SEQ_STATE;
-    *(unsigned int *)&buf[1] = L_STATE;
-    *(unsigned long int *)&buf[3] = burst_ds_r();
+    *(uint16_t *)&buf[1] = L_STATE;
+    *(uint32_t *)&buf[3] = burst_ds_r();
     if (write_to_buf(&Appl_seq_buf[0], &Appl_seq.p_in, &Appl_seq.p_out,
                      &Appl_seq.p_out_kv, &Appl_seq.crc, &buf[0], L_STATE + 3,
                      sizeof(Appl_seq_buf)) == 1) {
@@ -2530,7 +2551,7 @@ void check_wdt(void) {
       lock_it();
     }
 
-    if (*(unsigned int *)&keys[L_KEYS - 2] !=
+    if (*(uint16_t *)&keys[L_KEYS - 2] !=
         crc_m1(&keys[0], L_KEYS - 2, 0xffff)) {
       write_log_info(ST_ERROR, ERR3);
       // s_port(0x57);
@@ -3040,7 +3061,7 @@ void modem_engine(void) {
 }
 
 void send_err485(unsigned char port, unsigned char err, unsigned char id,
-                 unsigned int dst) {
+                 uint16_t dst) {
   if (fl_ip.act_ip_end != 1)
     return;
   fl_ip.act_ip_end = 0;
@@ -3060,7 +3081,7 @@ void send_err485(unsigned char port, unsigned char err, unsigned char id,
   buf_tx_232[TR_OP_DATA + C1_PORT] = PORT_SYS;
 
   buf_tx_232[TR_OP_DATA + C1_DATA] = RS485_ERR;
-  *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1] = LN_RS485_ERR;
+  *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1] = LN_RS485_ERR;
   buf_tx_232[TR_OP_DATA + C1_DATA + 3] = port;
   buf_tx_232[TR_OP_DATA + C1_DATA + 4] = err;
   Obj_ppp_tx.l_data = 5 + LN_RS485_ERR; // длина данных
@@ -3118,15 +3139,15 @@ unsigned char check_cont_485_1(unsigned char *pointer) {
     return (1);
   }
 
-  if ((*(unsigned int *)(pointer + 2)) > 10000)
+  if ((*(uint16_t *)(pointer + 2)) > 10000)
     return (1);
 
-  if ((*(unsigned int *)(pointer + 4)) == 0)
+  if ((*(uint16_t *)(pointer + 4)) == 0)
     return (1);
-  if ((*(unsigned int *)(pointer + 4)) > 10000)
+  if ((*(uint16_t *)(pointer + 4)) > 10000)
     return (1);
 
-  if ((*(unsigned int *)(pointer + 6)) < 3)
+  if ((*(uint16_t *)(pointer + 6)) < 3)
     return (1);
 
   return (0);
@@ -3171,22 +3192,22 @@ uint32_t baud,wordlength,stopbit,parity;
     return (1);
   }
 
-  if ((*(unsigned int *)(pointer + 2)) > 10000)
+  if ((*(uint16_t *)(pointer + 2)) > 10000)
     return (1);
   Rs485_1.cnt_tm_tx_out = 0;
-  Rs485_1.vol_tm_tx_out = *(unsigned int *)(pointer + 2);
+  Rs485_1.vol_tm_tx_out = *(uint16_t *)(pointer + 2);
 
-  if ((*(unsigned int *)(pointer + 4)) == 0)
+  if ((*(uint16_t *)(pointer + 4)) == 0)
     return (1);
-  if ((*(unsigned int *)(pointer + 4)) > 10000)
+  if ((*(uint16_t *)(pointer + 4)) > 10000)
     return (1);
   Rs485_1.cnt_tm_rx_out = 0;
-  Rs485_1.vol_tm_rx_out = *(unsigned int *)(pointer + 4);
+  Rs485_1.vol_tm_rx_out = *(uint16_t *)(pointer + 4);
 
-  if ((*(unsigned int *)(pointer + 6)) < 3)
+  if ((*(uint16_t *)(pointer + 6)) < 3)
     return (1);
   Rs485_1.cnt_tm_out = 0;
-  Rs485_1.vol_tm_out = *(unsigned int *)(pointer + 6); // 1000 миллисекунд
+  Rs485_1.vol_tm_out = *(uint16_t *)(pointer + 6); // 1000 миллисекунд
 
   switch (*pointer) {
   case B2400:
@@ -3326,22 +3347,22 @@ unsigned char run_cont_485_2(unsigned char *pointer) {
     return (1);
   }
 
-  if ((*(unsigned int *)(pointer + 2)) > 10000)
+  if ((*(uint16_t *)(pointer + 2)) > 10000)
     return (1);
   Rs485_2.cnt_tm_tx_out = 0;
-  Rs485_2.vol_tm_tx_out = *(unsigned int *)(pointer + 2);
+  Rs485_2.vol_tm_tx_out = *(uint16_t *)(pointer + 2);
 
-  if ((*(unsigned int *)(pointer + 4)) == 0)
+  if ((*(uint16_t *)(pointer + 4)) == 0)
     return (1);
-  if ((*(unsigned int *)(pointer + 4)) > 10000)
+  if ((*(uint16_t *)(pointer + 4)) > 10000)
     return (1);
   Rs485_2.cnt_tm_rx_out = 0;
-  Rs485_2.vol_tm_rx_out = *(unsigned int *)(pointer + 4);
+  Rs485_2.vol_tm_rx_out = *(uint16_t *)(pointer + 4);
 
-  if ((*(unsigned int *)(pointer + 6)) < 3)
+  if ((*(uint16_t *)(pointer + 6)) < 3)
     return (1);
   Rs485_2.cnt_tm_out = 0;
-  Rs485_2.vol_tm_out = *(unsigned int *)(pointer + 6); // 1000 миллисекунд
+  Rs485_2.vol_tm_out = *(uint16_t *)(pointer + 6); // 1000 миллисекунд
 
   switch (*pointer) {
   case B2400:
@@ -3478,22 +3499,22 @@ unsigned char run_cont_232_2(unsigned char *pointer) {
   }
 
 
-  if ((*(unsigned int *)(pointer + 2)) > 10000)
+  if ((*(uint16_t *)(pointer + 2)) > 10000)
     return (1);
   Rs232_2.cnt_tm_tx_out = 0;
-  Rs232_2.vol_tm_tx_out = *(unsigned int *)(pointer + 2);
+  Rs232_2.vol_tm_tx_out = *(uint16_t *)(pointer + 2);
 
-  if ((*(unsigned int *)(pointer + 4)) == 0)
+  if ((*(uint16_t *)(pointer + 4)) == 0)
     return (1);
-  if ((*(unsigned int *)(pointer + 4)) > 10000)
+  if ((*(uint16_t *)(pointer + 4)) > 10000)
     return (1);
   Rs232_2.cnt_tm_rx_out = 0;
-  Rs232_2.vol_tm_rx_out = *(unsigned int *)(pointer + 4);
+  Rs232_2.vol_tm_rx_out = *(uint16_t *)(pointer + 4);
 
-  if ((*(unsigned int *)(pointer + 6)) < 3)
+  if ((*(uint16_t *)(pointer + 6)) < 3)
     return (1);
   Rs232_2.cnt_tm_out = 0;
-  Rs232_2.vol_tm_out = *(unsigned int *)(pointer + 6); // 1000 миллисекунд
+  Rs232_2.vol_tm_out = *(uint16_t *)(pointer + 6); // 1000 миллисекунд
 
   switch (*pointer) {
   case B2400:
@@ -3590,12 +3611,12 @@ HAL_UART_DeInit(&huart4);
 }
 
 unsigned char check_ln_conf(unsigned char *buf_rx_ppp, unsigned char offset,
-                            unsigned int count_rx_ppp) {
-  unsigned int ind;
+                            uint16_t count_rx_ppp) {
+  uint16_t ind;
 
   ind = offset + C1_DATA;
 next_check_ln:
-  ind = ind + 3 + *(unsigned int *)&buf_rx_ppp[ind + 1];
+  ind = ind + 3 + *(uint16_t *)&buf_rx_ppp[ind + 1];
   if (ind > count_rx_ppp - 3)
     return (1);
   if (ind == count_rx_ppp - 3)
@@ -3603,13 +3624,13 @@ next_check_ln:
   goto next_check_ln;
 }
 
-unsigned int proc_config(unsigned char *buf_rx_ppp, unsigned char offset,
-                         unsigned int count_rx_ppp) {
+uint16_t proc_config(unsigned char *buf_rx_ppp, unsigned char offset,
+                         uint16_t count_rx_ppp) {
 
   // unsigned char flag_monitor_beg=0;
-  unsigned int long old_unix;
-  unsigned int ind, temp, ofs, i;
-  unsigned int cnt_bt;
+  uint32_t old_unix;
+  uint16_t ind, temp, ofs, i;
+  uint16_t cnt_bt;
   unsigned char buf[20];
   cnt_bt = 0;
   ind = offset + C1_DATA;
@@ -3620,13 +3641,13 @@ next_parametr:
     if ((buf_rx_ppp[ind] & 0x80) == 0x80)
       goto bad_com;
     else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_RD_CONF_VERS)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_RD_CONF_VERS)
         goto bad_com;
     }
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind];
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     buf[0] = ret_version(0, &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt]);
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         buf[0] + 1;
     cnt_bt = cnt_bt + buf[0] + 1 + 3;
     break;
@@ -3635,13 +3656,13 @@ next_parametr:
     if ((buf_rx_ppp[ind] & 0x80) == 0x80)
       goto bad_com;
     else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_RD_CONF_MAP)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_RD_CONF_MAP)
         goto bad_com;
     }
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind];
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     buf[0] = ret_version(1, &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt]);
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         buf[0] + 1;
     cnt_bt = cnt_bt + buf[0] + 1 + 3;
     break;
@@ -3650,13 +3671,13 @@ next_parametr:
     if ((buf_rx_ppp[ind] & 0x80) == 0x80)
       goto bad_com;
     else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_RD_CONF_OZU)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_RD_CONF_OZU)
         goto bad_com;
     }
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind];
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     buf[0] = ret_version(2, &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt]);
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         buf[0] + 1;
     cnt_bt = cnt_bt + buf[0] + 1 + 3;
     break;
@@ -3664,10 +3685,10 @@ next_parametr:
   case CONF_TM_NAT:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_NAT)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TM_NAT)
         goto bad_com;
       // запись
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 3];
 
       if (temp < 10) {
         buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x01;
@@ -3676,18 +3697,18 @@ next_parametr:
 
       Control.vol_nat = temp;
       RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-      *(unsigned int *)&buf[OFS_NAT] = temp;
-      *(unsigned int *)&buf[OFS_C_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_NAT] = temp;
+      *(uint16_t *)&buf[OFS_C_PAR_CRC] =
           crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
       WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
       prov_ozu = crc_ozu();
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_NAT - 2))
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_NAT - 2))
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_NAT + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_C_PAR + OFS_NAT,
@@ -3699,10 +3720,10 @@ next_parametr:
   case CONF_TM_CC:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_CC)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TM_CC)
         goto bad_com;
       // запись
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 3];
 
       if (temp < 10) {
         buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x01;
@@ -3711,18 +3732,18 @@ next_parametr:
 
       Control.vol_link = temp;
       RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-      *(unsigned int *)&buf[OFS_CCH] = temp;
-      *(unsigned int *)&buf[OFS_C_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_CCH] = temp;
+      *(uint16_t *)&buf[OFS_C_PAR_CRC] =
           crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
       WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
       prov_ozu = crc_ozu();
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_CC - 2))
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_CC - 2))
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_CC + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_C_PAR + OFS_CCH,
@@ -3734,10 +3755,10 @@ next_parametr:
   case CONF_TM_WT:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_WT)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TM_WT)
         goto bad_com;
       // запись
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 3];
 
       if (temp < 5) {
         buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x01;
@@ -3747,18 +3768,18 @@ next_parametr:
       Control.vol_try = temp / Control.vol_waits;
 
       RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-      *(unsigned int *)&buf[OFS_TM_CH] = temp;
-      *(unsigned int *)&buf[OFS_C_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_TM_CH] = temp;
+      *(uint16_t *)&buf[OFS_C_PAR_CRC] =
           crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
       WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
       prov_ozu = crc_ozu();
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_WT - 2))
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_WT - 2))
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_WT + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_C_PAR + OFS_TM_CH,
@@ -3770,10 +3791,10 @@ next_parametr:
   case CONF_NUM_CL:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_NUM_CL)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_NUM_CL)
         goto bad_com;
       // запись
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 3];
 
       if (temp < 3) {
         buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x01;
@@ -3783,18 +3804,18 @@ next_parametr:
       num_seq_cl = temp;
 
       RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
-      *(unsigned int *)&buf[OFS_NUM_CL] = temp;
-      *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_NUM_CL] = temp;
+      *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
           crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
       WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
       prov_ozu = crc_ozu();
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_NUM_CL - 2))
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_NUM_CL - 2))
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_NUM_CL + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_SEQ_PAR + OFS_NUM_CL,
@@ -3805,10 +3826,10 @@ next_parametr:
   case CONF_TM_VZ:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_VZ)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TM_VZ)
         goto bad_com;
       // запись
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 3];
 
       if (temp < 1) {
         buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x01;
@@ -3818,18 +3839,18 @@ next_parametr:
       Appl_seq.vol_tm_vzat = temp;
 
       RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
-      *(unsigned int *)&buf[OFS_TM_VZ] = temp;
-      *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_TM_VZ] = temp;
+      *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
           crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
       WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
       prov_ozu = crc_ozu();
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_VZ - 2))
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_VZ - 2))
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_VZ + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_SEQ_PAR + OFS_TM_VZ,
@@ -3841,10 +3862,10 @@ next_parametr:
   case CONF_TM_CL:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_CL)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TM_CL)
         goto bad_com;
       // запись
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 3];
 
       if (temp < 5) {
         buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x01;
@@ -3854,18 +3875,18 @@ next_parametr:
       Appl_seq.vol_cntr_cl = temp;
 
       RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
-      *(unsigned int *)&buf[OFS_TM_CL] = temp;
-      *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_TM_CL] = temp;
+      *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
           crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
       WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
       prov_ozu = crc_ozu();
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_CL - 2))
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_CL - 2))
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_CL + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_SEQ_PAR + OFS_TM_CL,
@@ -3877,7 +3898,7 @@ next_parametr:
   case CONF_DES_OHR:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_DES_OHR)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_DES_OHR)
         goto bad_com;
       // запись
       temp = buf_rx_ppp[ind + 3];
@@ -3891,7 +3912,7 @@ next_parametr:
 
       RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
       buf[OFS_DES_SEQ] = temp;
-      *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
           crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
       WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
       prov_ozu = crc_ozu();
@@ -3909,12 +3930,12 @@ next_parametr:
       */
 
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_DES_OHR - 1))
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_DES_OHR - 1))
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_DES_OHR + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_SEQ_PAR + OFS_DES_SEQ,
@@ -3926,10 +3947,10 @@ next_parametr:
   case CONF_NUM_SELF:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_NUM_SELF)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_NUM_SELF)
         goto bad_com;
       // запись
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 3];
 
       if (temp < 3) {
         buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x01;
@@ -3942,19 +3963,19 @@ next_parametr:
       // RdFromFleshToArr(ABUF_NUM,&buf_tx_232[TR_OP_DATA+C1_DATA+4+cnt_bt],2);
 
       RdFromFleshToArr(A_IP_PAR, &buf[0], L_IP_PAR);
-      *(unsigned int *)&buf[OFS_NUM] = temp;
-      *(unsigned int *)&buf[OFS_IP_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_NUM] = temp;
+      *(uint16_t *)&buf[OFS_IP_PAR_CRC] =
           crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
       WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
       //  prov_ozu=crc_ozu();
 
-    } else if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_NUM_SELF - 2))
+    } else if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_NUM_SELF - 2))
       goto bad_com;
 
     RdFromFleshToArr(A_IP_PAR + OFS_NUM,
                      &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt], 2);
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_NUM_SELF + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
 
@@ -3964,28 +3985,28 @@ next_parametr:
   case CONF_UDP:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_UDP)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_UDP)
         goto bad_com;
 
       // запись
       fl_rewrite.udp = 1;
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 3];
       // WrArrayToFlesh(ABUF_PORT, &buf_rx_ppp[ind+3],L_CONF_UDP,0,0);
       // RdFromFleshToArr(ABUF_PORT,&buf_tx_232[TR_OP_DATA+C1_DATA+4+cnt_bt],2);
 
       RdFromFleshToArr(A_IP_PAR, &buf[0], L_IP_PAR);
-      *(unsigned int *)&buf[OFS_PORT] = temp;
-      *(unsigned int *)&buf[OFS_IP_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_PORT] = temp;
+      *(uint16_t *)&buf[OFS_IP_PAR_CRC] =
           crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
       WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
 
-    } else if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_UDP - 2))
+    } else if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_UDP - 2))
       goto bad_com;
 
     RdFromFleshToArr(A_IP_PAR + OFS_PORT,
                      &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt], 2);
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_UDP + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
 
@@ -3995,7 +4016,7 @@ next_parametr:
   case CONF_IP:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_IP)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_IP)
         goto bad_com;
 
       fl_rewrite.ip = 1;
@@ -4009,18 +4030,18 @@ next_parametr:
       buf[OFS_IP + 1] = buf_rx_ppp[ind + 4];
       buf[OFS_IP + 2] = buf_rx_ppp[ind + 5];
       buf[OFS_IP + 3] = buf_rx_ppp[ind + 6];
-      *(unsigned int *)&buf[OFS_IP_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_IP_PAR_CRC] =
           crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
       WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
       // prov_ozu=crc_ozu();
 
-    } else if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_IP - 4))
+    } else if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_IP - 4))
       goto bad_com;
 
     RdFromFleshToArr(A_IP_PAR + OFS_IP,
                      &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt], 4);
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_IP + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
 
@@ -4031,7 +4052,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       goto bad_com;
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != 0)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != 0)
         goto bad_com;
     }
 
@@ -4063,17 +4084,17 @@ next_parametr:
     ofs = ofs + temp + 1;
     ofs = ofs - (TR_OP_DATA + C1_DATA + 4 + cnt_bt);
 
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = ofs + 1;
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = ofs + 1;
     cnt_bt = cnt_bt + ofs + 1 + 3;
 
     break;
 
   case CONF_RESET:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != 0)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != 0)
         goto bad_com;
       buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind];
-      *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = 1;
+      *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = 1;
       buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
       cnt_bt = cnt_bt + 1 + 3;
       fl_rewrite.cnt_reset = 4;
@@ -4083,7 +4104,7 @@ next_parametr:
 
   case CONF_PDP_DOP:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 1];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 1];
 
       if ((temp == 1) || (temp == 2))
         goto bad_com;
@@ -4104,7 +4125,7 @@ next_parametr:
         e_rw_pdp = 0;
       }
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != 0)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != 0)
         goto bad_com;
       temp = L_CONF_PDP;
     }
@@ -4112,7 +4133,7 @@ next_parametr:
     RdFromFleshToArr(ABUF_C_GPRS,
                      &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt], temp);
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind];
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = temp + 1;
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = temp + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
 
     cnt_bt = cnt_bt + temp + 1 + 3;
@@ -4121,7 +4142,7 @@ next_parametr:
 
   case CONF_TIME:
     if ((buf_rx_ppp[ind] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_WR_CONF_TIME)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_WR_CONF_TIME)
         goto bad_com;
       // запись времени
       old_unix = unix;
@@ -4145,12 +4166,12 @@ next_parametr:
       if (((old_unix - unix) >= 600) || ((unix - old_unix) >= 600))
         bit_level = 1;
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_RD_CONF_TIME)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_RD_CONF_TIME)
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind];
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_WR_CONF_TIME + 1;
 
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
@@ -4169,7 +4190,7 @@ next_parametr:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
       goto bad_com;
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != 0)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != 0)
         goto bad_com;
     }
 
@@ -4185,7 +4206,7 @@ next_parametr:
 
   case CONF_PDP_DOP_R:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 1];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 1];
 
       if ((temp == 1) || (temp == 2))
         goto bad_com;
@@ -4206,7 +4227,7 @@ next_parametr:
         e_rw_pdp_r = 0;
       }
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != 0)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != 0)
         goto bad_com;
       temp = L_CONF_PDP_R;
     }
@@ -4214,7 +4235,7 @@ next_parametr:
     RdFromFleshToArr(ABUF_CR_GPRS,
                      &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt], temp);
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind];
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = temp + 1;
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = temp + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
 
     cnt_bt = cnt_bt + temp + 1 + 3;
@@ -4225,17 +4246,17 @@ next_parametr:
 
     if ((buf_rx_ppp[ind] & 0x80) != 0x80)
       goto bad_com;
-    if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_WR_CONF_KEYS)
+    if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_WR_CONF_KEYS)
       goto bad_com;
 
     for (i = 0; i < L_KEYS - 2; i++)
       buf[i] = buf_rx_ppp[ind + 3 + i];
-    *(unsigned int *)&buf[L_KEYS - 2] = crc_m1(&buf[0], L_KEYS - 2, 0xffff);
+    *(uint16_t *)&buf[L_KEYS - 2] = crc_m1(&buf[0], L_KEYS - 2, 0xffff);
 
     WrArrayToFlesh(A_KEYS, &buf[0], L_KEYS, 0, 0);
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind];
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = 1;
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     cnt_bt = cnt_bt + 1 + 3;
 
@@ -4247,10 +4268,10 @@ next_parametr:
   case CONF_TM_NO_LINK:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_NO_LINK)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TM_NO_LINK)
         goto bad_com;
       // запись
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 3];
 
       if (temp != 0)
         if (temp <= (Control.vol_link / 60)) {
@@ -4262,18 +4283,18 @@ next_parametr:
       vol_cnt_no_link = vol_cnt_no_link * 60;
 
       RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-      *(unsigned int *)&buf[OFS_TM_NO_LINK] = temp;
-      *(unsigned int *)&buf[OFS_C_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_TM_NO_LINK] = temp;
+      *(uint16_t *)&buf[OFS_C_PAR_CRC] =
           crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
       WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
       prov_ozu = crc_ozu();
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_NO_LINK - 2))
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_NO_LINK - 2))
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_NO_LINK + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_C_PAR + OFS_TM_NO_LINK,
@@ -4285,10 +4306,10 @@ next_parametr:
   case CONF_TM_LINK_RES:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_LINK_RES)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TM_LINK_RES)
         goto bad_com;
       // запись
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 3];
 
       if (temp < MIN_TM_LINK_RES) {
         buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x01;
@@ -4299,18 +4320,18 @@ next_parametr:
       vol_cnt_link_res = vol_cnt_link_res * 60;
 
       RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-      *(unsigned int *)&buf[OFS_TM_LINK_RES] = temp;
-      *(unsigned int *)&buf[OFS_C_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_TM_LINK_RES] = temp;
+      *(uint16_t *)&buf[OFS_C_PAR_CRC] =
           crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
       WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
       prov_ozu = crc_ozu();
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_LINK_RES - 2))
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_LINK_RES - 2))
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_LINK_RES + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_C_PAR + OFS_TM_LINK_RES,
@@ -4321,7 +4342,7 @@ next_parametr:
 
   case CONF_TP_TS:
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TP_TS)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TP_TS)
         goto bad_com;
       // запись
 
@@ -4347,7 +4368,7 @@ next_parametr:
         struct_tcc2.type = temp;
       }
 
-      *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
           crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
       WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
       prov_ozu = crc_ozu();
@@ -4368,12 +4389,12 @@ next_parametr:
     }
 
     else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_TP_TS - 2))
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_TP_TS - 2))
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TP_TS + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_SEQ_PAR + OFS_TP_TS,
@@ -4386,10 +4407,10 @@ next_parametr:
   case CONF_TM_NAT_R:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TM_NAT_R)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TM_NAT_R)
         goto bad_com;
       // запись
-      temp = *(unsigned int *)&buf_rx_ppp[ind + 3];
+      temp = *(uint16_t *)&buf_rx_ppp[ind + 3];
 
       if (temp < 10) {
         buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x01;
@@ -4398,18 +4419,18 @@ next_parametr:
 
       Control.vol_nat_r = temp;
       RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-      *(unsigned int *)&buf[OFS_NAT_R] = temp;
-      *(unsigned int *)&buf[OFS_C_PAR_CRC] =
+      *(uint16_t *)&buf[OFS_NAT_R] = temp;
+      *(uint16_t *)&buf[OFS_C_PAR_CRC] =
           crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
       WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
       prov_ozu = crc_ozu();
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_NAT_R - 2))
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != (L_CONF_TM_NAT_R - 2))
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         L_CONF_TM_NAT_R + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_C_PAR + OFS_NAT_R,
@@ -4421,24 +4442,24 @@ next_parametr:
   case CONF_TRAF:
 
     if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TRAF)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TRAF)
         goto bad_com;
       // запись
 
       cnt_incom = 0;
       cnt_outcom = 0;
-      *(unsigned long int *)&buf[0] = burst_ds_r();
-      *(unsigned long int *)&buf[4] = cnt_outcom;
-      *(unsigned long int *)&buf[8] = cnt_incom;
-      *(unsigned int *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
+      *(uint32_t *)&buf[0] = burst_ds_r();
+      *(uint32_t *)&buf[4] = cnt_outcom;
+      *(uint32_t *)&buf[8] = cnt_incom;
+      *(uint16_t *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
       WrArrayToFlesh(A_TRAF, &buf[0], L_TRAF, 0, 0);
     } else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TRAF)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TRAF)
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] =
         (L_TRAF - 2) + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     RdFromFleshToArr(A_TRAF, &buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt],
@@ -4453,12 +4474,12 @@ next_parametr:
       goto bad_com;
 
     else {
-      if (*(unsigned int *)&buf_rx_ppp[ind + 1] != L_CONF_TEMPER)
+      if (*(uint16_t *)&buf_rx_ppp[ind + 1] != L_CONF_TEMPER)
         goto bad_com;
     }
 
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind]; // чтение
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = 1 + 1;
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = 1 + 1;
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x00; // OK
     buf_tx_232[TR_OP_DATA + C1_DATA + 4 + cnt_bt] = temp_to_grad(temperatura);
     cnt_bt = cnt_bt + 1 + 1 + 3;
@@ -4470,12 +4491,12 @@ next_parametr:
     buf_tx_232[TR_OP_DATA + C1_DATA + 3 + cnt_bt] = 0x02; // не поддерживается
   nocorr_com:
     buf_tx_232[TR_OP_DATA + C1_DATA + cnt_bt] = buf_rx_ppp[ind];
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = 1;
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1 + cnt_bt] = 1;
     cnt_bt = cnt_bt + 4;
     break;
   }
 
-  ind = ind + 3 + *(unsigned int *)&buf_rx_ppp[ind + 1];
+  ind = ind + 3 + *(uint16_t *)&buf_rx_ppp[ind + 1];
   if (ind >= count_rx_ppp - 3)
     return (cnt_bt);
   goto next_parametr;
@@ -4484,7 +4505,7 @@ next_parametr:
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Работа с портом RS485-1
 
 void monitor1_tx_rs485_1(void) {
-  unsigned int i;
+  uint16_t i;
   if (fl_485_1.busy == 1)
     return;
   if ((fl_485_1.tx == 1) || (Appl_RS485_1.fl_data_buf == TRUE)) {
@@ -4554,7 +4575,7 @@ void monitor1_tm_rs485_1(void) {
 }
 
 void monitor1_rec_rs485_1(void) {
-  unsigned int i;
+  uint16_t i;
   if (fl_tx485.mon1 == 0)
     return;
   if (fl_ip.act_ip_end != 1)
@@ -4642,7 +4663,7 @@ if(HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Работа с портом RS485-2
 
 void monitor1_tx_rs485_2(void) {
-  unsigned int i;
+  uint16_t i;
   if (fl_485_2.busy == 1)
     return;
   if ((fl_485_2.tx == 1) || (Appl_RS485_2.fl_data_buf == TRUE)) {
@@ -4697,7 +4718,7 @@ void monitor1_tm_rs485_2(void) {
 }
 
 void monitor1_rec_rs485_2(void) {
-  unsigned int i;
+  uint16_t i;
   if (fl_tx485.mon2 == 0)
     return;
   if (fl_ip.act_ip_end != 1)
@@ -4785,7 +4806,7 @@ if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Работа с портом RS232-2
 
 void monitor1_tx_rs232_2(void) {
-  unsigned int i;
+  uint16_t i;
   if (fl_232_2.busy == 1)
     return;
   if ((fl_232_2.tx == 1) || (Appl_RS232_2.fl_data_buf == TRUE)) {
@@ -4841,7 +4862,7 @@ void monitor1_tm_rs232_2(void) {
 }
 
 void monitor1_rec_rs232_2(void) {
-  unsigned int i;
+  uint16_t i;
   if (fl_tx485.mon232_2 == 0)
     return;
   if (fl_ip.act_ip_end != 1)
@@ -4933,11 +4954,11 @@ void monitor_wr_truffic(void) {
   burst_ds_r();
   if ((real_time.r_min == 0) && (fl_truffic.wr == 0)) {
     fl_truffic.wr = 1;
-    // *(unsigned long int*)&buf[0]=burst_ds_r();
+    // *(uint32_t*)&buf[0]=burst_ds_r();
     RdFromFleshToArr(A_TRAF, &buf[0], 4);
-    *(unsigned long int *)&buf[4] = cnt_outcom;
-    *(unsigned long int *)&buf[8] = cnt_incom;
-    *(unsigned int *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
+    *(uint32_t *)&buf[4] = cnt_outcom;
+    *(uint32_t *)&buf[8] = cnt_incom;
+    *(uint16_t *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
     WrArrayToFlesh(A_TRAF, &buf[0], L_TRAF, 0, 0);
     return;
   }
@@ -4945,12 +4966,12 @@ void monitor_wr_truffic(void) {
     fl_truffic.wr = 0;
 }
 /*
-int proc_temp_to_grad(char t, unsigned int t_cod, unsigned int offset_cod,
+int proc_temp_to_grad(char t, uint16_t t_cod, uint16_t offset_cod,
                       unsigned char delta_t, unsigned char delta_cod) {
   return (t - (t_cod - offset_cod) * delta_t / delta_cod);
 }
 
-char temp_to_grad(unsigned int t) {
+char temp_to_grad(uint16_t t) {
 
   if (t > 230 && t <= 319)
     return (proc_temp_to_grad(60, t, 207, 5, 23));
@@ -4974,7 +4995,7 @@ return ( t);
 }
 
 /*
-char temp_to_grad(unsigned int t)
+char temp_to_grad(uint16_t t)
 {
 
 
@@ -5040,7 +5061,7 @@ void control_temperatura(void) {
     CLR_TEN;
 }
 
-void send_info(char size, char __flash *p, unsigned char fl_id,
+void send_info(char size, char const *p, unsigned char fl_id,
                unsigned char id) {
 
   char massiv[6];

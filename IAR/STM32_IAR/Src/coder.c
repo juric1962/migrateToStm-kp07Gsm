@@ -1,10 +1,11 @@
 #include "def_prot.h"
 #include "ozu_map.h"
 #include <stdlib.h>
+#include "stdint.h"
 
-__flash unsigned char s1[] = {0, 15, 1, 14, 2, 13, 3, 12,
+const unsigned char s1[] = {0, 15, 1, 14, 2, 13, 3, 12,
                               4, 11, 5, 10, 6, 9,  7, 8};
-__flash unsigned char s2[] = {1, 9,  2, 10, 3, 11, 4, 12,
+const unsigned char s2[] = {1, 9,  2, 10, 3, 11, 4, 12,
                               5, 13, 6, 14, 7, 15, 8, 0};
 extern unsigned char keys[10];
 extern unsigned char buf_tx_232[VOL_TX_PPP];
@@ -35,17 +36,17 @@ unsigned char zamena(unsigned char i) {
   return i;
 }
 
-void transform_buf(unsigned char *p, unsigned int kol_byte,
-                   unsigned int s_rand) {
+void transform_buf(unsigned char *p, uint16_t kol_byte,
+                   uint16_t s_rand) {
   unsigned char N1, N2, N3, N4;
   unsigned char C1, C2;
   union {
     unsigned char bytes[2];
-    unsigned int word;
+    uint16_t word;
   } S;
   unsigned char N, Z;
   unsigned char i, j;
-  unsigned int count_byte; // kol_byte - четное число
+  uint16_t count_byte; // kol_byte - четное число
 
   C1 = 0xa3;
   C2 = 0x23;
@@ -96,12 +97,12 @@ void transform_buf(unsigned char *p, unsigned int kol_byte,
   } // while
 }
 
-void kodirovka(unsigned int kol_send_byte) {
+void kodirovka(uint16_t kol_send_byte) {
 
-  unsigned int kod;
+  uint16_t kod;
   kod = rand();
   transform_buf(&buf_tx_232[TR_ID], kol_send_byte - 7, kod);
-  *(unsigned int *)&buf_tx_232[TR_KOD] = kod;
+  *(uint16_t *)&buf_tx_232[TR_KOD] = kod;
 }
 
 // ##################################
