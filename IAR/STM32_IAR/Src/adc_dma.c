@@ -132,6 +132,6 @@ void ADC1_DMA_Start(void) {
 }
 
 /* DMA IRQ handler - forward to HAL */
-void DMA2_Stream0_IRQHandler(void) {
-  HAL_DMA_IRQHandler(&hdma_adc1);
-}
+//void DMA2_Stream0_IRQHandler(void) {
+//  HAL_DMA_IRQHandler(&hdma_adc1);
+//}

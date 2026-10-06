@@ -3,13 +3,13 @@
 #include "dfpin.h"
 #include "map_mbus.h"
 #include "tc_avtom.h"
-#include <inavr.h>
-#include <iom2560.h>
+//#include <inavr.h>
+//#include <iom2560.h>
 
 unsigned char flag_set_akb;
 
 union { // структура байта управления
-  unsigned int config;
+  uint16_t config;
   struct {
     unsigned char nomer_ty
         : 3; // 5 - взвод флага для станции, номер ту 1-4, 7-cbros tu
@@ -31,14 +31,14 @@ extern struct { // в двоичном коде
   char r_control;
 } real_time;
 
-unsigned int c_config_tc[SEG8];
+uint16_t c_config_tc[SEG8];
 
 // USERTC c_config_tc;
 
 extern unsigned char sel_modul;
 extern unsigned char cnt_tu1, cnt_tu2;
 
-extern unsigned int modbus_mem1[SEG1];
+extern uint16_t modbus_mem1[SEG1];
 
 struct struct_ts_mb {
 
@@ -91,7 +91,7 @@ void impuls_avatu(char num, char bv) {
 }
 
 void start_ts_mb(unsigned char num, struct struct_ts_mb *ts) {
-  unsigned int maska_ts;
+  uint16_t maska_ts;
   maska_ts = 1;
   maska_ts = maska_ts << num;
   if (modbus_mem1[AD_TS] & maska_ts)
@@ -132,7 +132,7 @@ void begin_ts_mb(void) {
 void opros_ts_mb(unsigned char num, struct struct_ts_mb *ts)
 
 {
-  unsigned int maska_ts;
+  uint16_t maska_ts;
 
   maska_ts = 1;
   maska_ts = maska_ts << num;
@@ -260,36 +260,36 @@ void local_avtom_tit(void) {
   unsigned char *triger_titmax;
 
   union {
-    unsigned int data;
+    uint16_t data;
     struct { // описание записи типа "поле"
-      unsigned int ustavka : 10;
-      unsigned int delay : 3;
-      unsigned int impuls : 3;
+      uint16_t ustavka : 10;
+      uint16_t delay : 3;
+      uint16_t impuls : 3;
     } map;
   } analog_ust_1;
 
   union {
-    unsigned int data;
+    uint16_t data;
     struct { // описание записи типа "поле"
-      unsigned int ustavka : 10;
-      unsigned int gisteresis : 6;
+      uint16_t ustavka : 10;
+      uint16_t gisteresis : 6;
 
     } map;
   } analog_ust_2;
 
   union {
-    unsigned int data;
+    uint16_t data;
     struct { // описание записи типа "поле"
-      unsigned int nomer_ty_low : 3;
-      unsigned int type_ty_low : 3;
-      unsigned int en_alarm_low : 2;
-      unsigned int nomer_ty_hi : 3;
-      unsigned int type_ty_hi : 3;
-      unsigned int en_alarm_hi : 2;
+      uint16_t nomer_ty_low : 3;
+      uint16_t type_ty_low : 3;
+      uint16_t en_alarm_low : 2;
+      uint16_t nomer_ty_hi : 3;
+      uint16_t type_ty_hi : 3;
+      uint16_t en_alarm_hi : 2;
     } map;
   } analog_uprava;
 
-  if (*(unsigned int *)&c_config_tc[0x16] != 0x55aa)
+  if (*(uint16_t *)&c_config_tc[0x16] != 0x55aa)
     return;
 
   triger_titmin = (unsigned char *)&c_config_tc[0x17];
@@ -327,9 +327,9 @@ void local_avtom_tit(void) {
       continue;
     } // Идет отработка паузы. След.вх.
 
-    analog_ust_1.data = *(unsigned int *)&c_config_tc[0x10 + ivx * 3];
-    analog_ust_2.data = *(unsigned int *)&c_config_tc[0x11 + ivx * 3];
-    analog_uprava.data = *(unsigned int *)&c_config_tc[0x12 + ivx * 3];
+    analog_ust_1.data = *(uint16_t *)&c_config_tc[0x10 + ivx * 3];
+    analog_ust_2.data = *(uint16_t *)&c_config_tc[0x11 + ivx * 3];
+    analog_uprava.data = *(uint16_t *)&c_config_tc[0x12 + ivx * 3];
 
     analog_min = analog_ust_1.map.ustavka;
     analog_max = analog_ust_2.map.ustavka;

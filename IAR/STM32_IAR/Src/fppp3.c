@@ -1,3 +1,7 @@
+#include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal_rtc.h"
+#include "stm32f4xx_hal_def.h"
+#include "sram_rtc.h"
 #include "bpa.h"
 #include "def_at.h"
 #include "def_conf.h"
@@ -11,8 +15,8 @@
 #include "map_mbus.h"
 #include "ozu_map.h"
 #include "ver_api.h"
-#include <inavr.h>
-#include <iom2560.h>
+//#include <inavr.h>
+//#include <iom2560.h>
 
 // адоптированный обрезанный стек PPP 14.09.07
 
@@ -67,47 +71,47 @@ void boot_HUGE(void);
 void r_p_flash(unsigned int adress);
 void reload_apl_HUGE(void);
 
-void send_info(char size, char __flash *p, unsigned char fl_id,
+void send_info(char size, char const *p, unsigned char fl_id,
                unsigned char id);
 
-//__flash char gluk[]= {'g','l','u','k'};
-//__flash char gluk1[]= {'g','l','u','k','1'};
+//const char gluk[]= {'g','l','u','k'};
+//const char gluk1[]= {'g','l','u','k','1'};
 
-__flash char evc_rld[] = {'E', 'V', 'C', ':', 'r', 'l', 'd'};
+const char evc_rld[] = {'E', 'V', 'C', ':', 'r', 'l', 'd'};
 
-__flash char rec_ctrl_ch[] = {'R', 'E', 'C', ':', 'c', 't',
+const char rec_ctrl_ch[] = {'R', 'E', 'C', ':', 'c', 't',
                               'r', 'l', ' ', 'c', 'h'};
-__flash char rec_evc[] = {'R', 'E', 'C', ':', 'e', 'v', 'c'};
+const char rec_evc[] = {'R', 'E', 'C', ':', 'e', 'v', 'c'};
 
-__flash char ans_in_ctrl_cl[] = {'A', 'N', 'S', '-', '<', 'c',
+const char ans_in_ctrl_cl[] = {'A', 'N', 'S', '-', '<', 'c',
                                  't', 'r', 'l', ' ', 'c', 'l'};
 
 /*
-__flash char req_in_485_1[]={'R','E','Q','-','<','4','8','5','_','1'};
-__flash char req_in_485_2[]={'R','E','Q','-','<','4','8','5','_','2'};
-__flash char req_in_232[]={'R','E','Q','-','<','2','3','2'};
-__flash char req_in_st_contr[]={'R','E','Q','-','<','s','t','
+const char req_in_485_1[]={'R','E','Q','-','<','4','8','5','_','1'};
+const char req_in_485_2[]={'R','E','Q','-','<','4','8','5','_','2'};
+const char req_in_232[]={'R','E','Q','-','<','2','3','2'};
+const char req_in_st_contr[]={'R','E','Q','-','<','s','t','
 ','c','o','n','t','r'};
-__flash char req_in_config[]={'R','E','Q','-','<','c','o','n','f','i','g'};
-__flash char req_in_prog[]={'R','E','Q','-','<','p','r','o','g'};
+const char req_in_config[]={'R','E','Q','-','<','c','o','n','f','i','g'};
+const char req_in_prog[]={'R','E','Q','-','<','p','r','o','g'};
 */
 
-__flash char ans_out_485_1[] = {'A', 'N', 'S', '-', '>',
+const char ans_out_485_1[] = {'A', 'N', 'S', '-', '>',
                                 '4', '8', '5', '_', '1'};
-__flash char ans_out_485_2[] = {'A', 'N', 'S', '-', '>',
+const char ans_out_485_2[] = {'A', 'N', 'S', '-', '>',
                                 '4', '8', '5', '_', '2'};
-__flash char ans_out_232[] = {'A', 'N', 'S', '-', '>', '2', '3', '2'};
-__flash char ans_out_st_contr[] = {'A', 'N', 'S', '-', '>', 's', 't',
+const char ans_out_232[] = {'A', 'N', 'S', '-', '>', '2', '3', '2'};
+const char ans_out_st_contr[] = {'A', 'N', 'S', '-', '>', 's', 't',
                                    ' ', 'c', 'o', 'n', 't', 'r'};
-__flash char ans_out_config[] = {'A', 'N', 'S', '-', '>', 'c',
+const char ans_out_config[] = {'A', 'N', 'S', '-', '>', 'c',
                                  'o', 'n', 'f', 'i', 'g'};
-__flash char ans_out_prog[] = {'A', 'N', 'S', '-', '>', 'p', 'r', 'o', 'g'};
-__flash char ans_out_mbus[] = {'A', 'N', 'S', '-', '>', 'm', 'b', 'u', 's'};
+const char ans_out_prog[] = {'A', 'N', 'S', '-', '>', 'p', 'r', 'o', 'g'};
+const char ans_out_mbus[] = {'A', 'N', 'S', '-', '>', 'm', 'b', 'u', 's'};
 
-//__flash char ans_out_ping[]={'A','N','S','-','>','p','i','n','g'};
+//const char ans_out_ping[]={'A','N','S','-','>','p','i','n','g'};
 
-//__flash char prov1[]={'P','R','O','V','1'};
-//__flash char prov2[]={'P','R','O','V','2'};
+//const char prov1[]={'P','R','O','V','1'};
+//const char prov2[]={'P','R','O','V','2'};
 
 #define NO_MODEL 0x2
 #define NO_MAP 0x7
@@ -115,7 +119,7 @@ __flash char ans_out_mbus[] = {'A', 'N', 'S', '-', '>', 'm', 'b', 'u', 's'};
 #define DATA_DATA 0x1a
 #define GOD 0x11
 
-__flash unsigned char new_version[] = {0x06,       0xcd,      0x00, 0x07,
+const unsigned char new_version[] = {0x06,       0xcd,      0x00, 0x07,
                                        0x00,       NO_MODEL,  0x00, NO_MAP,
                                        DATA_MONTH, DATA_DATA, 0x00, GOD};
 
@@ -490,7 +494,7 @@ struct // структура, описывающая объект передач
 
 extern unsigned char buf_opt_tr[20];
 
-__flash unsigned int fcstab[256] = {
+const unsigned int fcstab[256] = {
     0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf, 0x8c48,
     0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7, 0x1081, 0x0108,
     0x3393, 0x221a, 0x56a5, 0x472c, 0x75b7, 0x643e, 0x9cc9, 0x8d40, 0xbfdb,
