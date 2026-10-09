@@ -202,3 +202,177 @@ if (BootFlash_Unlock() == BOOTFLASH_OK)
 }
 
 Здесь sector, address и data — параметры твоего алгоритма обновления.
+
+
+/*
+
+это программа загрузчик Сергея рабочая
+
+*/
+
+
+int main(void)
+{
+  /* USER CODE BEGIN 1 */
+  
+  
+  
+  __set_PRIMASK(1); //????????? ??????????
+
+SCB->VTOR = 0x080E0000;//????????? ?????? ??????? ?????????? ?? ?????????? ??????
+
+__set_PRIMASK(0);//????????? ??????????
+
+
+  
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_IWDG_Init();
+  /* USER CODE BEGIN 2 */
+HAL_IWDG_Start(&hiwdg); 
+  /* USER CODE END 2 */
+FLASH_Unlock ();  
+
+
+
+
+/*    
+while(1)
+{
+Delay_us(500000);
+HAL_IWDG_Refresh(&hiwdg);
+LED1_RED(1);
+LED2_RED(1);
+LED3_RED(1);
+Delay_us(500000);
+HAL_IWDG_Refresh(&hiwdg);
+LED1_RED(0);
+LED2_RED(0);
+LED3_RED(0);
+}
+*/
+
+// test 
+/*
+if (FLASH_If_Erase10() )
+{
+LED1_RED(1);
+LED2_RED(1);
+LED3_RED(1);
+while(1);
+}
+*/
+
+
+
+__IO uint32_t dst = 0x08000000;
+__IO uint32_t src = 0x08060000;
+__IO int i,err;
+/*
+
+new program present ? in source adress
+*/
+if (*(uint32_t*)src == 0xffff) goto exitProgram;
+
+
+if (FLASH_If_Erase1(0x08000000) )
+{
+   FLASH_Lock();
+   
+   LED1_RED(1);
+   LED2_RED(1);
+   LED3_RED(1);
+   
+   while (1)
+  {
+   //HAL_IWDG_Refresh(&hiwdg);
+  }
+}
+
+/*
+for (i = 0; i < (0x60000/4); ++i)
+{
+while (FLASH_ProgramWord(dst, *(uint32_t*)src) != FLASH_COMPLETE_OLD) {HAL_IWDG_Refresh(&hiwdg); }
+if ((*(uint32_t *)dst) != (*(uint32_t*)src))
+{
+
+FLASH_Lock();
+
+}
+src += 4;
+dst += 4;
+}
+*/
+LED1_GREEN(1);
+//LED2_GREEN(1);
+//LED3_GREEN(1);
+
+LED1_RED(0);
+LED2_RED(0);
+LED3_RED(0);
+
+for (i = 0; i < (0x60000/4); ++i)
+{
+  for ( err = 0; err < 4; err++)               // 4 attempt to write 
+  {
+if( FLASH_ProgramWord( dst, *(uint32_t*)src ) != FLASH_COMPLETE_OLD) {HAL_IWDG_Refresh(&hiwdg); LED1_RED(1) ; continue; }  // no ready
+if ((*(__IO uint32_t *)dst) != (*(__IO uint32_t*)src)) {HAL_IWDG_Refresh(&hiwdg); LED2_RED(1) ;continue; }                          // bad write
+else { goto next_word;}
+ }
+
+if( err >= 3 ) 
+{
+  FLASH_Lock();
+  LED3_RED(1) ;
+   while (1)
+  {
+   HAL_IWDG_Refresh(&hiwdg);
+  }
+}
+
+next_word:
+  
+src += 4;
+dst += 4;
+}
+
+LED2_GREEN(1);
+
+
+exitProgram:
+//FLASH_If_Erase2(0x08060000);  
+FLASH_Lock();
+Delay_us(300000);
+ HAL_IWDG_Refresh(&hiwdg);
+LED3_GREEN(1);
+Delay_us(300000);
+ HAL_IWDG_Refresh(&hiwdg);
+//__disable_irq ();
+  uint32_t JumpAddress ;
+  uint32_t Address = 0x08000000;
+  typedef void(*pFunction)(void);
+  pFunction Jump_To_Application; 
+
+
+
+    JumpAddress = *(__IO uint32_t*) (Address + 4);
+  Jump_To_Application = (pFunction) JumpAddress;
+

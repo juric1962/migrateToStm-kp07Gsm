@@ -9,7 +9,10 @@ define symbol __ICFEDIT_region_RAM_size__  = 0x00030000; /* 192 KB */
 
 /* Place code and RO data in ROM */
 place in ROM_region { readonly }; 
-
+place at address mem:0x080E0000
+{
+    readonly section BOOT_CODE
+};
 /* Place RW data in RAM */
 place in RAM_region { readwrite, block HEAP, block STACK };
 
