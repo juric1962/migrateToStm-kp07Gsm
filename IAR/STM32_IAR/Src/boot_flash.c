@@ -5,7 +5,7 @@
  * Все функции этого файла помещаются
  * в секцию BOOT_CODE.
  */
-#pragma default_function_attributes = @ "BOOT_CODE"
+//#pragma default_function_attributes = @ "BOOT_CODE"
 
 #define FLASH_KEY1       0x45670123U
 #define FLASH_KEY2       0xCDEF89ABU
@@ -41,13 +41,26 @@
  * Значение нужно проверить на реальной частоте CPU.
  */
 #define FLASH_WAIT_LIMIT  10000000U
+// static - область видимости только в пределах этого файла
+static void S2_RD(void) @ "BOOT_CODE"
+{
+    S2_R_PORT->BSRR = (uint32_t)S2_R_PIN << 16;
+    S2_G_PORT->BSRR = S2_G_PIN;
+}
 
-static int BootFlash_WaitReady(void)
+static void S2_GR(void) @ "BOOT_CODE"
+{
+    S2_R_PORT->BSRR = S2_R_PIN;
+    S2_G_PORT->BSRR = (uint32_t)S2_G_PIN << 16;
+}
+
+ static int BootFlash_WaitReady(void) @ "BOOT_CODE"
 {
     uint32_t timeout = FLASH_WAIT_LIMIT;
 
     while ((FLASH->SR & FLASH_SR_BSY) != 0U)
     {
+        IWDG->KR = 0xAAAAU; // сброс watchdog я его запретить не могу 
         if (--timeout == 0U)
             return BOOTFLASH_TIMEOUT;
     }
@@ -62,7 +75,7 @@ static int BootFlash_WaitReady(void)
 }
 
 /* Разблокировать Flash */
-int BootFlash_Unlock(void)
+static int BootFlash_Unlock(void) @ "BOOT_CODE"
 {
     if ((FLASH->CR & FLASH_CR_LOCK) != 0U)
     {
@@ -77,7 +90,7 @@ int BootFlash_Unlock(void)
 }
 
 /* Заблокировать Flash */
-void BootFlash_Lock(void)
+static void BootFlash_Lock(void) @ "BOOT_CODE"
 {
     FLASH->CR |= FLASH_CR_LOCK;
 }
@@ -86,7 +99,7 @@ void BootFlash_Lock(void)
  * Стереть один сектор:
  * sector = 0..11 для STM32F405.
  */
-int BootFlash_EraseSector(uint32_t sector)
+static int BootFlash_EraseSector(uint32_t sector) @ "BOOT_CODE"
 {
     int result;
 
@@ -127,10 +140,10 @@ int BootFlash_EraseSector(uint32_t sector)
  * Записать одно 32-битное слово.
  * address должен быть выровнен по 4 байтам.
  */
-int BootFlash_ProgramWord(uint32_t address, uint32_t data)
+static int BootFlash_ProgramWord(uint32_t address, uint32_t data) @ "BOOT_CODE"
 {
     int result;
-
+    S2_GR();
     if ((address & 3U) != 0U)
         return BOOTFLASH_PARAM;
 
@@ -171,20 +184,20 @@ int BootFlash_ProgramWord(uint32_t address, uint32_t data)
 }
 
 /* Прочитать одно 32-битное слово */
-uint32_t BootFlash_ReadWord(uint32_t address)
+static uint32_t BootFlash_ReadWord(uint32_t address) @ "BOOT_CODE"
 {
     return *(volatile const uint32_t *)address;
 }
 
-#pragma default_function_attributes =
 
 
 
 
+/*
 Размещаем секцию по фиксированному адресу
 В IAR .icf:
 
-place at address mem:0x08020000
+place at address mem:0x080E0000
 {
     readonly section BOOT_CODE
 };
@@ -202,7 +215,7 @@ if (BootFlash_Unlock() == BOOTFLASH_OK)
 }
 
 Здесь sector, address и data — параметры твоего алгоритма обновления.
-
+*/
 
 /*
 
@@ -211,64 +224,10 @@ if (BootFlash_Unlock() == BOOTFLASH_OK)
 */
 
 
-int main(void)
+void SelfProgramm(void) @ "BOOT_CODE"
 {
-  /* USER CODE BEGIN 1 */
-  
-  
-  
-  __set_PRIMASK(1); //????????? ??????????
-
-SCB->VTOR = 0x080E0000;//????????? ?????? ??????? ?????????? ?? ?????????? ??????
-
-__set_PRIMASK(0);//????????? ??????????
-
-
-  
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
-  SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_IWDG_Init();
-  /* USER CODE BEGIN 2 */
-HAL_IWDG_Start(&hiwdg); 
-  /* USER CODE END 2 */
-FLASH_Unlock ();  
-
-
-
-
-/*    
-while(1)
-{
-Delay_us(500000);
-HAL_IWDG_Refresh(&hiwdg);
-LED1_RED(1);
-LED2_RED(1);
-LED3_RED(1);
-Delay_us(500000);
-HAL_IWDG_Refresh(&hiwdg);
-LED1_RED(0);
-LED2_RED(0);
-LED3_RED(0);
-}
-*/
+  __disable_irq();
+if (BootFlash_Unlock() != BOOTFLASH_OK) goto exitProgram;
 
 // test 
 /*
@@ -291,88 +250,35 @@ __IO int i,err;
 new program present ? in source adress
 */
 if (*(uint32_t*)src == 0xffff) goto exitProgram;
+if (BootFlash_EraseSector( sector_5 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( sector_4 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( sector_3 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( sector_2 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( sector_1 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( sector_0 ) != BOOTFLASH_OK) goto exitProgram;
 
 
-if (FLASH_If_Erase1(0x08000000) )
-{
-   FLASH_Lock();
-   
-   LED1_RED(1);
-   LED2_RED(1);
-   LED3_RED(1);
-   
-   while (1)
-  {
-   //HAL_IWDG_Refresh(&hiwdg);
-  }
-}
 
-/*
-for (i = 0; i < (0x60000/4); ++i)
-{
-while (FLASH_ProgramWord(dst, *(uint32_t*)src) != FLASH_COMPLETE_OLD) {HAL_IWDG_Refresh(&hiwdg); }
-if ((*(uint32_t *)dst) != (*(uint32_t*)src))
-{
-
-FLASH_Lock();
-
-}
-src += 4;
-dst += 4;
-}
-*/
-LED1_GREEN(1);
-//LED2_GREEN(1);
-//LED3_GREEN(1);
-
-LED1_RED(0);
-LED2_RED(0);
-LED3_RED(0);
 
 for (i = 0; i < (0x60000/4); ++i)
 {
   for ( err = 0; err < 4; err++)               // 4 attempt to write 
   {
-if( FLASH_ProgramWord( dst, *(uint32_t*)src ) != FLASH_COMPLETE_OLD) {HAL_IWDG_Refresh(&hiwdg); LED1_RED(1) ; continue; }  // no ready
-if ((*(__IO uint32_t *)dst) != (*(__IO uint32_t*)src)) {HAL_IWDG_Refresh(&hiwdg); LED2_RED(1) ;continue; }                          // bad write
+  IWDG->KR = 0xAAAAU; // сброс watchdog я его запретить не могу  
+if( BootFlash_ProgramWord( dst, *(uint32_t*)src ) != BOOTFLASH_OK) { continue; }  // no ready
+if ((*(__IO uint32_t *)dst) != (*(__IO uint32_t*)src)) { continue; }               // bad write
 else { goto next_word;}
  }
-
-if( err >= 3 ) 
-{
-  FLASH_Lock();
-  LED3_RED(1) ;
-   while (1)
-  {
-   HAL_IWDG_Refresh(&hiwdg);
-  }
+if( err >= 3 ) goto exitProgram;
+next_word: 
+  src += 4;
+  dst += 4;
 }
-
-next_word:
-  
-src += 4;
-dst += 4;
-}
-
-LED2_GREEN(1);
-
 
 exitProgram:
-//FLASH_If_Erase2(0x08060000);  
-FLASH_Lock();
-Delay_us(300000);
- HAL_IWDG_Refresh(&hiwdg);
-LED3_GREEN(1);
-Delay_us(300000);
- HAL_IWDG_Refresh(&hiwdg);
-//__disable_irq ();
-  uint32_t JumpAddress ;
-  uint32_t Address = 0x08000000;
-  typedef void(*pFunction)(void);
-  pFunction Jump_To_Application; 
+     BootFlash_Lock();
+     NVIC_SystemReset();  // recomendation gpt
 
-
-
-    JumpAddress = *(__IO uint32_t*) (Address + 4);
-  Jump_To_Application = (pFunction) JumpAddress;
+}
+//#pragma default_function_attributes =
 
