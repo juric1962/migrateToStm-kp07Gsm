@@ -1,4 +1,5 @@
 #include "gpio_inputs.h"
+#include "dfpin.h"
 
 void MX_GPIO_TCs_Init(void) {
   __HAL_RCC_GPIOA_CLK_ENABLE();

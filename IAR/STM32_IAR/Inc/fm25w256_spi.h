@@ -10,19 +10,19 @@ extern "C" {
 
 void FM25W256_SPI_Init(void);
 
-void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                      unsigned int num);
+void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                      uint16_t num);
 
-void RdFromFleshToArrInt(unsigned int adres_flesh, unsigned int *adres_ozu,
-                         unsigned int num);
+void RdFromFleshToArrInt(uint16_t adres_flesh, uint16_t *adres_ozu,
+                         uint16_t num);
 
-void WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
-                    unsigned int num, unsigned char flag,
+void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,
+                    uint16_t num, unsigned char flag,
                     unsigned char znach);
 
-void WrArrayToFleshInt(unsigned int adres_flesh, unsigned int *adres_ozu,
-                       unsigned int num, unsigned char flag,
-                       unsigned int znach);
+void WrArrayToFleshInt(uint16_t adres_flesh, uint16_t *adres_ozu,
+                       uint16_t num, unsigned char flag,
+                       uint16_t znach);
 
 #ifdef __cplusplus
 }

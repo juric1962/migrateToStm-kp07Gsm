@@ -1,10 +1,10 @@
 
 #include "dfcnst.h"
 #include "dfpin.h"
-#include <iom2560.h>
+//#include <iom2560.h>
 
 unsigned char state_led_md;
-unsigned int count_led;
+uint16_t count_led;
 
 extern unsigned char simka; // dobavka
 

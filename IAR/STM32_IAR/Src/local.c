@@ -1,5 +1,5 @@
-#include <inavr.h>
-#include <iom2560.h>
+//#include <inavr.h>
+//#include <iom2560.h>
 
 #include "bpa.h"
 #include "dfcnst.h"
@@ -10,20 +10,20 @@
 
 //__flash char prov1[]={'P','R','O','V','1'};
 //__flash char prov2[]={'P','R','O','V','2'};
-char try_find_arhiv(unsigned long int matrix, char m);
+char try_find_arhiv(uint32_t matrix, char m);
 char try_form_arhiv(char m);
 
-extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                             unsigned int num);
-extern void WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
-                           unsigned int num, unsigned char flag,
+extern void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                             uint16_t num);
+extern void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,
+                           uint16_t num, unsigned char flag,
                            unsigned char znach);
 
-int crc_sum(unsigned char *ff, unsigned char kol);
+int16_t crc_sum(unsigned char *ff, unsigned char kol);
 
-extern unsigned long int burst_ds_r(void);
+extern uint32_t burst_ds_r(void);
 
-extern unsigned int modbus_mem1[SEG1];
+extern uint16_t modbus_mem1[SEG1];
 
 extern void s_port(unsigned char ch);
 
@@ -34,7 +34,7 @@ extern void s_port(unsigned char ch);
  extern   union
           {
         char arr_tii_byte[32];
-        unsigned int  arr_tii[16];
+        uint16_t  arr_tii[16];
           } sstii;
 
 */
@@ -42,14 +42,14 @@ extern void s_port(unsigned char ch);
 // для разрешения счета мотоминут
 // аналогично как в УЗЭП надо сделать
 union { // структура байта управления
-  unsigned int config;
+  uint16_t config;
   struct {
-    unsigned int interval_zamera : 11; //
-    unsigned int type_zam : 2;
-    unsigned int TC_zam : 3;
-    // unsigned int level_tc             :1;       // ТС_ON_OFF
-    // unsigned int nomer_tc             :3;       // номер ТС 0-7
-    // unsigned int enable               :1;
+    uint16_t interval_zamera : 11; //
+    uint16_t type_zam : 2;
+    uint16_t TC_zam : 3;
+    // uint16_t level_tc             :1;       // ТС_ON_OFF
+    // uint16_t nomer_tc             :3;       // номер ТС 0-7
+    // uint16_t enable               :1;
   } bit;
 } tii_moto;
 
@@ -64,7 +64,7 @@ extern struct { // в двоичном коде
   char r_control;
 } real_time;
 
-unsigned long int cnt_moto[16];
+uint32_t cnt_moto[16];
 
 // YES!!! //YES!!! //YES!!!
 
@@ -79,15 +79,15 @@ union {
 } c1_byte;                     // страница конфигурации ГЗУ
 
 char bit_zamer_psm, sost_psm;
-unsigned long int timer_psm, unix_psm;
+uint32_t timer_psm, unix_psm;
 
-unsigned long int timer_tii[16], timer_tit[2];
+uint32_t timer_tii[16], timer_tit[2];
 char old_realsec[16];
 
-unsigned int lock_bit, tii_bit, tii_bit_minut;
+uint16_t lock_bit, tii_bit, tii_bit_minut;
 unsigned char lock_bit_tit, tit_bit;
 
-extern unsigned long int unix;
+extern uint32_t unix;
 
 extern char kodec[4];
 extern unsigned char sel_modul;
@@ -96,13 +96,13 @@ extern unsigned char sel_modul;
 char bit_level, bit_level_psm;
 
 unsigned char tarhiv;
-unsigned long int start_ttii[16], arr_tii_32[16], start_tii_gzu, delta_ys;
-unsigned int cnt_sec;
+uint32_t start_ttii[16], arr_tii_32[16], start_tii_gzu, delta_ys;
+uint16_t cnt_sec;
 // YES!!!  //YES!!! //YES!!! //YES!!!
 
-unsigned long int day_accum;
+uint32_t day_accum;
 char day_chan, day_zap, start_day_zamer, day_good;
-unsigned long int day_unix, time_sutok;
+uint32_t day_unix, time_sutok;
 
 char err_psm, err_switch, cnt_try_ys, tekpsm, pred_mask, fin_ys, count_try,
     count_sboj, try_ty;
@@ -111,7 +111,7 @@ char zadan_ys, global_try = 3, sost_psm;
 /////////
 //////////////////////
 void end_zamer(char m);
-unsigned long int set_end_time(char mi, char ch, char da, char ma, char ye);
+uint32_t set_end_time(char mi, char ch, char da, char ma, char ye);
 
 void insert_zapis_kd(unsigned char nomer, unsigned char type) {
   unsigned char i, buf[4];
@@ -119,7 +119,7 @@ void insert_zapis_kd(unsigned char nomer, unsigned char type) {
 
   for (i = 0; i < 12; i++)
     zapis[i] = 0;
-  *(unsigned long int *)&zapis[0] = unix;
+  *(uint32_t *)&zapis[0] = unix;
   zapis[4] = 0;
   zapis[5] = 0;
   for (i = 0; i < 6; i++)
@@ -143,11 +143,11 @@ void insert_zapis_kd(unsigned char nomer, unsigned char type) {
       zapis[6 + i] = 0x55;
   }
 
-  *(unsigned int *)&zapis[4] = nomer;
-  *(unsigned int *)&zapis[10] = type;
-  *(unsigned int *)&zapis[12] = crc_sum(&zapis[0], 12);
+  *(uint16_t *)&zapis[4] = nomer;
+  *(uint16_t *)&zapis[10] = type;
+  *(uint16_t *)&zapis[12] = crc_sum(&zapis[0], 12);
 
-  WrArrayToFlesh(STRUCT_TII_HEAP + (int)modbus_mem1[AD_IND_DNS] * 14, &zapis[0],
+  WrArrayToFlesh(STRUCT_TII_HEAP + (int16_t)modbus_mem1[AD_IND_DNS] * 14, &zapis[0],
                  14, 0, 0);
   modbus_mem1[AD_IND_DNS]++;
   if (modbus_mem1[AD_IND_DNS] > 99) {
@@ -163,14 +163,14 @@ void insert_zapis_tc(unsigned char nomer, unsigned char kod) {
 
   for (i = 0; i < 12; i++)
     zapis[i] = 0;
-  *(unsigned long int *)&zapis[0] = unix;
-  *(unsigned int *)&zapis[4] = nomer + 1;
-  *(unsigned int *)&zapis[6] = modbus_mem1[AD_TS];
-  *(unsigned int *)&zapis[8] = (modbus_mem1[AD_TS] >> nomer) & 0x01;
-  *(unsigned int *)&zapis[10] = kod;
-  *(unsigned int *)&zapis[12] = crc_sum(&zapis[0], 12);
+  *(uint32_t *)&zapis[0] = unix;
+  *(uint16_t *)&zapis[4] = nomer + 1;
+  *(uint16_t *)&zapis[6] = modbus_mem1[AD_TS];
+  *(uint16_t *)&zapis[8] = (modbus_mem1[AD_TS] >> nomer) & 0x01;
+  *(uint16_t *)&zapis[10] = kod;
+  *(uint16_t *)&zapis[12] = crc_sum(&zapis[0], 12);
 
-  WrArrayToFlesh(STRUCT_TII_HEAP + (int)modbus_mem1[AD_IND_DNS] * 14, &zapis[0],
+  WrArrayToFlesh(STRUCT_TII_HEAP + (int16_t)modbus_mem1[AD_IND_DNS] * 14, &zapis[0],
                  14, 0, 0);
   modbus_mem1[AD_IND_DNS]++;
   if (modbus_mem1[AD_IND_DNS] > 99) {
@@ -186,14 +186,14 @@ void insert_zapis_tit(unsigned char nomer) {
 
   for (i = 0; i < 12; i++)
     zapis[i] = 0;
-  *(unsigned long int *)&zapis[0] = unix;
+  *(uint32_t *)&zapis[0] = unix;
 
-  *(unsigned int *)&zapis[6] = modbus_mem1[AD_TIT1 + nomer];
+  *(uint16_t *)&zapis[6] = modbus_mem1[AD_TIT1 + nomer];
 
-  *(unsigned int *)&zapis[10] = 16 + nomer;
-  *(unsigned int *)&zapis[12] = crc_sum(&zapis[0], 12);
+  *(uint16_t *)&zapis[10] = 16 + nomer;
+  *(uint16_t *)&zapis[12] = crc_sum(&zapis[0], 12);
 
-  WrArrayToFlesh(STRUCT_TII_HEAP + (int)modbus_mem1[AD_IND_DNS] * 14, &zapis[0],
+  WrArrayToFlesh(STRUCT_TII_HEAP + (int16_t)modbus_mem1[AD_IND_DNS] * 14, &zapis[0],
                  14, 0, 0);
   modbus_mem1[AD_IND_DNS]++;
   if (modbus_mem1[AD_IND_DNS] > 99) {
@@ -206,19 +206,19 @@ void insert_zapis_tit(unsigned char nomer) {
 
 void day_zamer(void) {
 
-  int zamer;
+  int16_t zamer;
   unsigned char i;
   //    char i, akaka, mus;
 
   unsigned char zapis[14];
 
   union {
-    long int unix;
+    int32_t unix;
     char st[4];
   } tik;
 
   union {
-    long int acc;
+    int32_t acc;
     char a[4];
   } sum;
 
@@ -274,11 +274,11 @@ void day_zamer(void) {
   w_result(22);
   */
 
-  RdFromFleshToArr(STRUCT_TII_HEAP + (int)day_zap * 14, &zapis[0], 14);
+  RdFromFleshToArr(STRUCT_TII_HEAP + (int16_t)day_zap * 14, &zapis[0], 14);
 
   // считали правильно
   day_zap++;
-  if ((*(int *)&zapis[12]) ==
+  if ((*(int16_t *)&zapis[12]) ==
       crc_sum(&zapis[0],
               12)) //!!!!!ДОЛЖНА БЫТЬ ЧТЕНИЕ!!!!!!!!! ПРОВЕРКРЙ СРС!!! записи
   {
@@ -344,8 +344,8 @@ hlop:
 
     */
 
-    *(int *)&zapis[12] = crc_sum(&zapis[0], 12);
-    WrArrayToFlesh(STRUCT_TII_HEAP + (int)modbus_mem1[AD_IND_DNS] * 14,
+    *(int16_t *)&zapis[12] = crc_sum(&zapis[0], 12);
+    WrArrayToFlesh(STRUCT_TII_HEAP + (int16_t)modbus_mem1[AD_IND_DNS] * 14,
                    &zapis[0], 14, 0, 0);
 
     /*
@@ -385,8 +385,8 @@ hlop:
 
 ////////////////////////////////////////////// 10 11 14
 
-unsigned long int set_time_day_zamer(char date, char month, char year) {
-  unsigned long int sek_32;
+uint32_t set_time_day_zamer(char date, char month, char year) {
+  uint32_t sek_32;
   struct { // в двоичном коде
     char r_sec;
     char r_min;
@@ -411,7 +411,7 @@ unsigned long int set_time_day_zamer(char date, char month, char year) {
   //  60) real_time.r_min = 0; if (real_time.r_sec > 60) real_time.r_sec = 1;
   //
   sek_32 =
-      (((unsigned long int)real_time.r_year * 365) + (real_time.r_year >> 2));
+      (((uint32_t)real_time.r_year * 365) + (real_time.r_year >> 2));
 
   switch (real_time.r_month) {
   case 1:
@@ -457,16 +457,16 @@ unsigned long int set_time_day_zamer(char date, char month, char year) {
     if (real_time.r_month < 3)
       sek_32--;
   }
-  sek_32 = ((sek_32 * 86400) + ((unsigned long int)real_time.r_hor * 3600) +
-            ((unsigned long int)real_time.r_min * 60) + real_time.r_sec);
+  sek_32 = ((sek_32 * 86400) + ((uint32_t)real_time.r_hor * 3600) +
+            ((uint32_t)real_time.r_min * 60) + real_time.r_sec);
   sek_32 = sek_32 + 2; // чтобы избежать 00 часов
                        // cek_Unix_2000 = 946684800
   return sek_32;
 }
 
 void end_zamer(char m) {
-  unsigned long int u_i;
-  unsigned int zamer;
+  uint32_t u_i;
+  uint16_t zamer;
   ////////////////////
 
   zamer = c2_byte.mb[0 + (2 * m)] + (c2_byte.mb[1 + (2 * m)] & 7) * 256;
@@ -559,7 +559,7 @@ void end_zamer(char m) {
   case 1440: {
     u_i = set_end_time(c2_byte.mb[34], c2_byte.mb[32], real_time.r_date,
                        real_time.r_month, real_time.r_year) +
-          (unsigned long int)c2_byte.mb[36];
+          (uint32_t)c2_byte.mb[36];
     if (u_i <= unix)
       timer_tii[m] = u_i + 86400; // если время окончания замера меньше текущего
     else
@@ -571,8 +571,8 @@ void end_zamer(char m) {
 
   default: {
 
-    timer_tii[m] = unix + ((long int)c2_byte.mb[0 + 2 * m] +
-                           (long int)(c2_byte.mb[1 + 2 * m] & 7) * 256) *
+    timer_tii[m] = unix + ((int32_t)c2_byte.mb[0 + 2 * m] +
+                           (int32_t)(c2_byte.mb[1 + 2 * m] & 7) * 256) *
                               60;
     lock_bit = lock_bit & ~(1 << m);
 
@@ -586,8 +586,8 @@ void end_zamer(char m) {
 // замеры по ТИТ
 //
 void end_zamer_tit(char m) {
-  unsigned long int u_i;
-  unsigned int zamer;
+  uint32_t u_i;
+  uint16_t zamer;
   if (m >= 2)
     return;
   ////////////////////
@@ -691,7 +691,7 @@ void end_zamer_tit(char m) {
   case 1440: {
     u_i = set_end_time(c2_byte.mb[34], c2_byte.mb[32], real_time.r_date,
                        real_time.r_month, real_time.r_year) +
-          (unsigned long int)c2_byte.mb[36];
+          (uint32_t)c2_byte.mb[36];
     if (u_i <= unix)
       timer_tit[m] = u_i + 86400; // если время окончания замера меньше текущего
     else
@@ -704,8 +704,8 @@ void end_zamer_tit(char m) {
 
   default: {
 
-    timer_tit[m] = unix + ((long int)c2_byte.mb[0x40 + (2 * m)] +
-                           (long int)(c2_byte.mb[0x41 + (2 * m)] & 7) * 256) *
+    timer_tit[m] = unix + ((int32_t)c2_byte.mb[0x40 + (2 * m)] +
+                           (int32_t)(c2_byte.mb[0x41 + (2 * m)] & 7) * 256) *
                               60;
     lock_bit_tit = lock_bit_tit & ~(1 << m);
 
@@ -717,8 +717,8 @@ void end_zamer_tit(char m) {
 }
 
 //////////////////////
-unsigned long int set_end_time(char mi, char ch, char da, char ma, char ye) {
-  unsigned long int sek_32;
+uint32_t set_end_time(char mi, char ch, char da, char ma, char ye) {
+  uint32_t sek_32;
   struct { // в двоичном коде
     char r_sec;
     char r_min;
@@ -738,7 +738,7 @@ unsigned long int set_end_time(char mi, char ch, char da, char ma, char ye) {
   real_time.r_year = ye;
 
   sek_32 =
-      (((unsigned long int)real_time.r_year * 365) + (real_time.r_year >> 2));
+      (((uint32_t)real_time.r_year * 365) + (real_time.r_year >> 2));
 
   switch (real_time.r_month) {
   case 1:
@@ -784,15 +784,15 @@ unsigned long int set_end_time(char mi, char ch, char da, char ma, char ye) {
     if (real_time.r_month < 3)
       sek_32--;
   }
-  sek_32 = ((sek_32 * 86400) + ((unsigned long int)real_time.r_hor * 3600) +
-            ((unsigned long int)real_time.r_min * 60) + real_time.r_sec);
+  sek_32 = ((sek_32 * 86400) + ((uint32_t)real_time.r_hor * 3600) +
+            ((uint32_t)real_time.r_min * 60) + real_time.r_sec);
   sek_32 = sek_32 + 2; // чтобы избежать 00 часов
   return sek_32;
 }
 //////////////////////////////////
 
-int crc_sum(unsigned char *ff, unsigned char kol) {
-  int sum_crc;
+int16_t crc_sum(unsigned char *ff, unsigned char kol) {
+  int16_t sum_crc;
   char i;
   sum_crc = 0;
 
@@ -806,21 +806,21 @@ int crc_sum(unsigned char *ff, unsigned char kol) {
 
 //////////////////
 // прочитать сначала архивы на предмет действительности
-unsigned long int read_arhiv_tii(char m) //
+uint32_t read_arhiv_tii(char m) //
 {
   char index;
 
-  unsigned int t_i;
+  uint16_t t_i;
   union {
-    long int unix;
+    int32_t unix;
     char st[4];
   } tik;
 
   unsigned char zapis[14];
 
   index = 0 + m * 2;
-  t_i = ((unsigned long int)c2_byte.mb[index] +
-         (unsigned long int)(c2_byte.mb[index + 1] & 7) * 256);
+  t_i = ((uint32_t)c2_byte.mb[index] +
+         (uint32_t)(c2_byte.mb[index + 1] & 7) * 256);
   if (t_i > 1440)
     return (0);
   if (t_i == 0)
@@ -861,7 +861,7 @@ unsigned long int read_arhiv_tii(char m) //
    s_port(zapis[13]);
    */
 
-  if ((*(int *)&zapis[12]) == crc_sum(&zapis[0], 12)) {
+  if ((*(int16_t *)&zapis[12]) == crc_sum(&zapis[0], 12)) {
     tik.st[0] = zapis[0];
     tik.st[1] = zapis[1];
     tik.st[2] = zapis[2];
@@ -917,10 +917,10 @@ void store_tii(void) // записать в архив значения 1 мин
   char index, m;
   unsigned char zapis[14];
 
-  unsigned int t_i, te;
+  uint16_t t_i, te;
 
   union {
-    long int unix;
+    int32_t unix;
     char st[4];
   } tik;
 
@@ -960,8 +960,8 @@ zap_tii:
   tii_bit_minut = tii_bit_minut & ~te;
 
   index = 0 + m * 2;
-  t_i = ((unsigned long int)c2_byte.mb[index] +
-         (unsigned long int)(c2_byte.mb[index + 1] & 7) * 256);
+  t_i = ((uint32_t)c2_byte.mb[index] +
+         (uint32_t)(c2_byte.mb[index + 1] & 7) * 256);
   if (t_i > 1440)
     return;
   if (t_i == 0)
@@ -990,7 +990,7 @@ zap_tii:
     zapis[10] = m;
     zapis[11] = 0;
   }
-  *(int *)&zapis[12] = crc_sum(&zapis[0], 12);
+  *(int16_t *)&zapis[12] = crc_sum(&zapis[0], 12);
 
   // send_info(sizeof(prov1),prov1,0,0);
 
@@ -1036,16 +1036,16 @@ void store_tii_lock(char m) // записать в архив значения 1
 {
   char index;
   unsigned char zapis[14];
-  unsigned int t_i, te;
+  uint16_t t_i, te;
 
   union {
-    long int unix;
+    int32_t unix;
     char st[4];
   } tik;
 
   index = 0 + m * 2;
-  t_i = ((unsigned long int)c2_byte.mb[index] +
-         (unsigned long int)(c2_byte.mb[index + 1] & 7) * 256);
+  t_i = ((uint32_t)c2_byte.mb[index] +
+         (uint32_t)(c2_byte.mb[index + 1] & 7) * 256);
   if (t_i > 1440)
     return;
   if (t_i == 0)
@@ -1069,11 +1069,11 @@ void store_tii_lock(char m) // записать в архив значения 1
 
     // записываем в архив либо замер импульсов либо мотоминуты
 
-    tii_moto.config = *(unsigned int *)&c2_byte.mb[m << 1];
+    tii_moto.config = *(uint16_t *)&c2_byte.mb[m << 1];
     if (tii_moto.bit.type_zam == 1) {
-      *(unsigned long int *)&zapis[6] = cnt_moto[m];
+      *(uint32_t *)&zapis[6] = cnt_moto[m];
     }
-    *(unsigned int *)&zapis[4] = t_i;
+    *(uint16_t *)&zapis[4] = t_i;
 
     // zapis[4]=t_i;
     // zapis[5]=(t_i >>8);
@@ -1086,12 +1086,12 @@ void store_tii_lock(char m) // записать в архив значения 1
 
   tii_bit_minut = tii_bit_minut & ~te;
 
-  *(int *)&zapis[12] = crc_sum(&zapis[0], 12);
+  *(int16_t *)&zapis[12] = crc_sum(&zapis[0], 12);
   WrArrayToFlesh(STRUCT_TII + m * 14, &zapis[0], 14, 0, 0);
 
   // записать в общую кучу
 
-  WrArrayToFlesh(STRUCT_TII_HEAP + (int)modbus_mem1[AD_IND_DNS] * 14, &zapis[0],
+  WrArrayToFlesh(STRUCT_TII_HEAP + (int16_t)modbus_mem1[AD_IND_DNS] * 14, &zapis[0],
                  14, 0, 0);
 }
 //////////
@@ -1100,16 +1100,16 @@ void store_tit_lock(char m) // записать в архив значения 1
 {
   char index;
   unsigned char zapis[14];
-  unsigned int t_i;
+  uint16_t t_i;
 
   union {
-    long int unix;
+    int32_t unix;
     char st[4];
   } tik;
 
   index = 0x40 + m * 2;
-  t_i = ((unsigned long int)c2_byte.mb[index] +
-         (unsigned long int)(c2_byte.mb[index + 1] & 7) * 256);
+  t_i = ((uint32_t)c2_byte.mb[index] +
+         (uint32_t)(c2_byte.mb[index + 1] & 7) * 256);
 
   {
     tik.unix = timer_tit[m];
@@ -1131,12 +1131,12 @@ void store_tit_lock(char m) // записать в архив значения 1
     zapis[11] = 0;
   }
 
-  *(int *)&zapis[12] = crc_sum(&zapis[0], 12);
+  *(int16_t *)&zapis[12] = crc_sum(&zapis[0], 12);
   // WrArrayToFlesh(STRUCT_TII+m*14,&zapis[0],14,0,0);   26 01 2015
 
   // записать в общую кучу
 
-  WrArrayToFlesh(STRUCT_TII_HEAP + (int)modbus_mem1[AD_IND_DNS] * 14, &zapis[0],
+  WrArrayToFlesh(STRUCT_TII_HEAP + (int16_t)modbus_mem1[AD_IND_DNS] * 14, &zapis[0],
                  14, 0, 0);
 }
 //////////
@@ -1146,7 +1146,7 @@ void lock_arh_tit(void) // записать в архив значения
   char m;
   unsigned char i;
 
-  unsigned int te;
+  uint16_t te;
 
   te = tit_bit;
   if (te == 0)
@@ -1192,7 +1192,7 @@ void lock_arh(void) // записать в архив значения
   char m;
   unsigned char i;
 
-  unsigned int te;
+  uint16_t te;
 
   te = tii_bit;
   if (te == 0)
@@ -1256,7 +1256,7 @@ zap_tiix:
 // ***************************************************процедуры ГЗУ
 char test_nenull(void) {
   char c, i, index;
-  int t_i;
+  int16_t t_i;
   c = 0;
   for (i = 0; i < c1_byte.mb[1 * 2]; i++) {
     index = 6 * 2 + i * 2;
@@ -1296,9 +1296,9 @@ char test_switch_psm(void) {
 void store_ys_minut(void) // записать в архив значения за минуту
 {
   char index;
-  unsigned int t_i;
+  uint16_t t_i;
   union {
-    long int unix;
+    int32_t unix;
     char st[4];
   } tik;
   unsigned char zapis[14];
@@ -1321,8 +1321,8 @@ void store_ys_minut(void) // записать в архив значения з�
   //////
   index = 6 * 2 + (tekpsm - 1) * 2;
 
-  t_i = (((unsigned long int)c1_byte.mb[index] +
-          (unsigned long int)c1_byte.mb[index + 1] *
+  t_i = (((uint32_t)c1_byte.mb[index] +
+          (uint32_t)c1_byte.mb[index + 1] *
               256)); // реальное время замера
   zapis[4] = t_i;
   zapis[5] = t_i >> 8;
@@ -1330,7 +1330,7 @@ void store_ys_minut(void) // записать в архив значения з�
   zapis[8] = tekpsm;
   zapis[9] = 0;
 
-  *(int *)&zapis[10] = crc_sum(&zapis[0], 10);
+  *(int16_t *)&zapis[10] = crc_sum(&zapis[0], 10);
   WrArrayToFlesh(STRUCT_US + modbus_mem1[AD_IND_GZU] * 12, &zapis[0], 12, 0, 0);
 
   bit_zamer_psm = 0;
@@ -1339,9 +1339,9 @@ void store_ys_minut(void) // записать в архив значения з�
 void store_ys_lock(void) // записать в архив значения
 {
   char index;
-  unsigned int t_i;
+  uint16_t t_i;
   union {
-    long int unix;
+    int32_t unix;
     char st[4];
   } tik;
   unsigned char zapis[14];
@@ -1366,8 +1366,8 @@ void store_ys_lock(void) // записать в архив значения
   //  t_i=global_count_psm/60;
   //  if ( (global_count_psm%60) >20 ) t_i++;
 
-  t_i = (((unsigned long int)c1_byte.mb[index] +
-          (unsigned long int)c1_byte.mb[index + 1] * 256));
+  t_i = (((uint32_t)c1_byte.mb[index] +
+          (uint32_t)c1_byte.mb[index + 1] * 256));
   t_i = t_i - (timer_psm / 60); // реальный интервал замера 07 02 2013
   if (t_i == 0)
     t_i = 1;
@@ -1378,7 +1378,7 @@ void store_ys_lock(void) // записать в архив значения
   zapis[8] = tekpsm;
   zapis[9] = 0;
 
-  *(int *)&zapis[10] = crc_sum(&zapis[0], 10);
+  *(int16_t *)&zapis[10] = crc_sum(&zapis[0], 10);
   WrArrayToFlesh(STRUCT_US + modbus_mem1[AD_IND_GZU] * 12, &zapis[0], 12, 0, 0);
   bit_zamer_psm = 0;
 }
@@ -1404,9 +1404,9 @@ void store_ys(void) // записать в архив значения
 ////////////////////////// автомат состояний ГЗУ
 void local_psm(void) {
   char c, index;
-  unsigned int t_i;
+  uint16_t t_i;
   union {
-    long int unix;
+    int32_t unix;
     char st[4];
   } tik;
   unsigned char zapis[14];
@@ -1469,7 +1469,7 @@ void local_psm(void) {
       sost_psm = 1;
       break;
     }
-    timer_psm = (unsigned long int)c1_byte.mb[2 * 2] * 60;
+    timer_psm = (uint32_t)c1_byte.mb[2 * 2] * 60;
     index = 6 * 2 + (tekpsm - 1) * 2;
     t_i = c1_byte.mb[index] + c1_byte.mb[index + 1] * 256;
 
@@ -1499,7 +1499,7 @@ void local_psm(void) {
       ////////////////////////
       RdFromFleshToArr(STRUCT_US + modbus_mem1[AD_IND_GZU] * 12,
                        (unsigned char *)&zapis[0], 12);
-      if ((*(int *)&zapis[10]) == crc_sum(&zapis[0], 10))
+      if ((*(int16_t *)&zapis[10]) == crc_sum(&zapis[0], 10))
 
       {
         tik.st[0] = zapis[0];
@@ -1512,7 +1512,7 @@ void local_psm(void) {
           goto new_zamer;
         index = 6 * 2 + (tekpsm - 1) * 2;
         t_i = c1_byte.mb[index] + c1_byte.mb[index + 1] * 256;
-        if ((tik.unix - unix) > ((unsigned long int)t_i * 60))
+        if ((tik.unix - unix) > ((uint32_t)t_i * 60))
           goto new_zamer; //..
         timer_psm = (tik.unix - unix);
         delta_ys = zapis[6] + (zapis[7] * 256); // то что уже намеряно
@@ -1523,9 +1523,9 @@ void local_psm(void) {
       new_zamer:
         index = 6 * 2 + (tekpsm - 1) * 2;
         t_i = c1_byte.mb[index] + c1_byte.mb[index + 1] * 256;
-        timer_psm = (unsigned long int)t_i * 60;
+        timer_psm = (uint32_t)t_i * 60;
         unix_psm =
-            unix + ((unsigned long int)t_i * 60); // время конец замера   //..
+            unix + ((uint32_t)t_i * 60); // время конец замера   //..
         bit_zamer_psm = 0;
         delta_ys = 0;
       }
@@ -1617,7 +1617,7 @@ void local_psm(void) {
     }
     pred_mask = tekpsm;
     TU1_ON;
-    timer_psm = (unsigned long int)c1_byte.mb[3 * 2];
+    timer_psm = (uint32_t)c1_byte.mb[3 * 2];
     sost_psm = 6;
     break;
   }
@@ -1691,7 +1691,7 @@ void local_psm(void) {
   case 9: {
     pred_mask = tekpsm;
     TU1_ON;
-    timer_psm = (unsigned long int)c1_byte.mb[3 * 2];
+    timer_psm = (uint32_t)c1_byte.mb[3 * 2];
     sost_psm = 10;
     break;
   }
@@ -1737,11 +1737,11 @@ void local_psm(void) {
 
 /////////////////////////////////////////////***********************
 // пытаемся найти архивную запись с заданными параметрами в стеке архивов
-char try_find_arhiv(unsigned long int matrix, char m) {
+char try_find_arhiv(uint32_t matrix, char m) {
 
   unsigned char tek_ind, i;
   union {
-    unsigned long int unix;
+    uint32_t unix;
     char st[4];
   } tik;
 
@@ -1764,8 +1764,8 @@ char try_find_arhiv(unsigned long int matrix, char m) {
     w_result(22);
     */
 
-    RdFromFleshToArr(STRUCT_TII_HEAP + (int)tek_ind * 14, &zapiska[0], 14);
-    if ((*(int *)&zapiska[12]) == crc_sum(&zapiska[0], 12))
+    RdFromFleshToArr(STRUCT_TII_HEAP + (int16_t)tek_ind * 14, &zapiska[0], 14);
+    if ((*(int16_t *)&zapiska[12]) == crc_sum(&zapiska[0], 12))
     // if (ret_cod==0)
     {
       tik.st[0] = zapiska[0];
@@ -1795,7 +1795,7 @@ char try_form_arhiv(char m) //
 {
 
   union {
-    unsigned long int unix;
+    uint32_t unix;
     char st[4];
   } tik;
 
@@ -1815,7 +1815,7 @@ char try_form_arhiv(char m) //
   //  если возвратило 0- значит правильно считали
 
   // считали правидьно
-  if ((*(int *)&zapis[12]) == crc_sum(&zapis[0], 12))
+  if ((*(int16_t *)&zapis[12]) == crc_sum(&zapis[0], 12))
   // if (ret_cod==0)
   {
     tik.st[0] = zapis[0];
@@ -1847,7 +1847,7 @@ else arr_cnt_tii_heap_modbus=arr_cnt_tii_heap-1;
 write_ext_flesh( CNT_TII,arr_cnt_tii_heap);
 */
                     ///////////////////////////
-      WrArrayToFlesh(STRUCT_TII_HEAP + (int)modbus_mem1[AD_IND_DNS] * 14,
+      WrArrayToFlesh(STRUCT_TII_HEAP + (int16_t)modbus_mem1[AD_IND_DNS] * 14,
                      &zapis[0], 14, 0, 0);
       modbus_mem1[AD_IND_DNS]++;
       if (modbus_mem1[AD_IND_DNS] > 99) {
@@ -2016,11 +2016,11 @@ tarhiv++;
 void energy_plus(void) {
   char k, max;
   union {
-    int data;
+    int16_t data;
     struct {
-      int psm_sost : 8;
-      int err_switch : 4;
-      int err_psm : 4;
+      int16_t psm_sost : 8;
+      int16_t err_switch : 4;
+      int16_t err_psm : 4;
 
     } sost;
   } mb;
@@ -2052,7 +2052,7 @@ void energy_plus(void) {
     if (lock_bit & (1 << k))
       continue;
     // условный счет
-    tii_moto.config = *(unsigned int *)&c2_byte.mb[k << 1];
+    tii_moto.config = *(uint16_t *)&c2_byte.mb[k << 1];
     if ((tii_moto.bit.type_zam == 1) && ((modbus_mem1[AD_TS] >> k) & 1))
       cnt_moto[k]++;
     /*
@@ -2079,7 +2079,7 @@ old_realsec[k]=real_time.r_sec;
     if (lock_bit & (1 << k))
       continue;
     // условный счет
-    tii_moto.config = *(unsigned int *)&c2_byte.mb[k << 1];
+    tii_moto.config = *(uint16_t *)&c2_byte.mb[k << 1];
     if ((tii_moto.bit.type_zam == 1) && ((modbus_mem1[AD_TS] >> k) & 1))
       cnt_moto[k]++;
     /*
@@ -2128,7 +2128,7 @@ old_realsec[k]=real_time.r_sec;
     tarhiv = 0;
   }
 
-  if (*(unsigned int *)&c2_byte.mb[38] == 0xaa)
+  if (*(uint16_t *)&c2_byte.mb[38] == 0xaa)
 
   {
     if (bit_level == 1) {
@@ -2139,7 +2139,7 @@ old_realsec[k]=real_time.r_sec;
     lock_arh();
     lock_arh_tit();
 
-    if (*(unsigned int *)&c2_byte.mb[46] == 1)
+    if (*(uint16_t *)&c2_byte.mb[46] == 1)
       day_zamer();
   }
 

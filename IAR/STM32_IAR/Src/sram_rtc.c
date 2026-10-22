@@ -3,9 +3,7 @@
 #include "alarms.h"
 #include "fram.h"
 #include "main.h"
-#include "pwm.h"
-#include "dynaGram.h"
-#include "archive.h"
+
 
 //------------------------ RTC ------------------------------------------------- 
 #define _TBIAS_DAYS		((70 * (uint32_t)365) + 17)
@@ -25,7 +23,7 @@ RTC_DateTypeDef RTC_DateStructure;
 volatile RTC_UNIX_TIME_STRUCT RTC_UnixTime;
 RTC_HandleTypeDef hrtc; 
 
-volatile ACTIVE_POWER_STRUCT activePower;
+
 
 void bkpSRAMInit(void)
 {
@@ -47,9 +45,7 @@ void HAL_RTC_MspInit(RTC_HandleTypeDef *hrtc)
   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   { 
-    systemState.eventLogHardwareFault=3; // ������ ������������� �������� ���������� ���������� 
-    eventLogWrite(18);      
-    eventsCnt.RTC_init_err++;    
+    
   }
   
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
@@ -118,9 +114,8 @@ void rtcInit(void)
   if (HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1) != 0x32F2)
   {
     /* Configure RTC Calendar */    
-    systemState.eventLogHardwareFault=4; // ����� �������� RTC
-    eventLogWrite(18);      
-    eventsCnt.RTC_init_err++;
+    
+    
     RTC_CalendarConfig();
   }
   else

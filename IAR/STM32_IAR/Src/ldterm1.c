@@ -1,10 +1,10 @@
-
+#include "stm32f4xx_hal.h"
 #include "eeprom.h"
 #include "def_conf.h"
 #include "map_ef.h"
 #include "ozu_map.h"
-#include <inavr.h>
-#include <iom2560.h>
+//#include <inavr.h>
+//#include <iom2560.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,21 +23,28 @@
 TEST_MTC test_mtc;
 #endif
 
+extern IWDG_HandleTypeDef hiwdg;
+extern RTC_TimeTypeDef  RTC_TimeStructure;
+extern RTC_DateTypeDef RTC_DateStructure; 
+extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart3;
+extern UART_HandleTypeDef huart4;
+
 // #define VOL_PUNKT 33 //(меню от 0 до VOL_PUNKT)  //dobavka
 #define VOL_PUNKT 41 //(меню от 0 до VOL_PUNKT)  //dobavka
 
 #ifdef VERS_BASE
-__flash char ozu_vers[] = {'R', 'M', '0', '1', '.', '0', '1',
+const char ozu_vers[] = {'R', 'M', '0', '1', '.', '0', '1',
                            ':', '1', '9', '1', '1', '0', '7'};
 #endif
 
 #ifdef VERS_LUFKIN
-__flash char ozu_vers[] = {'R', 'M', '0', '2', '.', '0', '1',
+const char ozu_vers[] = {'R', 'M', '0', '2', '.', '0', '1',
                            ':', '1', '9', '1', '1', '0', '7'};
 #endif
 
 #ifdef VERS_UNKNOWN
-__flash char ozu_vers[] = {'R', 'M', '0', '0', '.', '0', '1',
+const char ozu_vers[] = {'R', 'M', '0', '0', '.', '0', '1',
                            ':', '1', '9', '1', '1', '0', '7'};
 #endif
 
@@ -46,10 +53,10 @@ TERM term;
 
 extern __no_init unsigned char simka; // dobavka
 extern unsigned char sel_modul;
-extern unsigned int temperatura;
-char temp_to_grad(unsigned int t);
+extern float temperatura;
+char temp_to_grad(uint16_t t);
 
-extern unsigned int num_self;
+extern uint16_t num_self;
 unsigned char buf_boot_ver[10];
 void read_boot_ver(void);
 
@@ -74,7 +81,7 @@ extern struct {
   unsigned char old_pin : 1;
   unsigned char fl_ch_tc : 1;
   unsigned char real_tc;
-  unsigned int count_tc;
+  uint16_t count_tc;
   unsigned char type;
   unsigned char cnt_block_tc;
 } struct_tcc1, struct_tcc2;
@@ -87,21 +94,21 @@ void send_to_sim900(char num);
 unsigned char fl_at_mom_232;
 unsigned char Regim;
 
-extern void WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
-                           unsigned int num, unsigned char flag,
+extern void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,
+                           uint16_t num, unsigned char flag,
                            unsigned char znach);
-extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                             unsigned int num);
+extern void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                             uint16_t num);
 
-extern unsigned long int burst_ds_r(void);
+extern uint32_t burst_ds_r(void);
 extern void set_rlt(unsigned char address, unsigned char *data);
-extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                             unsigned int num);
+extern void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                             uint16_t num);
 extern void lock_it(void);
 
 extern void s_port(unsigned char ch);
 extern void mov_lf(void);
-extern void mov_s(char size, char __flash *p);
+extern void mov_s(char size, char const *p);
 
 extern struct { // в двоичном коде
   char r_sec;
@@ -116,198 +123,198 @@ extern struct { // в двоичном коде
 
 extern unsigned char point_log_buf;
 
-__flash char zp_apn1[] = {'4', '.', 'A', 'P', 'N', ' ',
+const char zp_apn1[] = {'4', '.', 'A', 'P', 'N', ' ',
                           'S', 'I', 'M', '1', ':', ' '};
-__flash char zp_apn2[] = {'5', '.', 'A', 'P', 'N', ' ',
+const char zp_apn2[] = {'5', '.', 'A', 'P', 'N', ' ',
                           'S', 'I', 'M', '2', ':', ' '};
-__flash char zp_ip[] = {'6', '.', 'I', 'P', ' ', 'a', 'd', 'd', 'r',
+const char zp_ip[] = {'6', '.', 'I', 'P', ' ', 'a', 'd', 'd', 'r',
                         'e', 's', 's', ' ', 'L', 'S', ':', ' '};
 
-__flash char zp_db1[] = {'2', '2', '.', 'D', 'B', ' ', 'A',
+const char zp_db1[] = {'2', '2', '.', 'D', 'B', ' ', 'A',
                          'P', 'N', ':', '1', '.', ' '};
-__flash char zp_db2[] = {'2', '3', '.', 'D', 'B', ' ', 'A',
+const char zp_db2[] = {'2', '3', '.', 'D', 'B', ' ', 'A',
                          'P', 'N', ':', '2', '.', ' '};
-__flash char zp_db3[] = {'2', '4', '.', 'D', 'B', ' ', 'A',
+const char zp_db3[] = {'2', '4', '.', 'D', 'B', ' ', 'A',
                          'P', 'N', ':', '3', '.', ' '};
 
-__flash char err_t[] = {0xd, 0xa, 'E', 'R', 'R'};
-__flash char ok_t[] = {0xd, 0xa, 'O', 'K'};
-__flash char dis[] = {0xd, 0xa, 'D', 'I', 'S', 'A', 'B', 'L', 'E'};
+const char err_t[] = {0xd, 0xa, 'E', 'R', 'R'};
+const char ok_t[] = {0xd, 0xa, 'O', 'K'};
+const char dis[] = {0xd, 0xa, 'D', 'I', 'S', 'A', 'B', 'L', 'E'};
 
-__flash char map_vers[] = {'F', 'M', '0', '2', '.', '0', '1',
+const char map_vers[] = {'F', 'M', '0', '2', '.', '0', '1',
                            ':', '1', '9', '1', '1', '0', '7'};
-__flash char map_test_mtc[] = {'T', 'E', 'C', 'T', '.', 'M', 'T',
+const char map_test_mtc[] = {'T', 'E', 'C', 'T', '.', 'M', 'T',
                                'C', ' ', 'M', 'O', 'D', 'U', 'L'};
 
-__flash char str_loop_ok[] = {"LOOP 485_1"};
-__flash char str_loop2_ok[] = {"LOOP 485_2"};
-__flash char versia[] = {
+const char str_loop_ok[] = {"LOOP 485_1"};
+const char str_loop2_ok[] = {"LOOP 485_2"};
+const char versia[] = {
     "M2560 A7682E 02-09-25"}; //{'S','I','0','2','.','0','6',':','1','1','0','3','1','6'};
 
-//__flash char zp_udp[]=        {'U','D','P','p','o','r','t','-','>'};
-__flash char zp_udp[] = {'7', '.', 'U', 'D', 'P', ' ', 'p', 'o',
+//const char zp_udp[]=        {'U','D','P','p','o','r','t','-','>'};
+const char zp_udp[] = {'7', '.', 'U', 'D', 'P', ' ', 'p', 'o',
                          'r', 't', ' ', 'L', 'S', ':', ' '};
 
-//__flash char zp_num[]=        {'N','u','m','-','>'};
-__flash char zp_num[] = {'8', '.', 'U', 'n', 'i', 't', ' ', 'n',
+//const char zp_num[]=        {'N','u','m','-','>'};
+const char zp_num[] = {'8', '.', 'U', 'n', 'i', 't', ' ', 'n',
                          'u', 'm', 'b', 'e', 'r', ':', ' '};
 
-__flash char init_sim900[] = {'I', 'N', 'I', 'T', '_', 'S', 'I', 'M',
+const char init_sim900[] = {'I', 'N', 'I', 'T', '_', 'S', 'I', 'M',
                               'x', '0', '0', ' ', 'O', 'K', '!'};
-__flash char command_900[] = {'C', 'O', 'M', 'M', 'A', 'N', 'D', '>'};
-__flash char term_900[] = {"TERMINAL SIM"};
+const char command_900[] = {'C', 'O', 'M', 'M', 'A', 'N', 'D', '>'};
+const char term_900[] = {"TERMINAL SIM"};
 
-//__flash char zp_nat[]=        {'S','e','s',' ','S','I','M','1','-','>'};
-//__flash char zp_nat_r[]=      {'S','e','s',' ','S','I','M','2','-','>'};
-__flash char zp_nat[] = {'9', '.', 'T', 'i', 'm', 'e', ' ', 's',
+//const char zp_nat[]=        {'S','e','s',' ','S','I','M','1','-','>'};
+//const char zp_nat_r[]=      {'S','e','s',' ','S','I','M','2','-','>'};
+const char zp_nat[] = {'9', '.', 'T', 'i', 'm', 'e', ' ', 's',
                          'e', 's', 's', 'i', 'o', 'n', ' ', 'S',
                          'I', 'M', '1', ',', 's', ':', ' '};
-__flash char zp_nat_r[] = {'1', '0', '.', 'T', 'i', 'm', 'e', ' ',
+const char zp_nat_r[] = {'1', '0', '.', 'T', 'i', 'm', 'e', ' ',
                            's', 'e', 's', 's', 'i', 'o', 'n', ' ',
                            'S', 'I', 'M', '2', ',', 's', ':', ' '};
 
-//__flash char zp_link[]=       {'T','m',' ','c','c','h','-','>'};
-__flash char zp_link[] = {'1', '1', '.', 'T', 'i', 'm', 'e', ' ', 'c',
+//const char zp_link[]=       {'T','m',' ','c','c','h','-','>'};
+const char zp_link[] = {'1', '1', '.', 'T', 'i', 'm', 'e', ' ', 'c',
                           'o', 'n', 't', 'r', 'o', 'l', ' ', 'c', 'h',
                           'a', 'n', 'n', 'e', 'l', ',', 's', ':', ' '};
 
-//__flash char zp_tm_link[]=    {'T','m',' ','a','n','s','-','>'};
-__flash char zp_tm_link[] = {'1', '2', '.', 'T', 'i', 'm', 'e', ' ', 'r', 'e',
+//const char zp_tm_link[]=    {'T','m',' ','a','n','s','-','>'};
+const char zp_tm_link[] = {'1', '2', '.', 'T', 'i', 'm', 'e', ' ', 'r', 'e',
                              's', 'p', 'o', 'n', 's', 'e', ',', 's', ':', ' '};
 
-//__flash char zp_tm_no_link[]= {'T','m',' ','d','c','n','-','>'};
+//const char zp_tm_no_link[]= {'T','m',' ','d','c','n','-','>'};
 ////!!!!!!!!!!!!!!!!dobavka
-__flash char zp_tm_no_link[] = {'1', '3', '.', 'T', 'i', 'm', 'e',
+const char zp_tm_no_link[] = {'1', '3', '.', 'T', 'i', 'm', 'e',
                                 ' ', 'n', 'o', ' ', 'l', 'i', 'n',
                                 'k', ',', 'm', 'i', 'n', ':', ' '};
 
-//__flash char zp_tm_link_res[]={'T','m',' ','r','e','s','-','>'};
+//const char zp_tm_link_res[]={'T','m',' ','r','e','s','-','>'};
 ////!!!!!!!!!!!!!!!!dobavka
-__flash char zp_tm_link_res[] = {'1', '4', '.', 'T', 'i', 'm', 'e', ' ', 'r',
+const char zp_tm_link_res[] = {'1', '4', '.', 'T', 'i', 'm', 'e', ' ', 'r',
                                  'e', 's', 'e', 'r', 'v', 'e', ' ', 'S', 'I',
                                  'M', '2', ',', 'm', 'i', 'n', ':', ' '};
 
-//__flash char zp_tm_vz[]=      {'T','m',' ','t','a','k','e','-','>'};
-__flash char zp_tm_vz[] = {'1', '7', '.', 'T', 'i', 'm', 'e', ' ', 't',
+//const char zp_tm_vz[]=      {'T','m',' ','t','a','k','e','-','>'};
+const char zp_tm_vz[] = {'1', '7', '.', 'T', 'i', 'm', 'e', ' ', 't',
                            'a', 'k', 'i', 'n', 'g', ',', 's', ':', ' '};
 
-//__flash char zp_tm_cl[]=      {'T','m',' ','c','l','-','>'};
-__flash char zp_tm_cl[] = {'1', '8', '.', 'T', 'i', 'm', 'e', ' ', 'c',
+//const char zp_tm_cl[]=      {'T','m',' ','c','l','-','>'};
+const char zp_tm_cl[] = {'1', '8', '.', 'T', 'i', 'm', 'e', ' ', 'c',
                            'o', 'n', 't', 'r', 'o', 'l', ' ', 'c', 'l',
                            'i', 'e', 'n', 't', ',', 's', ':', ' '};
 
-//__flash char zp_num_seq[]=    {'C','l',' ','m','s','q','-','>'};
-__flash char zp_num_seq[] = {'1', '6', '.', 'C', 'l', 'i', 'e', 'n', 't',
+//const char zp_num_seq[]=    {'C','l',' ','m','s','q','-','>'};
+const char zp_num_seq[] = {'1', '6', '.', 'C', 'l', 'i', 'e', 'n', 't',
                              ' ', 'n', 'u', 'm', 'b', 'e', 'r', ':', ' '};
 
-//__flash char zp_des_seq[]=    {'D','e','s',' ','m','s','g','-','>'};
-__flash char zp_des_seq[] = {'1', '5', '.', 'D', 'e', 's', '.', ' ', 'm',
+//const char zp_des_seq[]=    {'D','e','s',' ','m','s','g','-','>'};
+const char zp_des_seq[] = {'1', '5', '.', 'D', 'e', 's', '.', ' ', 'm',
                              'e', 's', 's', 'a', 'g', 'e', ':', ' '};
 
-//__flash char zp_type_tc1[]={'T','y','p','e',' ','T','S','1','-','>'};
-//__flash char zp_type_tc2[]={'T','y','p','e',' ','T','S','2','-','>'};
-__flash char zp_type_tc1[] = {'1', '9', '.', 'T', 'y', 'p', 'e',
+//const char zp_type_tc1[]={'T','y','p','e',' ','T','S','1','-','>'};
+//const char zp_type_tc2[]={'T','y','p','e',' ','T','S','2','-','>'};
+const char zp_type_tc1[] = {'1', '9', '.', 'T', 'y', 'p', 'e',
                               ' ', 'T', 'S', '1', ':', ' '};
-__flash char zp_type_tc2[] = {'2', '0', '.', 'T', 'y', 'p', 'e',
+const char zp_type_tc2[] = {'2', '0', '.', 'T', 'y', 'p', 'e',
                               ' ', 'T', 'S', '2', ':', ' '};
 
-//__flash char zp_dbg[]=        {'D','B','G','-','>'};
-__flash char zp_dbg[] = {'2', '1', '.', 'U', 'n', 'i', 't', ' ',
+//const char zp_dbg[]=        {'D','B','G','-','>'};
+const char zp_dbg[] = {'2', '1', '.', 'U', 'n', 'i', 't', ' ',
                          'r', 'e', 'g', 'i', 'm', 'e', ':', ' '};
 
-//__flash char zp_ts1[]=        {'T','S','1','-','2','-','>'};
-__flash char zp_ts1[] = {'2', '5', '.', 'T', 'S', '1', '-', '2', ':', ' '};
+//const char zp_ts1[]=        {'T','S','1','-','2','-','>'};
+const char zp_ts1[] = {'2', '5', '.', 'T', 'S', '1', '-', '2', ':', ' '};
 
-//__flash char zp_temp[]=       {'t','-','>'};
+//const char zp_temp[]=       {'t','-','>'};
 
-//__flash char zp_temp[]= {'2','6','.','A','D','
+//const char zp_temp[]= {'2','6','.','A','D','
 //','c','o','n','v','e','r','t','e','r',':',' '};
-__flash char zp_temp[] = {'2', '6', '.', 'T', 'e', 'm', 'p', 'e',
+const char zp_temp[] = {'2', '6', '.', 'T', 'e', 'm', 'p', 'e',
                           'r', 'a', 't', 'u', 'r', 'e', ':', ' '};
 
-//__flash char zp_vosst[]=      {'S','e','t',' ','d','e','f','-','>'};
-__flash char zp_vosst[] = {'2', '7', '.', 'S', 'e', 't', ' ', 'd',
+//const char zp_vosst[]=      {'S','e','t',' ','d','e','f','-','>'};
+const char zp_vosst[] = {'2', '7', '.', 'S', 'e', 't', ' ', 'd',
                            'e', 'f', 'a', 'u', 'l', 't', ':', ' '};
 
-//__flash char zp_time[]=       {'T','i','m','e','-','>'};
-//__flash char zp_date[]=       {'D','a','t','e','-','>'};
-__flash char zp_time[] = {'2', '8', '.', 'T', 'i', 'm', 'e', ':', ' '};
-__flash char zp_date[] = {'2', '9', '.', 'D', 'a', 't', 'e', ':', ' '};
+//const char zp_time[]=       {'T','i','m','e','-','>'};
+//const char zp_date[]=       {'D','a','t','e','-','>'};
+const char zp_time[] = {'2', '8', '.', 'T', 'i', 'm', 'e', ':', ' '};
+const char zp_date[] = {'2', '9', '.', 'D', 'a', 't', 'e', ':', ' '};
 
-//__flash char zp_log_file[]=   {'L','o','g',' ','f','i','l','e','-','>'};
-__flash char zp_log_file[] = {'3', '0', '.', 'L', 'o', 'g', ' ',
+//const char zp_log_file[]=   {'L','o','g',' ','f','i','l','e','-','>'};
+const char zp_log_file[] = {'3', '0', '.', 'L', 'o', 'g', ' ',
                               'f', 'i', 'l', 'e', ':', ' '};
 
-//__flash char zp_keys[]=       {'K','e','y',' ','d','e','f','-','>'};
-__flash char zp_keys[] = {'3', '1', '.', 'K', 'e', 'y',
+//const char zp_keys[]=       {'K','e','y',' ','d','e','f','-','>'};
+const char zp_keys[] = {'3', '1', '.', 'K', 'e', 'y',
                           ' ', 'd', 'e', 'f', ':', ' '};
 
-//__flash char zp_pinsim1[]=       {'P','I','N',' ','S','I','M','1','-','>'};
-//__flash char zp_pinsim2[]=       {'P','I','N',' ','S','I','M','2','-','>'};
+//const char zp_pinsim1[]=       {'P','I','N',' ','S','I','M','1','-','>'};
+//const char zp_pinsim2[]=       {'P','I','N',' ','S','I','M','2','-','>'};
 
-__flash char zp_pinsim1[] = {'3', '2', '.', 'P', 'I', 'N', ' ',
+const char zp_pinsim1[] = {'3', '2', '.', 'P', 'I', 'N', ' ',
                              'S', 'I', 'M', '1', '-', '>'};
-__flash char zp_pinsim2[] = {'3', '3', '.', 'P', 'I', 'N', ' ',
+const char zp_pinsim2[] = {'3', '3', '.', 'P', 'I', 'N', ' ',
                              'S', 'I', 'M', '2', '-', '>'};
 
-__flash char zp_traffic[] = {'3', '4', '.', 'T', 'r', 'a', 'f', 'f',
+const char zp_traffic[] = {'3', '4', '.', 'T', 'r', 'a', 'f', 'f',
                              'i', 'c', ' ', ' ', 'O', 'U', 'T', ':',
                              'I', 'N', ' ', '-', '>', ' '};
 
-__flash unsigned char keys_def[] = {'s', 'm', 'a', 'r', 't', 'p', 'l', 'u'};
+const unsigned char keys_def[] = {'s', 'm', 'a', 'r', 't', 'p', 'l', 'u'};
 
-__flash unsigned char def_apn[] = {'i', 'n', 't', 'e', 'r', 'n', 'e', 't',
+const unsigned char def_apn[] = {'i', 'n', 't', 'e', 'r', 'n', 'e', 't',
                                    '.', 'm', 't', 's', '.', 'r', 'u', 0x00};
-__flash unsigned char def_usname[] = {0x00};
-__flash unsigned char def_uspsw[] = {0x00};
+const unsigned char def_usname[] = {0x00};
+const unsigned char def_uspsw[] = {0x00};
 
-__flash unsigned char def_apnr[] = {'i', 'n', 't', 'e', 'r', 'n', 'e',
+const unsigned char def_apnr[] = {'i', 'n', 't', 'e', 'r', 'n', 'e',
                                     't', '.', 'b', 'e', 'e', 'l', 'i',
                                     'n', 'e', '.', 'r', 'u', 0x00};
-//__flash unsigned char def_usnamer[] = {'b','e','e','l','i','n','e',0x00};
-//__flash unsigned char def_uspswr[] = {'b','e','e','l','i','n','e',0x00};
-__flash unsigned char def_usnamer[] = {0x00};
-__flash unsigned char def_uspswr[] = {0x00};
+//const unsigned char def_usnamer[] = {'b','e','e','l','i','n','e',0x00};
+//const unsigned char def_uspswr[] = {'b','e','e','l','i','n','e',0x00};
+const unsigned char def_usnamer[] = {0x00};
+const unsigned char def_uspswr[] = {0x00};
 
-__flash unsigned char def_apn1[] = {'i', 'n', 't', 'e', 'r', 'n', 'e', 't',
+const unsigned char def_apn1[] = {'i', 'n', 't', 'e', 'r', 'n', 'e', 't',
                                     '.', 'm', 't', 's', '.', 'r', 'u', 0x00};
-__flash unsigned char def_usname1[] = {0x00};
-__flash unsigned char def_uspsw1[] = {0x00};
+const unsigned char def_usname1[] = {0x00};
+const unsigned char def_uspsw1[] = {0x00};
 
-__flash unsigned char def_apn2[] = {'i', 'n', 't', 'e', 'r', 'n', 'e',
+const unsigned char def_apn2[] = {'i', 'n', 't', 'e', 'r', 'n', 'e',
                                     't', '.', 'b', 'e', 'e', 'l', 'i',
                                     'n', 'e', '.', 'r', 'u', 0x00};
-//__flash unsigned char def_usname2[] = {'b','e','e','l','i','n','e',0x00};
-//__flash unsigned char def_uspsw2[] = {'b','e','e','l','i','n','e',0x00};
-__flash unsigned char def_usname2[] = {0x00};
-__flash unsigned char def_uspsw2[] = {0x00};
+//const unsigned char def_usname2[] = {'b','e','e','l','i','n','e',0x00};
+//const unsigned char def_uspsw2[] = {'b','e','e','l','i','n','e',0x00};
+const unsigned char def_usname2[] = {0x00};
+const unsigned char def_uspsw2[] = {0x00};
 
-__flash unsigned char def_apn3[] = {'i', 'n', 't', 'e', 'r',
+const unsigned char def_apn3[] = {'i', 'n', 't', 'e', 'r',
                                     'n', 'e', 't', 0x00};
-__flash unsigned char def_usname3[] = {0x00};
-__flash unsigned char def_uspsw3[] = {0x00};
+const unsigned char def_usname3[] = {0x00};
+const unsigned char def_uspsw3[] = {0x00};
 
-__flash char zp_ts_dop[] = {'3', '5', '.', 'T', 'S', 'e', ':'};
-__flash char zp_tit[] = {'3', '6', '.', 'T', 'I', 'T', ':'};
-__flash char zp_tu[] = {'3', '7', '.', 'T', 'U', '1', '-', '2', ':', ' '};
-__flash char zp_tii1[] = {'3', '8', '.', 'T', 'I', 'I', '1', ':', ' '};
-__flash char zp_sel_mod[] = {'3', '9', '.', 'M', 'O', 'D', 'e', ':', ' '};
+const char zp_ts_dop[] = {'3', '5', '.', 'T', 'S', 'e', ':'};
+const char zp_tit[] = {'3', '6', '.', 'T', 'I', 'T', ':'};
+const char zp_tu[] = {'3', '7', '.', 'T', 'U', '1', '-', '2', ':', ' '};
+const char zp_tii1[] = {'3', '8', '.', 'T', 'I', 'I', '1', ':', ' '};
+const char zp_sel_mod[] = {'3', '9', '.', 'M', 'O', 'D', 'e', ':', ' '};
 
-//__flash char zp_ts_dop_mtc[]= {'2','.','T','S',',':'};
+//const char zp_ts_dop_mtc[]= {'2','.','T','S',',':'};
 
 unsigned char keys[10];
 
-extern unsigned int crc_m1(unsigned char *ka, unsigned int num,
-                           unsigned int crc);
-extern void delay(unsigned int period);
+extern uint16_t crc_m1(unsigned char *ka, uint16_t num,
+                           uint16_t crc);
+extern void delay(uint16_t period);
 
 unsigned char index_pa;
 
 extern unsigned char buf_tx_232[VOL_TX_PPP];
-extern unsigned int vol_tx_ppp;
+extern uint16_t vol_tx_ppp;
 
 extern char emei[40], emei_emei[40], csq[20];
-extern unsigned int modbus_mem1[SEG1];
+extern uint16_t modbus_mem1[SEG1];
 
 extern unsigned char cnt_tu1, cnt_tu2;
 
@@ -450,7 +457,7 @@ void vosstan_memory(void) {
   j = sizeof(map_vers);
   for (i = 0; i < j; i++)
     buf[i] = map_vers[i];
-  *(unsigned int *)&buf[j] = crc_m1(&buf[0], j, 0xffff);
+  *(uint16_t *)&buf[j] = crc_m1(&buf[0], j, 0xffff);
   WrArrayToFlesh(A_VER_MAP, &buf[0], j + 2, 0, 0);
 
   // загрузка поумолчанию
@@ -483,7 +490,7 @@ void vosstan_memory(void) {
     buf[j] = 0;
     j++;
   }
-  *(unsigned int *)&buf[L_C_GPRS_MAX - 2] =
+  *(uint16_t *)&buf[L_C_GPRS_MAX - 2] =
       crc_m1(&buf[0], L_C_GPRS_MAX - 2, 0xffff);
   WrArrayToFlesh(A_C_GPRS, &buf[0], L_C_GPRS_MAX, 0, 0);
 
@@ -516,7 +523,7 @@ void vosstan_memory(void) {
     buf[j] = 0;
     j++;
   }
-  *(unsigned int *)&buf[L_CR_GPRS_MAX - 2] =
+  *(uint16_t *)&buf[L_CR_GPRS_MAX - 2] =
       crc_m1(&buf[0], L_CR_GPRS_MAX - 2, 0xffff);
   WrArrayToFlesh(A_CR_GPRS, &buf[0], L_CR_GPRS_MAX, 0, 0);
 
@@ -526,39 +533,39 @@ void vosstan_memory(void) {
   buf[OFS_IP + 1] = DEF_IP_SRV_1;
   buf[OFS_IP + 2] = DEF_IP_SRV_2;
   buf[OFS_IP + 3] = DEF_IP_SRV_3;
-  *(unsigned int *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP порт
-  //*(unsigned int*)&buf[OFS_NUM]=*(unsigned int*)&buf[0];          //свой номер
+  *(uint16_t *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP порт
+  //*(uint16_t*)&buf[OFS_NUM]=*(uint16_t*)&buf[0];          //свой номер
   //не менять !!!!
-  *(unsigned int *)&buf[OFS_IP_PAR_CRC] = crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
+  *(uint16_t *)&buf[OFS_IP_PAR_CRC] = crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
   WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
 
-  *(unsigned int *)&buf[OFS_NAT] = DEF_CNTR_NAT;
-  *(unsigned int *)&buf[OFS_CCH] = DEF_CNTR_LINK;
-  *(unsigned int *)&buf[OFS_TM_CH] = DEF_TM_CNTR_LINK;
+  *(uint16_t *)&buf[OFS_NAT] = DEF_CNTR_NAT;
+  *(uint16_t *)&buf[OFS_CCH] = DEF_CNTR_LINK;
+  *(uint16_t *)&buf[OFS_TM_CH] = DEF_TM_CNTR_LINK;
 
-  *(unsigned int *)&buf[OFS_TM_NO_LINK] = DEF_TM_NO_LINK;   // dobavka
-  *(unsigned int *)&buf[OFS_TM_LINK_RES] = DEF_TM_LINK_RES; // dobavka
+  *(uint16_t *)&buf[OFS_TM_NO_LINK] = DEF_TM_NO_LINK;   // dobavka
+  *(uint16_t *)&buf[OFS_TM_LINK_RES] = DEF_TM_LINK_RES; // dobavka
 
-  *(unsigned int *)&buf[OFS_NAT_R] = DEF_CNTR_NAT_R;
+  *(uint16_t *)&buf[OFS_NAT_R] = DEF_CNTR_NAT_R;
 
-  *(unsigned int *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
+  *(uint16_t *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
   WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
 
   buf[OFS_DES_SEQ] = (~DEF_DES_SEQ) & 0x01;
-  *(unsigned int *)&buf[OFS_NUM_CL] = DEF_NUM_DST_SEQ;
-  *(unsigned int *)&buf[OFS_TM_VZ] = DEF_VOL_TM_VZAT;
-  *(unsigned int *)&buf[OFS_TM_CL] = DEF_TM_CNTR_CL;
+  *(uint16_t *)&buf[OFS_NUM_CL] = DEF_NUM_DST_SEQ;
+  *(uint16_t *)&buf[OFS_TM_VZ] = DEF_VOL_TM_VZAT;
+  *(uint16_t *)&buf[OFS_TM_CL] = DEF_TM_CNTR_CL;
   buf[OFS_TP_TS] = DEF_TP_TS1;
   buf[OFS_TP_TS + 1] = DEF_TP_TS2;
-  *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+  *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
       crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
   WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
 
   /*
 
   buf[OFS_GPRS_DES]=~DEF_DES_PORT_GPRS;
-*(unsigned long int*)&buf[OFS_GPRS_S]=DEF_PORT_GPRS_S;
-*(unsigned int*)&buf[OFS_PORT_GPRS_CRC]=crc_m1(&buf[0],L_PORT_GPRS-2,0xffff);
+*(uint32_t*)&buf[OFS_GPRS_S]=DEF_PORT_GPRS_S;
+*(uint16_t*)&buf[OFS_PORT_GPRS_CRC]=crc_m1(&buf[0],L_PORT_GPRS-2,0xffff);
   WrArrayToFlesh(A_PORT_GPRS, &buf[0],L_PORT_GPRS,0,0);
 */
 
@@ -566,7 +573,7 @@ void vosstan_memory(void) {
   buf[OFS_PIN_SIM1 + 1] = '.';
   buf[OFS_PIN_SIM1 + 2] = '.';
   buf[OFS_PIN_SIM1 + 3] = '.';
-  *(unsigned int *)&buf[OFS_KOD_SIM1_CRC] =
+  *(uint16_t *)&buf[OFS_KOD_SIM1_CRC] =
       crc_m1(&buf[0], L_KOD_SIM1 - 2, 0xffff);
   WrArrayToFlesh(A_KOD_SIM1, &buf[0], L_KOD_SIM1, 0, 0);
 
@@ -574,7 +581,7 @@ void vosstan_memory(void) {
   buf[OFS_PIN_SIM2 + 1] = '.';
   buf[OFS_PIN_SIM2 + 2] = '.';
   buf[OFS_PIN_SIM2 + 3] = '.';
-  *(unsigned int *)&buf[OFS_KOD_SIM2_CRC] =
+  *(uint16_t *)&buf[OFS_KOD_SIM2_CRC] =
       crc_m1(&buf[0], L_KOD_SIM2 - 2, 0xffff);
   WrArrayToFlesh(A_KOD_SIM2, &buf[0], L_KOD_SIM2, 0, 0);
 
@@ -607,7 +614,7 @@ void vosstan_memory(void) {
     buf[j] = 0;
     j++;
   }
-  *(unsigned int *)&buf[L_C1_GPRS_MAX - 2] =
+  *(uint16_t *)&buf[L_C1_GPRS_MAX - 2] =
       crc_m1(&buf[0], L_C1_GPRS_MAX - 2, 0xffff);
   WrArrayToFlesh(A_C1_GPRS, &buf[0], L_C1_GPRS_MAX, 0, 0);
 
@@ -640,7 +647,7 @@ void vosstan_memory(void) {
     buf[j] = 0;
     j++;
   }
-  *(unsigned int *)&buf[L_C2_GPRS_MAX - 2] =
+  *(uint16_t *)&buf[L_C2_GPRS_MAX - 2] =
       crc_m1(&buf[0], L_C2_GPRS_MAX - 2, 0xffff);
   WrArrayToFlesh(A_C2_GPRS, &buf[0], L_C2_GPRS_MAX, 0, 0);
 
@@ -673,14 +680,14 @@ void vosstan_memory(void) {
     buf[j] = 0;
     j++;
   }
-  *(unsigned int *)&buf[L_C3_GPRS_MAX - 2] =
+  *(uint16_t *)&buf[L_C3_GPRS_MAX - 2] =
       crc_m1(&buf[0], L_C3_GPRS_MAX - 2, 0xffff);
   WrArrayToFlesh(A_C3_GPRS, &buf[0], L_C3_GPRS_MAX, 0, 0);
 
-  *(unsigned long int *)&buf[0] = burst_ds_r();
-  *(unsigned long int *)&buf[4] = 0;
-  *(unsigned long int *)&buf[8] = 0;
-  *(unsigned int *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
+  *(uint32_t *)&buf[0] = burst_ds_r();
+  *(uint32_t *)&buf[4] = 0;
+  *(uint32_t *)&buf[8] = 0;
+  *(uint16_t *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
   WrArrayToFlesh(A_TRAF, &buf[0], L_TRAF, 0, 0);
 }
 
@@ -690,7 +697,7 @@ unsigned char check_memory_map(void) {
   j = sizeof(map_vers);
 
   RdFromFleshToArr(A_VER_MAP, &buf[0], j + 2);
-  if (*(unsigned int *)&buf[j] != crc_m1(&buf[0], j, 0xffff))
+  if (*(uint16_t *)&buf[j] != crc_m1(&buf[0], j, 0xffff))
     return (1);
   for (i = 0; i < j; i++)
     if (buf[i] == map_vers[i])
@@ -699,7 +706,7 @@ unsigned char check_memory_map(void) {
       return (1);
 
   RdFromFleshToArr(A_C_GPRS, &buf[0], L_C_GPRS_MAX);
-  if (*(unsigned int *)&buf[L_C_GPRS_MAX - 2] !=
+  if (*(uint16_t *)&buf[L_C_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C_GPRS_MAX - 2, 0xffff)) {
 
     // загрузка поумолчанию
@@ -733,13 +740,13 @@ unsigned char check_memory_map(void) {
       j++;
     }
 
-    *(unsigned int *)&buf[L_C_GPRS_MAX - 2] =
+    *(uint16_t *)&buf[L_C_GPRS_MAX - 2] =
         crc_m1(&buf[0], L_C_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_C_GPRS, &buf[0], L_C_GPRS_MAX, 0, 0);
   }
 
   RdFromFleshToArr(A_CR_GPRS, &buf[0], L_CR_GPRS_MAX);
-  if (*(unsigned int *)&buf[L_CR_GPRS_MAX - 2] !=
+  if (*(uint16_t *)&buf[L_CR_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_CR_GPRS_MAX - 2, 0xffff)) {
 
     // загрузка поумолчанию
@@ -773,13 +780,13 @@ unsigned char check_memory_map(void) {
       j++;
     }
 
-    *(unsigned int *)&buf[L_CR_GPRS_MAX - 2] =
+    *(uint16_t *)&buf[L_CR_GPRS_MAX - 2] =
         crc_m1(&buf[0], L_CR_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_CR_GPRS, &buf[0], L_CR_GPRS_MAX, 0, 0);
   }
 
   RdFromFleshToArr(A_IP_PAR, &buf[0], L_IP_PAR);
-  if (*(unsigned int *)&buf[OFS_IP_PAR_CRC] !=
+  if (*(uint16_t *)&buf[OFS_IP_PAR_CRC] !=
       crc_m1(&buf[0], L_IP_PAR - 2, 0xffff)) {
 
     buf[OFS_IP] = DEF_IP_SRV_0;
@@ -787,42 +794,42 @@ unsigned char check_memory_map(void) {
     buf[OFS_IP + 2] = DEF_IP_SRV_2;
     buf[OFS_IP + 3] = DEF_IP_SRV_3;
 
-    *(unsigned int *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP порт
-    *(unsigned int *)&buf[OFS_NUM] =                // свой номер по умолчанию
+    *(uint16_t *)&buf[OFS_PORT] = DEF_UDP_PORT; // UDP порт
+    *(uint16_t *)&buf[OFS_NUM] =                // свой номер по умолчанию
 
-        *(unsigned int *)&buf[OFS_IP_PAR_CRC] =
+        *(uint16_t *)&buf[OFS_IP_PAR_CRC] =
             crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
     WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
   }
 
   RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-  if (*(unsigned int *)&buf[OFS_C_PAR_CRC] !=
+  if (*(uint16_t *)&buf[OFS_C_PAR_CRC] !=
       crc_m1(&buf[0], L_C_PAR - 2, 0xffff)) {
 
-    *(unsigned int *)&buf[OFS_NAT] = DEF_CNTR_NAT;
-    *(unsigned int *)&buf[OFS_CCH] = DEF_CNTR_LINK;
-    *(unsigned int *)&buf[OFS_TM_CH] = DEF_TM_CNTR_LINK;
+    *(uint16_t *)&buf[OFS_NAT] = DEF_CNTR_NAT;
+    *(uint16_t *)&buf[OFS_CCH] = DEF_CNTR_LINK;
+    *(uint16_t *)&buf[OFS_TM_CH] = DEF_TM_CNTR_LINK;
 
-    *(unsigned int *)&buf[OFS_TM_NO_LINK] = DEF_TM_NO_LINK;   // dobavka
-    *(unsigned int *)&buf[OFS_TM_LINK_RES] = DEF_TM_LINK_RES; // dobavka
+    *(uint16_t *)&buf[OFS_TM_NO_LINK] = DEF_TM_NO_LINK;   // dobavka
+    *(uint16_t *)&buf[OFS_TM_LINK_RES] = DEF_TM_LINK_RES; // dobavka
 
-    *(unsigned int *)&buf[OFS_NAT_R] = DEF_CNTR_NAT_R;
+    *(uint16_t *)&buf[OFS_NAT_R] = DEF_CNTR_NAT_R;
 
-    *(unsigned int *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
+    *(uint16_t *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
     WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
   }
 
   RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
-  if (*(unsigned int *)&buf[OFS_SEQ_PAR_CRC] !=
+  if (*(uint16_t *)&buf[OFS_SEQ_PAR_CRC] !=
       crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff)) {
 
     buf[OFS_DES_SEQ] = ~DEF_DES_SEQ;
-    *(unsigned int *)&buf[OFS_NUM_CL] = DEF_NUM_DST_SEQ;
-    *(unsigned int *)&buf[OFS_TM_VZ] = DEF_VOL_TM_VZAT;
-    *(unsigned int *)&buf[OFS_TM_CL] = DEF_TM_CNTR_CL;
+    *(uint16_t *)&buf[OFS_NUM_CL] = DEF_NUM_DST_SEQ;
+    *(uint16_t *)&buf[OFS_TM_VZ] = DEF_VOL_TM_VZAT;
+    *(uint16_t *)&buf[OFS_TM_CL] = DEF_TM_CNTR_CL;
     buf[OFS_TP_TS] = DEF_TP_TS1;
     buf[OFS_TP_TS + 1] = DEF_TP_TS2;
-    *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+    *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
         crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
     WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
   }
@@ -835,7 +842,7 @@ unsigned char check_memory_map(void) {
 
 
      buf[OFS_GPRS_DES]=~DEF_DES_PORT_GPRS;
-     *(unsigned long int*)&buf[OFS_GPRS_S]=DEF_PORT_GPRS_S;
+     *(uint32_t*)&buf[OFS_GPRS_S]=DEF_PORT_GPRS_S;
 
      *(unsigned
   int*)&buf[OFS_PORT_GPRS_CRC]=crc_m1(&buf[0],L_PORT_GPRS-2,0xffff);
@@ -844,31 +851,31 @@ unsigned char check_memory_map(void) {
   */
 
   RdFromFleshToArr(A_KOD_SIM1, &buf[0], L_KOD_SIM1);
-  if (*(unsigned int *)&buf[OFS_KOD_SIM1_CRC] !=
+  if (*(uint16_t *)&buf[OFS_KOD_SIM1_CRC] !=
       crc_m1(&buf[0], L_KOD_SIM1 - 2, 0xffff)) {
     buf[OFS_PIN_SIM1] = '.';
     buf[OFS_PIN_SIM1 + 1] = '.';
     buf[OFS_PIN_SIM1 + 2] = '.';
     buf[OFS_PIN_SIM1 + 3] = '.';
-    *(unsigned int *)&buf[OFS_KOD_SIM1_CRC] =
+    *(uint16_t *)&buf[OFS_KOD_SIM1_CRC] =
         crc_m1(&buf[0], L_KOD_SIM1 - 2, 0xffff);
     WrArrayToFlesh(A_KOD_SIM1, &buf[0], L_KOD_SIM1, 0, 0);
   }
 
   RdFromFleshToArr(A_KOD_SIM2, &buf[0], L_KOD_SIM2);
-  if (*(unsigned int *)&buf[OFS_KOD_SIM2_CRC] !=
+  if (*(uint16_t *)&buf[OFS_KOD_SIM2_CRC] !=
       crc_m1(&buf[0], L_KOD_SIM2 - 2, 0xffff)) {
     buf[OFS_PIN_SIM2] = '.';
     buf[OFS_PIN_SIM2 + 1] = '.';
     buf[OFS_PIN_SIM2 + 2] = '.';
     buf[OFS_PIN_SIM2 + 3] = '.';
-    *(unsigned int *)&buf[OFS_KOD_SIM2_CRC] =
+    *(uint16_t *)&buf[OFS_KOD_SIM2_CRC] =
         crc_m1(&buf[0], L_KOD_SIM2 - 2, 0xffff);
     WrArrayToFlesh(A_KOD_SIM2, &buf[0], L_KOD_SIM2, 0, 0);
   }
 
   RdFromFleshToArr(A_C1_GPRS, &buf[0], L_C1_GPRS_MAX);
-  if (*(unsigned int *)&buf[L_C1_GPRS_MAX - 2] !=
+  if (*(uint16_t *)&buf[L_C1_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C1_GPRS_MAX - 2, 0xffff)) {
 
     // загрузка поумолчанию
@@ -902,13 +909,13 @@ unsigned char check_memory_map(void) {
       j++;
     }
 
-    *(unsigned int *)&buf[L_C1_GPRS_MAX - 2] =
+    *(uint16_t *)&buf[L_C1_GPRS_MAX - 2] =
         crc_m1(&buf[0], L_C1_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_C1_GPRS, &buf[0], L_C1_GPRS_MAX, 0, 0);
   }
 
   RdFromFleshToArr(A_C2_GPRS, &buf[0], L_C2_GPRS_MAX);
-  if (*(unsigned int *)&buf[L_C2_GPRS_MAX - 2] !=
+  if (*(uint16_t *)&buf[L_C2_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C2_GPRS_MAX - 2, 0xffff)) {
 
     // загрузка поумолчанию
@@ -942,13 +949,13 @@ unsigned char check_memory_map(void) {
       j++;
     }
 
-    *(unsigned int *)&buf[L_C2_GPRS_MAX - 2] =
+    *(uint16_t *)&buf[L_C2_GPRS_MAX - 2] =
         crc_m1(&buf[0], L_C2_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_C2_GPRS, &buf[0], L_C2_GPRS_MAX, 0, 0);
   }
 
   RdFromFleshToArr(A_C3_GPRS, &buf[0], L_C3_GPRS_MAX);
-  if (*(unsigned int *)&buf[L_C3_GPRS_MAX - 2] !=
+  if (*(uint16_t *)&buf[L_C3_GPRS_MAX - 2] !=
       crc_m1(&buf[0], L_C3_GPRS_MAX - 2, 0xffff)) {
 
     // загрузка поумолчанию
@@ -982,18 +989,18 @@ unsigned char check_memory_map(void) {
       j++;
     }
 
-    *(unsigned int *)&buf[L_C3_GPRS_MAX - 2] =
+    *(uint16_t *)&buf[L_C3_GPRS_MAX - 2] =
         crc_m1(&buf[0], L_C3_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_C3_GPRS, &buf[0], L_C3_GPRS_MAX, 0, 0);
   }
 
   RdFromFleshToArr(A_TRAF, &buf[0], L_TRAF);
-  if (*(unsigned int *)&buf[L_TRAF - 2] !=
+  if (*(uint16_t *)&buf[L_TRAF - 2] !=
       crc_m1(&buf[0], L_TRAF - 2, 0xffff)) {
-    *(unsigned long int *)&buf[0] = burst_ds_r();
-    *(unsigned long int *)&buf[4] = 0;
-    *(unsigned long int *)&buf[8] = 0;
-    *(unsigned int *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
+    *(uint32_t *)&buf[0] = burst_ds_r();
+    *(uint32_t *)&buf[4] = 0;
+    *(uint32_t *)&buf[8] = 0;
+    *(uint16_t *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
     WrArrayToFlesh(A_TRAF, &buf[0], L_TRAF, 0, 0);
   }
 
@@ -1018,7 +1025,7 @@ unsigned char check_keys(void) {
 
   RdFromFleshToArr(A_KEYS,&buf[0],L_KEYS);
 
-  if(*(unsigned int*)&buf[L_KEYS-2]==crc_m1(&buf[0],L_KEYS-2,0xffff))
+  if(*(uint16_t*)&buf[L_KEYS-2]==crc_m1(&buf[0],L_KEYS-2,0xffff))
    {
     for(i=0;i<L_KEYS;i++) keys[i]=buf[i];//загрузка ключей в массив ключей
     return(0);
@@ -1028,7 +1035,7 @@ unsigned char check_keys(void) {
   */
 
   RdFromFleshToArr(A_KEYS, &keys[0], L_KEYS);
-  if (*(unsigned int *)&keys[L_KEYS - 2] !=
+  if (*(uint16_t *)&keys[L_KEYS - 2] !=
       crc_m1(&keys[0], L_KEYS - 2, 0xffff))
     return (1);
   return (0);
@@ -1188,7 +1195,7 @@ void read_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_PORT, &buf[0], 2);
     mov_lf();
     mov_s(sizeof(zp_udp), zp_udp);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1198,7 +1205,7 @@ void read_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_NUM, &buf[0], 2);
     mov_lf();
     mov_s(sizeof(zp_num), zp_num);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1208,7 +1215,7 @@ void read_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_NAT, &buf[0], 2);
     mov_lf();
     mov_s(sizeof(zp_nat), zp_nat);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1217,7 +1224,7 @@ void read_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_NAT_R, &buf[0], 2);
     mov_lf();
     mov_s(sizeof(zp_nat_r), zp_nat_r);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1227,7 +1234,7 @@ void read_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_CCH, &buf[0], 2);
     mov_lf();
     mov_s(sizeof(zp_link), zp_link);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1236,7 +1243,7 @@ void read_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_TM_CH, &buf[0], 2);
     mov_lf();
     mov_s(sizeof(zp_tm_link), zp_tm_link);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1247,7 +1254,7 @@ void read_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_TM_NO_LINK, &buf[0], 2);
     mov_lf();
     mov_s(sizeof(zp_tm_no_link), zp_tm_no_link);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1257,7 +1264,7 @@ void read_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_TM_LINK_RES, &buf[0], 2);
     mov_lf();
     mov_s(sizeof(zp_tm_link_res), zp_tm_link_res);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1285,7 +1292,7 @@ void read_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_NUM_CL, &buf[0], 2);
     mov_lf();
     mov_s(sizeof(zp_num_seq), zp_num_seq);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1296,7 +1303,7 @@ void read_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_TM_VZ, &buf[0], 2);
     mov_lf();
     mov_s(sizeof(zp_tm_vz), zp_tm_vz);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1307,7 +1314,7 @@ void read_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_TM_CL, &buf[0], 2);
     mov_lf();
     mov_s(sizeof(zp_tm_cl), zp_tm_cl);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1339,7 +1346,7 @@ void read_menu(unsigned char index_menu) {
     buf[1] = 0;
     mov_lf();
     mov_s(sizeof(zp_dbg), zp_dbg);
-    sprintf(massiv, "%u\0", *(unsigned int *)&buf[0]);
+    sprintf(massiv, "%u\0", *(uint16_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
     mov_lf();
     s_port('>');
@@ -1527,7 +1534,7 @@ void read_menu(unsigned char index_menu) {
     mov_s(sizeof(zp_traffic), zp_traffic);
 
     RdFromFleshToArr(A_TRAF + 4, &buf[0], 4);
-    sprintf(massiv, "%lu\0", *(unsigned long int *)&buf[0]);
+    sprintf(massiv, "%lu\0", *(uint32_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
 
     s_port(' ');
@@ -1536,7 +1543,7 @@ void read_menu(unsigned char index_menu) {
 
     memset(buf, 0, 70);
     RdFromFleshToArr(A_TRAF + 8, &buf[0], 4);
-    sprintf(massiv, "%lu\0", *(unsigned long int *)&buf[0]);
+    sprintf(massiv, "%lu\0", *(uint32_t *)&buf[0]);
     mov_massiv(strlen(massiv), massiv);
 
     mov_lf();
@@ -1642,7 +1649,7 @@ void write_menu(unsigned char index_menu) {
 
   union {
     unsigned char bytes[4];
-    unsigned long int word;
+    uint32_t word;
   } cifra_long;
 
   unsigned char i, j, k, m, n;
@@ -1688,7 +1695,7 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
     }
 
-    *(unsigned int *)&buf[L_C_GPRS_MAX - 2] =
+    *(uint16_t *)&buf[L_C_GPRS_MAX - 2] =
         crc_m1(&buf[0], L_C_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_C_GPRS, &buf[0], L_C_GPRS_MAX, 0, 0);
 
@@ -1722,7 +1729,7 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
     }
 
-    *(unsigned int *)&buf[L_CR_GPRS_MAX - 2] =
+    *(uint16_t *)&buf[L_CR_GPRS_MAX - 2] =
         crc_m1(&buf[0], L_CR_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_CR_GPRS, &buf[0], L_CR_GPRS_MAX, 0, 0);
 
@@ -1766,7 +1773,7 @@ void write_menu(unsigned char index_menu) {
     else
       buf[OFS_IP + 3] = cifra_long.bytes[0];
 
-    *(unsigned int *)&buf[OFS_IP_PAR_CRC] =
+    *(uint16_t *)&buf[OFS_IP_PAR_CRC] =
         crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
     WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
 
@@ -1780,8 +1787,8 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
 
     RdFromFleshToArr(A_IP_PAR, &buf[0], L_IP_PAR);
-    *(unsigned int *)&buf[OFS_PORT] = cifra_long.word; // UDP порт
-    *(unsigned int *)&buf[OFS_IP_PAR_CRC] =
+    *(uint16_t *)&buf[OFS_PORT] = cifra_long.word; // UDP порт
+    *(uint16_t *)&buf[OFS_IP_PAR_CRC] =
         crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
     WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
 
@@ -1810,8 +1817,8 @@ void write_menu(unsigned char index_menu) {
     return;
   enable_wri:
     RdFromFleshToArr(A_IP_PAR, &buf[0], L_IP_PAR);
-    *(unsigned int *)&buf[OFS_NUM] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_IP_PAR_CRC] =
+    *(uint16_t *)&buf[OFS_NUM] = cifra_long.word;
+    *(uint16_t *)&buf[OFS_IP_PAR_CRC] =
         crc_m1(&buf[0], L_IP_PAR - 2, 0xffff);
     WrArrayToFlesh(A_IP_PAR, &buf[0], L_IP_PAR, 0, 0);
 
@@ -1828,8 +1835,8 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
 
     RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-    *(unsigned int *)&buf[OFS_NAT] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
+    *(uint16_t *)&buf[OFS_NAT] = cifra_long.word;
+    *(uint16_t *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
     WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
 
     vol_tx_ppp = 0;
@@ -1845,8 +1852,8 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
 
     RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-    *(unsigned int *)&buf[OFS_NAT_R] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
+    *(uint16_t *)&buf[OFS_NAT_R] = cifra_long.word;
+    *(uint16_t *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
     WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
 
     vol_tx_ppp = 0;
@@ -1862,8 +1869,8 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
 
     RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-    *(unsigned int *)&buf[OFS_CCH] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
+    *(uint16_t *)&buf[OFS_CCH] = cifra_long.word;
+    *(uint16_t *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
     WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
 
     vol_tx_ppp = 0;
@@ -1879,8 +1886,8 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
 
     RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
-    *(unsigned int *)&buf[OFS_TM_CH] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
+    *(uint16_t *)&buf[OFS_TM_CH] = cifra_long.word;
+    *(uint16_t *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
     WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
 
     vol_tx_ppp = 0;
@@ -1898,11 +1905,11 @@ void write_menu(unsigned char index_menu) {
     RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
 
     if (cifra_long.word != 0)
-      if ((cifra_long.word * 60) <= (*(unsigned int *)&buf[OFS_CCH]))
+      if ((cifra_long.word * 60) <= (*(uint16_t *)&buf[OFS_CCH]))
         goto bad_com_232;
 
-    *(unsigned int *)&buf[OFS_TM_NO_LINK] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
+    *(uint16_t *)&buf[OFS_TM_NO_LINK] = cifra_long.word;
+    *(uint16_t *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
     WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
 
     vol_tx_ppp = 0;
@@ -1919,11 +1926,11 @@ void write_menu(unsigned char index_menu) {
 
     RdFromFleshToArr(A_C_PAR, &buf[0], L_C_PAR);
 
-    if ((cifra_long.word * 60) <= (*(unsigned int *)&buf[OFS_CCH]))
+    if ((cifra_long.word * 60) <= (*(uint16_t *)&buf[OFS_CCH]))
       goto bad_com_232;
 
-    *(unsigned int *)&buf[OFS_TM_LINK_RES] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
+    *(uint16_t *)&buf[OFS_TM_LINK_RES] = cifra_long.word;
+    *(uint16_t *)&buf[OFS_C_PAR_CRC] = crc_m1(&buf[0], L_C_PAR - 2, 0xffff);
     WrArrayToFlesh(A_C_PAR, &buf[0], L_C_PAR, 0, 0);
 
     vol_tx_ppp = 0;
@@ -1941,7 +1948,7 @@ void write_menu(unsigned char index_menu) {
 
     RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
     buf[OFS_DES_SEQ] = cifra_long.bytes[0];
-    *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+    *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
         crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
     WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
 
@@ -1958,8 +1965,8 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
 
     RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
-    *(unsigned int *)&buf[OFS_NUM_CL] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+    *(uint16_t *)&buf[OFS_NUM_CL] = cifra_long.word;
+    *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
         crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
     WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
 
@@ -1976,8 +1983,8 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
 
     RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
-    *(unsigned int *)&buf[OFS_TM_VZ] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+    *(uint16_t *)&buf[OFS_TM_VZ] = cifra_long.word;
+    *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
         crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
     WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
 
@@ -1994,8 +2001,8 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
 
     RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
-    *(unsigned int *)&buf[OFS_TM_CL] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+    *(uint16_t *)&buf[OFS_TM_CL] = cifra_long.word;
+    *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
         crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
     WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
 
@@ -2010,7 +2017,7 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
     RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
     *(unsigned char *)&buf[OFS_TP_TS] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+    *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
         crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
     WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
 
@@ -2025,7 +2032,7 @@ void write_menu(unsigned char index_menu) {
       goto bad_com_232;
     RdFromFleshToArr(A_SEQ_PAR, &buf[0], L_SEQ_PAR);
     *(unsigned char *)&buf[OFS_TP_TS + 1] = cifra_long.word;
-    *(unsigned int *)&buf[OFS_SEQ_PAR_CRC] =
+    *(uint16_t *)&buf[OFS_SEQ_PAR_CRC] =
         crc_m1(&buf[0], L_SEQ_PAR - 2, 0xffff);
     WrArrayToFlesh(A_SEQ_PAR, &buf[0], L_SEQ_PAR, 0, 0);
 
@@ -2106,7 +2113,7 @@ void write_menu(unsigned char index_menu) {
     for (k = 0; k < buf[n]; k++)
       buf[n + 1 + k] = buf_tx_232[m + k];
 
-    *(unsigned int *)&buf[L_C1_GPRS_MAX - 2] =
+    *(uint16_t *)&buf[L_C1_GPRS_MAX - 2] =
         crc_m1(&buf[0], L_C1_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_C1_GPRS, &buf[0], L_C1_GPRS_MAX, 0, 0);
 
@@ -2177,7 +2184,7 @@ void write_menu(unsigned char index_menu) {
     for (k = 0; k < buf[n]; k++)
       buf[n + 1 + k] = buf_tx_232[m + k];
 
-    *(unsigned int *)&buf[L_C2_GPRS_MAX - 2] =
+    *(uint16_t *)&buf[L_C2_GPRS_MAX - 2] =
         crc_m1(&buf[0], L_C2_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_C2_GPRS, &buf[0], L_C2_GPRS_MAX, 0, 0);
 
@@ -2248,7 +2255,7 @@ void write_menu(unsigned char index_menu) {
     for (k = 0; k < buf[n]; k++)
       buf[n + 1 + k] = buf_tx_232[m + k];
 
-    *(unsigned int *)&buf[L_C3_GPRS_MAX - 2] =
+    *(uint16_t *)&buf[L_C3_GPRS_MAX - 2] =
         crc_m1(&buf[0], L_C3_GPRS_MAX - 2, 0xffff);
     WrArrayToFlesh(A_C3_GPRS, &buf[0], L_C3_GPRS_MAX, 0, 0);
 
@@ -2413,7 +2420,7 @@ void write_menu(unsigned char index_menu) {
     if ((vol_tx_ppp == 2) && (buf_tx_232[0] == '1')) {
       for (i = 0; i < (L_KEYS - 2); i++)
         buf[i] = keys_def[i];
-      *(unsigned int *)&buf[L_KEYS - 2] = crc_m1(&buf[0], L_KEYS - 2, 0xffff);
+      *(uint16_t *)&buf[L_KEYS - 2] = crc_m1(&buf[0], L_KEYS - 2, 0xffff);
       WrArrayToFlesh(A_KEYS, &buf[0], L_KEYS, 0, 0);
 
       if (check_keys() == 1)
@@ -2445,7 +2452,7 @@ void write_menu(unsigned char index_menu) {
     buf[OFS_PIN_SIM1 + 1] = buf_tx_232[1];
     buf[OFS_PIN_SIM1 + 2] = buf_tx_232[2];
     buf[OFS_PIN_SIM1 + 3] = buf_tx_232[3];
-    *(unsigned int *)&buf[OFS_KOD_SIM1_CRC] =
+    *(uint16_t *)&buf[OFS_KOD_SIM1_CRC] =
         crc_m1(&buf[0], L_KOD_SIM1 - 2, 0xffff);
     WrArrayToFlesh(A_KOD_SIM1, &buf[0], L_KOD_SIM1, 0, 0);
     vol_tx_ppp = 0;
@@ -2471,7 +2478,7 @@ void write_menu(unsigned char index_menu) {
     buf[OFS_PIN_SIM2 + 1] = buf_tx_232[1];
     buf[OFS_PIN_SIM2 + 2] = buf_tx_232[2];
     buf[OFS_PIN_SIM2 + 3] = buf_tx_232[3];
-    *(unsigned int *)&buf[OFS_KOD_SIM2_CRC] =
+    *(uint16_t *)&buf[OFS_KOD_SIM2_CRC] =
         crc_m1(&buf[0], L_KOD_SIM2 - 2, 0xffff);
     WrArrayToFlesh(A_KOD_SIM2, &buf[0], L_KOD_SIM2, 0, 0);
     vol_tx_ppp = 0;
@@ -2484,10 +2491,10 @@ void write_menu(unsigned char index_menu) {
     if (buf_tx_232[0] != '0')
       goto bad_com_232;
 
-    *(unsigned long int *)&buf[0] = burst_ds_r();
+    *(uint32_t *)&buf[0] = burst_ds_r();
     for (i = 4; i < 12; i++)
       buf[i] = 0;
-    *(unsigned int *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
+    *(uint16_t *)&buf[L_TRAF - 2] = crc_m1(&buf[0], L_TRAF - 2, 0xffff);
     WrArrayToFlesh(A_TRAF, &buf[0], L_TRAF, 0, 0);
     vol_tx_ppp = 0;
     mov_s(sizeof(ok_t), ok_t);
@@ -2573,7 +2580,7 @@ bad_com_232:
 }
 
 void at_mon_232(void) {
-  unsigned int volatile local;
+  uint16_t volatile local;
 
   // * в фоновом режиме выводим все что пришло с сим модуля
   //if ((UCSR2A & 0x20) == 0)
@@ -2682,7 +2689,7 @@ void monitor_terminal(void) {
 
   union {
     unsigned char bytes[4];
-    unsigned long int word;
+    uint32_t word;
   } temp_long;
 
   //
@@ -2696,10 +2703,11 @@ void monitor_terminal(void) {
     temp_long.word = HAL_GetTick();
     vol_tx_ppp = 1;
     buf_tx_232[0] = 0x0d;
-    UCSR2B = 0;
-    UBRR2H = R4800_H;
-    UBRR2L = R4800_L; /* the baud rate */
-    UCSR2B = UCSR2B | RXCIE | RXEN | TXEN;
+    /// 08 10 2026
+    ///UCSR2B = 0;
+    ///UBRR2H = R4800_H;
+    ///UBRR2L = R4800_L; /* the baud rate */
+    ///UCSR2B = UCSR2B | RXCIE | RXEN | TXEN;
 
 
 HAL_UART_DeInit(&huart4);
@@ -2783,18 +2791,18 @@ HAL_UART_DeInit(&huart2);
 
     HAL_UART_Init(&huart3);
 
-  UBRR1H = R4800_H;
-  UBRR1L = R4800_L;
-  UCSR1B = UCSR1B | RXEN | TXEN; // разрешить прием и передачу без прерываний
+  ///UBRR1H = R4800_H;
+  ///UBRR1L = R4800_L;
+  ///UCSR1B = UCSR1B | RXEN | TXEN; // разрешить прием и передачу без прерываний
 
-  UBRR3H = R4800_H;
-  UBRR3L = R4800_L;
-  UCSR3B = UCSR3B | RXEN | TXEN; // разрешить прием и передачу без прерываний
+  ///UBRR3H = R4800_H;
+  ///UBRR3L = R4800_L;
+  ///UCSR3B = UCSR3B | RXEN | TXEN; // разрешить прием и передачу без прерываний
 
   // очистить порты
   //
-  dummy = UDR1;
-  dummy = UDR3;
+  ///dummy = UDR1;
+  ///dummy = UDR3;
 
   SET_RTS3; // !!!!!
 
@@ -2841,18 +2849,18 @@ void test_loop2(void) {
   mov_s(sizeof(str_loop2_ok), str_loop2_ok);
   mov_lf();
 
-  UBRR1H = R4800_H;
-  UBRR1L = R4800_L;
-  UCSR1B = UCSR1B | RXEN | TXEN; // разрешить прием и передачу без прерываний
+  ///UBRR1H = R4800_H;
+  ///UBRR1L = R4800_L;
+  ///UCSR1B = UCSR1B | RXEN | TXEN; // разрешить прием и передачу без прерываний
 
-  UBRR3H = R4800_H;
-  UBRR3L = R4800_L;
-  UCSR3B = UCSR3B | RXEN | TXEN; // разрешить прием и передачу без прерываний
+  ///UBRR3H = R4800_H;
+  ///UBRR3L = R4800_L;
+  ///UCSR3B = UCSR3B | RXEN | TXEN; // разрешить прием и передачу без прерываний
 
   // очистить порты
   //
-  dummy = UDR1;
-  dummy = UDR3;
+  ///dummy = UDR1;
+  ///dummy = UDR3;
 
   SET_RTS1; // !!!!!
 

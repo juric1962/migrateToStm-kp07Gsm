@@ -119,9 +119,9 @@ void FM25W256_SPI_Init(void) {
   HAL_SPI_Init(&hspi1);
 }
 
-void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                      unsigned int num) {
-  unsigned int i;
+void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                      uint16_t num) {
+  uint16_t i;
   
 
   if (num == 0u) {
@@ -132,9 +132,9 @@ void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
 
 }
 
-void RdFromFleshToArrInt(unsigned int adres_flesh, unsigned int *adres_ozu,
-                         unsigned int num) {
-  unsigned int i;
+void RdFromFleshToArrInt(uint16_t adres_flesh, uint16_t *adres_ozu,
+                         uint16_t num) {
+  uint16_t i;
   uint8_t *dst = (uint8_t *)adres_ozu;
   uint16_t words = (uint16_t)num;
 
@@ -150,10 +150,10 @@ void RdFromFleshToArrInt(unsigned int adres_flesh, unsigned int *adres_ozu,
   }
 }
 
-void WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
-                    unsigned int num, unsigned char flag,
+void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,
+                    uint16_t num, unsigned char flag,
                     unsigned char znach) {
-  unsigned int i;
+  uint16_t i;
   uint32_t address = (uint32_t)adres_flesh;
 
   if (num == 0u) {
@@ -174,10 +174,10 @@ void WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
   }
 }
 
-void WrArrayToFleshInt(unsigned int adres_flesh, unsigned int *adres_ozu,
-                       unsigned int num, unsigned char flag,
-                       unsigned int znach) {
-  unsigned int i;
+void WrArrayToFleshInt(uint16_t adres_flesh, uint16_t *adres_ozu,
+                       uint16_t num, unsigned char flag,
+                       uint16_t znach) {
+  uint16_t i;
   uint32_t address = (uint32_t)adres_flesh;
 
   if (num == 0u) {

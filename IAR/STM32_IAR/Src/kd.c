@@ -3,28 +3,31 @@
 #include "dfcnst.h"
 #include "map_ef.h"
 #include "map_mbus.h"
-#include <inavr.h>
-#include <iom2560.h>
+//#include <inavr.h>
+//#include <iom2560.h>
 
 #include "dfpin.h"
 
+
+// совершенно непонятная манипуляция  PORTB = PORTB & ~0x04; //  PORTE=PORTE & ~4;  //ravil
+//  заменю ее на __NOP();
 void com_disp_mbus(void);
 
-void WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
-                    unsigned int num, unsigned char flag,
+void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,
+                    uint16_t num, unsigned char flag,
                     unsigned char znach); // запись конфигурации кп во флеш
-void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                      unsigned int num);
+void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                      uint16_t num);
 
 void insert_zapis_kd(unsigned char nomer, unsigned char type);
 
 unsigned char crc_485(unsigned char num, unsigned char *p);
 
-unsigned long int burst_ds_r(void);
+uint32_t burst_ds_r(void);
 
 extern unsigned char sel_modul;
 
-extern unsigned int modbus_mem1[SEG1];
+extern uint16_t modbus_mem1[SEG1];
 
 extern char flag_arhiv_prihod;
 
@@ -36,12 +39,12 @@ extern unsigned char prihod_uhod;
 
 unsigned char cnt_snd;
 
-unsigned int glutch;
-unsigned int sost;
+uint16_t glutch;
+uint16_t sost;
 
 extern char dabl;
 
-unsigned int c_config_kd[2];
+uint16_t c_config_kd[2];
 
 unsigned char crc_485(unsigned char num, unsigned char *p);
 
@@ -59,7 +62,7 @@ unsigned char trevoga, iz_vzat;
 
 unsigned char glob_tabletka;
 
-unsigned int ust_vhod, timer_vhod, timer_autovzat;
+uint16_t ust_vhod, timer_vhod, timer_autovzat;
 
 void wr_uk(void) {
   unsigned char buf[4];
@@ -439,8 +442,8 @@ void test_t_vhod(void) {
     if (test_query() == 0)
       return;
     sost = SNAT;
-    if (sel_modul == 1)
-      PORTB = PORTB & ~0x04; //  PORTE=PORTE & ~4;  //ravil
+   
+    
     insert_query(nomer_tab, sost);
 
     insert_zapis_kd(nomer_tab, ZP_SNAT);
@@ -460,8 +463,7 @@ void test_t_vihod(void) {
 
     {
       sost = VZAT;
-      if (sel_modul == 1)
-        PORTB = PORTB & ~0x04; //  PORTE=PORTE & ~4;          //ravil
+      
       insert_query(nomer_tab, sost);
       insert_zapis_kd(nomer_tab, ZP_VZAT);
     }
@@ -488,8 +490,7 @@ void test_t_vihod(void) {
       return;
 
     sost = SNAT;
-    if (sel_modul == 1)
-      PORTB = PORTB & ~0x04; //  PORTE=PORTE & ~4;  //ravil
+   
 
     timer_autovzat = ust_vhod;
     iz_vzat = 1;
@@ -519,8 +520,7 @@ void test_alarm(void) {
   if (test_query() == 0)
     return;
   sost = SNAT;
-  if (sel_modul == 1)
-    PORTB = PORTB & ~4; //  только в режиме МКД пищать
+  
   insert_query(nomer_tab, sost);
 
   insert_zapis_kd(nomer_tab, ZP_SNAT);
@@ -722,7 +722,7 @@ void zp_prihod_uhod(void) {
 }
 
 void com_disp_mbus(void) {
-  // unsigned int pred_sost;
+  // uint16_t pred_sost;
 
   bit_registr1 = bit_registr1 | TABLETKA;
   nomer_tab = 0;

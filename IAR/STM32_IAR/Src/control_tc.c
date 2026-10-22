@@ -252,8 +252,8 @@ void local_avtom_tit(void) {
   // unsigned char k_a_tit[8]; //количество аварий по входам ТИТ
   // unsigned char ivx,j;//Индекс входа, временный байт
 
-  int run_1;
-  int analog_max, analog_min;
+  int16_t run_1;
+  int16_t analog_max, analog_min;
   char ivx;
 
   unsigned char *triger_titmin;

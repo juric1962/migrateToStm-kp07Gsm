@@ -20,8 +20,8 @@
 
 // адоптированный обрезанный стек PPP 14.09.07
 
-#define C_GLUK1 0x55
-#define C_GLUK2 0xaa
+#define VERSION_API 77
+
 
 extern unsigned char k_a_tit[2];
 extern union {
@@ -32,12 +32,12 @@ extern union {
   unsigned char mb[SEG99 * 2]; // байтовый массив
 } c1_byte;                     // страница конфигурации ГЗУ
 
-unsigned int swap(unsigned int a) { return (a << 8) | (a >> 8); }
+uint16_t swap(uint16_t a) { return (a << 8) | (a >> 8); }
 
 extern unsigned char obmen_full;
 extern char bit_registr1;
 extern unsigned char nomer_tab;
-extern unsigned int sost;
+extern uint16_t sost;
 extern char zadan_ys;
 
 char read_ohr(void);
@@ -49,11 +49,11 @@ void test_t_vhod(void);
 void test_t_vihod(void);
 
 void refresh_a(char m);
-void RdFromFleshToArrInt(unsigned int adres_flesh, unsigned int *adres_ozu,
-                         unsigned int num);
-void WrArrayToFleshInt(unsigned int adres_flesh, unsigned int *adres_ozu,
-                       unsigned int num, unsigned char flag,
-                       unsigned int znach); // запись конфигурации кп во флеш
+void RdFromFleshToArrInt(uint16_t adres_flesh, uint16_t *adres_ozu,
+                         uint16_t num);
+void WrArrayToFleshInt(uint16_t adres_flesh, uint16_t *adres_ozu,
+                       uint16_t num, unsigned char flag,
+                       uint16_t znach); // запись конфигурации кп во флеш
 
 unsigned char crc_485(unsigned char num, unsigned char *p);
 
@@ -64,11 +64,11 @@ extern void write_log_info(unsigned char sost, unsigned char mesto);
 
 extern void set_rlt(unsigned char address, unsigned char *data);
 
-void transform_buf(unsigned char *p, unsigned int kol_byte,
-                   unsigned int s_rand);
+void transform_buf(unsigned char *p, uint16_t kol_byte,
+                   uint16_t s_rand);
 
 void boot_HUGE(void);
-void r_p_flash(unsigned int adress);
+void r_p_flash(uint16_t adress);
 void reload_apl_HUGE(void);
 
 void send_info(char size, char const *p, unsigned char fl_id,
@@ -123,14 +123,14 @@ const unsigned char new_version[] = {0x06,       0xcd,      0x00, 0x07,
                                        0x00,       NO_MODEL,  0x00, NO_MAP,
                                        DATA_MONTH, DATA_DATA, 0x00, GOD};
 
-extern unsigned int ust_vhod;
+extern uint16_t ust_vhod;
 
-extern unsigned int c_config_tc[SEG8];
+extern uint16_t c_config_tc[SEG8];
 
 extern unsigned char sel_modul;
 
 extern char bit_level, bit_level_psm, sost_psm;
-extern unsigned long int unix;
+extern uint32_t unix;
 
 // #include "sec.h"
 
@@ -138,28 +138,28 @@ extern unsigned long int unix;
 // enum t_type {ZAPR,OTV,SOOB,KVIT};
 extern unsigned char simka; // dobavka
 
-extern unsigned int num_self, num_seq_cl, port_udp;
+extern uint16_t num_self, num_seq_cl, port_udp;
 extern unsigned char ip_ls[4];
 
-extern unsigned long int cnt_no_link, vol_cnt_no_link; // dobavka
+extern uint32_t cnt_no_link, vol_cnt_no_link; // dobavka
 
-void delay(unsigned int period);
-extern unsigned long int burst_ds_r(void);
-unsigned int proc_config(unsigned char *buf_rx_ppp, unsigned char offset,
-                         unsigned int count_rx_ppp);
+void delay(uint16_t period);
+extern uint32_t burst_ds_r(void);
+uint16_t proc_config(unsigned char *buf_rx_ppp, unsigned char offset,
+                         uint16_t count_rx_ppp);
 unsigned char check_ln_conf(unsigned char *buf_rx_ppp, unsigned char offset,
-                            unsigned int count_rx_ppp);
+                            uint16_t count_rx_ppp);
 unsigned char check_cont_485_1(unsigned char *pointer);
 unsigned char check_cont_485_2(unsigned char *pointer);
 
 extern unsigned char Regim;
 unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
-                            unsigned int count_rx_ppp);
-unsigned int crc_m1(unsigned char *ka, unsigned int num, unsigned int crc);
-unsigned int crc_ozu(void);
-extern unsigned int prov_ozu;
+                            uint16_t count_rx_ppp);
+uint16_t crc_m1(unsigned char *ka, uint16_t num, uint16_t crc);
+uint16_t crc_ozu(void);
+extern uint16_t prov_ozu;
 
-unsigned int proc_modbus(unsigned char *pnt_buf, unsigned char length);
+uint16_t proc_modbus(unsigned char *pnt_buf, unsigned char length);
 unsigned char proc_kamintel(unsigned char *pnt_buf, unsigned char length);
 
 void clr_cntr_nat(void);
@@ -168,17 +168,17 @@ void form_buf_tx_ppp(void);
 unsigned char check_cts(void);
 void clr_cntr_link(void);
 
-void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                      unsigned int num);
-void WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
-                    unsigned int num, unsigned char flag, unsigned char znach);
+void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                      uint16_t num);
+void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,
+                    uint16_t num, unsigned char flag, unsigned char znach);
 
 void send_err485(unsigned char port, unsigned char err, unsigned char id,
-                 unsigned int dst);
+                 uint16_t dst);
 
 unsigned char compress_off;
 
-extern unsigned long int cnt_outcom, cnt_incom;
+extern uint32_t cnt_outcom, cnt_incom;
 
 extern unsigned char point_log_buf;
 
@@ -192,7 +192,7 @@ struct {
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!для РРР
 extern struct {
   unsigned char data[VOL_RX_PPP]; // сам буфер
-  unsigned int ln_data;           // длина данных
+  uint16_t ln_data;           // длина данных
   enum bool rec;                  // пакет принят
   enum bool busy;                 // буфер занят
   enum bool check_busy;           // проверка занят ли буфер
@@ -204,7 +204,7 @@ extern struct {
   unsigned char old_pin : 1;
   unsigned char fl_ch_tc : 1;
   unsigned char real_tc;
-  unsigned int count_tc;
+  uint16_t count_tc;
   unsigned char type;
   unsigned char cnt_block_tc;
 } struct_tcc1, struct_tcc2;
@@ -217,7 +217,7 @@ extern struct {
 extern enum t_event_modem event_modem;
 
 extern unsigned char buf_tx_232[VOL_TX_PPP];
-extern unsigned int count_tx_ppp, vol_tx_ppp;
+extern uint16_t count_tx_ppp, vol_tx_ppp;
 extern unsigned char layer_PPP;
 
 struct {
@@ -268,13 +268,13 @@ struct {
 
 struct {
   unsigned char time_485_1;
-  unsigned int client_485_1;
+  uint16_t client_485_1;
   unsigned char start_485_1;
   unsigned char time_485_2;
-  unsigned int client_485_2;
+  uint16_t client_485_2;
   unsigned char start_485_2;
   unsigned char time_232_2;
-  unsigned int client_232_2;
+  uint16_t client_232_2;
   unsigned char start_232_2;
 } Life;
 
@@ -287,9 +287,9 @@ unsigned char cnt_rst_lcp, vol_cnt_rst_lcp;
 unsigned char cnt_rst_ipcp, vol_cnt_rst_ipcp;
 unsigned char cnt_rst_pap, vol_cnt_rst_pap;
 
-unsigned int cnt_lcp_tm_out, cnt_ipcp_tm_out;
-unsigned int cnt_pap_tm_out;
-unsigned long int cnt_ip_tm_cntr;
+uint16_t cnt_lcp_tm_out, cnt_ipcp_tm_out;
+uint16_t cnt_pap_tm_out;
+uint32_t cnt_ip_tm_cntr;
 unsigned char rcvd_protokol;
 
 unsigned char i_scr_lcp, i_scan_lcp;
@@ -322,14 +322,14 @@ extern struct // структура, описывающая объект пер�
   enum bool link_waits;   // ожидание квитка на контроль связи
   enum bool link;         // контроль связи
   enum bool nat;          // контроль nat
-  unsigned int cnt_link;  // счетчик
-  unsigned int cnt_nat;   // счетчик
-  unsigned int vol_link;  // значение
-  unsigned int vol_nat;   // //значение
-  unsigned int vol_waits; // значение времени квитка ожидания контроля связи
+  uint16_t cnt_link;  // счетчик
+  uint16_t cnt_nat;   // счетчик
+  uint16_t vol_link;  // значение
+  uint16_t vol_nat;   // //значение
+  uint16_t vol_waits; // значение времени квитка ожидания контроля связи
   unsigned char cnt_try;  // счетчик попыток получить квиток
   unsigned char vol_try;  // rjkbxtcndj попыток получить квиток
-  unsigned int vol_nat_r; // счетчик
+  uint16_t vol_nat_r; // счетчик
 } Control;
 char ip_change;
 extern unsigned char ip_self[4];
@@ -339,21 +339,21 @@ unsigned char ip_pri_dns[4], ip_sec_dns[4];
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!структуры приложения
 extern struct {
   unsigned char id;
-  unsigned int p_in; // указатель свободной ячейки
-  unsigned int p_out;
-  unsigned int p_out_kv;
-  unsigned int crc;
-  unsigned int cnt_waits; // счетчик ожидания квитка
+  uint16_t p_in; // указатель свободной ячейки
+  uint16_t p_out;
+  uint16_t p_out_kv;
+  uint16_t crc;
+  uint16_t cnt_waits; // счетчик ожидания квитка
   unsigned char cnt_try;  // счетчик попыток получить квиток
-  unsigned int l_data;    // длина посылаемых данных
+  uint16_t l_data;    // длина посылаемых данных
   unsigned char state;
   unsigned char event;
-  unsigned int tm_vzat;
-  unsigned int vol_tm_vzat;
+  uint16_t tm_vzat;
+  uint16_t vol_tm_vzat;
   enum bool cntr_cl;
   enum bool en_cntr_cl;
-  unsigned int cnt_cntr_cl;
-  unsigned int vol_cntr_cl;
+  uint16_t cnt_cntr_cl;
+  uint16_t vol_cntr_cl;
 } Appl_seq;
 
 extern unsigned char Appl_seq_des;
@@ -371,13 +371,13 @@ extern struct {
   unsigned char enable : 1;
 } fl_appl_seq1;
 
-extern unsigned int func_crc_tii(void);
-extern __no_init unsigned int crc_tii;
-extern __no_init unsigned int cnt_tii[8];
+extern uint16_t func_crc_tii(void);
+extern __no_init uint16_t crc_tii;
+extern __no_init uint16_t cnt_tii[8];
 
 extern unsigned char cnt_tu1, cnt_tu2;
 
-extern unsigned int modbus_mem1[SEG1];
+extern uint16_t modbus_mem1[SEG1];
 
 extern struct { // в двоичном коде
   char r_sec;
@@ -394,19 +394,8 @@ extern struct { // в двоичном коде
 
 // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
-unsigned int delay_pre_tx;
+uint16_t delay_pre_tx;
 
-//!!!!!!!!!!!!!!!11удаленная загрузка
-__no_init unsigned int pagee @0xe60;
-__no_init unsigned char *array_in_232 @0xe62;
-__no_init unsigned char off_buf @0xe6a;
-__no_init unsigned int total_kol_page @0xe6b; // счетчик страниц словный
-__no_init unsigned char contr_gluk1 @0xe6d;
-__no_init unsigned char contr_gluk2 @0xe6e;
-
-#pragma dataseg = MY_STACK1
-__no_init unsigned char saver_global_var[2];
-#pragma dataseg = default
 
 /*
 // компилятор не поддерживает ICALL вызовы
@@ -418,8 +407,6 @@ __no_init unsigned char saver_global_var[2];
 }
 */
 
-void move_to_saver(void);
-void pop_from_saver(void);
 
 unsigned char reboot_byte;
 
@@ -434,9 +421,9 @@ struct {
   // unsigned char  yes_crc     :1;// верный crc
 } fl_pg_out;
 
-unsigned int pg_crc;    // значение crc куска данных
-unsigned int cnt_pg;    // реальный счетчик страниц
-unsigned int cnt_pg_i;  //  счетчик страниц
+uint16_t pg_crc;    // значение crc куска данных
+uint16_t cnt_pg;    // реальный счетчик страниц
+uint16_t cnt_pg_i;  //  счетчик страниц
 unsigned char id_pg_kp; // циклический идентификатор страниц контроллера
 unsigned char
     id_pg_appl; // циклический идентификатор страниц верхнего приложения
@@ -451,13 +438,13 @@ extern struct // структура описывающая работу прил
 {
   enum bool fl_data_buf; // имеется ли забуферизированный пакет для передачи в
                          // порт RS485_1
-  unsigned int ln_data_buf;  // забуферизированная длина буфера
-  unsigned int dst_buf;      // забуферизированный получатель
+  uint16_t ln_data_buf;  // забуферизированная длина буфера
+  uint16_t dst_buf;      // забуферизированный получатель
   unsigned char cont_buf[8]; // забуферизированный контекст
   unsigned char id_buf;      // забуферизированный id
-  unsigned int dst_tek;      // текущий получатель
+  uint16_t dst_tek;      // текущий получатель
   unsigned char id_tek;      // текущий id
-  unsigned int pre_tx;       // задержка перед передачей
+  uint16_t pre_tx;       // задержка перед передачей
 } Appl_RS485_1, Appl_RS485_2, Appl_RS232_2;
 
 /*
@@ -482,19 +469,19 @@ struct // структура, описывающая объект передач
   enum bool prozr;        // версия
   enum t_version version; // версия
   enum t_type type_pac;   // тип пакета
-  unsigned int num_src;   // номер отправителя
-  unsigned int num_dst;   // номер получателя
+  uint16_t num_src;   // номер отправителя
+  uint16_t num_dst;   // номер получателя
   unsigned char id_pac;   // идентификатор пакета
   unsigned char *p_opt;   // //указатель буфера опций
   unsigned char l_opt;    // длина буфера опций
   unsigned char kol_opt;  // количество опций
   unsigned char *p_data;  // указатель буфера данных
-  unsigned int l_data;    // длина данных
+  uint16_t l_data;    // длина данных
 } Obj_ppp_tx;
 
 extern unsigned char buf_opt_tr[20];
 
-const unsigned int fcstab[256] = {
+const uint16_t fcstab[256] = {
     0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf, 0x8c48,
     0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7, 0x1081, 0x0108,
     0x3393, 0x221a, 0x56a5, 0x472c, 0x75b7, 0x643e, 0x9cc9, 0x8d40, 0xbfdb,
@@ -527,12 +514,76 @@ const unsigned int fcstab[256] = {
 
 void com_disp_mbus(void);
 
-unsigned long int hash_tabletka2(void) {
-  int point_pos;
+////////////////////////////////////////////////////////////////////////////
 
-  unsigned long int hash_kod;
+void TestLastPage(void)
+                         {
+                           
+ 
+   
+    unsigned char DesAddress[256]; 
+  //  uint32_t  DesAddress[64]; 
+ //   uint16_t total_kol_page,j,i,length;
+                           
+                         // признак последняя страница
+                         
+                                 if(fl_pg_out.end_pg==1)
+                                  {
+   
+                                   
+                                    uint16_t total_kol_page=cnt_pg+1;
+                                    
+                                    
+                                    fl_pg_out.end_pg=0;
+                                    //fl_pg_out.yes_crc=0; //???????? ???? ????????????
+                                    if (fl_pg_out.ch_crc==1)
+                                    {
+
+                                       uint16_t length=0xffff;
+                                       uint32_t  FlashAddress=0x08060000;
+                                       __disable_irq();
+                                        for (uint16_t j=0;j<total_kol_page;j++)
+                                           {
+                                       
+                                   //    for (uint16_t i=0;i<64;i++) DesAddress[i]=*(__IO uint32_t*)FlashAddress++;
+                                   //    length=crc_m1( (unsigned char*)&DesAddress,256,length);
+
+
+                                       for (uint16_t i=0;i<256;i++) {DesAddress[i]=*(__IO unsigned char*)FlashAddress; FlashAddress++;}
+                                       length=crc_m1( &DesAddress[0],256,length);      
+                                             
+                                       HAL_IWDG_Refresh(&hiwdg);
+                                            }
+                                         
+                                       __enable_irq();
+                                       if(length == pg_crc)
+                                        {  
+                                         reboot_byte=0x55;
+                                        }
+                                        else
+                                        {
+  
+                                    //my     total_kol_page=0;
+                                         reboot_byte=0;                                          
+                                        }
+                                    
+                                     fl_pg_out.send_crc=1;
+                                     }    
+                                
+                                    fl_pg_out.hold_pg=0;    
+                                    fl_pg_out.ch_crc=0; 
+                               
+                                  }  
+                                  // признак последняя страница
+                         }               
+
+/////////////////////////////////////////////////////////////////////////////
+uint32_t hash_tabletka2(void) {
+  int16_t point_pos;
+
+  uint32_t hash_kod;
   union {
-    unsigned long int kod;
+    uint32_t kod;
     unsigned char b_kod[4];
   } hash;
 
@@ -591,7 +642,7 @@ void prov_uk_in_ipcp(void) {
     event_modem = EVM_PPP_ERR; // переполнение буфера
 }
 
-unsigned int pppfcs16(unsigned int fcs, unsigned char *cp, unsigned int len)
+uint16_t pppfcs16(uint16_t fcs, unsigned char *cp, uint16_t len)
 
 {
 
@@ -605,7 +656,7 @@ void send_terminate_lcp(void)
 {
   union {
     unsigned char bytes[2];
-    unsigned int word;
+    uint16_t word;
   } temp;
 
   fl_lcp.act_lcp_end = 0;
@@ -644,7 +695,7 @@ void run_lcp_act(void) {
 
   union {
     unsigned char bytes[2];
-    unsigned int word;
+    uint16_t word;
   } temp;
 
   switch (LCP_act_buf[uk_out_act_LCP]) {
@@ -851,7 +902,7 @@ void monitor_act_PAP(void) {
 
   union {
     unsigned char bytes[2];
-    unsigned int word;
+    uint16_t word;
   } temp;
 
   if ((pap_act_buf == SCR) && (fl_pap.act_pap_end == 1) &&
@@ -1255,7 +1306,7 @@ void run_ipcp_act(void) {
 
   union {
     unsigned char bytes[2];
-    unsigned int word;
+    uint16_t word;
   } temp;
 
   switch (IPCP_act_buf[uk_out_act_IPCP]) {
@@ -1779,16 +1830,16 @@ void monitor_event_IPCP(void) {
 
 ////////////////  конец мониторы IPCP
 
-unsigned int calc_crc_ip(unsigned char *p, unsigned int count) {
+uint16_t calc_crc_ip(unsigned char *p, uint16_t count) {
 
   union {
     unsigned char bytes[2];
-    unsigned int word;
+    uint16_t word;
   } temp1;
 
   union {
     unsigned char bytes[4];
-    unsigned long int long_word;
+    uint32_t long_word;
   } temp2;
 
   temp1.word = 0;
@@ -1820,17 +1871,17 @@ unsigned int calc_crc_ip(unsigned char *p, unsigned int count) {
   return (temp1.word);
 }
 
-unsigned int calc_crc_udp_2(unsigned char *buf_rx_ppp, unsigned int count) {
+uint16_t calc_crc_udp_2(unsigned char *buf_rx_ppp, uint16_t count) {
   unsigned char *p;
 
   union {
     unsigned char bytes[2];
-    unsigned int word;
+    uint16_t word;
   } temp1;
 
   union {
     unsigned char bytes[4];
-    unsigned long int long_word;
+    uint32_t long_word;
   } temp2;
   p = buf_rx_ppp + 22;
   temp1.word = 0;
@@ -1887,8 +1938,8 @@ unsigned int calc_crc_udp_2(unsigned char *buf_rx_ppp, unsigned int count) {
 }
 
 unsigned char proc_ppp_packet(unsigned char *buf_rx_ppp,
-                              unsigned int count_rx_ppp) {
-  unsigned int i;
+                              uint16_t count_rx_ppp) {
+  uint16_t i;
   unsigned char vol_length_opt;
   unsigned char ind_opt, count_length_opt;
 
@@ -1905,7 +1956,7 @@ unsigned char proc_ppp_packet(unsigned char *buf_rx_ppp,
 
   union {
     unsigned char bytes[2];
-    unsigned int word;
+    uint16_t word;
   } Crc_out, temp, length;
 
   if (count_rx_ppp <= 5)
@@ -2706,7 +2757,7 @@ end_pcp_opt_2:      if((fl_opt.accm==1)&&(fl_opt.acfc==1)&&(fl_opt.pfc==1))
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-void send_no_sinc(unsigned char id, unsigned int dst, unsigned char error) {
+void send_no_sinc(unsigned char id, uint16_t dst, unsigned char error) {
   if (fl_ip.act_ip_end != 1)
     return;
   fl_ip.act_ip_end = 0;
@@ -2832,8 +2883,8 @@ check_end_pg:
   return (0);
 }
 
-unsigned char proc_option(unsigned char *buf_rx_ppp, unsigned int ind,
-                          unsigned int count_rx_opt, unsigned char port) {
+unsigned char proc_option(unsigned char *buf_rx_ppp, uint16_t ind,
+                          uint16_t count_rx_opt, unsigned char port) {
 
   unsigned char tt;
   // return 0 ошибка, игнорировать, весь некорректный пакет
@@ -2842,10 +2893,10 @@ unsigned char proc_option(unsigned char *buf_rx_ppp, unsigned int ind,
   //  3 - ошибка время жизни истекло return 4 - ошибка операция недоступна
 
   unsigned char flag_life;
-  unsigned int life_cl;
+  uint16_t life_cl;
   unsigned char life_time;
   unsigned char life_start;
-  unsigned int cnt;
+  uint16_t cnt;
 
   cnt = 0;
   flag_life = 0;
@@ -2864,7 +2915,7 @@ next_option:
       return (0);
     if (((buf_rx_ppp[TR_V] >> 4) & 0x03) != KVIT)
       return (0);
-    if (*(unsigned int *)&buf_rx_ppp[ind + 3] == num_seq_cl) {
+    if (*(uint16_t *)&buf_rx_ppp[ind + 3] == num_seq_cl) {
 
       Appl_seq.cnt_cntr_cl = 0;
       Appl_seq.cntr_cl = TRUE;
@@ -2891,7 +2942,7 @@ next_option:
       return (0);
     if (((buf_rx_ppp[TR_V] >> 4) & 0x03) != ZAPR)
       return (0);
-    delay_pre_tx = *(unsigned int *)&buf_rx_ppp[ind + 2];
+    delay_pre_tx = *(uint16_t *)&buf_rx_ppp[ind + 2];
     if (delay_pre_tx > 5000) {
       delay_pre_tx = 0;
       return (0);
@@ -2934,7 +2985,7 @@ next_option:
     if (((buf_rx_ppp[TR_V] >> 4) & 0x03) != ZAPR)
       return (0);
     fl_pg_out.ch_crc = 1;
-    pg_crc = *(unsigned int *)&buf_rx_ppp[ind + 2];
+    pg_crc = *(uint16_t *)&buf_rx_ppp[ind + 2];
 
     //               send_info(sizeof(gluk),gluk,1,2);
 
@@ -2963,7 +3014,7 @@ next_option:
 
     if (buf_rx_ppp[ind + 2] == 0) {
 
-      if (life_cl == *(unsigned int *)&buf_rx_ppp[TR_SRC]) {
+      if (life_cl == *(uint16_t *)&buf_rx_ppp[TR_SRC]) {
         if (life_time == 0)
           flag_life = 2;
         else {
@@ -2993,17 +3044,17 @@ next_option:
         switch (port) {
         case PORT485_1:
           Life.time_485_1 = buf_rx_ppp[ind + 2];
-          Life.client_485_1 = *(unsigned int *)&buf_rx_ppp[TR_SRC];
+          Life.client_485_1 = *(uint16_t *)&buf_rx_ppp[TR_SRC];
           Life.start_485_1 = 1;
           break;
         case PORT485_2:
           Life.time_485_2 = buf_rx_ppp[ind + 2];
-          Life.client_485_2 = *(unsigned int *)&buf_rx_ppp[TR_SRC];
+          Life.client_485_2 = *(uint16_t *)&buf_rx_ppp[TR_SRC];
           Life.start_485_2 = 1;
           break;
         case PORT232_2:
           Life.time_232_2 = buf_rx_ppp[ind + 2];
-          Life.client_232_2 = *(unsigned int *)&buf_rx_ppp[TR_SRC];
+          Life.client_232_2 = *(uint16_t *)&buf_rx_ppp[TR_SRC];
           Life.start_232_2 = 1;
           break;
         default:
@@ -3013,22 +3064,22 @@ next_option:
         flag_life = 1;
       } else {
 
-        if ((life_cl == *(unsigned int *)&buf_rx_ppp[TR_SRC]) ||
+        if ((life_cl == *(uint16_t *)&buf_rx_ppp[TR_SRC]) ||
             (life_start == 1)) {
           switch (port) {
           case PORT485_1:
             Life.time_485_1 = buf_rx_ppp[ind + 2];
-            Life.client_485_1 = *(unsigned int *)&buf_rx_ppp[TR_SRC];
+            Life.client_485_1 = *(uint16_t *)&buf_rx_ppp[TR_SRC];
             Life.start_485_1 = 1;
             break;
           case PORT485_2:
             Life.time_485_2 = buf_rx_ppp[ind + 2];
-            Life.client_485_2 = *(unsigned int *)&buf_rx_ppp[TR_SRC];
+            Life.client_485_2 = *(uint16_t *)&buf_rx_ppp[TR_SRC];
             Life.start_485_2 = 1;
             break;
           case PORT232_2:
             Life.time_232_2 = buf_rx_ppp[ind + 2];
-            Life.client_232_2 = *(unsigned int *)&buf_rx_ppp[TR_SRC];
+            Life.client_232_2 = *(uint16_t *)&buf_rx_ppp[TR_SRC];
             Life.start_232_2 = 1;
             break;
           default:
@@ -3075,7 +3126,7 @@ next_option:
   goto next_option;
 }
 
-void send_size_pg(unsigned char id, unsigned int dst) {
+void send_size_pg(unsigned char id, uint16_t dst) {
   if (fl_ip.act_ip_end != 1)
     return;
   fl_ip.act_ip_end = 0;
@@ -3093,7 +3144,7 @@ void send_size_pg(unsigned char id, unsigned int dst) {
   Obj_ppp_tx.l_opt = 4; // длина буфера опций
   buf_opt_tr[0] = KOD_OP_SIZE_PG;
   buf_opt_tr[1] = L_OP_SIZE_PG_OTV;
-  *(unsigned int *)&buf_opt_tr[2] = 256;
+  *(uint16_t *)&buf_opt_tr[2] = 256;
 
   // Obj_ppp_tx.kol_opt=1;// количество опций
 
@@ -3113,7 +3164,7 @@ void send_size_pg(unsigned char id, unsigned int dst) {
 }
 
 /*
- void send_otv_ping(unsigned char id,unsigned int dst)
+ void send_otv_ping(unsigned char id,uint16_t dst)
     {
        if(fl_ip.act_ip_end!=1)return;
           fl_ip.act_ip_end=0;
@@ -3147,15 +3198,15 @@ void send_size_pg(unsigned char id, unsigned int dst) {
  */
 
 unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
-                            unsigned int count_rx_ppp) {
-  unsigned int length, crc, year;
+                            uint16_t count_rx_ppp) {
+  uint16_t length, crc, year;
   // unsigned char *p_data;
   unsigned char length_head;
   unsigned char offset, i;
-  unsigned int ii, kol, k;
-  unsigned int *tc_cfgPoint;
+  uint16_t ii, kol, k;
+  uint16_t *tc_cfgPoint;
   unsigned char flag_tii, flag_time, flag_refresh;
-  unsigned long int old_unix;
+  uint32_t old_unix;
   unsigned char flashka[2];
 
   struct {
@@ -3164,45 +3215,45 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
     unsigned char *point_in;
     unsigned char flag_elam;
     unsigned char smest_to_elam;
-    unsigned int count_in_elam;
-    unsigned int index_elam;
-    unsigned int size_of_pac;
-    unsigned int count_out_elam;
-    unsigned int modbus_crc_new;
+    uint16_t count_in_elam;
+    uint16_t index_elam;
+    uint16_t size_of_pac;
+    uint16_t count_out_elam;
+    uint16_t modbus_crc_new;
     unsigned char input_tu;
-    unsigned int overall;
+    uint16_t overall;
 
   } mobus;
 
   // проверка длины данных UDP
-  length = *(unsigned int *)&buf_rx_ppp[UDP_LN];
+  length = *(uint16_t *)&buf_rx_ppp[UDP_LN];
   if (length < MIN_TR_HEAD)
     return (0);
 
   // проверка длины транспорта
-  length = *(unsigned int *)&buf_rx_ppp[TR_LEN];
+  length = *(uint16_t *)&buf_rx_ppp[TR_LEN];
   if (length < MIN_TR_HEAD)
     return (0);
   if (length > count_rx_ppp - 5 - 20 - 8)
     return (0);
 
-  transform_buf(&buf_rx_ppp[TR_ID], *(unsigned int *)&buf_rx_ppp[TR_LEN] - 7,
-                *(unsigned int *)&buf_rx_ppp[TR_KOD]);
+  transform_buf(&buf_rx_ppp[TR_ID], *(uint16_t *)&buf_rx_ppp[TR_LEN] - 7,
+                *(uint16_t *)&buf_rx_ppp[TR_KOD]);
 
-  *(unsigned int *)&buf_rx_ppp[TR_KOD] = 0;
+  *(uint16_t *)&buf_rx_ppp[TR_KOD] = 0;
 
-  crc = *(unsigned int *)&buf_rx_ppp[TR_CRC];
-  *(unsigned int *)&buf_rx_ppp[TR_CRC] = 0;
+  crc = *(uint16_t *)&buf_rx_ppp[TR_CRC];
+  *(uint16_t *)&buf_rx_ppp[TR_CRC] = 0;
 
   // проверка crc
   if (crc !=
-      crc_m1(&buf_rx_ppp[TR_SRC], *(unsigned int *)&buf_rx_ppp[TR_LEN], 0xffff))
+      crc_m1(&buf_rx_ppp[TR_SRC], *(uint16_t *)&buf_rx_ppp[TR_LEN], 0xffff))
     return (0);
 
   if ((buf_rx_ppp[TR_V] >> 6) == VER2) // версия протокола VER2
   {
 
-    if (*(unsigned int *)&buf_rx_ppp[TR_DST] != num_self)
+    if (*(uint16_t *)&buf_rx_ppp[TR_DST] != num_self)
       return (0);
 
     length_head = (buf_rx_ppp[TR_V] & 0x0f) * 4;
@@ -3222,7 +3273,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
       if (length_head > MIN_TR_HEAD) {
         if (proc_option(buf_rx_ppp, TR_OP_DATA, length_head - MIN_TR_HEAD,
                         PORT_NONE) == 2) {
-          send_size_pg(buf_rx_ppp[TR_ID], *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+          send_size_pg(buf_rx_ppp[TR_ID], *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         }
         return (0);
       }
@@ -3232,14 +3283,14 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
       /*
       if(((buf_rx_ppp[TR_V]>>4)&0x03)==ZAPR)
       {
-        send_otv_ping(buf_rx_ppp[TR_ID],*(unsigned int*)&buf_rx_ppp[TR_SRC]);
+        send_otv_ping(buf_rx_ppp[TR_ID],*(uint16_t*)&buf_rx_ppp[TR_SRC]);
         send_info(sizeof(ans_out_ping),ans_out_ping,1,buf_rx_ppp[TR_ID]);
         return(0);
       }
 
       */
 
-      if (*(unsigned int *)&buf_rx_ppp[TR_SRC] != NUM_SRV_LINK)
+      if (*(uint16_t *)&buf_rx_ppp[TR_SRC] != NUM_SRV_LINK)
         return (0);
       //                  if(buf_rx_ppp[TR_ID]!=ID_CC)return(0);
 
@@ -3272,10 +3323,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         return (0);
       if (buf_rx_ppp[offset + SL_LS_PROT + 1] != COM_CNTR_CL)
         return (0);
-      if (*(unsigned int *)&buf_rx_ppp[offset + SL_LS_PROT + 2] !=
+      if (*(uint16_t *)&buf_rx_ppp[offset + SL_LS_PROT + 2] !=
           L_OTV_CNTR_CL)
         return (0);
-      if (*(unsigned int *)&buf_rx_ppp[offset + SL_LS_PROT + 4] != num_seq_cl)
+      if (*(uint16_t *)&buf_rx_ppp[offset + SL_LS_PROT + 4] != num_seq_cl)
         return (0);
       if (buf_rx_ppp[offset + SL_LS_PROT + 6] != 0) { // присутствие в таблице
 
@@ -3306,7 +3357,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         // можно отправиь сообщение об ошибке "некорректные данные"
         send_info(sizeof(ans_out_485_1), ans_out_485_1, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS485_1, RS_DATA_ERR, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3315,7 +3366,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         // приложения"
         send_info(sizeof(ans_out_485_1), ans_out_485_1, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS485_1, RS_OVER_BUF_TX, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3325,7 +3376,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
       if (check_cont_485_1(&buf_rx_ppp[offset + C1_CONT]) == 1) {
         send_info(sizeof(ans_out_485_1), ans_out_485_1, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS485_1, RS_NO_CONT, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3333,14 +3384,14 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         // то можно послать служебное сообщение что буфер переполнен
         send_info(sizeof(ans_out_485_1), ans_out_485_1, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS485_1, RS_BUSY, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         break;
       }
 
       if (Regim == RG_DEBAG) { // включен тестовый режим!!!
         send_info(sizeof(ans_out_485_1), ans_out_485_1, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS485_1, RS_TEST, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3351,14 +3402,14 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
         if (i == 3) // время жизни истекло
         {
-          send_no_sinc(buf_rx_ppp[TR_ID], *(unsigned int *)&buf_rx_ppp[TR_SRC],
+          send_no_sinc(buf_rx_ppp[TR_ID], *(uint16_t *)&buf_rx_ppp[TR_SRC],
                        OUT_LIFE);
           return (0);
         }
 
         if (i == 4) // операция недоступна
         {
-          send_no_sinc(buf_rx_ppp[TR_ID], *(unsigned int *)&buf_rx_ppp[TR_SRC],
+          send_no_sinc(buf_rx_ppp[TR_ID], *(uint16_t *)&buf_rx_ppp[TR_SRC],
                        DES_OPERATE);
           return (0);
         }
@@ -3372,7 +3423,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         Appl_RS485_1.fl_data_buf = TRUE;
       else
         fl_485_1.tx = 1;
-      Appl_RS485_1.dst_buf = *(unsigned int *)&buf_rx_ppp[TR_SRC];
+      Appl_RS485_1.dst_buf = *(uint16_t *)&buf_rx_ppp[TR_SRC];
       Appl_RS485_1.id_buf = buf_rx_ppp[TR_ID];
 
       for (i = 0; i < 8; i++)
@@ -3389,7 +3440,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         // можно отправиь сообщение об ошибке "некорректные данные"
         send_info(sizeof(ans_out_485_2), ans_out_485_2, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS485_2, RS_DATA_ERR, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3398,7 +3449,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         // приложения"
         send_info(sizeof(ans_out_485_2), ans_out_485_2, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS485_2, RS_OVER_BUF_TX, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3407,7 +3458,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
       if (check_cont_485_1(&buf_rx_ppp[offset + C1_CONT]) == 1) {
         send_info(sizeof(ans_out_485_2), ans_out_485_2, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS485_2, RS_NO_CONT, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3415,14 +3466,14 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         // то можно послать служебное сообщение что буфер переполнен
         send_info(sizeof(ans_out_485_2), ans_out_485_2, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS485_2, RS_BUSY, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         break;
       }
 
       if (Regim == RG_DEBAG) { // включен тестовый режим!!!
         send_info(sizeof(ans_out_485_2), ans_out_485_2, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS485_2, RS_TEST, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3433,14 +3484,14 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
         if (i == 3) // время жизни истекло
         {
-          send_no_sinc(buf_rx_ppp[TR_ID], *(unsigned int *)&buf_rx_ppp[TR_SRC],
+          send_no_sinc(buf_rx_ppp[TR_ID], *(uint16_t *)&buf_rx_ppp[TR_SRC],
                        OUT_LIFE);
           return (0);
         }
 
         if (i == 4) // операция недоступна
         {
-          send_no_sinc(buf_rx_ppp[TR_ID], *(unsigned int *)&buf_rx_ppp[TR_SRC],
+          send_no_sinc(buf_rx_ppp[TR_ID], *(uint16_t *)&buf_rx_ppp[TR_SRC],
                        DES_OPERATE);
           return (0);
         }
@@ -3454,7 +3505,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         Appl_RS485_2.fl_data_buf = TRUE;
       else
         fl_485_2.tx = 1;
-      Appl_RS485_2.dst_buf = *(unsigned int *)&buf_rx_ppp[TR_SRC];
+      Appl_RS485_2.dst_buf = *(uint16_t *)&buf_rx_ppp[TR_SRC];
       Appl_RS485_2.id_buf = buf_rx_ppp[TR_ID];
       for (i = 0; i < 8; i++)
         Appl_RS485_2.cont_buf[i] = buf_rx_ppp[offset + C1_CONT + i];
@@ -3470,7 +3521,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         // можно отправиь сообщение об ошибке "некорректные данные"
         send_info(sizeof(ans_out_232), ans_out_232, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS232_2, RS_DATA_ERR, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3479,7 +3530,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         // приложения"
         send_info(sizeof(ans_out_232), ans_out_232, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS232_2, RS_OVER_BUF_TX, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3488,7 +3539,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
       if (check_cont_485_1(&buf_rx_ppp[offset + C1_CONT]) == 1) {
         send_info(sizeof(ans_out_232), ans_out_232, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS232_2, RS_NO_CONT, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3496,14 +3547,14 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         // то можно послать служебное сообщение что буфер переполнен
         send_info(sizeof(ans_out_232), ans_out_232, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS232_2, RS_BUSY, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         break;
       }
 
       if (Regim == RG_DEBAG) { // включен тестовый режим!!!
         send_info(sizeof(ans_out_232), ans_out_232, 1, buf_rx_ppp[TR_ID]);
         send_err485(NUM_RS232_2, RS_TEST, buf_rx_ppp[TR_ID],
-                    *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                    *(uint16_t *)&buf_rx_ppp[TR_SRC]);
         return (0);
       }
 
@@ -3514,14 +3565,14 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
         if (i == 3) // время жизни истекло
         {
-          send_no_sinc(buf_rx_ppp[TR_ID], *(unsigned int *)&buf_rx_ppp[TR_SRC],
+          send_no_sinc(buf_rx_ppp[TR_ID], *(uint16_t *)&buf_rx_ppp[TR_SRC],
                        OUT_LIFE);
           return (0);
         }
 
         if (i == 4) // операция недоступна
         {
-          send_no_sinc(buf_rx_ppp[TR_ID], *(unsigned int *)&buf_rx_ppp[TR_SRC],
+          send_no_sinc(buf_rx_ppp[TR_ID], *(uint16_t *)&buf_rx_ppp[TR_SRC],
                        DES_OPERATE);
           return (0);
         }
@@ -3535,7 +3586,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         Appl_RS232_2.fl_data_buf = TRUE;
       else
         fl_232_2.tx = 1;
-      Appl_RS232_2.dst_buf = *(unsigned int *)&buf_rx_ppp[TR_SRC];
+      Appl_RS232_2.dst_buf = *(uint16_t *)&buf_rx_ppp[TR_SRC];
       Appl_RS232_2.id_buf = buf_rx_ppp[TR_ID];
       for (i = 0; i < 8; i++)
         Appl_RS232_2.cont_buf[i] = buf_rx_ppp[offset + C1_CONT + i];
@@ -3548,16 +3599,16 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
     case PORT_SEQ:
       if (length < 5)
         return (0);
-      // if(*(unsigned int*)&buf_rx_ppp[TR_SRC]!=num_seq_cl)return(0);
+      // if(*(uint16_t*)&buf_rx_ppp[TR_SRC]!=num_seq_cl)return(0);
 
       if (((buf_rx_ppp[TR_V] >> 4) & 0x03) == KVIT) {
-        if (*(unsigned int *)&buf_rx_ppp[TR_SRC] != num_seq_cl)
+        if (*(uint16_t *)&buf_rx_ppp[TR_SRC] != num_seq_cl)
           return (0);
         if (buf_rx_ppp[offset + C1_DATA] != KVITOK_SEQ)
           return (0);
         if (length != 5)
           return (0);
-        if (*(unsigned int *)&buf_rx_ppp[offset + C1_DATA + 1] != L_KVITOK)
+        if (*(uint16_t *)&buf_rx_ppp[offset + C1_DATA + 1] != L_KVITOK)
           return (0);
 
         if (fl_appl_seq.kv_waits == 1) {
@@ -3592,7 +3643,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
           return (0);
         if (length != 5)
           return (0);
-        if (*(unsigned int *)&buf_rx_ppp[offset + C1_DATA + 1] != L_ZAPR_TC)
+        if (*(uint16_t *)&buf_rx_ppp[offset + C1_DATA + 1] != L_ZAPR_TC)
           return (0);
 
         if (fl_ip.act_ip_end != 1)
@@ -3605,15 +3656,15 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         Obj_ppp_tx.type_pac = OTV;     // тип пакета
         Obj_ppp_tx.num_src = num_self; // номер отправителя
         Obj_ppp_tx.num_dst =
-            *(unsigned int *)&buf_rx_ppp[TR_SRC]; // номер получателя
+            *(uint16_t *)&buf_rx_ppp[TR_SRC]; // номер получателя
         Obj_ppp_tx.id_pac = buf_rx_ppp[TR_ID];    // идентификатор пакета
         Obj_ppp_tx.p_opt = &buf_opt_tr[0];        // //указатель буфера опций
         Obj_ppp_tx.l_opt = 0;                     // длина буфера опций
         buf_tx_232[TR_OP_DATA + C1_PROT] = PROT_C1;
         buf_tx_232[TR_OP_DATA + C1_PORT] = PORT_SEQ;
         buf_tx_232[TR_OP_DATA + C1_DATA] = SEQ_STATE;
-        *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1] = L_STATE;
-        *(unsigned long int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 3] =
+        *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1] = L_STATE;
+        *(uint32_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 3] =
             burst_ds_r();
 
         if (struct_tcc1.type == TC_SHL)
@@ -3662,7 +3713,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         //UCSR0B = UCSR0B | TXCIE;
         if (check_cts() == 1)
           return (1);
-        S2_RD
+        S2_RD;
        sendBytePPP(buf_tx_232[0]);
         return (1);
       }
@@ -3713,7 +3764,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
       if ((buf_rx_ppp[offset + C1_DATA] & 0x7f) == CONF_LOG) {
         if (length > 5)
           return (0);
-        if (*(unsigned int *)&buf_rx_ppp[offset + C1_DATA + 1] != L_CONF_LOG)
+        if (*(uint16_t *)&buf_rx_ppp[offset + C1_DATA + 1] != L_CONF_LOG)
           return (0);
         if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
           // стирание лог файла
@@ -3721,7 +3772,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
           WrArrayToFlesh(BEG_BUF_LOG, 0, (L_LOG * 6), 0x01, 0x00);
           __watchdog_reset();
           point_log_buf = 0;
-          *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1] =
+          *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1] =
               L_CONF_LOG + 1;
           Obj_ppp_tx.l_data = 5 + L_CONF_LOG + 1;
           //  ii=0;
@@ -3729,7 +3780,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
           // чтение
           RdFromFleshToArr(BEG_BUF_LOG, &buf_tx_232[TR_OP_DATA + C1_DATA + 4],
                            (L_LOG * 6));
-          *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1] =
+          *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1] =
               L_CONF_LOG + (L_LOG * 6) + 1;
           Obj_ppp_tx.l_data = 5 + L_CONF_LOG + (L_LOG * 6) + 1;
           // ii=;
@@ -3754,7 +3805,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
       Obj_ppp_tx.type_pac = OTV;     // тип пакета
       Obj_ppp_tx.num_src = num_self; // номер отправителя
       Obj_ppp_tx.num_dst =
-          *(unsigned int *)&buf_rx_ppp[TR_SRC]; // номер получателя
+          *(uint16_t *)&buf_rx_ppp[TR_SRC]; // номер получателя
       Obj_ppp_tx.id_pac = buf_rx_ppp[TR_ID];    // идентификатор пакета
       Obj_ppp_tx.p_opt = &buf_opt_tr[0];        // //указатель буфера опций
       Obj_ppp_tx.l_opt = 0;                     // длина буфера опций
@@ -3773,9 +3824,9 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
           (fl_rewrite.num_self == 1)) {
         RdFromFleshToArr(A_IP_PAR, &buf_rx_ppp[0], L_IP_PAR);
         if (fl_rewrite.num_self == 1)
-          num_self = *(unsigned int *)&buf_rx_ppp[OFS_NUM];
+          num_self = *(uint16_t *)&buf_rx_ppp[OFS_NUM];
         if (fl_rewrite.udp == 1)
-          port_udp = *(unsigned int *)&buf_rx_ppp[OFS_PORT];
+          port_udp = *(uint16_t *)&buf_rx_ppp[OFS_PORT];
         if (fl_rewrite.ip == 1) {
           ip_ls[0] = buf_rx_ppp[OFS_IP];
           ip_ls[1] = buf_rx_ppp[OFS_IP + 1];
@@ -3798,7 +3849,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
       //UCSR0B = UCSR0B | TXCIE;
       if (check_cts() == 1)
         return (1);
-      S2_RD
+      S2_RD;
       sendBytePPP(buf_tx_232[0]);
 
       return (1);
@@ -3806,247 +3857,201 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
       // break;
 
     case PORT_PROG:
-
-      if (((buf_rx_ppp[TR_V] >> 4) & 0x03) != ZAPR)
-        return (0);
-
-      if (length_head == MIN_TR_HEAD)
-        return (0);
-      if (proc_option(buf_rx_ppp, TR_OP_DATA, length_head - MIN_TR_HEAD,
-                      PORT_PROG) != 1)
-        return (0);
-
-      if (length != 5 + L_COM_CODE_MEM_Z)
-        return (0);
-      if ((buf_rx_ppp[offset + C1_PORT + 1]) != COM_CODE_MEM)
-        return (0);
-      if ((*(unsigned int *)&buf_rx_ppp[offset + C1_PORT + 2]) !=
-          L_COM_CODE_MEM_Z)
-        return (0);
-
-      //                     send_info(sizeof(gluk),gluk,1,20);
-
-      if (proc_paging() == 1) {
-        //                            send_info(sizeof(gluk),gluk,1,21);
-        // прошивка не соответствует устройству !!  25 12 2021
-      device_bad:
-        send_no_sinc(buf_rx_ppp[TR_ID], *(unsigned int *)&buf_rx_ppp[TR_SRC],
-                     NO_SINC_PG);
-        return (0);
-      }
-
-      // if(cnt_pg>251)    //(от 0 до 251) //можно грузить не более 252 стр
-      if (cnt_pg >= 505) //(от 0 до 251) //можно грузить не более 252 стр
-      {
-        //                             send_info(sizeof(gluk),gluk,1,22);
-        cnt_pg = 0;
-        fl_pg_out.send_crc = 0;
-        fl_pg_out.hold_pg = 0;
-        fl_pg_out.ch_crc = 0;
-        fl_pg_out.end_pg = 0;
-        fl_pg_out.cor_pg = 0;
-        send_no_sinc(buf_rx_ppp[TR_ID], *(unsigned int *)&buf_rx_ppp[TR_SRC],
-                     OVER_PG);
-        return (0);
-      }
-
-      //                           send_info(sizeof(gluk),gluk,1,23);
-      reboot_byte = 0;
-
-      if (fl_pg_out.cor_pg == 1) {
-        fl_pg_out.cor_pg = 0;
-        // проверка на соответствие прошивки в конце страницы должен быть код
-        // 0x55aa
-        //              if ( ( cnt_pg==0) &&     ( *(unsigned
-        //              int*)&buf_rx_ppp[offset+C1_PORT+4 + 0xFE] != 0x55AA ) )
-        //              goto device_bad;
-        if ((cnt_pg == 0) &&
+      /*
+      пока процедура удаленного программирования заглушка
+      взять из версии ЧРЭП и дбавить проверку на тип устрйства
+       if ((cnt_pg == 0) &&
             (buf_rx_ppp[offset + C1_PORT + 4 + 0xFF] != VERSION_API))
           goto device_bad;
+      VERSION_API это код этого релиза stm32 
+      */
+            /*
+                        
+                         */
+                       //  07 05 2019
+                         
+                         
+                     
+                         
+                       if(((buf_rx_ppp[TR_V]>>4)&0x03)!=ZAPR)return(0);
+                            
+                            if(length_head==MIN_TR_HEAD)return(0);     
+                            if (proc_option(buf_rx_ppp,TR_OP_DATA,length_head-MIN_TR_HEAD,PORT_PROG)!=1)return(0); 
+                            
+                            
+                            
+                            if(length!=5+L_COM_CODE_MEM_Z)return(0);    
+                            
+                             //отладка
+                             // send_no_sinc(buf_rx_ppp[TR_ID],*(uint16_t*)&buf_rx_ppp[TR_SRC],NO_SINC_PG);
+                             //  return(0);
+                               //отладка 
+                            
+                            if((buf_rx_ppp[offset+C1_PORT+1])!=COM_CODE_MEM)return(0);
+                            if((*(uint16_t*)&buf_rx_ppp[offset+C1_PORT+2])!=L_COM_CODE_MEM_Z)return(0);
+                            
+                       
+                               
+                               
+                            
+       //                     send_info(sizeof(gluk),gluk,1,20);
+                            
+                            if(proc_paging()==1)
+                               {
+   //                            send_info(sizeof(gluk),gluk,1,21);
+device_bad:
+                               send_no_sinc(buf_rx_ppp[TR_ID],*(uint16_t*)&buf_rx_ppp[TR_SRC],NO_SINC_PG);
+                               return(0);
+                               }
+                            
+                            
+                            
+                            if(cnt_pg > 3000)    // ограничение на количество страниц было 251
+                              {
+ //                             send_info(sizeof(gluk),gluk,1,22);
+                              cnt_pg=0;
+                              fl_pg_out.send_crc=0;
+                              fl_pg_out.hold_pg=0;    
+                              fl_pg_out.ch_crc=0; 
+                              fl_pg_out.end_pg=0;
+                              fl_pg_out.cor_pg=0;
+                              send_no_sinc(buf_rx_ppp[TR_ID],*(uint16_t*)&buf_rx_ppp[TR_SRC],OVER_PG);
+                              return(0);
+                              }
+                            
+                            
+                               
 
-        //                              send_info(sizeof(gluk),gluk,1,24);
+                              reboot_byte=0; 
+                              
+                              if(fl_pg_out.cor_pg==1)
+                                 {
+                                  fl_pg_out.cor_pg=0;
+                                  // ura проверка соответствия прошивки 
+//                                код версии находится в таблице прерываний по адресу вектора OTG_FS
+                                  if( ( cnt_pg == 0) && ( buf_rx_ppp[offset + C1_PORT + 4 + 0xE8] != VERSION_API ) ) goto device_bad;
+//
+                                    firmwareFlag = 1;
+                                    uint32_t adrstart = 0x08060000;
+                                    uint32_t test = 0xcccc;
+                                    uint32_t adr =adrstart + cnt_pg*256;
+                                    flashProgramm(&adr, &test ,2);
+                                    if (cnt_pg == 0)
+                                    {
+                                     if( FLASH_If_Erase(adr) )  fl_pg_out.send_kv=0;    // не удалось стереть флеш
+                                    }
+                                  // ura пишем прямо из исходного буфера, без всяких глупостей
+                                   if ( FLASH_If_Write(&adr, (uint32_t*)buf_rx_ppp[offset+C1_PORT+4] ,64) )  fl_pg_out.send_kv=0;
+                                  // если ошибка записи страницы не давать подтверждения  14 09 2020
+                                  // было  if ( FLASH_If_Write(&adr, (uint32_t*)ProgPCH.PageArray ,64) )  fl_pg_out.send_kv=0;
+                                    
+                                    HAL_IWDG_Refresh(&hiwdg);
+                                    TestLastPage();
+                                  
+                                  
+                                 } 
+                                 
+                              if(fl_pg_out.send_kv==1)
+                                {
+                                // ?????? ?????? ? ?????? ?????? ????? crc ??????????? ????? 
+  
+                                  
+                                if(reboot_byte!=0x55)
+                                 {
+                                 if(fl_ip.act_ip_end!=1){fl_pg_out.send_crc=0; reboot_byte=0; return(0);}
+                                 }
+                                
+                                
+                                fl_ip.act_ip_end=0;      
+                                clr_cntr_nat();
+                                clr_cntr_link();
+                                Obj_ppp_tx.prozr=FALSE;            
+                                Obj_ppp_tx.version=VER2;      //?????? 
+                                Obj_ppp_tx.type_pac=OTV;     //??? ??????
+                                Obj_ppp_tx.num_src=num_self; // ????? ???????????
+                                Obj_ppp_tx.num_dst=*(uint16_t*)&buf_rx_ppp[TR_SRC]; // ????? ??????????
+         
+                                Obj_ppp_tx.id_pac=buf_rx_ppp[TR_ID]; // ????????????? ??????  
+                                Obj_ppp_tx.p_opt=&buf_opt_tr[0]; // //????????? ?????? ?????          
+                                Obj_ppp_tx.l_opt=0;
+                                
+                                if(fl_pg_out.send_crc==1)
+                                  {
+                                  Obj_ppp_tx.l_opt=4;// ????? ?????? ?????   
+                                  buf_opt_tr[0]=KOD_WR_PG_CRC;
+                                  buf_opt_tr[1]=L_OP_WR_PG_CRC;
+                                  *(uint16_t*)&buf_opt_tr[2]=ProgPCH.AllPageCrc;//??? crc
+                                  }
+                                 fl_pg_out.send_crc=0;  
+                              //Obj_ppp_tx.kol_opt=1;// ?????????? ?????     
+       
+                               buf_tx_232[TR_OP_DATA+C1_PROT+10]=PROT_C1;
+                               buf_tx_232[TR_OP_DATA+C1_PROT+11]=PORT_PROG;
+                               buf_tx_232[TR_OP_DATA+C1_PROT+12]=COM_CODE_MEM;
+                               *(uint16_t*)&buf_tx_232[TR_OP_DATA+C1_PROT+13]=L_COM_CODE_MEM_A;
+                               buf_tx_232[TR_OP_DATA+C1_PROT+15]=0x00; //OK 
+                               *(uint16_t*)&buf_tx_232[TR_OP_DATA+C1_PROT+16]=cnt_pg; //OK 
+   
 
-        // произвести запись страницы
-        pagee = cnt_pg;
-        pagee = pagee << 8;
-        __disable_interrupt();
-        __watchdog_reset();
-        off_buf = offset + C1_PORT + 4;
+                               Obj_ppp_tx.l_data=5+L_COM_CODE_MEM_A;  // ????? ??????
+                               Obj_ppp_tx.p_data=&buf_tx_232[TR_OP_DATA+C1_PROT+10];  //????????? ?????? ??????
+        
+                               send_info(sizeof(ans_out_prog),ans_out_prog,1,buf_rx_ppp[TR_ID]);
+                               
+                               form_buf_tx_ppp();                            
+                             
+                            
+                            if(reboot_byte!=0x55)
+                                 {   
+                                  
+                                    if(check_cts()==1) return(0);
 
-        if (cnt_pg >= 256)
-          RAMPZ = 3;
-        else
-          RAMPZ = 2; // 18 05 2022
-        array_in_232 = &buf_rx_ppp[0];
-        contr_gluk1 = C_GLUK1;
-        contr_gluk2 = C_GLUK2;
-        EIND = 1;
-        move_to_saver();
-        boot_HUGE();
-        pop_from_saver();
+                                 }                
+                              
+                               S2_RD;
+                             sendBytePPP(buf_tx_232[0]);
+                            //my   UDR0=buf_tx_232[0];
+                            //my   if(Regim==RG_DEBAG) UDR3=buf_tx_232[0];
+                         ///////HAL_UART_Transmit_IT(&huart3,&buf_tx_232[0],1);
+                                }                               
+                                
+                             
+                               if(reboot_byte==0x55)
+                                 {
+                                  
+                                   
+                                 // стирание Log файла ??? 
+                                   WrArrayToFlesh(BEG_BUF_LOG,0,(L_LOG*6),0x01,0x00);
 
-        contr_gluk1 = 0;
-        contr_gluk2 = 0;
-        RAMPZ = 0;
-        __watchdog_reset();
-        __enable_interrupt();
+                                 
+                                   RdFromFleshToArr(A_TRAF,&buf_rx_ppp[0],4);
+                                
+                                   *(uint32_t*)&buf_rx_ppp[4]=cnt_outcom;
+                                   *(uint32_t*)&buf_rx_ppp[8]=cnt_incom;
+                                   *(uint16_t*)&buf_rx_ppp[L_TRAF-2]=crc_m1(&buf_rx_ppp[0],L_TRAF-2,0xffff);
+                                   WrArrayToFlesh(A_TRAF, &buf_rx_ppp[0],L_TRAF,0,0);
+                               
+                                
+                                   send_info(sizeof(evc_rld),evc_rld,0,0);
+                                   HAL_IWDG_Refresh(&hiwdg);								   
+                                   SelfProgramm();  // in BOOT_CODE section
+                                  
+                                 }  													             
+                            return(1);           
+                         
+                         
+                         
+                         /*  заглушка на случай отмены 
+                               {
+ 
+                               send_no_sinc(buf_rx_ppp[TR_ID],*(uint16_t*)&buf_rx_ppp[TR_SRC],NO_SINC_PG);
+                               return(0);
+                               }
+                            
+                           */       
 
-        if (fl_pg_out.end_pg == 1) {
-          //                                 send_info(sizeof(gluk),gluk,1,25);
+    
 
-          total_kol_page = cnt_pg + 1;
-          fl_pg_out.end_pg = 0;
-          // fl_pg_out.yes_crc=0; //обнулить флаг перезагрузки
-          if (fl_pg_out.ch_crc == 1) {
-            //                                       send_info(sizeof(gluk),gluk,1,26);
-
-            // здесь проверка crc всего куска
-
-            length = 0xffff;
-            __disable_interrupt();
-
-            i = 0;
-            for (cnt_pg_i = 0; cnt_pg_i < total_kol_page;
-                 cnt_pg_i++) // слово !!!
-            {
-              array_in_232 = &buf_rx_ppp[offset + C1_PORT + 4];
-              if (cnt_pg_i >= 256)
-                RAMPZ = 3;
-              else
-                RAMPZ = 2; // 18 05 2022
-
-              move_to_saver();
-              r_p_flash(i * 256); //
-              i++;
-              pop_from_saver();
-              RAMPZ = 0; // 18 05 2022
-
-              length = crc_m1(&buf_rx_ppp[offset + C1_PORT + 4], 256, length);
-              __watchdog_reset();
-            }
-            __enable_interrupt();
-
-            if (length == pg_crc) {
-              //                                       send_info(sizeof(gluk),gluk,1,27);
-              // fl_pg_out.yes_crc=1;
-              // выставить флаг перезагрузки буферов
-              reboot_byte = 0x55;
-            } else {
-              //                                       send_info(sizeof(gluk),gluk,1,28);
-              total_kol_page = 0;
-              reboot_byte = 0;
-            }
-
-            fl_pg_out.send_crc = 1;
-          }
-
-          fl_pg_out.hold_pg = 0;
-          fl_pg_out.ch_crc = 0;
-        }
-      }
-
-      // fl_pg_out.yes_crc=0;
-
-      if (fl_pg_out.send_kv == 1) {
-        // выдать квиток с учетом записи опции crc записанного куска
-        //                              send_info(sizeof(gluk),gluk,1,29);
-
-        if (reboot_byte != 0x55) {
-          if (fl_ip.act_ip_end != 1) {
-            fl_pg_out.send_crc = 0;
-            reboot_byte = 0;
-            return (0);
-          }
-        }
-
-        //                            send_info(sizeof(gluk),gluk,1,30);
-
-        fl_ip.act_ip_end = 0;
-        clr_cntr_nat();
-        clr_cntr_link();
-        Obj_ppp_tx.prozr = FALSE;
-        Obj_ppp_tx.version = VER2;     // версия
-        Obj_ppp_tx.type_pac = OTV;     // тип пакета
-        Obj_ppp_tx.num_src = num_self; // номер отправителя
-        Obj_ppp_tx.num_dst =
-            *(unsigned int *)&buf_rx_ppp[TR_SRC]; // номер получателя
-
-        Obj_ppp_tx.id_pac = buf_rx_ppp[TR_ID]; // идентификатор пакета
-        Obj_ppp_tx.p_opt = &buf_opt_tr[0];     // //указатель буфера опций
-        Obj_ppp_tx.l_opt = 0;
-
-        if (fl_pg_out.send_crc == 1) {
-          Obj_ppp_tx.l_opt = 4; // длина буфера опций
-          buf_opt_tr[0] = KOD_WR_PG_CRC;
-          buf_opt_tr[1] = L_OP_WR_PG_CRC;
-          *(unsigned int *)&buf_opt_tr[2] = length; // это crc
-        }
-        fl_pg_out.send_crc = 0;
-        // Obj_ppp_tx.kol_opt=1;// количество опций
-
-        buf_tx_232[TR_OP_DATA + C1_PROT + 10] = PROT_C1;
-        buf_tx_232[TR_OP_DATA + C1_PROT + 11] = PORT_PROG;
-        buf_tx_232[TR_OP_DATA + C1_PROT + 12] = COM_CODE_MEM;
-        *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_PROT + 13] =
-            L_COM_CODE_MEM_A;
-        buf_tx_232[TR_OP_DATA + C1_PROT + 15] = 0x00;                     // OK
-        *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_PROT + 16] = cnt_pg; // OK
-
-        Obj_ppp_tx.l_data = 5 + L_COM_CODE_MEM_A; // длина данных
-        Obj_ppp_tx.p_data =
-            &buf_tx_232[TR_OP_DATA + C1_PROT + 10]; // указатель буфера данных
-
-        send_info(sizeof(ans_out_prog), ans_out_prog, 1, buf_rx_ppp[TR_ID]);
-
-        form_buf_tx_ppp();
-        //UCSR0A = UCSR0A | TXC;
-        //UCSR0B = UCSR0B | TXEN;
-        //UCSR0B = UCSR0B | TXCIE;
-
-        if (reboot_byte != 0x55) {
-          // if(check_cts()==1){S5_RD; while(1)__watchdog_reset(); return(0);}
-          if (check_cts() == 1)
-            return (0);
-          //                               send_info(sizeof(gluk),gluk,1,31);
-        }
-
-        S2_RD;
-        sendBytePPP(buf_tx_232[0]);
-      }
-
-      if (reboot_byte == 0x55) {
-        for (i = 0; i < 30; i++) {
-          __watchdog_reset();
-          delay(45000);
-        }
-
-        crc_tii = 0;
-        for (i = 0; i < 8; i++)
-          cnt_tii[i] = 0;
-
-        __disable_interrupt();
-        WrArrayToFlesh(BEG_BUF_LOG, 0, (L_LOG * 6), 0x01, 0x00);
-
-        //  *(unsigned long int*)&buf_rx_ppp[0]=burst_ds_r();
-        RdFromFleshToArr(A_TRAF, &buf_rx_ppp[0], 4);
-        *(unsigned long int *)&buf_rx_ppp[4] = cnt_outcom;
-        *(unsigned long int *)&buf_rx_ppp[8] = cnt_incom;
-        *(unsigned int *)&buf_rx_ppp[L_TRAF - 2] =
-            crc_m1(&buf_rx_ppp[0], L_TRAF - 2, 0xffff);
-        WrArrayToFlesh(A_TRAF, &buf_rx_ppp[0], L_TRAF, 0, 0);
-
-        off_buf = 0;
-        SREG = 0;
-        WDTCSR = 0x18;
-        WDTCSR = 0x0f;
-        __watchdog_reset();
-        contr_gluk1 = C_GLUK1;
-        contr_gluk2 = C_GLUK2;
-        send_info(sizeof(evc_rld), evc_rld, 0, 0);
-        EIND = 1;
-        reload_apl_HUGE();
-      }
-      return (1);
 
     case PORT_MBUS:
       if (((buf_rx_ppp[TR_V] >> 4) & 0x03) == ZAPR) {
@@ -4075,7 +4080,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
             Obj_ppp_tx.type_pac = OTV;     // тип пакета
             Obj_ppp_tx.num_src = num_self; // номер отправителя
             Obj_ppp_tx.num_dst =
-                *(unsigned int *)&buf_rx_ppp[TR_SRC]; // номер получателя
+                *(uint16_t *)&buf_rx_ppp[TR_SRC]; // номер получателя
             Obj_ppp_tx.id_pac = buf_rx_ppp[TR_ID];    // идентификатор пакета
             Obj_ppp_tx.p_opt = &buf_opt_tr[0]; // //указатель буфера опций
             Obj_ppp_tx.l_opt = 0;              // длина буфера опций
@@ -4109,7 +4114,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         Obj_ppp_tx.type_pac = OTV;     // тип пакета
         Obj_ppp_tx.num_src = num_self; // номер отправителя
         Obj_ppp_tx.num_dst =
-            *(unsigned int *)&buf_rx_ppp[TR_SRC]; // номер получателя
+            *(uint16_t *)&buf_rx_ppp[TR_SRC]; // номер получателя
         Obj_ppp_tx.id_pac = buf_rx_ppp[TR_ID];    // идентификатор пакета
         Obj_ppp_tx.p_opt = &buf_opt_tr[0];        // //указатель буфера опций
         Obj_ppp_tx.l_opt = 0;                     // длина буфера опций
@@ -4122,7 +4127,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         // buf_tx_232[TR_OP_DATA+C1_DATA+1]=buf_rx_ppp[offset+C1_DATA+9];//функция
         // !!! оставляем
 
-        // crc=swap(*(unsigned int*)&buf_rx_ppp[offset+C1_DATA+10]);//здесь
+        // crc=swap(*(uint16_t*)&buf_rx_ppp[offset+C1_DATA+10]);//здесь
         // временно старт адрес kol=swap(*(unsigned
         // int*)&buf_rx_ppp[offset+C1_DATA+12]); //здесь временно количество
         // регистров
@@ -4171,10 +4176,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         mobus.modbus_crc_new = crc_m1(mobus.point_in + mobus.index_elam,
                                       mobus.size_of_pac, 0xffff);
         if (mobus.modbus_crc_new !=
-            (((unsigned int)(*(mobus.point_in + mobus.index_elam +
+            (((uint16_t)(*(mobus.point_in + mobus.index_elam +
                                mobus.size_of_pac))
               << 8) +
-             (unsigned int)(*(mobus.point_in + mobus.index_elam +
+             (uint16_t)(*(mobus.point_in + mobus.index_elam +
                               mobus.size_of_pac + 1)))) {
           return (0);
         }
@@ -4199,9 +4204,9 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
             crc_m1(mobus.point_in, mobus.count_in_elam - 2, 0xffff);
 
         if (mobus.modbus_crc_new !=
-            (((unsigned int)(*(mobus.point_in + mobus.count_in_elam - 2))
+            (((uint16_t)(*(mobus.point_in + mobus.count_in_elam - 2))
               << 8) +
-             (unsigned int)(*(mobus.point_in + mobus.count_in_elam - 1))))
+             (uint16_t)(*(mobus.point_in + mobus.count_in_elam - 1))))
           return (0);
 
         //    zapoln_otvet_elam();
@@ -4223,15 +4228,15 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
           mobus.smest_to_elam = 0;
         ii = *(mobus.point_in + mobus.index_elam + mobus.smest_to_elam +
                1); // номер команды
-        crc = ((unsigned int)*(mobus.point_in + mobus.index_elam +
+        crc = ((uint16_t)*(mobus.point_in + mobus.index_elam +
                                mobus.smest_to_elam + 2)
                << 8) +
-              (unsigned int)*(mobus.point_in + mobus.smest_to_elam +
+              (uint16_t)*(mobus.point_in + mobus.smest_to_elam +
                               mobus.index_elam + 3);
-        kol = ((unsigned int)*(mobus.point_in + mobus.smest_to_elam +
+        kol = ((uint16_t)*(mobus.point_in + mobus.smest_to_elam +
                                mobus.index_elam + 4)
                << 8) +
-              (unsigned int)*(mobus.point_in + mobus.smest_to_elam +
+              (uint16_t)*(mobus.point_in + mobus.smest_to_elam +
                               mobus.index_elam + 5);
         mobus.point_out_save = mobus.point_out; // сохранить указатель
 
@@ -4265,15 +4270,16 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
           *mobus.point_out++ = 1;
           *mobus.point_out++ = 1;
           mobus.input_tu = 0;
+          HAL_GPIO_ReadPin(IO11_PORT,IO11_PIN)
           if (crc == MB_TU1) {
-            if (PORTA & IO11)
+            if (HAL_GPIO_ReadPin(IO11_PORT, IO11_PIN) == GPIO_PIN_SET)
               mobus.input_tu = mobus.input_tu | 1;
-            if (PORTA & IO12)
+             if (HAL_GPIO_ReadPin(IO12_PORT, IO12_PIN) == GPIO_PIN_SET)
               mobus.input_tu = mobus.input_tu | 2;
           }
 
           if (crc == MB_TU2) {
-            if (PORTA & IO12)
+            if (HAL_GPIO_ReadPin(IO12_PORT, IO12_PIN) == GPIO_PIN_SET)
               mobus.input_tu = mobus.input_tu | 1;
           }
 
@@ -4326,7 +4332,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
           if (mobus.overall > VOL_TX_PPP) {
             send_err485(NUM_RS485_1, RS_DATA_ERR, buf_rx_ppp[TR_ID],
-                        *(unsigned int *)&buf_rx_ppp[TR_SRC]);
+                        *(uint16_t *)&buf_rx_ppp[TR_SRC]);
             return (0); // выход по ошибке
           }
 
@@ -4344,7 +4350,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
           /////buf_tx_232[TR_OP_DATA+C1_DATA+2]=buf_rx_ppp[offset+C1_DATA+13] <<
           ///1;//byte_count
 
-          *(unsigned long int *)&modbus_mem1[AD_TIME] = burst_ds_r();
+          *(uint32_t *)&modbus_mem1[AD_TIME] = burst_ds_r();
           length = modbus_mem1[AD_TIME + 1];
           modbus_mem1[AD_TIME + 1] = modbus_mem1[AD_TIME];
           modbus_mem1[AD_TIME] = length;
@@ -4352,9 +4358,9 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
           /////////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           /////////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           for (ii = 0; ii < kol; ii++) {
-            // *(unsigned int*)&buf_tx_232[TR_OP_DATA+C1_DATA+3+(ii<<1)]=0;
+            // *(uint16_t*)&buf_tx_232[TR_OP_DATA+C1_DATA+3+(ii<<1)]=0;
 
-            *(unsigned int *)(mobus.point_out + (ii << 1)) = 0;
+            *(uint16_t *)(mobus.point_out + (ii << 1)) = 0;
             if ((crc + ii) == 0) // нулевой адрес там свои тс, для совместимости
             {
               *mobus.point_out++ = 0; //  buf_tx_232[TR_OP_DATA+C1_DATA+3]=0;
@@ -4387,8 +4393,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                 ///int*)&buf_tx_232[600+(k<<1)];
 
                 for (k = 0; k < (kol - ii); k++)
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      *(unsigned int *)&buf_tx_232[600 + (k << 1)];
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      *(uint16_t *)&buf_tx_232[600 + (k << 1)];
                 ii = kol;
               }
 
@@ -4405,8 +4411,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                 ///int*)&buf_tx_232[600+(k<<1)];
 
                 for (k = 0; k < (END_SEG7 - (crc + ii) + 1); k++)
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      *(unsigned int *)&buf_tx_232[600 + (k << 1)];
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      *(uint16_t *)&buf_tx_232[600 + (k << 1)];
                 ii = END_SEG7 - crc;
               }
             }
@@ -4418,8 +4424,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                 RdFromFleshToArr(A_SEG9 + (crc + ii - BEGIN_SEG9) * 2,
                                  &buf_tx_232[1000], (kol - ii) * 2);
                 for (k = 0; k < (kol - ii); k++)
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&buf_tx_232[1000 + (k << 1)]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&buf_tx_232[1000 + (k << 1)]);
                 ii = kol;
               }
 
@@ -4429,8 +4435,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                                  &buf_tx_232[1000],
                                  (END_SEG9 - (crc + ii) + 1) * 2);
                 for (k = 0; k < (END_SEG9 - (crc + ii) + 1); k++)
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&buf_tx_232[1000 + (k << 1)]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&buf_tx_232[1000 + (k << 1)]);
                 ii = END_SEG9 - crc;
               }
             }
@@ -4442,8 +4448,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                 RdFromFleshToArr(A_SEG99 + (crc + ii - BEGIN_SEG99) * 2,
                                  &buf_tx_232[1000], (kol - ii) * 2);
                 for (k = 0; k < (kol - ii); k++)
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&buf_tx_232[1000 + (k << 1)]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&buf_tx_232[1000 + (k << 1)]);
                 ii = kol;
               }
 
@@ -4453,50 +4459,50 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                                  &buf_tx_232[1000],
                                  (END_SEG99 - (crc + ii) + 1) * 2);
                 for (k = 0; k < (END_SEG99 - (crc + ii) + 1); k++)
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&buf_tx_232[1000 + (k << 1)]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&buf_tx_232[1000 + (k << 1)]);
                 ii = END_SEG99 - crc;
               }
             }
             ///
 
             if (((crc + ii) >= BEGIN_SEG1) && ((crc + ii) <= END_SEG1)) {
-              *(unsigned int *)(mobus.point_out + (ii << 1)) =
+              *(uint16_t *)(mobus.point_out + (ii << 1)) =
                   swap(modbus_mem1[crc + ii - BEGIN_SEG1]);
               if ((crc + ii) == MB_IND_DNS) {
                 if (modbus_mem1[AD_IND_DNS] == 0)
-                  *(unsigned int *)(mobus.point_out + (ii << 1)) = swap(99);
+                  *(uint16_t *)(mobus.point_out + (ii << 1)) = swap(99);
                 else
-                  *(unsigned int *)(mobus.point_out + (ii << 1)) =
+                  *(uint16_t *)(mobus.point_out + (ii << 1)) =
                       swap(modbus_mem1[AD_IND_DNS] - 1);
               }
               ////
               if ((crc + ii) == MB_IND_GZU) {
                 if (modbus_mem1[AD_IND_GZU] == 0)
-                  *(unsigned int *)(mobus.point_out + (ii << 1)) = swap(54);
+                  *(uint16_t *)(mobus.point_out + (ii << 1)) = swap(54);
                 else
-                  *(unsigned int *)(mobus.point_out + (ii << 1)) =
+                  *(uint16_t *)(mobus.point_out + (ii << 1)) =
                       swap(modbus_mem1[AD_IND_GZU] - 1);
               }
             }
 
             if ((crc + ii) == MB_SEC)
-              *(unsigned int *)(mobus.point_out + (ii << 1)) =
+              *(uint16_t *)(mobus.point_out + (ii << 1)) =
                   swap(real_time.r_sec);
             if ((crc + ii) == MB_MIN)
-              *(unsigned int *)(mobus.point_out + (ii << 1)) =
+              *(uint16_t *)(mobus.point_out + (ii << 1)) =
                   swap(real_time.r_min);
             if ((crc + ii) == MB_HR)
-              *(unsigned int *)(mobus.point_out + (ii << 1)) =
+              *(uint16_t *)(mobus.point_out + (ii << 1)) =
                   swap(real_time.r_hor);
             if ((crc + ii) == MB_DAY)
-              *(unsigned int *)(mobus.point_out + (ii << 1)) =
+              *(uint16_t *)(mobus.point_out + (ii << 1)) =
                   swap(real_time.r_date);
             if ((crc + ii) == MB_MONTH)
-              *(unsigned int *)(mobus.point_out + (ii << 1)) =
+              *(uint16_t *)(mobus.point_out + (ii << 1)) =
                   swap(real_time.r_month);
             if ((crc + ii) == MB_YEAR)
-              *(unsigned int *)(mobus.point_out + (ii << 1)) =
+              *(uint16_t *)(mobus.point_out + (ii << 1)) =
                   swap(real_time.r_year);
 
             if (((crc + ii) >= BEGIN_SEG3) && ((crc + ii) <= END_SEG3)) {
@@ -4506,8 +4512,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                 RdFromFleshToArr(A_SEG3 + (crc + ii - BEGIN_SEG3) * 2,
                                  &buf_tx_232[1000], (kol - ii) * 2);
                 for (k = 0; k < (kol - ii); k++)
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&buf_tx_232[1000 + (k << 1)]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&buf_tx_232[1000 + (k << 1)]);
                 ii = kol;
               }
 
@@ -4517,8 +4523,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                                  &buf_tx_232[1000],
                                  (END_SEG3 - (crc + ii) + 1) * 2);
                 for (k = 0; k < (END_SEG3 - (crc + ii) + 1); k++)
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&buf_tx_232[1000 + (k << 1)]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&buf_tx_232[1000 + (k << 1)]);
                 ii = END_SEG3 - crc;
               }
             }
@@ -4529,12 +4535,12 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
                 // 28 12 2019
                 // RdFromFleshToArr(A_SEG8+(crc+ii-BEGIN_SEG8)*2,&buf_tx_232[1000],(kol-ii)*2);
-                tc_cfgPoint = (unsigned int *)&buf_tx_232[1000];
+                tc_cfgPoint = (uint16_t *)&buf_tx_232[1000];
                 for (k = 0; k < (kol - ii); k++)
                   *tc_cfgPoint++ = c_config_tc[crc + ii - BEGIN_SEG8 + k];
                 for (k = 0; k < (kol - ii); k++)
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&buf_tx_232[1000 + (k << 1)]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&buf_tx_232[1000 + (k << 1)]);
                 ii = kol;
               }
 
@@ -4542,12 +4548,12 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
                 // 28 12 2019
                 // RdFromFleshToArr(A_SEG8+(crc+ii-BEGIN_SEG8)*2,&buf_tx_232[1000],(END_SEG8-(crc+ii)+1)*2);
-                tc_cfgPoint = (unsigned int *)&buf_tx_232[1000];
+                tc_cfgPoint = (uint16_t *)&buf_tx_232[1000];
                 for (k = 0; k < (END_SEG8 - (crc + ii) + 1); k++)
                   *tc_cfgPoint++ = c_config_tc[crc + ii - BEGIN_SEG8 + k];
                 for (k = 0; k < (END_SEG8 - (crc + ii) + 1); k++)
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&buf_tx_232[1000 + (k << 1)]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&buf_tx_232[1000 + (k << 1)]);
                 ii = END_SEG8 - crc;
               }
             }
@@ -4563,8 +4569,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                 for (k = 0; k < (kol - ii); k++) {
                   RdFromFleshToArr(A_SEG6 + (k + crc + ii - BEGIN_SEG6) * 2,
                                    &flashka[0], 2);
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&flashka[0]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&flashka[0]);
                   //  *(unsigned
                   //  int*)(mobus.point_out+(ii<<1)+(k<<1))=swap(*(unsigned
                   //  int*)&buf_tx_232[600+(k<<1)]);
@@ -4579,8 +4585,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                 for (k = 0; k < (END_SEG6 - (crc + ii) + 1); k++) {
                   RdFromFleshToArr(A_SEG6 + (k + crc + ii - BEGIN_SEG6) * 2,
                                    &flashka[0], 2);
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&flashka[0]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&flashka[0]);
                   //*(unsigned
                   //int*)(mobus.point_out+(ii<<1)+(k<<1))=swap(*(unsigned
                   //int*)&buf_tx_232[600+(k<<1)]);
@@ -4599,8 +4605,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
                   RdFromFleshToArr(A_SEG5 + (k + crc + ii - BEGIN_SEG5) * 2,
                                    &flashka[0], 2);
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&flashka[0]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&flashka[0]);
                   // *(unsigned
                   // int*)(mobus.point_out+(ii<<1)+(k<<1))=swap(*(unsigned
                   // int*)&buf_tx_232[700+(k<<1)]);
@@ -4611,8 +4617,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                 for (k = 0; k < (END_SEG5 - (crc + ii) + 1); k++) {
                   RdFromFleshToArr(A_SEG5 + (k + crc + ii - BEGIN_SEG5) * 2,
                                    &flashka[0], 2);
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&flashka[0]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&flashka[0]);
                   // *(unsigned
                   // int*)(mobus.point_out+(ii<<1)+(k<<1))=swap(*(unsigned
                   // int*)&buf_tx_232[700+(k<<1)]);
@@ -4633,8 +4639,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                 for (k = 0; k < (kol - ii); k++) {
                   RdFromFleshToArr(STRUCT_US + (k + crc + ii - BEGIN_SEG55) * 2,
                                    &flashka[0], 2);
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&flashka[0]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&flashka[0]);
                   //*(unsigned
                   //int*)(mobus.point_out+(ii<<1)+(k<<1))=swap(*(unsigned
                   //int*)&buf_tx_232[700+(k<<1)]);
@@ -4646,8 +4652,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                 for (k = 0; k < (END_SEG55 - (crc + ii) + 1); k++) {
                   RdFromFleshToArr(STRUCT_US + (k + crc + ii - BEGIN_SEG55) * 2,
                                    &flashka[0], 2);
-                  *(unsigned int *)(mobus.point_out + (ii << 1) + (k << 1)) =
-                      swap(*(unsigned int *)&flashka[0]);
+                  *(uint16_t *)(mobus.point_out + (ii << 1) + (k << 1)) =
+                      swap(*(uint16_t *)&flashka[0]);
                 }
                 //*(unsigned
                 //int*)(mobus.point_out+(ii<<1)+(k<<1))=swap(*(unsigned
@@ -4678,7 +4684,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         case 5:
           /////  *(unsigned
           ///int*)&buf_tx_232[TR_OP_DATA+C1_DATA+2]=swap(crc);//start
-          /////  *(unsigned int*)&buf_tx_232[TR_OP_DATA+C1_DATA+4]=0;
+          /////  *(uint16_t*)&buf_tx_232[TR_OP_DATA+C1_DATA+4]=0;
 
           // ожидаемое количество байт в выходной буфер
           mobus.overall += 6 + mobus.smest_to_elam + 2;
@@ -4772,7 +4778,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
               com_disp_mbus();
           }
 
-          ////// *(unsigned int*)&buf_tx_232[TR_OP_DATA+C1_DATA+4]=swap(kol);
+          ////// *(uint16_t*)&buf_tx_232[TR_OP_DATA+C1_DATA+4]=swap(kol);
 
           // Сформировать registr value и конечное число отправляемых байт
           // выдать команду
@@ -4814,7 +4820,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
           mobus.count_out_elam +=
               Obj_ppp_tx.l_data + 2; // плюс контрольная сумма
 
-          *(unsigned int *)&buf_tx_232[1000] = kol;
+          *(uint16_t *)&buf_tx_232[1000] = kol;
 
           if ((crc >= BEGIN_SEGWR19) && (crc <= END_SEGWR19)) {
 
@@ -4841,8 +4847,8 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
             WrArrayToFlesh(A_SEG3 + (crc - BEGIN_SEGWR3) * 2, &buf_tx_232[1000],
                            2, 0, 0);
             RdFromFleshToArr(A_SEG3, (unsigned char *)&c2_byte.mb[0], SEG3 * 2);
-            if (*(unsigned int *)&buf_tx_232[1050] !=
-                *(unsigned int *)&buf_tx_232[1000])
+            if (*(uint16_t *)&buf_tx_232[1050] !=
+                *(uint16_t *)&buf_tx_232[1000])
               refresh_a(crc - BEGIN_SEG3);
           }
 
@@ -4996,10 +5002,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
             if (((crc + ii) >= BEGIN_SEGWR9) && ((crc + ii) <= END_SEGWR9)) {
               if ((crc + kol - 1) <= END_SEGWR9) {
                 for (k = 0; k < (kol - ii); k++)
-                  *(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  *(uint16_t *)(mobus.point_in + mobus.index_elam +
                                     mobus.smest_to_elam + 7 + (ii << 1) +
                                     (k << 1)) =
-                      swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                      swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                              mobus.smest_to_elam + 7 +
                                              (ii << 1) + (k << 1)));
                 WrArrayToFlesh(A_SEG9 + (crc + ii - BEGIN_SEGWR9) * 2,
@@ -5011,10 +5017,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
               else {
                 for (k = 0; k < (END_SEG9 - (crc + ii) + 1); k++)
-                  *(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  *(uint16_t *)(mobus.point_in + mobus.index_elam +
                                     mobus.smest_to_elam + 7 + (ii << 1) +
                                     (k << 1)) =
-                      swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                      swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                              mobus.smest_to_elam + 7 +
                                              (ii << 1) + (k << 1)));
                 WrArrayToFlesh(A_SEG9 + (crc + ii - BEGIN_SEGWR9) * 2,
@@ -5031,56 +5037,56 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
             if ((crc + ii) == MB_TII1) {
               modbus_mem1[AD_TII1] =
-                  swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1)));
               cnt_tii[0] = modbus_mem1[AD_TII1];
               flag_tii = 1;
             }
             if ((crc + ii) == MB_TII2) {
               modbus_mem1[AD_TII2] =
-                  swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1)));
               cnt_tii[1] = modbus_mem1[AD_TII2];
               flag_tii = 1;
             }
             if ((crc + ii) == MB_TII3) {
               modbus_mem1[AD_TII3] =
-                  swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1)));
               cnt_tii[2] = modbus_mem1[AD_TII3];
               flag_tii = 1;
             }
             if ((crc + ii) == MB_TII4) {
               modbus_mem1[AD_TII4] =
-                  swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1)));
               cnt_tii[3] = modbus_mem1[AD_TII4];
               flag_tii = 1;
             }
             if ((crc + ii) == MB_TII5) {
               modbus_mem1[AD_TII5] =
-                  swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1)));
               cnt_tii[4] = modbus_mem1[AD_TII5];
               flag_tii = 1;
             }
             if ((crc + ii) == MB_TII6) {
               modbus_mem1[AD_TII6] =
-                  swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1)));
               cnt_tii[5] = modbus_mem1[AD_TII6];
               flag_tii = 1;
             }
             if ((crc + ii) == MB_TII7) {
               modbus_mem1[AD_TII7] =
-                  swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1)));
               cnt_tii[6] = modbus_mem1[AD_TII7];
               flag_tii = 1;
             }
             if ((crc + ii) == MB_TII8) {
               modbus_mem1[AD_TII8] =
-                  swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1)));
               cnt_tii[7] = modbus_mem1[AD_TII8];
               flag_tii = 1;
@@ -5088,7 +5094,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
             if (((crc + ii) >= (BEGIN_SEGWR + 8)) && ((crc + ii) <= END_SEGWR))
               modbus_mem1[crc + ii - BEGIN_SEGWR] =
-                  swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1)));
 
             if (((crc + ii) >= BEGIN_SEGWR3) && ((crc + ii) <= END_SEGWR3)) {
@@ -5096,10 +5102,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
               bit_level = 1;
               if ((crc + kol - 1) <= END_SEGWR3) {
                 for (k = 0; k < (kol - ii); k++)
-                  *(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  *(uint16_t *)(mobus.point_in + mobus.index_elam +
                                     mobus.smest_to_elam + 7 + (ii << 1) +
                                     (k << 1)) =
-                      swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                      swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                              mobus.smest_to_elam + 7 +
                                              (ii << 1) + (k << 1)));
                 WrArrayToFlesh(A_SEG3 + (crc + ii - BEGIN_SEGWR3) * 2,
@@ -5111,10 +5117,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
               else {
                 for (k = 0; k < (END_SEG3 - (crc + ii) + 1); k++)
-                  *(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  *(uint16_t *)(mobus.point_in + mobus.index_elam +
                                     mobus.smest_to_elam + 7 + (ii << 1) +
                                     (k << 1)) =
-                      swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                      swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                              mobus.smest_to_elam + 7 +
                                              (ii << 1) + (k << 1)));
                 WrArrayToFlesh(A_SEG3 + (crc + ii - BEGIN_SEGWR3) * 2,
@@ -5131,10 +5137,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
             if (((crc + ii) >= BEGIN_SEGWR8) && ((crc + ii) <= END_SEGWR8)) {
               if ((crc + kol - 1) <= END_SEGWR8) {
                 for (k = 0; k < (kol - ii); k++)
-                  *(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  *(uint16_t *)(mobus.point_in + mobus.index_elam +
                                     mobus.smest_to_elam + 7 + (ii << 1) +
                                     (k << 1)) =
-                      swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                      swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                              mobus.smest_to_elam + 7 +
                                              (ii << 1) + (k << 1)));
                 WrArrayToFlesh(A_SEG8 + (crc + ii - BEGIN_SEGWR8) * 2,
@@ -5150,10 +5156,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
               else {
                 for (k = 0; k < (END_SEG8 - (crc + ii) + 1); k++)
-                  *(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  *(uint16_t *)(mobus.point_in + mobus.index_elam +
                                     mobus.smest_to_elam + 7 + (ii << 1) +
                                     (k << 1)) =
-                      swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                      swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                              mobus.smest_to_elam + 7 +
                                              (ii << 1) + (k << 1)));
                 WrArrayToFlesh(A_SEG8 + (crc + ii - BEGIN_SEGWR8) * 2,
@@ -5172,10 +5178,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
             if (((crc + ii) >= BEGIN_SEGWR99) && ((crc + ii) <= END_SEGWR99)) {
               if ((crc + kol - 1) <= END_SEGWR99) {
                 for (k = 0; k < (kol - ii); k++)
-                  *(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  *(uint16_t *)(mobus.point_in + mobus.index_elam +
                                     mobus.smest_to_elam + 7 + (ii << 1) +
                                     (k << 1)) =
-                      swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                      swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                              mobus.smest_to_elam + 7 +
                                              (ii << 1) + (k << 1)));
                 WrArrayToFlesh(A_SEG99 + (crc + ii - BEGIN_SEGWR99) * 2,
@@ -5187,10 +5193,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
               else {
                 for (k = 0; k < (END_SEG99 - (crc + ii) + 1); k++)
-                  *(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  *(uint16_t *)(mobus.point_in + mobus.index_elam +
                                     mobus.smest_to_elam + 7 + (ii << 1) +
                                     (k << 1)) =
-                      swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                      swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                              mobus.smest_to_elam + 7 +
                                              (ii << 1) + (k << 1)));
                 WrArrayToFlesh(A_SEG99 + (crc + ii - BEGIN_SEGWR99) * 2,
@@ -5208,10 +5214,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
               if ((crc + kol - 1) <= END_SEGWR6) {
                 for (k = 0; k < (kol - ii); k++)
-                  *(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  *(uint16_t *)(mobus.point_in + mobus.index_elam +
                                     mobus.smest_to_elam + 7 + (ii << 1) +
                                     (k << 1)) =
-                      swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                      swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                              mobus.smest_to_elam + 7 +
                                              (ii << 1) + (k << 1)));
                 WrArrayToFlesh(A_SEG6 + (crc + ii - BEGIN_SEGWR6) * 2,
@@ -5223,10 +5229,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
 
               else {
                 for (k = 0; k < (END_SEG6 - (crc + ii) + 1); k++)
-                  *(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  *(uint16_t *)(mobus.point_in + mobus.index_elam +
                                     mobus.smest_to_elam + 7 + (ii << 1) +
                                     (k << 1)) =
-                      swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                      swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                              mobus.smest_to_elam + 7 +
                                              (ii << 1) + (k << 1)));
                 WrArrayToFlesh(A_SEG6 + (crc + ii - BEGIN_SEGWR6) * 2,
@@ -5238,7 +5244,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
             }
 
             if ((crc + ii) == MB_SEC)
-              if (swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+              if (swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1))) <
                   60) {
                 buf_tx_232[1000] =
@@ -5246,7 +5252,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
                 flag_time = 1;
               }
             if ((crc + ii) == MB_MIN)
-              if (swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+              if (swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1))) <
                   60) {
                 buf_tx_232[1001] =
@@ -5255,7 +5261,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
               }
 
             if ((crc + ii) == MB_HR)
-              if (swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+              if (swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1))) <
                   24) {
                 buf_tx_232[1002] =
@@ -5264,7 +5270,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
               }
 
             if ((crc + ii) == MB_DAY)
-              if (swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+              if (swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1))) <
                   32) {
                 buf_tx_232[1003] =
@@ -5273,10 +5279,10 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
               }
 
             if ((crc + ii) == MB_MONTH)
-              if (swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+              if (swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1))) <
                   13)
-                if (swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                if (swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                            mobus.smest_to_elam + 7 +
                                            (ii << 1))) != 0) {
                   buf_tx_232[1004] =
@@ -5288,7 +5294,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
               // year=swap(*(unsigned
               // int*)&buf_rx_ppp[offset+C1_DATA+15+(ii<<1)])-2000;
               year =
-                  swap(*(unsigned int *)(mobus.point_in + mobus.index_elam +
+                  swap(*(uint16_t *)(mobus.point_in + mobus.index_elam +
                                          mobus.smest_to_elam + 7 + (ii << 1)));
               if (year < 100) {
                 buf_tx_232[1005] = year;
@@ -5306,7 +5312,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
             RdFromFleshToArr(A_SEG3,&buf_tx_232[900],16);
             for(k=0;k<8;k++)
             {
-             if(*(unsigned int*)&buf_tx_232[900+k*2]!=*(unsigned
+             if(*(uint16_t*)&buf_tx_232[900+k*2]!=*(unsigned
           int*)&buf_tx_232[1050+k*2])refresh_a(k);
 
             }
@@ -5388,7 +5394,7 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
         //UCSR0B = UCSR0B | TXCIE;
         if (check_cts() == 1)
           return (1);
-        S2_RD
+        S2_RD;
        sendBytePPP(buf_tx_232[0]);
         return (1);
       }
@@ -5444,7 +5450,7 @@ unsigned char extract_tit_485(unsigned char *pnt_buf) {
   if (pnt_buf[2] > 1)
     return (0);
   buf_tx_232[TR_OP_DATA + C1_DATA + 2] = pnt_buf[2];
-  *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 3] =
+  *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 3] =
       modbus_mem1[AD_TIT1 + pnt_buf[2]];
   Obj_ppp_tx.l_data = 6;
   return (1);
@@ -5458,7 +5464,7 @@ unsigned char extract_tii_485(unsigned char *pnt_buf) {
     return (0); // мтс
 
   buf_tx_232[TR_OP_DATA + C1_DATA + 2] = pnt_buf[2];
-  *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 3] =
+  *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 3] =
       modbus_mem1[AD_TII1 + pnt_buf[2]];
   Obj_ppp_tx.l_data = 6;
   return (1);
@@ -5466,7 +5472,7 @@ unsigned char extract_tii_485(unsigned char *pnt_buf) {
 
 void tc_485(void) {
 
-  *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 2] = modbus_mem1[AD_TS];
+  *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 2] = modbus_mem1[AD_TS];
   read_ohr();
   buf_tx_232[TR_OP_DATA + C1_DATA + 4] = bufer[0];
   buf_tx_232[TR_OP_DATA + C1_DATA + 5] = bufer[1];
@@ -5493,7 +5499,7 @@ void null_all_tii_485(void) {
 void extract_all_tii_485(void) {
   char i;
   for (i = 0; i < 16; i++)
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 2 + (i << 1)] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 2 + (i << 1)] =
         modbus_mem1[AD_TII1 + i];
   Obj_ppp_tx.l_data = 35;
 }
@@ -5501,13 +5507,13 @@ void extract_all_tii_485(void) {
 void extract_all_tit_485(void) {
   char i;
   for (i = 0; i < 8; i++)
-    *(unsigned int *)&buf_tx_232[TR_OP_DATA + C1_DATA + 2 + (i << 1)] =
+    *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 2 + (i << 1)] =
         modbus_mem1[AD_TIT1 + i];
   Obj_ppp_tx.l_data = 19;
 }
 
 void com_disp(unsigned char *pnt_buf) {
-  unsigned int pred_sost;
+  uint16_t pred_sost;
 
   buf_tx_232[TR_OP_DATA + C1_DATA + 2] = pnt_buf[2];
 
@@ -5624,14 +5630,14 @@ unsigned char proc_kamintel(unsigned char *pnt_buf, unsigned char length) {
   return (1);
 }
 
-unsigned int proc_modbus(unsigned char *pnt_buf, unsigned char length) {
-  unsigned int temp;
+uint16_t proc_modbus(unsigned char *pnt_buf, unsigned char length) {
+  uint16_t temp;
   unsigned char i;
 
   i = pnt_buf[length - 2];
   pnt_buf[length - 2] = pnt_buf[length - 1];
   pnt_buf[length - 1] = i;
-  if (*(unsigned int *)&pnt_buf[length - 2] !=
+  if (*(uint16_t *)&pnt_buf[length - 2] !=
       crc_m1(&pnt_buf[0], length - 2, 0xffff))
     return (0); // crc
 
@@ -5639,27 +5645,27 @@ unsigned int proc_modbus(unsigned char *pnt_buf, unsigned char length) {
   case 1:
     if (length != 8)
       return (0);
-    if (swap(*(unsigned int *)&pnt_buf[4]) == 0 ||
-        swap(*(unsigned int *)&pnt_buf[4]) > 2000) {
+    if (swap(*(uint16_t *)&pnt_buf[4]) == 0 ||
+        swap(*(uint16_t *)&pnt_buf[4]) > 2000) {
       temp = pnt_buf[1];
       temp = temp << 8;
       return (temp | 0x8003);
     }
-    if (swap(*(unsigned int *)&pnt_buf[4]) > 8)
+    if (swap(*(uint16_t *)&pnt_buf[4]) > 8)
       return (0);
     return (1);
   case 3:
   case 4:
     if (length != 8)
       return (0);
-    if (swap(*(unsigned int *)&pnt_buf[4]) == 0 ||
-        swap(*(unsigned int *)&pnt_buf[4]) > 125) {
+    if (swap(*(uint16_t *)&pnt_buf[4]) == 0 ||
+        swap(*(uint16_t *)&pnt_buf[4]) > 125) {
       temp = pnt_buf[1];
       temp = temp << 8;
       return (temp | 0x8003);
     }
-    if ((0xffff - swap(*(unsigned int *)&pnt_buf[2])) <
-        (swap(*(unsigned int *)&pnt_buf[4]) - 1)) {
+    if ((0xffff - swap(*(uint16_t *)&pnt_buf[2])) <
+        (swap(*(uint16_t *)&pnt_buf[4]) - 1)) {
       temp = pnt_buf[1];
       temp = temp << 8;
       return (temp | 0x8002);
@@ -5668,8 +5674,8 @@ unsigned int proc_modbus(unsigned char *pnt_buf, unsigned char length) {
   case 5:
     if (length != 8)
       return (0);
-    if (swap(*(unsigned int *)&pnt_buf[4]) != 0 &&
-        swap(*(unsigned int *)&pnt_buf[4]) != 0xff00) {
+    if (swap(*(uint16_t *)&pnt_buf[4]) != 0 &&
+        swap(*(uint16_t *)&pnt_buf[4]) != 0xff00) {
       temp = pnt_buf[1];
       temp = temp << 8;
       return (0x8503);
@@ -5684,14 +5690,14 @@ unsigned int proc_modbus(unsigned char *pnt_buf, unsigned char length) {
       return (0);
     if (length > 249)
       return (0);
-    if (swap(*(unsigned int *)&pnt_buf[4]) == 0 ||
-        swap(*(unsigned int *)&pnt_buf[4]) > 120)
+    if (swap(*(uint16_t *)&pnt_buf[4]) == 0 ||
+        swap(*(uint16_t *)&pnt_buf[4]) > 120)
       return (0x9003);
     temp = pnt_buf[5];
-    if (temp != swap(*(unsigned int *)&pnt_buf[4]))
+    if (temp != swap(*(uint16_t *)&pnt_buf[4]))
       return (0x9003);
-    if ((0xffff - swap(*(unsigned int *)&pnt_buf[2])) <
-        (swap(*(unsigned int *)&pnt_buf[4]) - 1))
+    if ((0xffff - swap(*(uint16_t *)&pnt_buf[2])) <
+        (swap(*(uint16_t *)&pnt_buf[4]) - 1))
       return (0x9002);
     return (16);
   default:
@@ -5711,9 +5717,9 @@ struct {
         unsigned char *point_out;
         unsigned char *point_in;
         unsigned char flag_elam;
-        unsigned int count_in_elam;
-        unsigned int index_elam;
-        unsigned int size_of_pac;
+        uint16_t count_in_elam;
+        uint16_t index_elam;
+        uint16_t size_of_pac;
 
 }mobus;
 
@@ -5746,9 +5752,9 @@ mobus.size_of_pac + 2) )  {respons();return;}
 
 // проверка фрагмента на CRC
  mobus.modbus_crc_new=crc_m1(mobus.point_in + mobus.index_elam, size_of_pac ,
-0xffff); if(mobus.modbus_crc_new!=(  (  (unsigned int)( * (mobus.point_in +
+0xffff); if(mobus.modbus_crc_new!=(  (  (uint16_t)( * (mobus.point_in +
 mobus.index_elam + mobus.size_of_pac) )<<8)
-                             + (   unsigned int)( * (mobus.point_in +
+                             + (   uint16_t)( * (mobus.point_in +
 mobus.index_elam+size_of_pac + 1) ) )  )     {respons();return;}
 
 
@@ -5771,9 +5777,9 @@ ne_elam:
 
 
 
-             if(mobus.modbus_crc_new!=(  (  (unsigned int)( * (mobus.point_in +
+             if(mobus.modbus_crc_new!=(  (  (uint16_t)( * (mobus.point_in +
 mobus.count_in_elam-2) )<<8)
-                             + (   unsigned int)( * (mobus.point_in +
+                             + (   uint16_t)( * (mobus.point_in +
 mobus.count_in_elam-1) ) ) ) {
 
                              respons();return;}

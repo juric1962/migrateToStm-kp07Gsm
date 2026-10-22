@@ -14,11 +14,11 @@
 #include "map_mbus.h"
 #include "ozu_map.h"
 #include "sec.h"
-#include <inavr.h>
-#include <iom2560.h>
+//#include <inavr.h>
+//#include <iom2560.h>
 #include <stdio.h>
 #include <string.h>
-
+extern IWDG_HandleTypeDef hiwdg;
 #define CHECK_TIME 15
 
 const unsigned char tab_crc[] = {
@@ -136,7 +136,7 @@ void WrArrayToFleshInt(uint16_t adres_flesh, uint16_t *adres_ozu,
                        uint16_t num, unsigned char flag,
                        uint16_t znach); // запись конфигурации кп во флеш
 
-int crc_sum(unsigned char *ff, unsigned char kol);
+int16_t crc_sum(unsigned char *ff, unsigned char kol);
 
 void ds_handler(void);
 void monitori(void);
@@ -632,7 +632,7 @@ extern struct // структура описывающая работу порт
 extern unsigned char state_led_md;
 
 uint32_t summa_temperatura;
-uint16_t temperatura;
+float temperatura;
 uint16_t count_summa_temperatura;
 
 uint32_t cnt_outcom, cnt_incom;
@@ -646,29 +646,14 @@ __no_init uint16_t cnt_tii[8];
 
 unsigned char sel_modul, count_ppp_down;
 
+extern void delay(uint16_t period); 
+extern void long_delay(uint32_t period);
+
 void lock_it(void) {
-  do {
-
-    SREG = 0;
-    WDTCSR = 0x18;
-    WDTCSR = 0x0f;
-  } while (1);
+  __disable_irq();
+  while (1);
 }
 
-void delay(uint16_t period) {
-bad:
-  period--;
-  if (period != 0)
-    goto bad;
-}
-
-void long_delay(uint32_t period) {
-bad1:
-  period--;
-  __watchdog_reset();
-  if (period != 0)
-    goto bad1;
-}
 
 void delay_on_contr(void) {
   unsigned char delay_count;
@@ -682,13 +667,13 @@ void delay_on_contr(void) {
   S5_RD;
 
   do {
-    __watchdog_reset();
+    HAL_IWDG_Refresh(&hiwdg);
     delay(60000);
     delay(60000);
     delay(60000);
     delay(60000);
     delay(60000);
-    __watchdog_reset();
+   HAL_IWDG_Refresh(&hiwdg);
     S1_CH;
     S2_CH;
     S3_CH;
@@ -1174,7 +1159,7 @@ void load_par_from_memory(void) {
 
   for (m = 0; m < 8; m++) {
     RdFromFleshToArr(STRUCT_TII + m * 14, &buf[0], 14);
-    if (*(int *)&buf[12] != crc_sum(&buf[0], 12))
+    if (*(int16_t *)&buf[12] != crc_sum(&buf[0], 12))
       WrArrayToFlesh(STRUCT_TII + m * 14, 0, 14, 1, 0);
   }
 
@@ -1327,13 +1312,13 @@ void start_func_stm_scp(void) {
   unsigned char temp;
   clr_var_ppp_rx();
 
-  UCSR0B = UCSR0B & ~RXEN;
-  UCSR0B = UCSR0B & ~RXCIE;
+  //UCSR0B = UCSR0B & ~RXEN;
+  //UCSR0B = UCSR0B & ~RXCIE;
 
   //******************************************************************
   // UCSR0B=UCSR0B & ~TXEN;  !!!!!!
 
-  UCSR0A = UCSR0A | TXC;
+  //UCSR0A = UCSR0A | TXC;
 
   command_AT = FALSE; // выключен коммандный режим
 
@@ -1368,11 +1353,18 @@ void start_func_stm_scp(void) {
   fl_ipcp.act_ipcp_end = 1;
   fl_ip.act_ip_end = 1;
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+/*
   UCSR0B = UCSR0B | RXEN;
   temp = UDR0;
   UCSR0B = UCSR0B | RXCIE;
-
+*/
+  
+   //   аналог это сброс регистра данных и разрешить прерывния от приема
+      __HAL_UART_FLUSH_DRREGISTER(&huart1);
+  /////    __HAL_UART_ENABLE_IT(&huart1,UART_IT_RXNE);
+      
+  HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
+  
   cnt_stm_tm1 = DEF_TM_STM_SCP;
   cnt_stm_tm2 = DEF_TM2_STM_SCP;
 }
@@ -1810,7 +1802,7 @@ void monitor_beg_state_seq(unsigned char zad) {
                            (str_tc3.tek_pin << 2) | (str_tc4.tek_pin << 3) |
                            (str_tc5.tek_pin << 4) | (str_tc6.tek_pin << 5) |
                            (str_tc7.tek_pin << 6) | (str_tc8.tek_pin << 7);
-      if (PINK & IO1)
+      if (HAL_GPIO_ReadPin(IO1_PORT, IO1_PIN) == GPIO_PIN_SET)
         modbus_mem1[AD_TS] = modbus_mem1[AD_TS] & (~0x01);
       else
         modbus_mem1[AD_TS] = modbus_mem1[AD_TS] | 0x01;
@@ -1941,8 +1933,9 @@ void clr_cntr_nat(void) {
 }
 
 void clr_var_ppp_rx(void) {
-  UCSR0B = UCSR0B & ~RXEN;
-  UCSR0B = UCSR0B & ~RXCIE;
+  //UCSR0B = UCSR0B & ~RXEN;
+  //UCSR0B = UCSR0B & ~RXCIE;
+  __HAL_UART_DISABLE_IT(&huart1,UART_IT_RXNE);
   fl_rx_ppp.switcher = 0;
   fl_rx_ppp.fl_7e = 0;
   fl_rx_ppp.fl_7d = 0;
@@ -2111,15 +2104,13 @@ void monitor_cntr_ch(void) {
 
   Control.cnt_link = Control.vol_waits;
   Control.link_waits = TRUE;
-  UCSR0A = UCSR0A | TXC;
-  UCSR0B = UCSR0B | TXEN;
-  UCSR0B = UCSR0B | TXCIE;
+  //UCSR0A = UCSR0A | TXC;
+  //UCSR0B = UCSR0B | TXEN;
+  //UCSR0B = UCSR0B | TXCIE;
   if (check_cts() == 1)
     return;
   S2_RD;
-  UDR0 = buf_tx_232[0];
-  if (Regim == RG_DEBAG)
-    UDR3 = buf_tx_232[0];
+  sendBytePPP(buf_tx_232[0]);
 
   return;
 }
@@ -2142,15 +2133,13 @@ void monitor_cntr_nat(void) {
   send_info(sizeof(msg_ctrl_nat), msg_ctrl_nat, 0, 0);
 
   form_buf_tx_ppp();
-  UCSR0A = UCSR0A | TXC;
-  UCSR0B = UCSR0B | TXEN;
-  UCSR0B = UCSR0B | TXCIE;
+  //UCSR0A = UCSR0A | TXC;
+  //UCSR0B = UCSR0B | TXEN;
+  //UCSR0B = UCSR0B | TXCIE;
   if (check_cts() == 1)
     return;
   S2_RD;
-  UDR0 = buf_tx_232[0];
-  if (Regim == RG_DEBAG)
-    UDR3 = buf_tx_232[0];
+  sendBytePPP(buf_tx_232[0]);
   return;
 }
 
@@ -2190,15 +2179,13 @@ void monitor_cntr_cl_seq(void) {
   send_info(sizeof(req_out_ctrl_cl), req_out_ctrl_cl, 1, Obj_ppp_tx.id_pac);
 
   form_buf_tx_ppp();
-  UCSR0A = UCSR0A | TXC;
-  UCSR0B = UCSR0B | TXEN;
-  UCSR0B = UCSR0B | TXCIE;
+  //UCSR0A = UCSR0A | TXC;
+  //UCSR0B = UCSR0B | TXEN;
+  //UCSR0B = UCSR0B | TXCIE;
   if (check_cts() == 1)
     return;
   S2_RD;
-  UDR0 = buf_tx_232[0];
-  if (Regim == RG_DEBAG)
-    UDR3 = buf_tx_232[0];
+  sendBytePPP(buf_tx_232[0]);
   return;
 }
 
@@ -2512,15 +2499,13 @@ void Application_SEQ_tx(void) {
 
     form_buf_tx_ppp();
 
-    UCSR0A = UCSR0A | TXC;
-    UCSR0B = UCSR0B | TXEN;
-    UCSR0B = UCSR0B | TXCIE;
+    //UCSR0A = UCSR0A | TXC;
+    //UCSR0B = UCSR0B | TXEN;
+    //UCSR0B = UCSR0B | TXCIE;
     if (check_cts() == 1)
       return;
     S2_RD;
-    UDR0 = buf_tx_232[0];
-    if (Regim == RG_DEBAG)
-      UDR3 = buf_tx_232[0];
+    sendBytePPP(buf_tx_232[0]);
 
     return;
   }
@@ -2963,8 +2948,10 @@ void modem_engine(void) {
           cnt_stm_tm2 = DEF_TM2_STM_DC;
           // обнуление ppp переменных
           // и запртить передачу по GPRS
+          /*
           UCSR0B = UCSR0B & ~TXEN;
           UCSR0B = UCSR0B & ~TXCIE;
+          */
           clr_var_ppp();
           init_scen_stm_dc_1();
           event_modem = EVM_NONE;
@@ -3089,15 +3076,13 @@ void send_err485(unsigned char port, unsigned char err, unsigned char id,
       &buf_tx_232[TR_OP_DATA + C1_PROT]; // указатель буфера данных
 
   form_buf_tx_ppp();
-  UCSR0A = UCSR0A | TXC;
-  UCSR0B = UCSR0B | TXEN;
-  UCSR0B = UCSR0B | TXCIE;
+  //UCSR0A = UCSR0A | TXC;
+  //UCSR0B = UCSR0B | TXEN;
+  //UCSR0B = UCSR0B | TXCIE;
   if (check_cts() == 1)
     return;
   S2_RD;
-  UDR0 = buf_tx_232[0];
-  if (Regim == RG_DEBAG)
-    UDR3 = buf_tx_232[0];
+  sendBytePPP(buf_tx_232[0]);
   return;
 }
 
@@ -4544,7 +4529,8 @@ void monitor1_tx_rs485_1(void) {
     Rs485_1.vol_tm_out=1000; // 1000 миллисекунд
     */
     S3_RD;
-    UCSR3B = UCSR3B & ~(RXCIE | RXEN);
+    //UCSR3B = UCSR3B & ~(RXCIE | RXEN);
+     __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE);
     SET_RTS1; // rts на передачу
   }
 }
@@ -4643,17 +4629,15 @@ if(HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
   Rs485_1.cnt_bt_rx_tx = 0;
 
   form_buf_tx_ppp();
-  UCSR0A = UCSR0A | TXC;
-  UCSR0B = UCSR0B | TXEN;
-  UCSR0B = UCSR0B | TXCIE;
+  //UCSR0A = UCSR0A | TXC;
+  //UCSR0B = UCSR0B | TXEN;
+  //UCSR0B = UCSR0B | TXCIE;
   fl_485_1.busy = 0;
   fl_tx485.mon1 = 0;
   if (check_cts() == 1)
     return;
   S2_RD;
-  UDR0 = buf_tx_232[0];
-  if (Regim == RG_DEBAG)
-    UDR3 = buf_tx_232[0];
+  sendBytePPP(buf_tx_232[0]);
   return;
 }
 
@@ -4687,7 +4671,8 @@ void monitor1_tx_rs485_2(void) {
       return;
     }
     S4_RD;
-    UCSR1B = UCSR1B & ~(RXCIE | RXEN);
+    //UCSR1B = UCSR1B & ~(RXCIE | RXEN);
+    __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE);
     SET_RTS3; // rts на передачу
   }
 }
@@ -4786,17 +4771,15 @@ if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
   Rs485_2.cnt_bt_rx_tx = 0;
 
   form_buf_tx_ppp();
-  UCSR0A = UCSR0A | TXC;
-  UCSR0B = UCSR0B | TXEN;
-  UCSR0B = UCSR0B | TXCIE;
+  //UCSR0A = UCSR0A | TXC;
+  //UCSR0B = UCSR0B | TXEN;
+  //UCSR0B = UCSR0B | TXCIE;
   fl_485_2.busy = 0;
   fl_tx485.mon2 = 0;
   if (check_cts() == 1)
     return;
   S2_RD;
-  UDR0 = buf_tx_232[0];
-  if (Regim == RG_DEBAG)
-    UDR3 = buf_tx_232[0];
+  sendBytePPP(buf_tx_232[0]);
   return;
 }
 
@@ -4831,7 +4814,8 @@ void monitor1_tx_rs232_2(void) {
     }
 
     S5_RD;
-    UCSR2B = UCSR2B & ~(RXCIE | RXEN);
+    //UCSR2B = UCSR2B & ~(RXCIE | RXEN);
+    __HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE);
     SET_RTS2; // rts на передачу
   }
 }
@@ -4930,17 +4914,15 @@ if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
   Rs232_2.cnt_bt_rx_tx = 0;
 
   form_buf_tx_ppp();
-  UCSR0A = UCSR0A | TXC;
-  UCSR0B = UCSR0B | TXEN;
-  UCSR0B = UCSR0B | TXCIE;
+  //UCSR0A = UCSR0A | TXC;
+  //UCSR0B = UCSR0B | TXEN;
+  //UCSR0B = UCSR0B | TXCIE;
   fl_232_2.busy = 0;
   fl_tx485.mon232_2 = 0;
   if (check_cts() == 1)
     return;
   S2_RD;
-  UDR0 = buf_tx_232[0];
-  if (Regim == RG_DEBAG)
-    UDR3 = buf_tx_232[0];
+  sendBytePPP(buf_tx_232[0]);
   return;
 }
 

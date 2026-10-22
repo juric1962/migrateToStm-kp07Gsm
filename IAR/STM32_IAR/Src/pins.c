@@ -8,10 +8,11 @@
 //#include <inavr.h>
 //#include <iom2560.h>
 #include <string.h>
+#include <stdint.h>
 
 
 void control_temperatura(void);
-extern void long_delay(unsigned long int period);
+extern void long_delay(uint32_t period);
 char At_buf[10];
 extern unsigned char Regim;
 extern unsigned char buf_tx_232[VOL_TX_PPP];
@@ -27,10 +28,10 @@ extern struct {
   unsigned char list_com[VOL_LIST]; // перечень исполняемых команд
   unsigned char ln_list;            // длина перечня
   unsigned char cnt_com;            // счетчик команд
-  unsigned int cnt_tm_out;          // счетчик времени ожидания ответа
-  unsigned int vol_tm_out;          // предел времени ожидания ответа
-  unsigned int cnt_rx_out;          // счетчик межбайтовый промежуток
-  unsigned int vol_rx_out;          // предел межбайтового промежутка
+  uint16_t cnt_tm_out;          // счетчик времени ожидания ответа
+  uint16_t vol_tm_out;          // предел времени ожидания ответа
+  uint16_t cnt_rx_out;          // счетчик межбайтовый промежуток
+  uint16_t vol_rx_out;          // предел межбайтового промежутка
 } At_com;
 
 extern struct {
@@ -63,7 +64,7 @@ void send_to_sim900(char num) {
   ///UCSR0B = UCSR0B & ~TXCIE;
 
   //   UCSR0B=UCSR0B & ~RXCIE;
-  UCSR0B = UCSR0B | RXCIE; // разрешить прием от SIM модуля
+  //////UCSR0B = UCSR0B | RXCIE; // разрешить прием от SIM модуля
   HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
   for (i = 0; i < num; i++) {
 

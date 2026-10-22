@@ -1,14 +1,15 @@
+#include "stm32f4xx_hal.h"
 #include "dfpin.h"
-#include <inavr.h>
-#include <iom2560.h>
+//#include <inavr.h>
+//#include <iom2560.h>
 
 #include "dfcnst.h"
 #include "map_ef.h"
 
-void delay(unsigned int period);
+void delay(uint16_t period);
 
-void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                      unsigned int num);
+void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                      uint16_t num);
 
 extern __flash unsigned char tab_crc[];
 
@@ -29,12 +30,12 @@ extern unsigned char sel_modul;
 
 char bit_registr1;
 unsigned char arr_ds[8], nomer_tab;
-unsigned int glutch6;
+uint16_t glutch6;
 unsigned char kod_tab[4];
 char podnos, kodec[4];
 unsigned char prihod_uhod;
-int glutch5, tim_prihod_uhod, window_prihod_uhod;
-extern unsigned int sost;
+int16_t glutch5, tim_prihod_uhod, window_prihod_uhod;
+extern uint16_t sost;
 
 void s_port(unsigned char ch);
 
@@ -102,7 +103,7 @@ void long_delay(uint32_t period)
 
 
 char test_tabletka2(void) {
-  int point_pos, i;
+  int16_t point_pos, i;
   unsigned char buf[4];
 
   for (point_pos = 0; point_pos < (4 * 253); point_pos = point_pos + 4) {
@@ -132,13 +133,13 @@ char test_tabletka2(void) {
 }
 
 /*
-unsigned long int hash_tabletka2(void )
+uint32_t hash_tabletka2(void )
                {
                int point_pos;
 
-               unsigned long int hash_kod;
+               uint32_t hash_kod;
                union {
-                     unsigned long int kod;
+                     uint32_t kod;
                      unsigned char b_kod[4];
                       } hash;
 
@@ -372,9 +373,9 @@ char zamer(void) {
 void ds_handler(void) {
 
   char ii, i, ds_crc;
-  int ak;
+  int16_t ak;
   union {
-    unsigned long int kod;
+    uint32_t kod;
     unsigned char by[4];
   } tosch;
 

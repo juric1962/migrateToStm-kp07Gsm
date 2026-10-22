@@ -3,7 +3,7 @@
 
 typedef struct
    {     
-volatile     unsigned int time_out_loop;
+volatile     uint16_t time_out_loop;
      
    
    } TERM;

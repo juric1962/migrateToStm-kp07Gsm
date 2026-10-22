@@ -4,14 +4,14 @@
 #include "ozu_map.h"
 
 typedef struct {
-  unsigned int cnt_bt_rx_tx;
-  unsigned int cnt_tm_tx_out;
-  unsigned int cnt_tm_pre_tx;
-  unsigned int vol_tm_tx_out;
-  unsigned int cnt_tm_rx_out;
-  unsigned int vol_tm_rx_out;
-  unsigned int cnt_tm_out;
-  unsigned int vol_tm_out;
+  uint16_t cnt_bt_rx_tx;
+  uint16_t cnt_tm_tx_out;
+  uint16_t cnt_tm_pre_tx;
+  uint16_t vol_tm_tx_out;
+  uint16_t cnt_tm_rx_out;
+  uint16_t vol_tm_rx_out;
+  uint16_t cnt_tm_out;
+  uint16_t vol_tm_out;
   unsigned char *p_data485;
 } rs485_port_state_t;
 

@@ -7,7 +7,7 @@
 #include "ozu_map.h"
 //#include <inavr.h>
 //#include <iom2560.h>
-extern unsigned long int unix;
+extern uint32_t unix;
 extern unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
 
 char erri2c;
@@ -22,7 +22,7 @@ struct { // в двоичном коде
   char r_control;
 } real_time;
 
-extern unsigned int modbus_mem1[SEG1];
+extern uint16_t modbus_mem1[SEG1];
 
 extern RTC_TimeTypeDef  RTC_TimeStructure;
 extern RTC_DateTypeDef RTC_DateStructure; 

@@ -3,12 +3,12 @@
 #include "map_ef.h"
 #include "ozu_map.h"
 
-extern unsigned long int burst_ds_r(void);
-extern void WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
-                           unsigned int num, unsigned char flag,
+extern uint32_t burst_ds_r(void);
+extern void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,
+                           uint16_t num, unsigned char flag,
                            unsigned char znach);
-extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                             unsigned int num);
+extern void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                             uint16_t num);
 extern unsigned char buf_tx_232[VOL_TX_PPP];
 
 unsigned char point_log_buf;
@@ -17,7 +17,7 @@ void write_log_info(unsigned char sost, unsigned char mesto) {
 
   unsigned char buf[6];
 
-  *(unsigned long int *)&buf[0] = burst_ds_r();
+  *(uint32_t *)&buf[0] = burst_ds_r();
   buf[4] = sost;
   buf[5] = mesto;
   WrArrayToFlesh(BEG_BUF_LOG + point_log_buf * 6, &buf[0], 6, 0, 0);
@@ -28,10 +28,10 @@ void write_log_info(unsigned char sost, unsigned char mesto) {
 
 void serch_point_log(void) {
 
-  unsigned int i;
+  uint16_t i;
   union {
     unsigned char bytes[4];
-    unsigned long int word;
+    uint32_t word;
   } temp_long, temp_long1;
 
   RdFromFleshToArr(BEG_BUF_LOG, &buf_tx_232[0], (L_LOG * 6));

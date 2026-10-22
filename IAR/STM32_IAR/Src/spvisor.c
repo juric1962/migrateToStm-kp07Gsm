@@ -1,19 +1,19 @@
 
 #include "def_log.h"
-#include <inavr.h>
-#include <iom2560.h>
+//#include <inavr.h>
+//#include <iom2560.h>
 
 #define DEF_SUPERVISOR 3600
 
 extern void s_port(unsigned char ch);
 void write_log_info(unsigned char sost, unsigned char mesto);
 void lock_it(void);
-void send_info(char size, char __flash *p, unsigned char fl_id,
+void send_info(char size, char const *p, unsigned char fl_id,
                unsigned char id);
 
-unsigned int cnt_supervosor;
+uint16_t cnt_supervosor;
 
-__flash char evc_rld_sv[] = {
+const char evc_rld_sv[] = {
     'E', 'V', 'C', ':', 'r', 'l', 'd', ' ', 's', 'v',
 };
 

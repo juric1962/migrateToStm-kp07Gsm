@@ -14,6 +14,7 @@ extern unsigned char state_led_md;
 // void st_gprs_atcom(void);
 // void st_gprs_att(void);
 FL_AT_COM fl_at_com;
+extern UART_HandleTypeDef huart1, huart2;
 void lock_it(void);
 
 const char stm_pin1_ok[] = {'S', 'T', 'M', ':', 'p', 'i', 'n', ' ',

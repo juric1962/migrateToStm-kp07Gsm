@@ -1,0 +1,251 @@
+
+#define VERSION_API 77
+
+case PORT_PROG:
+                         
+                         /*
+                        
+                         */
+                       //  07 05 2019
+                         
+                         
+                     
+                         
+                       if(((buf_rx_ppp[TR_V]>>4)&0x03)!=ZAPR)return(0);
+                            
+                            if(length_head==MIN_TR_HEAD)return(0);     
+                            if (proc_option(buf_rx_ppp,TR_OP_DATA,length_head-MIN_TR_HEAD,PORT_PROG)!=1)return(0); 
+                            
+                            
+                            
+                            if(length!=5+L_COM_CODE_MEM_Z)return(0);    
+                            
+                             //отладка
+                             // send_no_sinc(buf_rx_ppp[TR_ID],*(uint16_t*)&buf_rx_ppp[TR_SRC],NO_SINC_PG);
+                             //  return(0);
+                               //отладка 
+                            
+                            if((buf_rx_ppp[offset+C1_PORT+1])!=COM_CODE_MEM)return(0);
+                            if((*(uint16_t*)&buf_rx_ppp[offset+C1_PORT+2])!=L_COM_CODE_MEM_Z)return(0);
+                            
+                       
+                               
+                               
+                            
+       //                     send_info(sizeof(gluk),gluk,1,20);
+                            
+                            if(proc_paging()==1)
+                               {
+   //                            send_info(sizeof(gluk),gluk,1,21);
+device_bad:
+                               send_no_sinc(buf_rx_ppp[TR_ID],*(uint16_t*)&buf_rx_ppp[TR_SRC],NO_SINC_PG);
+                               return(0);
+                               }
+                            
+                            
+                            
+                            if(cnt_pg > 3000)    // ограничение на количество страниц было 251
+                              {
+ //                             send_info(sizeof(gluk),gluk,1,22);
+                              cnt_pg=0;
+                              fl_pg_out.send_crc=0;
+                              fl_pg_out.hold_pg=0;    
+                              fl_pg_out.ch_crc=0; 
+                              fl_pg_out.end_pg=0;
+                              fl_pg_out.cor_pg=0;
+                              send_no_sinc(buf_rx_ppp[TR_ID],*(uint16_t*)&buf_rx_ppp[TR_SRC],OVER_PG);
+                              return(0);
+                              }
+                            
+                            
+                               
+
+                              reboot_byte=0; 
+                              
+                              if(fl_pg_out.cor_pg==1)
+                                 {
+                                  fl_pg_out.cor_pg=0;
+                                  // ura проверка соответствия прошивки 
+//                                код версии находится в таблице прерываний по адресу вектора OTG_FS
+                                  if( ( cnt_pg == 0) && ( buf_rx_ppp[offset + C1_PORT + 4 + 0xE8] != VERSION_API ) ) goto device_bad;
+//
+                                    firmwareFlag = 1;
+                                    uint32_t adrstart = 0x08060000;
+                                    uint32_t test = 0xcccc;
+                                    uint32_t adr =adrstart + cnt_pg*256;
+                                    flashProgramm(&adr, &test ,2);
+                                    if (cnt_pg == 0)
+                                    {
+                                     if( FLASH_If_Erase(adr) )  fl_pg_out.send_kv=0;    // не удалось стереть флеш
+                                    }
+                                  // ura пишем прямо из исходного буфера, без всяких глупостей
+                                   if ( FLASH_If_Write(&adr, (uint32_t*)buf_rx_ppp[offset+C1_PORT+4] ,64) )  fl_pg_out.send_kv=0;
+                                  // если ошибка записи страницы не давать подтверждения  14 09 2020
+                                  // было  if ( FLASH_If_Write(&adr, (uint32_t*)ProgPCH.PageArray ,64) )  fl_pg_out.send_kv=0;
+                                    
+                                    HAL_IWDG_Refresh(&hiwdg);
+                                    TestLastPage();
+                                  
+                                  
+                                 } 
+                                 
+                              if(fl_pg_out.send_kv==1)
+                                {
+                                // ?????? ?????? ? ?????? ?????? ????? crc ??????????? ????? 
+  
+                                  
+                                if(reboot_byte!=0x55)
+                                 {
+                                 if(fl_ip.act_ip_end!=1){fl_pg_out.send_crc=0; reboot_byte=0; return(0);}
+                                 }
+                                
+                                
+                                fl_ip.act_ip_end=0;      
+                                clr_cntr_nat();
+                                clr_cntr_link();
+                                Obj_ppp_tx.prozr=FALSE;            
+                                Obj_ppp_tx.version=VER2;      //?????? 
+                                Obj_ppp_tx.type_pac=OTV;     //??? ??????
+                                Obj_ppp_tx.num_src=num_self; // ????? ???????????
+                                Obj_ppp_tx.num_dst=*(uint16_t*)&buf_rx_ppp[TR_SRC]; // ????? ??????????
+         
+                                Obj_ppp_tx.id_pac=buf_rx_ppp[TR_ID]; // ????????????? ??????  
+                                Obj_ppp_tx.p_opt=&buf_opt_tr[0]; // //????????? ?????? ?????          
+                                Obj_ppp_tx.l_opt=0;
+                                
+                                if(fl_pg_out.send_crc==1)
+                                  {
+                                  Obj_ppp_tx.l_opt=4;// ????? ?????? ?????   
+                                  buf_opt_tr[0]=KOD_WR_PG_CRC;
+                                  buf_opt_tr[1]=L_OP_WR_PG_CRC;
+                                  *(uint16_t*)&buf_opt_tr[2]=ProgPCH.AllPageCrc;//??? crc
+                                  }
+                                 fl_pg_out.send_crc=0;  
+                              //Obj_ppp_tx.kol_opt=1;// ?????????? ?????     
+       
+                               buf_tx_232[TR_OP_DATA+C1_PROT+10]=PROT_C1;
+                               buf_tx_232[TR_OP_DATA+C1_PROT+11]=PORT_PROG;
+                               buf_tx_232[TR_OP_DATA+C1_PROT+12]=COM_CODE_MEM;
+                               *(uint16_t*)&buf_tx_232[TR_OP_DATA+C1_PROT+13]=L_COM_CODE_MEM_A;
+                               buf_tx_232[TR_OP_DATA+C1_PROT+15]=0x00; //OK 
+                               *(uint16_t*)&buf_tx_232[TR_OP_DATA+C1_PROT+16]=cnt_pg; //OK 
+   
+
+                               Obj_ppp_tx.l_data=5+L_COM_CODE_MEM_A;  // ????? ??????
+                               Obj_ppp_tx.p_data=&buf_tx_232[TR_OP_DATA+C1_PROT+10];  //????????? ?????? ??????
+        
+                               send_info(sizeof(ans_out_prog),ans_out_prog,1,buf_rx_ppp[TR_ID]);
+                               
+                               form_buf_tx_ppp();                            
+                             
+                            
+                            if(reboot_byte!=0x55)
+                                 {   
+                                  
+                                    if(check_cts()==1) return(0);
+
+                                 }                
+                              
+                             my   S2_RD;
+                             sendBytePPP(buf_tx_232[0]);
+                            //my   UDR0=buf_tx_232[0];
+                            //my   if(Regim==RG_DEBAG) UDR3=buf_tx_232[0];
+                         ///////HAL_UART_Transmit_IT(&huart3,&buf_tx_232[0],1);
+                                }                               
+                                
+                             
+                               if(reboot_byte==0x55)
+                                 {
+                                  
+                                   
+                                 // стирание Log файла ??? 
+                                   WrArrayToFlesh(BEG_BUF_LOG,0,(L_LOG*6),0x01,0x00);
+
+                                 
+                                   RdFromFleshToArr(A_TRAF,&buf_rx_ppp[0],4);
+                                
+                                   *(uint32_t*)&buf_rx_ppp[4]=cnt_outcom;
+                                   *(uint32_t*)&buf_rx_ppp[8]=cnt_incom;
+                                   *(uint16_t*)&buf_rx_ppp[L_TRAF-2]=crc_m1(&buf_rx_ppp[0],L_TRAF-2,0xffff);
+                                   WrArrayToFlesh(A_TRAF, &buf_rx_ppp[0],L_TRAF,0,0);
+                               
+                                
+                                   send_info(sizeof(evc_rld),evc_rld,0,0);
+                                   HAL_IWDG_Refresh(&hiwdg);								   
+                                   SelfProgramm();  // in BOOT_CODE section
+                                  
+                                 }  													             
+                            return(1);           
+                         
+                         
+                         
+                         /*  заглушка на случай отмены 
+                               {
+ 
+                               send_no_sinc(buf_rx_ppp[TR_ID],*(uint16_t*)&buf_rx_ppp[TR_SRC],NO_SINC_PG);
+                               return(0);
+                               }
+                            
+                           */       
+       //////////////////////////////////////////////////////////////////////////////
+
+void TestLastPage(void)
+                         {
+                           
+ 
+   
+    unsigned char DesAddress[256]; 
+  //  uint32_t  DesAddress[64]; 
+ //   uint16_t total_kol_page,j,i,length;
+                           
+                         // признак последняя страница
+                         
+                                 if(fl_pg_out.end_pg==1)
+                                  {
+   
+                                   
+                                    uint16_t total_kol_page=cnt_pg+1;
+                                    
+                                    
+                                    fl_pg_out.end_pg=0;
+                                    //fl_pg_out.yes_crc=0; //???????? ???? ????????????
+                                    if (fl_pg_out.ch_crc==1)
+                                    {
+
+                                       uint16_t length=0xffff;
+                                       uint32_t  FlashAddress=0x08060000;
+                                       __disable_irq();
+                                        for (uint16_t j=0;j<total_kol_page;j++)
+                                           {
+                                       
+                                   //    for (uint16_t i=0;i<64;i++) DesAddress[i]=*(__IO uint32_t*)FlashAddress++;
+                                   //    length=crc_m1( (unsigned char*)&DesAddress,256,length);
+
+
+                                       for (uint16_t i=0;i<256;i++) {DesAddress[i]=*(__IO unsigned char*)FlashAddress; FlashAddress++;}
+                                       length=crc_m1( &DesAddress[0],256,length);      
+                                             
+                                       HAL_IWDG_Refresh(&hiwdg);
+                                            }
+                                         
+                                       __enable_irq();
+                                       if(length == pg_crc)
+                                        {  
+                                         reboot_byte=0x55;
+                                        }
+                                        else
+                                        {
+  
+                                    //my     total_kol_page=0;
+                                         reboot_byte=0;                                          
+                                        }
+                                    
+                                     fl_pg_out.send_crc=1;
+                                     }    
+                                
+                                    fl_pg_out.hold_pg=0;    
+                                    fl_pg_out.ch_crc=0; 
+                               
+                                  }  
+                                  // признак последняя страница
+                         }                

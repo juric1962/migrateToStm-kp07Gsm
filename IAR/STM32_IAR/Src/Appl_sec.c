@@ -1,14 +1,17 @@
 #include "def_prot.h"
 #include "sec.h"
-#include <iom2560.h>
+//#include <iom2560.h>
 
-extern unsigned int crc_m1(unsigned char *ka, unsigned int num,
-                           unsigned int crc);
+extern uint16_t crc_m1(unsigned char *ka, uint16_t num,
+                           uint16_t crc);
 
+/*
+// эксперименты с указателями функций
+// не актуально
 #define APPLICATION_ADDRESS 0
 typedef void (*pFunction)(void);
 pFunction Jump_To_Application;
-unsigned int JumpAddress;
+uint16_t JumpAddress;
 
 void startNewProgram(void) {
   //	JumpAddress = *( unsigned  int*) (APPLICATION_ADDRESS + 4);
@@ -17,12 +20,13 @@ void startNewProgram(void) {
   //   __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
   Jump_To_Application();
 }
+*/
 
-unsigned char write_to_buf(unsigned char *p_buf, unsigned int *ptr_in,
-                           unsigned int *ptr_out, unsigned int *ptr_out_kv,
-                           unsigned int *crc, unsigned char *p_data,
-                           unsigned int l_data, unsigned int max_buf) {
-  unsigned int temp, i, j = 0;
+unsigned char write_to_buf(unsigned char *p_buf, uint16_t *ptr_in,
+                           uint16_t *ptr_out, uint16_t *ptr_out_kv,
+                           uint16_t *crc, unsigned char *p_data,
+                           uint16_t l_data, uint16_t max_buf) {
+  uint16_t temp, i, j = 0;
 
   if (*crc != crc_m1(p_buf, max_buf, 0xffff)) {
     *ptr_out = 0;
@@ -78,11 +82,11 @@ unsigned char write_to_buf(unsigned char *p_buf, unsigned int *ptr_in,
   return (0);
 }
 
-unsigned int read_from_buf(unsigned char *p_buf, unsigned int *ptr_in,
-                           unsigned int *ptr_out, unsigned int *ptr_out_kv,
-                           unsigned int *crc, unsigned char *p_data,
-                           unsigned int max_buf) {
-  unsigned int i, j = 0;
+uint16_t read_from_buf(unsigned char *p_buf, uint16_t *ptr_in,
+                           uint16_t *ptr_out, uint16_t *ptr_out_kv,
+                           uint16_t *crc, unsigned char *p_data,
+                           uint16_t max_buf) {
+  uint16_t i, j = 0;
 
   if (*ptr_in == *ptr_out)
     return (0);
