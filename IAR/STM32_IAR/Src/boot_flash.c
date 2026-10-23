@@ -1,3 +1,4 @@
+#include "firmware.h"
 #include "stm32f4xx.h"
 #include <stdint.h>
 
@@ -42,13 +43,13 @@
  */
 #define FLASH_WAIT_LIMIT  10000000U
 // static - область видимости только в пределах этого файла
-static void S2_RD(void) @ "BOOT_CODE"
+static void SV2_RD(void) @ "BOOT_CODE"
 {
     S2_R_PORT->BSRR = (uint32_t)S2_R_PIN << 16;
     S2_G_PORT->BSRR = S2_G_PIN;
 }
 
-static void S2_GR(void) @ "BOOT_CODE"
+static void SV2_GR(void) @ "BOOT_CODE"
 {
     S2_R_PORT->BSRR = S2_R_PIN;
     S2_G_PORT->BSRR = (uint32_t)S2_G_PIN << 16;
@@ -143,13 +144,13 @@ static int BootFlash_EraseSector(uint32_t sector) @ "BOOT_CODE"
 static int BootFlash_ProgramWord(uint32_t address, uint32_t data) @ "BOOT_CODE"
 {
     int result;
-    S2_GR();
+    SV2_GR();
     if ((address & 3U) != 0U)
         return BOOTFLASH_PARAM;
 
     /* Адрес должен находиться в пользовательской Flash */
     if ((address < 0x08000000U) ||
-        (address >= 0x08100000U))
+        (address >= 0x08060000U))
         return BOOTFLASH_PARAM;
 
     result = BootFlash_WaitReady();
@@ -249,13 +250,14 @@ __IO int i,err;
 
 new program present ? in source adress
 */
-if (*(uint32_t*)src == 0xffff) goto exitProgram;
-if (BootFlash_EraseSector( sector_5 ) != BOOTFLASH_OK) goto exitProgram;
-if (BootFlash_EraseSector( sector_4 ) != BOOTFLASH_OK) goto exitProgram;
-if (BootFlash_EraseSector( sector_3 ) != BOOTFLASH_OK) goto exitProgram;
-if (BootFlash_EraseSector( sector_2 ) != BOOTFLASH_OK) goto exitProgram;
-if (BootFlash_EraseSector( sector_1 ) != BOOTFLASH_OK) goto exitProgram;
-if (BootFlash_EraseSector( sector_0 ) != BOOTFLASH_OK) goto exitProgram;
+if (*(uint32_t*)src == 0xffffffff) goto exitProgram;
+if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_6 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_5 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_4 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_3 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_2 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_1 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_0 ) != BOOTFLASH_OK) goto exitProgram;
 
 
 
@@ -269,7 +271,7 @@ if( BootFlash_ProgramWord( dst, *(uint32_t*)src ) != BOOTFLASH_OK) { continue; }
 if ((*(__IO uint32_t *)dst) != (*(__IO uint32_t*)src)) { continue; }               // bad write
 else { goto next_word;}
  }
-if( err >= 3 ) goto exitProgram;
+if( err >= 3 ) { SV2_RD(); goto exitProgram; }  
 next_word: 
   src += 4;
   dst += 4;
