@@ -2,7 +2,7 @@
    Adjust memory sizes/regions as needed for your board/toolchain */
 
 define symbol __ICFEDIT_region_ROM_start__ = 0x08000000;
-define symbol __ICFEDIT_region_ROM_size__  = 0x00100000; /* 1 MB */
+define symbol __ICFEDIT_region_ROM_size__  = 0x00060000; /* Application: 384 KB, sectors 0..6 */
 
 define symbol __ICFEDIT_region_RAM_start__ = 0x20000000;
 define symbol __ICFEDIT_region_RAM_size__  = 0x00030000; /* 192 KB */
