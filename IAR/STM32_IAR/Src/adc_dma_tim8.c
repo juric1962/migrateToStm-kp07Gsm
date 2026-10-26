@@ -1,5 +1,5 @@
 
-#include "adc_dma.h"
+#include "adc_dma_tim8.h"
 
 /* ---------------------------------------------------------
  * Global handles
