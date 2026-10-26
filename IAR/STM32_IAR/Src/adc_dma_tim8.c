@@ -1,4 +1,4 @@
-```c
+
 #include "adc_dma.h"
 
 /* ---------------------------------------------------------
@@ -306,4 +306,3 @@ float ADC_GetTemperature(void)
 
     return temperature;
 }
-```

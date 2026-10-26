@@ -19,7 +19,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
     adc_raw = adc_buffer[2]; // Internal temperature sensor value
     modbus_mem1[AD_TEMP] = adc_raw;
     // Для Vref = 3.3 В и ADC 10 бит
-     vsense = ((float)adc_raw * 3.3f) / 1024.0f; 
+     vsense = ((float)adc_raw * 3.3f) / 1023.0f; 
      temperatura = (((vsense - 0.76f) / 0.0025f) +25.0f);
     summa_adc[0] = summa_adc[0] + Channel1;
     summa_adc[1] = summa_adc[1] + Channel2;
