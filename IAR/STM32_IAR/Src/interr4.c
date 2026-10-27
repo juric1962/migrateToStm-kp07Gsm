@@ -20,6 +20,9 @@
 //#include <inavr.h>
 //#include <iom2560.h>
 
+
+extern volatile unsigned char disable_rx1, disable_rx2, disable_rx3, disable_rx4;
+
 static void Timer3_ProcessTick(void);
 void Uart1_ProcessRxCallback(void);
 void Uart2_ProcessRxCallback(void);
@@ -331,6 +334,7 @@ unsigned char cnt_tu1, cnt_tu2;
 void send_485_1(void) {
   //HAL_UART_AbortReceive_IT(&huart2);
   __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
+  disable_rx2 = 1;
   UART2_TransmitByte_IT(*Rs485_1.p_data485++);
   Rs485_1.cnt_bt_rx_tx--;
 }
@@ -338,6 +342,7 @@ void send_485_1(void) {
 void send_485_2(void) {
   //HAL_UART_AbortReceive_IT(&huart3);
   __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
+  disable_rx3 = 1;
   UART3_TransmitByte_IT(*Rs485_2.p_data485++);
   Rs485_2.cnt_bt_rx_tx--;
 }
@@ -345,6 +350,7 @@ void send_485_2(void) {
 void send_232_2(void) {
  // HAL_UART_AbortReceive_IT(&huart4);
  __HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE); 
+  disable_rx4 = 1;
   UART4_TransmitByte_IT(*Rs232_2.p_data485++);
   Rs232_2.cnt_bt_rx_tx--;
 }
@@ -452,7 +458,9 @@ void sending_ppp_pac(void) {
     fl_reg3.add_byte = 0;
     //  UCSR0B=UCSR0B & ~TXEN;!!!!!!!
     //  UCSR0B=UCSR0B & ~TXCIE; !!!!
-    __HAL_UART_DISABLE_IT(&huart1, UART_IT_TXE);
+    // не надо ничего делать все это ненужная команда
+    // если буфер большой то не надо начинать передачу
+    //__HAL_UART_DISABLE_IT(&huart1, UART_IT_TXE);
     S2_OFF;
     return;
   }
@@ -612,6 +620,7 @@ void recive_buf1(unsigned char temp) {
           if (Buf2_rx_ppp.busy == TRUE) {
 
             Buf2_rx_ppp.check_busy = TRUE;
+            disable_rx1 = 1;
             /* change
             UCSR0B = UCSR0B & ~RXEN;
             UCSR0B = UCSR0B & ~RXCIE;
@@ -704,6 +713,7 @@ void recive_buf2(unsigned char temp) {
           if (Buf1_rx_ppp.busy == TRUE) {
 
             Buf1_rx_ppp.check_busy = TRUE;
+            disable_rx1 = 1;
             /* change
             UCSR0B = UCSR0B & ~RXEN;
             UCSR0B = UCSR0B & ~RXCIE;
@@ -882,6 +892,7 @@ static void Timer2_ProcessTick(void) {
 //__HAL_UART_ENABLE_IT(&huart1,UART_IT_RXNE);
       
   HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
+  disable_rx1 = 0;
     }
   }
 
@@ -896,6 +907,7 @@ static void Timer2_ProcessTick(void) {
       __HAL_UART_FLUSH_DRREGISTER(&huart1);
      // __HAL_UART_ENABLE_IT(&huart1,UART_IT_RXNE);
       HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
+      disable_rx1 = 0;
     }
   }
 
@@ -965,6 +977,7 @@ nxt_step2:
     */
    // HAL_UART_AbortReceive_IT(&huart2); 
    __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
+   disable_rx2 = 1;
     Rs485_1.cnt_bt_rx_tx = 0;
     Rs485_1.cnt_tm_rx_out = 0;
     fl_485_1.rec = 0;
@@ -985,6 +998,7 @@ nxt_step3:
     */
     //HAL_UART_AbortReceive_IT(&huart2);
     __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
+    disable_rx2 = 1;
   }
 nxt_step4:
   if (Rs485_1.cnt_tm_tx_out == 0)
@@ -1002,6 +1016,7 @@ nxt_step4:
     */
     __HAL_UART_FLUSH_DRREGISTER(&huart2);
     HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
+    disable_rx2 = 0;
   } // togle to receiv mode ;
 
   // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
@@ -1029,6 +1044,7 @@ next_step2:
     */
     //HAL_UART_AbortReceive_IT(&huart3);
     __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
+    disable_rx3 = 1;
     Rs485_2.cnt_bt_rx_tx = 0;
     Rs485_2.cnt_tm_rx_out = 0;
     fl_485_2.rec = 0;
@@ -1046,6 +1062,7 @@ next_step3:
     fl_485_2.tm_out = 0;
     //UCSR1B = UCSR1B & ~(RXEN | RXCIE);
     __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
+    disable_rx3 = 1;
   }
 next_step4:
   if (Rs485_2.cnt_tm_tx_out == 0)
@@ -1061,6 +1078,7 @@ next_step4:
     //__HAL_UART_ENABLE_IT(&huart3,UART_IT_RXNE);
     __HAL_UART_FLUSH_DRREGISTER(&huart3);
      HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1);
+     disable_rx3 = 0;
   } // togle to receiv mode ;
 
   // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
@@ -1085,6 +1103,7 @@ nt_step2:
     S5_OFF;
    // UCSR2B = UCSR2B & ~(RXEN | RXCIE);
      __HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE);
+     disable_rx4 = 1;
     Rs232_2.cnt_bt_rx_tx = 0;
     Rs232_2.cnt_tm_rx_out = 0;
     fl_232_2.rec = 0;
@@ -1102,6 +1121,7 @@ nt_step3:
     fl_232_2.tm_out = 0;
    // UCSR2B = UCSR2B & ~(RXEN | RXCIE);
     __HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE);
+    disable_rx4 = 1;
   }
 nt_step4:
   if (Rs232_2.cnt_tm_tx_out == 0)
@@ -1117,6 +1137,7 @@ nt_step4:
     //UCSR2B = UCSR2B | RXEN | RXCIE;
     __HAL_UART_FLUSH_DRREGISTER(&huart4);
     HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
+    disable_rx4 = 0;
   } // togle to receiv mode ;
 
   // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
@@ -1295,6 +1316,21 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     Uart3_ProcessRxCallback();
   } else if (huart->Instance == USART2) {
     Uart2_ProcessRxCallback();
+  }
+}
+
+// Handle UART error callback
+
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
+  if (huart->Instance == UART4) {
+     HAL_UART_Receive_IT(&huart4, &rx_byte4, 1);
+  } else if (huart->Instance == USART1) {
+    HAL_UART_Receive_IT(&huart1, &rx_byte1, 1);
+    // Handle UART receive complete callback
+  } else if (huart->Instance == USART3) {
+   HAL_UART_Receive_IT(&huart3, &rx_byte3, 1);
+  } else if (huart->Instance == USART2) {
+    HAL_UART_Receive_IT(&huart2, &rx_byte2, 1);
   }
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1529,7 +1565,10 @@ next_tm7:;
 
 void Uart1_ProcessRxCallback(void) {
    uint8_t data;
-
+if (disable_rx1 == 1) {
+  HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
+  return;
+}
 
     data = uart1_rx_byte;
 
@@ -1578,9 +1617,7 @@ void Uart1_ProcessRxCallback(void) {
         recive_buf1(data);
     else
         recive_buf2(data);
-      if (Buf2_rx_ppp.check_busy == TRUE) return;
-      if (Buf1_rx_ppp.check_busy == TRUE) return;
-
+     
     HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
 }
 
@@ -1616,7 +1653,10 @@ void Uart1_ProcessTxCallback(void) {
 void Uart2_ProcessRxCallback(void) {
 
     uint8_t data = uart2_rx_byte;
-
+if (disable_rx2 == 1) {
+  HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
+  return;
+}
     S3_GR;
 
     Rs485_1.cnt_tm_rx_out = Rs485_1.vol_tm_rx_out;
@@ -1680,7 +1720,10 @@ void Uart2_ProcessTxCallback(void) {
 
 void Uart3_ProcessRxCallback(void) {
   unsigned char data = uart3_rx_byte;
-
+if (disable_rx3 == 1) {
+  HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1);
+  return;
+}
   S4_GR;
   Rs485_2.cnt_tm_rx_out = Rs485_2.vol_tm_rx_out;
   Rs485_2.cnt_tm_out = 0;
@@ -1729,7 +1772,10 @@ void Uart4_ProcessRxCallback(void)
 {
     uint8_t data;
 
-
+if (disable_rx4 == 1) {
+  HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
+  return;
+}
     data = uart4_rx_byte;
 
     if (fl_at_mom_232 == 1)

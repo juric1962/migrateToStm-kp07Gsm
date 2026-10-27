@@ -231,6 +231,11 @@ extern unsigned char rep;
 extern char bit_level;
 uint32_t unix;
 
+volatile unsigned char disable_rx1 = 0;
+volatile unsigned char disable_rx2 = 0;
+volatile unsigned char disable_rx3 = 0;
+volatile unsigned char disable_rx4 = 0;
+
 extern union {
   unsigned char mb[SEG3 * 2]; // байтовый массив
 } c2_byte;                    // 1я страница конфигурации
@@ -1364,7 +1369,7 @@ void start_func_stm_scp(void) {
   /////    __HAL_UART_ENABLE_IT(&huart1,UART_IT_RXNE);
       
   HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
-  
+  disable_rx1 = 0;
   cnt_stm_tm1 = DEF_TM_STM_SCP;
   cnt_stm_tm2 = DEF_TM2_STM_SCP;
 }
@@ -1936,6 +1941,7 @@ void clr_var_ppp_rx(void) {
   //UCSR0B = UCSR0B & ~RXEN;
   //UCSR0B = UCSR0B & ~RXCIE;
   __HAL_UART_DISABLE_IT(&huart1,UART_IT_RXNE);
+  disable_rx1 = 1;
   fl_rx_ppp.switcher = 0;
   fl_rx_ppp.fl_7e = 0;
   fl_rx_ppp.fl_7d = 0;
@@ -4531,6 +4537,7 @@ void monitor1_tx_rs485_1(void) {
     S3_RD;
     //UCSR3B = UCSR3B & ~(RXCIE | RXEN);
      __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE);
+     disable_rx2 = 1;
     SET_RTS1; // rts на передачу
   }
 }
@@ -4673,6 +4680,7 @@ void monitor1_tx_rs485_2(void) {
     S4_RD;
     //UCSR1B = UCSR1B & ~(RXCIE | RXEN);
     __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE);
+    disable_rx3 = 1;
     SET_RTS3; // rts на передачу
   }
 }
@@ -4816,6 +4824,7 @@ void monitor1_tx_rs232_2(void) {
     S5_RD;
     //UCSR2B = UCSR2B & ~(RXCIE | RXEN);
     __HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE);
+    disable_rx4 = 1;
     SET_RTS2; // rts на передачу
   }
 }
