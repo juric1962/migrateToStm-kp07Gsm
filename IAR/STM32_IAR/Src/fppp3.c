@@ -614,7 +614,7 @@ void prov_uk_in(void) {
     event_modem = EVM_PPP_ERR; // переполнение буфера
 }
 
-void sendBytePPP(uint_8 data)
+void sendBytePPP(unsigned char data)
 {
   ppp_tx_uart1_byte = data;
       UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);

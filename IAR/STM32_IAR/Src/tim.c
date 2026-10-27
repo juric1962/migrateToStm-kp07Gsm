@@ -16,6 +16,9 @@ void MX_TIM2_Init(void) {
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 
   HAL_TIM_Base_Init(&htim2);
+    // Configure NVIC
+      HAL_NVIC_SetPriority(TIM2_IRQn, 5, 0);
+      HAL_NVIC_EnableIRQ(TIM2_IRQn);
   HAL_TIM_Base_Start_IT(&htim2);
 }
 
@@ -33,6 +36,9 @@ void MX_TIM3_Init(void) {
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 
   HAL_TIM_Base_Init(&htim3);
+   // Configure NVIC
+    HAL_NVIC_SetPriority(TIM3_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(TIM3_IRQn);
   HAL_TIM_Base_Start_IT(&htim3);
 }
 // 1 mls 
@@ -47,6 +53,9 @@ void MX_TIM5_Init(void) {
   htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 
   HAL_TIM_Base_Init(&htim5);
+   // Configure NVIC
+    HAL_NVIC_SetPriority(TIM5_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(TIM5_IRQn);
   HAL_TIM_Base_Start_IT(&htim5);
 }
 

@@ -6,7 +6,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+extern uint8_t uart4_rx_byte;
 void MX_UART4_Init(void);
 
 #ifdef __cplusplus

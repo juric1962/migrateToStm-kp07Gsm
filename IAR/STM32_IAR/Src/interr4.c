@@ -20,6 +20,11 @@
 //#include <inavr.h>
 //#include <iom2560.h>
 
+static void Timer3_ProcessTick(void);
+void Uart1_ProcessRxCallback(void);
+void Uart2_ProcessRxCallback(void);
+void Uart3_ProcessRxCallback(void);
+void Uart4_ProcessRxCallback(void);
 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
@@ -1811,6 +1816,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
     return;
 
   if (hadc->Instance == ADC1) {
+    fl_wdt.from_adc = 1;
     /* adc_buffer[0] -> ADC1_IN15, adc_buffer[1] -> ADC1_IN8 */
     Channel1 = adc_buffer[0];
     Channel2 = adc_buffer[1];
@@ -1823,11 +1829,12 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
     summa_adc[1] = summa_adc[1] + Channel2;
     count_summa_adc[0]++;
     if (count_summa_adc[0] == 10) {
-      summa_adc[0] = 0;
-      summa_adc[1] = 0;
+      
       count_summa_adc[0] = 0;
       modbus_mem1[AD_TIT1] = summa_adc[0] / 10;
       modbus_mem1[AD_TIT1 + 1] = summa_adc[1] / 10;
+      summa_adc[0] = 0;
+      summa_adc[1] = 0;
     }
   }
 }
