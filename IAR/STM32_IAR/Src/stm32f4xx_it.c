@@ -79,7 +79,7 @@ void SysTick_Handler(void)
 void HardFault_Handler(void)
 {
 /* Go to infinite loop when Hard Fault exception occurs */
-  DRIVER_STOP(1); // Îòêëþ÷èòü ñèëîâûå êëþ÷è  
+    
   while (1)
   {
   }
@@ -111,7 +111,6 @@ void TIM1_CC_IRQHandler(void)
 
   /* USER CODE END TIM1_CC_IRQn 1 */
 }
-
 /**
 * @brief This function handles TIM2 global interrupt.
 */
@@ -138,19 +137,7 @@ void TIM3_IRQHandler(void)
 
   /* USER CODE END TIM3_IRQn 1 */
 }
-/**
-* @brief This function handles TIM4 global interrupt.
-*/
-void TIM4_IRQHandler(void)
-{
-  /* USER CODE BEGIN TIM4_IRQn 0 */
 
-  /* USER CODE END TIM4_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim4);
-  /* USER CODE BEGIN TIM4_IRQn 1 */
-
-  /* USER CODE END TIM4_IRQn 1 */
-}
 /**
 * @brief This function handles TIM3 global interrupt.
 */

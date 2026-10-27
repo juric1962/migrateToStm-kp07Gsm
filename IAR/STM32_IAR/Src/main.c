@@ -4,11 +4,13 @@
 #include "map_ef.h"
 #include "ozu_map.h"
 #include "tim.h"
-#include "adc_dma.h"
+#include "adc_dma_tim8.h"
 #include "gpio_inputs.h"
 #include "fm25w256_spi.h"
 #include "uart1.h"
+#include "uart2.h"
 #include "uart3.h"
+#include "uart4.h"
 //#include <inavr.h>
 //#include <iom2560.h>
 #include <stdlib.h>
@@ -16,10 +18,10 @@
 
 extern unsigned char sel_modul;
 void begin_kd_2(void);
-unsigned long int burst_ds_r(void);
+uint32_t burst_ds_r(void);
 extern void s_port(unsigned char ch);
-extern void RdFromFleshToArr(unsigned int adres_flesh, unsigned char *adres_ozu,
-                             unsigned int num);
+extern void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
+                             uint16_t num);
 unsigned char check_keys(void);
 
 void begin_ts(void);
@@ -35,23 +37,23 @@ void check_sim(void);
 
 void init_pins(void);
 void init_proc_state(void);
-void delay(unsigned int period);
-void long_delay(unsigned long int period);
+void delay(uint16_t period);
+void long_delay(uint32_t period);
 void delay_on_contr(void);
 void init_proc_state(void);
 void init_modem_only(void);
 void start_time(void);
-void WrArrayToFlesh(unsigned int adres_flesh, unsigned char *adres_ozu,
-                    unsigned int num, unsigned char flag, unsigned char znach);
+void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,
+                    uint16_t num, unsigned char flag, unsigned char znach);
 void tx_rs232_time(void);
 void load_par_first(void);
 void serch_point_log(void);
-unsigned int crc_ozu(void);
+uint16_t crc_ozu(void);
 void monitor_rst(void); 
 
 extern unsigned char Regim;
 extern unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
-extern unsigned int prov_ozu;
+extern uint16_t prov_ozu;
 
 unsigned char check_memory_map(void);
 void vosstan_memory(void);
@@ -96,11 +98,11 @@ void main(void) {
   MX_TIM5_Init();
    MX_TIM10_Init();
 
-  /* Initialize DMA, ADC1 and TIM1 (TIM1 -> TRGO -> ADC1) */
+  /* Initialize DMA, ADC1 and TIM8 (TIM8 -> TRGO -> ADC1) */
   MX_DMA_Init();
   MX_ADC1_Init();
-  MX_TIM1_Init();
-  /* Start ADC in DMA circular mode and start TIM1 to produce triggers */
+  MX_TIM8_Init();
+  /* Start ADC in DMA circular mode and start TIM8 to produce triggers */
   ADC1_DMA_Start();
   MX_IWDG_Init ();
   HAL_IWDG_Start(&iwdg);
@@ -116,7 +118,7 @@ void main(void) {
   long_delay(1000000); // для внешней флешки
  // __watchdog_reset();
 HAL_IWDG_Refresh(&iwdg);
-  start_time();
+  
 
   
   load_par_first();

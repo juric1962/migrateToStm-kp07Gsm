@@ -1009,9 +1009,9 @@ unsigned char check_memory_map(void) {
 
 void load_par_first(void) {
   if (e_first_on == 0xff) {
-    __watchdog_reset();
+    HAL_IWDG_Refresh(&iwdg);
     WrArrayToFlesh(BEG_BUF_LOG, 0, (L_LOG * 6), 0x01, 0x00);
-    __watchdog_reset();
+    HAL_IWDG_Refresh(&iwdg);
     e_first_on = 0;
   }
   if (e_debug > 4)
@@ -2807,7 +2807,7 @@ HAL_UART_DeInit(&huart2);
   SET_RTS3; // !!!!!
 
   for (i = 0; i < 10; i++) {
-    __watchdog_reset();
+   HAL_IWDG_Refresh(&iwdg);;
     s_port('s');
     s_port(i + 0x30);
     //UDR1 = i;
@@ -2865,7 +2865,7 @@ void test_loop2(void) {
   SET_RTS1; // !!!!!
 
   for (i = 0; i < 10; i++) {
-    __watchdog_reset();
+   HAL_IWDG_Refresh(&iwdg);;
     s_port('s');
     s_port(i + 0x30);
     //UDR3 = i;

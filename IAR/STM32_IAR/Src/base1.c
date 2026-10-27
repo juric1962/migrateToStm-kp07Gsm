@@ -1770,7 +1770,7 @@ void monitor_beg_state_seq(unsigned char zad) {
 
     while (i < 200) // 400 мсек
     {
-      __watchdog_reset();
+      HAL_IWDG_Refresh(&iwdg);
       delay(16000); // 1mcek
       delay(16000); // 1mcek
       i++;
@@ -2549,7 +2549,7 @@ void check_wdt(void) {
     fl_wdt.fl_main = 0;
     fl_wdt.fl_out = 0;
   }
-  __watchdog_reset();
+  HAL_IWDG_Refresh(&iwdg);
 }
 
 void modem_engine(void) {

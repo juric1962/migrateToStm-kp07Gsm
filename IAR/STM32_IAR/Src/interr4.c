@@ -11,7 +11,12 @@
 #include "rs485_state.h"
 #include "sec.h"
 #include "stm32f4xx_hal.h"
+#include "uart1.h"
+#include "uart2.h"
 #include "uart3.h"
+#include "uart4.h"
+#include "adc_callback.h"
+#include "gpio_exti.h"
 //#include <inavr.h>
 //#include <iom2560.h>
 
@@ -1508,3 +1513,362 @@ next_tm6:
 next_tm7:;
   //////////////////////////////////////////
 }
+
+
+/**
+\brief   обработчики прерываний от uart1 uart2 uart3 uart4
+  \details 
+ */
+
+// uart1
+
+void Uart1_ProcessRxCallback(void) {
+   uint8_t data;
+
+
+    data = uart1_rx_byte;
+
+    if (Regim == RG_DEBAG)
+    {
+        HAL_UART_Transmit(&huart3, &data, 1, 10);
+    }
+
+    if (fl_at_mom_232 == 1)
+    {
+        Appl_seq_buf[point_Head] = data;
+
+        point_Head++;
+        point_Head &= 0x3F;
+
+        HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
+        return;
+    }
+
+    if (command_AT == TRUE)
+    {
+        if (fl_at_com.rx_en == 0)
+        {
+            HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
+            return;
+        }
+
+        S2_GR;
+
+        At_com.cnt_rx_out = At_com.vol_rx_out;
+        At_com.cnt_tm_out = 0;
+
+        if (At_com.cnt_rx < LN_BUF_AT)
+        {
+            At_com.buf[At_com.cnt_rx] = data;
+            At_com.cnt_rx++;
+        }
+
+        HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
+        return;
+    }
+
+    cnt_incom++;
+
+    if (fl_rx_ppp.switcher == 0)
+        recive_buf1(data);
+    else
+        recive_buf2(data);
+      if (Buf2_rx_ppp.check_busy == TRUE) return;
+      if (Buf1_rx_ppp.check_busy == TRUE) return;
+
+    HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
+}
+
+void Uart1_ProcessTxCallback(void) {
+  
+  if (command_AT == TRUE)
+    sending_at_pac();
+
+  else {
+
+    if (fl_cts_232_ignor == TRUE) {
+      sending_ppp_pac();
+      return;
+    }
+
+    cnt_outcom++;
+
+    if (check_cts() == 1)
+      return;
+    sending_ppp_pac();
+  }
+}
+
+// end uart1
+/**********
+*
+*
+*
+***********/
+
+//  uart2
+
+void Uart2_ProcessRxCallback(void) {
+
+    uint8_t data = uart2_rx_byte;
+
+    S3_GR;
+
+    Rs485_1.cnt_tm_rx_out = Rs485_1.vol_tm_rx_out;
+    Rs485_1.cnt_tm_out = 0;
+
+    if (Rs485_1.cnt_bt_rx_tx < MAX_BUF_RS485_1)
+    {
+        Rs485_1_buf_rx_tx[Rs485_1.cnt_bt_rx_tx] = data;
+        Rs485_1.cnt_bt_rx_tx++;
+    }
+    else
+    {
+        fl_485_1.over = 1;
+    }
+
+    // Приём следующего байта
+    HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
+}
+
+uint8_t uart2_tx_byte;
+void Uart2_ProcessTxCallback(void) {
+
+
+    if (Rs485_1.cnt_bt_rx_tx != 0)
+    {
+        uart2_tx_byte = *Rs485_1.p_data485++;
+
+        Rs485_1.cnt_bt_rx_tx--;
+
+        HAL_UART_Transmit_IT(&huart2, &uart2_tx_byte, 1);
+
+        return;
+    }
+
+    // Передача закончена
+    Rs485_1.cnt_bt_rx_tx = 0;
+
+    Rs485_1.cnt_tm_tx_out = Rs485_1.vol_tm_tx_out;
+
+    if (Rs485_1.cnt_tm_tx_out == 0)
+    {
+        S3_OFF;
+
+        Rs485_1.cnt_tm_out = Rs485_1.vol_tm_out;
+
+        CLR_RTS1;
+
+        // Переход в режим приема
+        HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
+    }
+}
+// end uart2
+
+/**********
+*
+*
+*
+***********/
+
+//  uart3
+
+void Uart3_ProcessRxCallback(void) {
+  unsigned char data = uart3_rx_byte;
+
+  S4_GR;
+  Rs485_2.cnt_tm_rx_out = Rs485_2.vol_tm_rx_out;
+  Rs485_2.cnt_tm_out = 0;
+
+  if (Rs485_2.cnt_bt_rx_tx < MAX_BUF_RS485_2) {
+    Rs485_2_buf_rx_tx[Rs485_2.cnt_bt_rx_tx] = data;
+    Rs485_2.cnt_bt_rx_tx++;
+  } else {
+    fl_485_2.over = 1;
+  }
+
+  HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1U);
+}
+
+void Uart3_ProcessTxCallback(void) {
+  if (Rs485_2.cnt_bt_rx_tx == 0U) {
+    Rs485_2.cnt_bt_rx_tx = 0U;
+    Rs485_2.cnt_tm_tx_out = Rs485_2.vol_tm_tx_out;
+
+    if (Rs485_2.cnt_tm_tx_out == 0U) {
+      S4_OFF;
+      Rs485_2.cnt_tm_out = Rs485_2.vol_tm_out;
+      CLR_RTS3;
+      HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1U);
+    }
+    return;
+  }
+
+  UART3_TransmitByte_IT(*Rs485_2.p_data485++);
+  Rs485_2.cnt_bt_rx_tx--;
+}
+
+// end uart3
+
+
+/**********
+*
+*
+*
+***********/
+
+//  uart4
+
+
+void Uart4_ProcessRxCallback(void)
+{
+    uint8_t data;
+
+
+    data = uart4_rx_byte;
+
+    if (fl_at_mom_232 == 1)
+    {
+        if (vol_tx_ppp >= VOL_TX_PPP)
+            vol_tx_ppp = 0;
+
+        buf_tx_232[vol_tx_ppp] = data;
+        vol_tx_ppp++;
+    }
+    else
+    {
+        S5_GR;
+
+        Rs232_2.cnt_tm_rx_out = Rs232_2.vol_tm_rx_out;
+        Rs232_2.cnt_tm_out = 0;
+
+        if (Rs232_2.cnt_bt_rx_tx < MAX_BUF_RS232_2)
+        {
+            Rs232_2_buf_rx_tx[Rs232_2.cnt_bt_rx_tx] = data;
+            Rs232_2.cnt_bt_rx_tx++;
+        }
+        else
+        {
+            fl_232_2.over = 1;
+        }
+    }
+
+    HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
+}
+
+uint8_t uart4_tx_byte;
+void Uart4_ProcessTxCallback()
+{
+    
+
+    if (Rs232_2.cnt_bt_rx_tx == 0)
+    {
+        // Передача закончена
+        Rs232_2.cnt_bt_rx_tx = 0;
+
+        Rs232_2.cnt_tm_tx_out = Rs232_2.vol_tm_tx_out;
+
+        if (Rs232_2.cnt_tm_tx_out == 0)
+        {
+            S5_OFF;
+
+            Rs232_2.cnt_tm_out = Rs232_2.vol_tm_out;
+
+            CLR_RTS2;
+
+            // Переход в режим приема
+            HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
+        }
+
+        return;
+    }
+
+    // Передаем следующий байт
+    uart4_tx_byte = *Rs232_2.p_data485++;
+
+    Rs232_2.cnt_bt_rx_tx--;
+
+    HAL_UART_Transmit_IT(&huart4, &uart4_tx_byte, 1);
+}
+
+
+// end uart4
+
+
+/**********
+*
+*
+*
+***********/
+
+//  adc
+
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
+  float vsense;
+  uint16_t adc_raw;
+  if (hadc == NULL)
+    return;
+
+  if (hadc->Instance == ADC1) {
+    /* adc_buffer[0] -> ADC1_IN15, adc_buffer[1] -> ADC1_IN8 */
+    Channel1 = adc_buffer[0];
+    Channel2 = adc_buffer[1];
+    adc_raw = adc_buffer[2]; // Internal temperature sensor value
+    modbus_mem1[AD_TEMP] = adc_raw;
+    // Для Vref = 3.3 В и ADC 10 бит
+     vsense = ((float)adc_raw * 3.3f) / 1023.0f; 
+     temperatura = (((vsense - 0.76f) / 0.0025f) +25.0f);
+    summa_adc[0] = summa_adc[0] + Channel1;
+    summa_adc[1] = summa_adc[1] + Channel2;
+    count_summa_adc[0]++;
+    if (count_summa_adc[0] == 10) {
+      summa_adc[0] = 0;
+      summa_adc[1] = 0;
+      count_summa_adc[0] = 0;
+      modbus_mem1[AD_TIT1] = summa_adc[0] / 10;
+      modbus_mem1[AD_TIT1 + 1] = summa_adc[1] / 10;
+    }
+  }
+}
+
+//  end adc
+
+
+/**********
+*
+*
+*
+***********/
+
+//  exti
+
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+  if (GPIO_Pin == GPIO_PIN_6) {
+
+  if (sel_modul != 1) {
+    if (HAL_GPIO_ReadPin(IO1_PORT, IO1_PIN) == GPIO_PIN_SET)
+  
+      modbus_mem1[AD_TS] = modbus_mem1[AD_TS] & (~0x01);
+    else {
+      modbus_mem1[AD_TS] = modbus_mem1[AD_TS] | 0x01;
+      // cnt_tii[0]++;
+      // modbus_mem1[0]=cnt_tii[0];
+      modbus_mem1[AD_TII1]++;
+      arr_tii_32[0]++;
+    }
+  } else {
+     if (HAL_GPIO_ReadPin(IO1_PORT, IO1_PIN) == GPIO_PIN_SET)
+     return;
+    bit_registr1 = bit_registr1 | DS_DETECT;
+    // EIMSK=EIMSK & ~ 0x02;    // disable myself
+    HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
+    
+  }
+    
+  }
+}
+
+//  end exti
+

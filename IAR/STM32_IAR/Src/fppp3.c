@@ -3768,9 +3768,9 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
           return (0);
         if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
           // стирание лог файла
-          __watchdog_reset();
+         HAL_IWDG_Refresh(&iwdg);
           WrArrayToFlesh(BEG_BUF_LOG, 0, (L_LOG * 6), 0x01, 0x00);
-          __watchdog_reset();
+         HAL_IWDG_Refresh(&iwdg);
           point_log_buf = 0;
           *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1] =
               L_CONF_LOG + 1;

@@ -3,6 +3,7 @@
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim5;
+TIM_HandleTypeDef htim10;
 
 void MX_TIM2_Init(void) {
   __HAL_RCC_TIM2_CLK_ENABLE();

@@ -1,6 +1,7 @@
 #include "uart4.h"
 
 UART_HandleTypeDef huart4;
+uint8_t uart4_rx_byte;
 void MX_UART4_Init(void)
 {
     huart4.Instance = UART4;
@@ -20,86 +21,4 @@ void MX_UART4_Init(void)
 
     /* Enable UART4 interrupts */
   
-}
-uint8_t uart4_rx_byte;
-
-void Uart4_ProcessRxCallback(void)
-{
-    uint8_t data;
-
-
-    data = uart4_rx_byte;
-
-    if ((Regim == MODEM_ONLY) || (Regim == MODEM_ONLY_R))
-    {
-        HAL_UART_Transmit(&huart1, &data, 1, 10);
-    }
-    else if (fl_at_mom_232 == 1)
-    {
-        if (vol_tx_ppp >= VOL_TX_PPP)
-            vol_tx_ppp = 0;
-
-        buf_tx_232[vol_tx_ppp] = data;
-        vol_tx_ppp++;
-    }
-    else
-    {
-        S5_GR;
-
-        Rs232_2.cnt_tm_rx_out = Rs232_2.vol_tm_rx_out;
-        Rs232_2.cnt_tm_out = 0;
-
-        if (Rs232_2.cnt_bt_rx_tx < MAX_BUF_RS232_2)
-        {
-            Rs232_2_buf_rx_tx[Rs232_2.cnt_bt_rx_tx] = data;
-            Rs232_2.cnt_bt_rx_tx++;
-        }
-        else
-        {
-            fl_232_2.over = 1;
-        }
-    }
-
-    HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
-}
-
-uint8_t uart4_tx_byte;
-void Uart4_ProcessTxCallback()
-{
-    
-
-    if (Rs232_2.cnt_bt_rx_tx == 0)
-    {
-        // Передача закончена
-        Rs232_2.cnt_bt_rx_tx = 0;
-
-        Rs232_2.cnt_tm_tx_out = Rs232_2.vol_tm_tx_out;
-
-        if (Rs232_2.cnt_tm_tx_out == 0)
-        {
-            S5_OFF;
-
-            Rs232_2.cnt_tm_out = Rs232_2.vol_tm_out;
-
-            CLR_RTS2;
-
-            // Переход в режим приема
-            HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
-        }
-
-        return;
-    }
-
-    // Передаем следующий байт
-    uart4_tx_byte = *Rs232_2.p_data485++;
-
-    Rs232_2.cnt_bt_rx_tx--;
-
-    HAL_UART_Transmit_IT(&huart4, &uart4_tx_byte, 1);
-}
-
-
-
-void HAL_UART4_IRQHandler(void) {
-  HAL_UART_IRQHandler(&huart4);
 }

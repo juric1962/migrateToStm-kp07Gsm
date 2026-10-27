@@ -43,6 +43,29 @@
  */
 #define FLASH_WAIT_LIMIT  10000000U
 // static - область видимости только в пределах этого файла
+
+
+/**
+  \brief   System Reset
+  \details Initiates a system reset request to reset the MCU.
+ */
+static void My_NVIC_SystemReset(void)  @ "BOOT_CODE"
+{
+  __DSB();                                                          /* Ensure all outstanding memory accesses included
+                                                                       buffered write are completed before reset */
+  SCB->AIRCR  = (uint32_t)((0x5FAUL << SCB_AIRCR_VECTKEY_Pos)    |
+                           (SCB->AIRCR & SCB_AIRCR_PRIGROUP_Msk) |
+                            SCB_AIRCR_SYSRESETREQ_Msk    );         /* Keep priority group unchanged */
+  __DSB();                                                          /* Ensure completion of memory access */
+
+  for(;;)                                                           /* wait until reset */
+  {
+    __NOP();
+  }
+}
+
+
+
 static void SV2_RD(void) @ "BOOT_CODE"
 {
     S2_R_PORT->BSRR = (uint32_t)S2_R_PIN << 16;
@@ -279,7 +302,7 @@ next_word:
 
 exitProgram:
      BootFlash_Lock();
-     NVIC_SystemReset();  // recomendation gpt
+     My_NVIC_SystemReset();  // recomendation gpt
 
 }
 //#pragma default_function_attributes =

@@ -5,6 +5,7 @@
 extern uint16_t adc_buffer[3];
 extern volatile uint16_t Channel1;
 extern volatile uint16_t Channel2;
+extern float temperatura;
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
   float vsense;
@@ -25,6 +26,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
     summa_adc[1] = summa_adc[1] + Channel2;
     count_summa_adc[0]++;
     if (count_summa_adc[0] == 10) {
+      summa_adc[0] = 0;
+      summa_adc[1] = 0;
       count_summa_adc[0] = 0;
       modbus_mem1[AD_TIT1] = summa_adc[0] / 10;
       modbus_mem1[AD_TIT1 + 1] = summa_adc[1] / 10;

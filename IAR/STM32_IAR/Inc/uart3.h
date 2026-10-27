@@ -9,6 +9,7 @@ extern "C" {
 
 extern UART_HandleTypeDef huart3;
 extern uint8_t uart3_rx_byte;
+extern uint8_t uart3_tx_byte;
 
 void MX_UART3_Init(void);
 HAL_StatusTypeDef UART3_Receive_IT(uint8_t *buffer, uint16_t size);

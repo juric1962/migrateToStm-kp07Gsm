@@ -13,11 +13,11 @@ TIM_HandleTypeDef htim8;
  * ADC data
  * --------------------------------------------------------- */
 
-volatile uint16_t adc_buffer[3] = {0};
+ uint16_t adc_buffer[3] = {0};
 
 volatile uint16_t Channel1 = 0;
 volatile uint16_t Channel2 = 0;
-volatile uint16_t TemperatureRaw = 0;
+
 
 /* ---------------------------------------------------------
  * DMA initialization
@@ -272,37 +272,4 @@ HAL_StatusTypeDef ADC1_DMA_Stop(void)
     }
 
     return HAL_ADC_Stop_DMA(&hadc1);
-}
-
-/* ---------------------------------------------------------
- * DMA transfer complete callback
- * --------------------------------------------------------- */
-
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
-{
-    if (hadc->Instance == ADC1)
-    {
-        Channel1 = adc_buffer[0];
-        Channel2 = adc_buffer[1];
-        TemperatureRaw = adc_buffer[2];
-    }
-}
-
-/* ---------------------------------------------------------
- * Internal temperature sensor
- *
- * Assumes VDDA = 3.3 V
- * Uses typical calibration characteristics
- * --------------------------------------------------------- */
-
-float ADC_GetTemperature(void)
-{
-    float vsense;
-    float temperature;
-
-    vsense = ((float)TemperatureRaw * 3.3f) / 1023.0f;
-
-    temperature = ((vsense - 0.76f) / 0.0025f) + 25.0f;
-
-    return temperature;
 }
