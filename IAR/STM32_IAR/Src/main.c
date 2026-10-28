@@ -1,4 +1,5 @@
 #include "stm32f4xx_hal.h"
+#include "main.h"
 #include "dfcnst.h"
 #include "dfpin.h"
 #include "map_ef.h"
@@ -66,6 +67,16 @@ void modem_engine(void);
 void init_ports_debug(void);
 void init_modem_call(void);
 
+void Error_Handler(void);
+
+void Error_Handler(void)
+{
+    __disable_irq();
+
+    while (1)
+    {
+    }
+}
 // #pragma dataseg=MY_SEG
 //__no_init unsigned char var3;
 // #pragma dataseg=default
@@ -85,10 +96,12 @@ void main(void) {
   FM25W256_SPI_Init();
   MX_UART1_Init();
   UART1_Receive_IT(&uart1_rx_byte, 1U);
+  MX_UART2_Init();
+  UART2_Receive_IT(&uart2_rx_byte, 1U);
   MX_UART3_Init();
   UART3_Receive_IT(&uart3_rx_byte, 1U);
   MX_UART4_Init();
-   HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
+   UART4_Receive_IT(&uart4_rx_byte, 1U);
   
   MX_GPIO_TCs_Init();
   MX_GPIO_TU_Init();

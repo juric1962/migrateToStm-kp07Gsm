@@ -617,7 +617,7 @@ void prov_uk_in(void) {
 void sendBytePPP(unsigned char data)
 {
   ppp_tx_uart1_byte = data;
-      UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+      UART1_TransmitByte_IT(ppp_tx_uart1_byte);
 
       if (Regim == RG_DEBAG) {
         ppp_tx_uart2_byte = data;
@@ -4270,7 +4270,7 @@ device_bad:
           *mobus.point_out++ = 1;
           *mobus.point_out++ = 1;
           mobus.input_tu = 0;
-          HAL_GPIO_ReadPin(IO11_PORT,IO11_PIN)
+        
           if (crc == MB_TU1) {
             if (HAL_GPIO_ReadPin(IO11_PORT, IO11_PIN) == GPIO_PIN_SET)
               mobus.input_tu = mobus.input_tu | 1;

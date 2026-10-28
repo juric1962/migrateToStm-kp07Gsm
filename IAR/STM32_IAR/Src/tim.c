@@ -1,4 +1,5 @@
 #include "tim.h"
+#include "main.h"
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;

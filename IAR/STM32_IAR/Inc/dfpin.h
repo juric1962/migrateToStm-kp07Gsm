@@ -264,7 +264,6 @@
   gpio_init.Pin = IO5_PIN; HAL_GPIO_Init(IO5_PORT, &gpio_init);\
   gpio_init.Pin = IO7_PIN; HAL_GPIO_Init(IO7_PORT, &gpio_init);\
   gpio_init.Pin = IO4_PIN; HAL_GPIO_Init(IO4_PORT, &gpio_init);\
-  
 }
 
 #define PIN_IN_MKD1_5\
@@ -451,7 +450,6 @@
   HAL_GPIO_Init(S2_R_PORT, &gpio_init);\
   gpio_init.Pin = S2_G_PIN;\
   HAL_GPIO_Init(S2_G_PORT, &gpio_init);\
-
  }
 ///S1
 #define S1_OFF\

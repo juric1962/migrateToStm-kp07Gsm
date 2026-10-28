@@ -1,4 +1,4 @@
-
+#include "stm32f4xx_hal.h"
 /**
   * @brief System Clock Configuration
   * @retval None

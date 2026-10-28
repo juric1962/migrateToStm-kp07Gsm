@@ -311,10 +311,10 @@ extern struct {
 
 
 
-__no_init uint_8 e_first_on @ 0x40024000;
- __no_init uint_8 e_debug    @ 0x40024001;
-__no_init uint_8 e_rw_pdp   @ 0x40024002;
-__no_init uint_8 e_rw_pdp_r @ 0x40024003;
+__no_init uint8_t e_first_on @ 0x40024000;
+__no_init uint8_t e_debug    @ 0x40024001;
+__no_init uint8_t e_rw_pdp   @ 0x40024002;
+__no_init uint8_t e_rw_pdp_r @ 0x40024003;
 
 const unsigned char auchCRCHi[] = {
     0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,
@@ -1365,7 +1365,7 @@ void start_func_stm_scp(void) {
 */
   
    //   аналог это сброс регистра данных и разрешить прерывния от приема
-      __HAL_UART_FLUSH_DRREGISTER(&huart1);
+      //__HAL_UART_FLUSH_DRREGISTER(&huart1);
   /////    __HAL_UART_ENABLE_IT(&huart1,UART_IT_RXNE);
       
   HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
@@ -4565,6 +4565,8 @@ void monitor1_tm_rs485_1(void) {
         Appl_RS485_1.dst_tek); // игнорировать передачу если нет GPRS канала
   fl_485_1.busy = 0;
   fl_tx485.mon1 = 0;
+
+  }
 }
 
 void monitor1_rec_rs485_1(void) {

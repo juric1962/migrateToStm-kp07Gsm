@@ -11,7 +11,7 @@ void delay(uint16_t period);
 void RdFromFleshToArr(uint16_t adres_flesh, unsigned char *adres_ozu,
                       uint16_t num);
 
-extern __flash unsigned char tab_crc[];
+extern const unsigned char tab_crc[];
 
 /*
 __flash char tab_proxy[]={0x16,0x31,0x49,00,

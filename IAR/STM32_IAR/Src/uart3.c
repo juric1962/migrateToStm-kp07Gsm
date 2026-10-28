@@ -1,12 +1,12 @@
 #include "uart3.h"
-
+#include "main.h"
 #include "dfpin.h"
 #include "rs485_state.h"
 
 UART_HandleTypeDef huart3;
 uint8_t uart3_rx_byte;
 uint8_t uart3_tx_byte;
-void MX_USART3_UART_Init(void)
+void MX_UART3_Init(void)
 {
     huart3.Instance = USART3;
 

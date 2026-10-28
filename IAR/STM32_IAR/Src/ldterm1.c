@@ -2830,7 +2830,7 @@ HAL_UART_DeInit(&huart2);
     if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_RXNE) == 0)
       goto LoopWait_rs485_1;
     s_port('r');
-    HAL_UART_Receive(&huart2, &dummy, 1 , 0)
+    HAL_UART_Receive(&huart2, &dummy, 1 , 0);
     //dummy = USART2->DR;
     s_port(dummy + 0x30);
     //     tutu:
@@ -2887,7 +2887,7 @@ void test_loop2(void) {
     if (__HAL_UART_GET_FLAG(&huart3, UART_FLAG_RXNE) == 0)
       goto LoopWait_rs485_1;
     s_port('r');
-     HAL_UART_Receive(&huart3, &dummy, 1 , 0)
+     HAL_UART_Receive(&huart3, &dummy, 1 , 0);
     s_port(dummy + 0x30);
     //     tutu:
     //             _NOP();

@@ -1,7 +1,5 @@
 #include "sram_rtc.h"
 #include "stm32f4xx_hal_rtc.h"
-#include "alarms.h"
-#include "fram.h"
 #include "main.h"
 
 
@@ -15,12 +13,12 @@ const int16_t	mos[] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
 #define	Daysto32(year, mon)	(((year - 1) / 4) + MONTAB(year)[mon])
 //------------------------------------------------------------------------------
 //-------------------- EVENT LOG -----------------------------------------------
-volatile EVENT_RECORD_UNION *eventRecord;
-volatile uint16_t *eventRecordPtr;
+//volatile EVENT_RECORD_UNION *eventRecord;
+//volatile uint16_t *eventRecordPtr;
 //------------------------------------------------------------------------------
 RTC_TimeTypeDef  RTC_TimeStructure;
 RTC_DateTypeDef RTC_DateStructure; 
-volatile RTC_UNIX_TIME_STRUCT RTC_UnixTime;
+//volatile RTC_UNIX_TIME_STRUCT RTC_UnixTime;
 RTC_HandleTypeDef hrtc; 
 
 
@@ -45,14 +43,14 @@ void HAL_RTC_MspInit(RTC_HandleTypeDef *hrtc)
   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   { 
-    
+    Error_Handler();
   }
   
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
   PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
   if(HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   { 
-    //Error_Handler();
+    Error_Handler();
   }
 
   __HAL_RCC_RTC_ENABLE();
@@ -78,7 +76,7 @@ static void RTC_CalendarConfig(void)
   if(HAL_RTC_SetDate(&hrtc,&sdatestructure,RTC_FORMAT_BIN) != HAL_OK)
   {
     /* Initialization Error */
-    //Error_Handler();
+    Error_Handler();
   }
 
   stimestructure.Hours = 0x00;
@@ -91,7 +89,7 @@ static void RTC_CalendarConfig(void)
   if (HAL_RTC_SetTime(&hrtc, &stimestructure, RTC_FORMAT_BIN) != HAL_OK)
   {
     /* Initialization Error */
-    //Error_Handler();
+     Error_Handler();
   }  
   HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 0x32F2);
 }
@@ -109,6 +107,7 @@ void rtcInit(void)
   if (HAL_RTC_Init(&hrtc) != HAL_OK)
   {
     /* Initialization Error */
+    Error_Handler();
   }    
 
   if (HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1) != 0x32F2)
@@ -135,7 +134,7 @@ void rtcInit(void)
     __HAL_RCC_CLEAR_RESET_FLAGS();
   }
 }
-
+/*
 void systemTimeUpdate(void)
 {
   HAL_RTC_GetTime(&hrtc,&RTC_TimeStructure,RTC_FORMAT_BIN);
@@ -144,7 +143,7 @@ void systemTimeUpdate(void)
   RTC_UnixTime.CRC16=modBusCRC16((uint8_t*)&RTC_UnixTime,4);
   bkpSRAM_Write(TIMESTAMP_SRAM_ADDR,(uint8_t*)&RTC_UnixTime,TIMESTAMP_SRAM_LENGTH);
 }
-
+*/
 
 uint32_t toUnix(RTC_DateTypeDef RTC_DateStructure, RTC_TimeTypeDef RTC_TimeStructure)
 {	/* convert time structure to scalar time */

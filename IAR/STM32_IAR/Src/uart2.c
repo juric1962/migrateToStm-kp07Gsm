@@ -1,9 +1,9 @@
 #include "uart2.h"
-
+#include "main.h"
 UART_HandleTypeDef huart2;
 uint8_t uart2_rx_byte;
 uint8_t uart2_tx_byte;
-void MX_USART2_UART_Init(void)
+void MX_UART2_Init(void)
 {
     huart2.Instance = USART2;
 

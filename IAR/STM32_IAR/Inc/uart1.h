@@ -13,7 +13,7 @@ extern uint8_t uart1_tx_byte;
 
 void MX_UART1_Init(void);
 HAL_StatusTypeDef UART1_Receive_IT(uint8_t *buffer, uint16_t size);
-HAL_StatusTypeDef UART1_Transmit_IT(uint8_t *buffer, uint16_t size);
+HAL_StatusTypeDef UART1_TransmitByte_IT(uint8_t byte);
 void Uart1_ProcessRxCallback(void);
 void Uart1_ProcessTxCallback(void);
 

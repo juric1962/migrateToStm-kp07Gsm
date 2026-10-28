@@ -1,9 +1,9 @@
 #include "uart1.h"
-
+#include "main.h"
 UART_HandleTypeDef huart1;
 uint8_t uart1_rx_byte;
 uint8_t uart1_tx_byte;
-void MX_USART1_UART_Init(void)
+void MX_UART1_Init(void)
 {
     huart1.Instance = USART1;
 

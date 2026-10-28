@@ -469,7 +469,7 @@ void sending_ppp_pac(void) {
     fl_reg3.add_byte = 0;
     if (buf_tx_232[count_tx_ppp] == 0x7e) {
       ppp_tx_uart1_byte = 0x5e;
-      UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+      UART1_TransmitByte_IT(ppp_tx_uart1_byte);
 
       if (Regim == RG_DEBAG) {
         ppp_tx_uart2_byte = 0x5e;
@@ -479,7 +479,7 @@ void sending_ppp_pac(void) {
     }
     if (buf_tx_232[count_tx_ppp] == 0x7d) {
       ppp_tx_uart1_byte = 0x5d;
-      UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+      UART1_TransmitByte_IT(ppp_tx_uart1_byte);
 
       if (Regim == RG_DEBAG) {
         ppp_tx_uart2_byte = 0x5d;
@@ -488,7 +488,7 @@ void sending_ppp_pac(void) {
       return;
     }
     ppp_tx_uart1_byte = buf_tx_232[count_tx_ppp] + 0x20U;
-    UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+    UART1_TransmitByte_IT(ppp_tx_uart1_byte);
 
     if (Regim == RG_DEBAG) {
       ppp_tx_uart2_byte = buf_tx_232[count_tx_ppp] + 0x20U;
@@ -506,7 +506,7 @@ void sending_ppp_pac(void) {
       (buf_tx_232[count_tx_ppp] == 0x7d)) {
     fl_reg3.add_byte = 1;
     ppp_tx_uart1_byte = 0x7d;
-    UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+    UART1_TransmitByte_IT(ppp_tx_uart1_byte);
 
     if (Regim == RG_DEBAG) {
       ppp_tx_uart2_byte = 0x7d;
@@ -518,7 +518,7 @@ void sending_ppp_pac(void) {
   if ((buf_tx_232[count_tx_ppp] == 17) || (buf_tx_232[count_tx_ppp] == 19)) {
     fl_reg3.add_byte = 1;
     ppp_tx_uart1_byte = 0x7d;
-    UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+    UART1_TransmitByte_IT(ppp_tx_uart1_byte);
 
     if (Regim == RG_DEBAG) {
       ppp_tx_uart2_byte = 0x7d;
@@ -530,7 +530,7 @@ void sending_ppp_pac(void) {
   if ((buf_tx_232[count_tx_ppp] < 0x20) && (fl_ip.act_ip_end == 1)) {
     fl_reg3.add_byte = 1;
     ppp_tx_uart1_byte = 0x7d;
-    UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+    UART1_TransmitByte_IT(ppp_tx_uart1_byte);
 
     if (Regim == RG_DEBAG) {
       ppp_tx_uart2_byte = 0x7d;
@@ -541,7 +541,7 @@ void sending_ppp_pac(void) {
 
 exit_tx:
   ppp_tx_uart1_byte = buf_tx_232[count_tx_ppp];
-  UART1_Transmit_IT(&ppp_tx_uart1_byte, 1U);
+  UART1_TransmitByte_IT(ppp_tx_uart1_byte);
 
   if (Regim == RG_DEBAG) {
     ppp_tx_uart2_byte = buf_tx_232[count_tx_ppp];
@@ -888,7 +888,7 @@ static void Timer2_ProcessTick(void) {
       UCSR0B = UCSR0B | RXEN;
       UCSR0B = UCSR0B | RXCIE;
 */
-   __HAL_UART_FLUSH_DRREGISTER(&huart1);
+   //__HAL_UART_FLUSH_DRREGISTER(&huart1);
 //__HAL_UART_ENABLE_IT(&huart1,UART_IT_RXNE);
       
   HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
@@ -904,7 +904,7 @@ static void Timer2_ProcessTick(void) {
       UCSR0B = UCSR0B | RXEN;
       UCSR0B = UCSR0B | RXCIE;
       */
-      __HAL_UART_FLUSH_DRREGISTER(&huart1);
+      //__HAL_UART_FLUSH_DRREGISTER(&huart1);
      // __HAL_UART_ENABLE_IT(&huart1,UART_IT_RXNE);
       HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
       disable_rx1 = 0;
@@ -1014,7 +1014,7 @@ nxt_step4:
     /* change
     UCSR3B = UCSR3B | RXEN | RXCIE;
     */
-    __HAL_UART_FLUSH_DRREGISTER(&huart2);
+    //__HAL_UART_FLUSH_DRREGISTER(&huart2);
     HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
     disable_rx2 = 0;
   } // togle to receiv mode ;
@@ -1076,7 +1076,7 @@ next_step4:
     S4_OFF;
     Rs485_2.cnt_tm_out = Rs485_2.vol_tm_out;
     //__HAL_UART_ENABLE_IT(&huart3,UART_IT_RXNE);
-    __HAL_UART_FLUSH_DRREGISTER(&huart3);
+    //__HAL_UART_FLUSH_DRREGISTER(&huart3);
      HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1);
      disable_rx3 = 0;
   } // togle to receiv mode ;
@@ -1135,7 +1135,7 @@ nt_step4:
     S5_OFF;
     Rs232_2.cnt_tm_out = Rs232_2.vol_tm_out;
     //UCSR2B = UCSR2B | RXEN | RXCIE;
-    __HAL_UART_FLUSH_DRREGISTER(&huart4);
+    //__HAL_UART_FLUSH_DRREGISTER(&huart4);
     HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
     disable_rx4 = 0;
   } // togle to receiv mode ;
@@ -1323,14 +1323,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
   if (huart->Instance == UART4) {
-     HAL_UART_Receive_IT(&huart4, &rx_byte4, 1);
+     HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
   } else if (huart->Instance == USART1) {
-    HAL_UART_Receive_IT(&huart1, &rx_byte1, 1);
+    HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
     // Handle UART receive complete callback
   } else if (huart->Instance == USART3) {
-   HAL_UART_Receive_IT(&huart3, &rx_byte3, 1);
+   HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1);
   } else if (huart->Instance == USART2) {
-    HAL_UART_Receive_IT(&huart2, &rx_byte2, 1);
+    HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
   }
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
