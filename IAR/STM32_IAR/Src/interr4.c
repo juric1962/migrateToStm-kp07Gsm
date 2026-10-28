@@ -333,7 +333,7 @@ unsigned char cnt_tu1, cnt_tu2;
 // uart2
 void send_485_1(void) {
   //HAL_UART_AbortReceive_IT(&huart2);
-  __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
+  //__HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
   disable_rx2 = 1;
   UART2_TransmitByte_IT(*Rs485_1.p_data485++);
   Rs485_1.cnt_bt_rx_tx--;
@@ -341,7 +341,7 @@ void send_485_1(void) {
 // uart3
 void send_485_2(void) {
   //HAL_UART_AbortReceive_IT(&huart3);
-  __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
+  //__HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
   disable_rx3 = 1;
   UART3_TransmitByte_IT(*Rs485_2.p_data485++);
   Rs485_2.cnt_bt_rx_tx--;
@@ -349,7 +349,7 @@ void send_485_2(void) {
 //uart4
 void send_232_2(void) {
  // HAL_UART_AbortReceive_IT(&huart4);
- __HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE); 
+ //__HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE); 
   disable_rx4 = 1;
   UART4_TransmitByte_IT(*Rs232_2.p_data485++);
   Rs232_2.cnt_bt_rx_tx--;
@@ -460,7 +460,7 @@ void sending_ppp_pac(void) {
     //  UCSR0B=UCSR0B & ~TXCIE; !!!!
     // не надо ничего делать все это ненужная команда
     // если буфер большой то не надо начинать передачу
-    //__HAL_UART_DISABLE_IT(&huart1, UART_IT_TXE);
+    ////__HAL_UART_DISABLE_IT(&huart1, UART_IT_TXE);
     S2_OFF;
     return;
   }
@@ -976,7 +976,7 @@ nxt_step2:
     UCSR3B = UCSR3B & ~(RXEN | RXCIE);
     */
    // HAL_UART_AbortReceive_IT(&huart2); 
-   __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
+   //__HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
    disable_rx2 = 1;
     Rs485_1.cnt_bt_rx_tx = 0;
     Rs485_1.cnt_tm_rx_out = 0;
@@ -997,7 +997,7 @@ nxt_step3:
     UCSR3B = UCSR3B & ~(RXEN | RXCIE);
     */
     //HAL_UART_AbortReceive_IT(&huart2);
-    __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
+    //__HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE); 
     disable_rx2 = 1;
   }
 nxt_step4:
@@ -1043,7 +1043,7 @@ next_step2:
     UCSR1B = UCSR1B & ~(RXEN | RXCIE);
     */
     //HAL_UART_AbortReceive_IT(&huart3);
-    __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
+    //__HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
     disable_rx3 = 1;
     Rs485_2.cnt_bt_rx_tx = 0;
     Rs485_2.cnt_tm_rx_out = 0;
@@ -1061,7 +1061,7 @@ next_step3:
     Rs485_2.cnt_tm_out = 0;
     fl_485_2.tm_out = 0;
     //UCSR1B = UCSR1B & ~(RXEN | RXCIE);
-    __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
+    //__HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE); 
     disable_rx3 = 1;
   }
 next_step4:
@@ -1102,7 +1102,7 @@ nt_step2:
 
     S5_OFF;
    // UCSR2B = UCSR2B & ~(RXEN | RXCIE);
-     __HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE);
+     //__HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE);
      disable_rx4 = 1;
     Rs232_2.cnt_bt_rx_tx = 0;
     Rs232_2.cnt_tm_rx_out = 0;
@@ -1120,7 +1120,7 @@ nt_step3:
     Rs232_2.cnt_tm_out = 0;
     fl_232_2.tm_out = 0;
    // UCSR2B = UCSR2B & ~(RXEN | RXCIE);
-    __HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE);
+    //__HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE);
     disable_rx4 = 1;
   }
 nt_step4:
@@ -1676,7 +1676,7 @@ if (disable_rx2 == 1) {
     HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
 }
 
-uint8_t uart2_tx_byte;
+
 void Uart2_ProcessTxCallback(void) {
 
 
@@ -1807,7 +1807,7 @@ if (disable_rx4 == 1) {
     HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
 }
 
-uint8_t uart4_tx_byte;
+
 void Uart4_ProcessTxCallback()
 {
     

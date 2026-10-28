@@ -1940,7 +1940,7 @@ void clr_cntr_nat(void) {
 void clr_var_ppp_rx(void) {
   //UCSR0B = UCSR0B & ~RXEN;
   //UCSR0B = UCSR0B & ~RXCIE;
-  __HAL_UART_DISABLE_IT(&huart1,UART_IT_RXNE);
+  //__HAL_UART_DISABLE_IT(&huart1,UART_IT_RXNE);
   disable_rx1 = 1;
   fl_rx_ppp.switcher = 0;
   fl_rx_ppp.fl_7e = 0;
@@ -4536,7 +4536,7 @@ void monitor1_tx_rs485_1(void) {
     */
     S3_RD;
     //UCSR3B = UCSR3B & ~(RXCIE | RXEN);
-     __HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE);
+     //__HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE);
      disable_rx2 = 1;
     SET_RTS1; // rts на передачу
   }
@@ -4679,7 +4679,7 @@ void monitor1_tx_rs485_2(void) {
     }
     S4_RD;
     //UCSR1B = UCSR1B & ~(RXCIE | RXEN);
-    __HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE);
+    //__HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE);
     disable_rx3 = 1;
     SET_RTS3; // rts на передачу
   }
@@ -4823,7 +4823,7 @@ void monitor1_tx_rs232_2(void) {
 
     S5_RD;
     //UCSR2B = UCSR2B & ~(RXCIE | RXEN);
-    __HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE);
+    //__HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE);
     disable_rx4 = 1;
     SET_RTS2; // rts на передачу
   }

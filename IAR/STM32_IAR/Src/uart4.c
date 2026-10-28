@@ -2,6 +2,7 @@
 
 UART_HandleTypeDef huart4;
 uint8_t uart4_rx_byte;
+uint8_t uart4_tx_byte;
 void MX_UART4_Init(void)
 {
     huart4.Instance = UART4;
@@ -20,5 +21,13 @@ void MX_UART4_Init(void)
     }
 
     /* Enable UART4 interrupts */
+    
+HAL_StatusTypeDef UART4_Receive_IT(uint8_t *buffer, uint16_t size) {
+  return HAL_UART_Receive_IT(&huart4, buffer, size);
+}
+
+HAL_StatusTypeDef UART4_TransmitByte_IT(uint8_t byte) {
+  uart4_tx_byte = byte;
+  return HAL_UART_Transmit_IT(&huart4, &uart4_tx_byte, 1U);
   
 }

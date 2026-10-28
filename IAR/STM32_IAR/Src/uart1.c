@@ -2,6 +2,7 @@
 
 UART_HandleTypeDef huart1;
 uint8_t uart1_rx_byte;
+uint8_t uart1_tx_byte;
 void MX_USART1_UART_Init(void)
 {
     huart1.Instance = USART1;
@@ -24,7 +25,8 @@ HAL_StatusTypeDef UART1_Receive_IT(uint8_t *buffer, uint16_t size) {
   return HAL_UART_Receive_IT(&huart1, buffer, size);
 }
 
-HAL_StatusTypeDef UART1_Transmit_IT(uint8_t *buffer, uint16_t size) {
-  return HAL_UART_Transmit_IT(&huart1, buffer, size);
+HAL_StatusTypeDef UART1_TransmitByte_IT(uint8_t byte) {
+  uart1_tx_byte = byte;
+  return HAL_UART_Transmit_IT(&huart1, &uart1_tx_byte, 1U);
 }
 
