@@ -56,7 +56,7 @@ TERM term;
 extern __no_init unsigned char simka; // dobavka
 extern unsigned char sel_modul;
 extern float temperatura;
-char temp_to_grad(uint16_t t);
+int16_t temp_to_grad(float t);
 
 extern uint16_t num_self;
 unsigned char buf_boot_ver[10];
@@ -1580,11 +1580,11 @@ void read_menu(unsigned char index_menu) {
   case 36:
     mov_lf();
     mov_s(sizeof(zp_tu), zp_tu);
-    if (PORTA & IO11)
+    if (HAL_GPIO_ReadPin(IO11_PORT, IO11_PIN) == GPIO_PIN_SET)
       s_port('1');
     else
       s_port('0');
-    if (PORTA & IO12)
+    if (HAL_GPIO_ReadPin(IO12_PORT, IO12_PIN) == GPIO_PIN_SET)
       s_port('1');
     else
       s_port('0');

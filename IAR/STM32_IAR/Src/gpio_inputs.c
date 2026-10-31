@@ -25,8 +25,9 @@ void MX_GPIO_TCs_Init(void) {
   gpio_init.Pin = CTS0_PIN;
   HAL_GPIO_Init(CTS0_PORT, &gpio_init);
 
-  gpio_init.Pin = DSR0_PIN;
-  HAL_GPIO_Init(DSR0_PORT, &gpio_init);
+ 
+  gpio_init.Pin = RI0_PIN;
+  HAL_GPIO_Init(RI0_PORT, &gpio_init);
 
   gpio_init.Pin = DCD0_PIN;
   HAL_GPIO_Init(DCD0_PORT, &gpio_init);
@@ -46,6 +47,18 @@ void MX_GPIO_TCs_Init(void) {
   gpio_init.Pin = TU2_PIN;
   HAL_GPIO_Init(TU2_PORT, &gpio_init);
 
+
+
+  // Конфигурирование ног порта sim
+  
+  CLR_RTS0;
+  gpio_init.Pin = RTS0_PIN;
+  HAL_GPIO_Init(RTS0_PORT, &gpio_init);
+
+
+  CLR_DTR0;
+  gpio_init.Pin = DTR0_PIN;
+  HAL_GPIO_Init(DTR0_PORT, &gpio_init);
 
 
   // Конфигурирование ног порта №1 RS485-1

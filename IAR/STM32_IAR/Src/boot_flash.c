@@ -209,12 +209,12 @@ static int BootFlash_ProgramWord(uint32_t address, uint32_t data) @ "BOOT_CODE"
 }
 
 /* Прочитать одно 32-битное слово */
+/*
 static uint32_t BootFlash_ReadWord(uint32_t address) @ "BOOT_CODE"
 {
     return *(volatile const uint32_t *)address;
 }
-
-
+*/
 
 
 
@@ -284,7 +284,7 @@ for (i = 0; i < (0x60000/4); ++i)
   IWDG->KR = 0xAAAAU; // сброс watchdog я его запретить не могу  
 if( BootFlash_ProgramWord( dst, *(uint32_t*)src ) != BOOTFLASH_OK) { continue; }  // no ready
 if ((*(__IO uint32_t *)dst) != (*(__IO uint32_t*)src)) { continue; }               // bad write
-else { goto next_word;}
+goto next_word;
  }
 if( err >= 3 ) { SV2_RD(); goto exitProgram; }  
 next_word: 
