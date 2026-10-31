@@ -8,6 +8,8 @@
 //#include <inavr.h>
 //#include <iom2560.h>
 #include <string.h>
+#include <uart1.h>
+#include <uart2.h>
 extern unsigned char state_led_md;
 // 23.03.07 включение PAP для сименса
 
@@ -331,7 +333,7 @@ void at_com_tx(unsigned char cnt) {
     HAL_UART_Transmit_IT(&huart1, &uart1_tx_byte, 1);
     if (Regim == RG_DEBAG)
     //  UDR3 = At_com.buf[0];
-  HAL_UART_Transmit(&huart2, &uart1_tx_byte, 1),10;
+  HAL_UART_Transmit(&huart2, &uart1_tx_byte, 1, 10);
 
     return;
 
@@ -423,7 +425,7 @@ uart1_tx_byte = At_com.buf[0];
     HAL_UART_Transmit_IT(&huart1, &uart1_tx_byte, 1);
     if (Regim == RG_DEBAG)
     //  UDR3 = At_com.buf[0];
-  HAL_UART_Transmit(&huart2, &uart1_tx_byte, 1),10;
+  HAL_UART_Transmit(&huart2, &uart1_tx_byte, 1 ,10);
 
 }
 

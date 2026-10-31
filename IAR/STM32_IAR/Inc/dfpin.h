@@ -46,22 +46,22 @@
 
 
 
-#define CLR_RTS0\
+#define CLR_RTS0 \
 {\
   HAL_GPIO_WritePin(RTS0_PORT, RTS0_PIN, GPIO_PIN_SET);\
  }
 
-#define SET_RTS0\
+#define SET_RTS0 \
 {\
   HAL_GPIO_WritePin(RTS0_PORT, RTS0_PIN, GPIO_PIN_RESET);\
  }
 
-#define CLR_DTR0\
+#define CLR_DTR0 \
 {\
   HAL_GPIO_WritePin(DTR0_PORT, DTR0_PIN, GPIO_PIN_SET);\
  }
 
-#define SET_DTR0\
+#define SET_DTR0 \
 {\
   HAL_GPIO_WritePin(DTR0_PORT, DTR0_PIN, GPIO_PIN_RESET);\
  }
@@ -73,7 +73,7 @@
 
 //���� ����� �1 (RS-485 �1)//////////////////////////////////////////////////////////
 
-#define PIN_OUT_PORT1\
+#define PIN_OUT_PORT1 \
 {\
   gpio_init.Pin = RTS1_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
@@ -82,11 +82,11 @@
   HAL_GPIO_Init(RTS1_PORT, &gpio_init);\
  }
 
-#define SET_RTS1\
+#define SET_RTS1 \
 {\
   HAL_GPIO_WritePin(RTS1_PORT, RTS1_PIN, GPIO_PIN_SET);\
  }
-#define CLR_RTS1\
+#define CLR_RTS1 \
 {\
   HAL_GPIO_WritePin(RTS1_PORT, RTS1_PIN, GPIO_PIN_RESET);\
  }
@@ -96,7 +96,7 @@
 
 //���� ����� �3 (RS-485 �2)///////////////////////////////////////////////////////////////
 
-#define PIN_OUT_PORT3\
+#define PIN_OUT_PORT3 \
 {\
   gpio_init.Pin = RTS3_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
@@ -105,11 +105,11 @@
   HAL_GPIO_Init(RTS3_PORT, &gpio_init);\
  }
 
-#define SET_RTS3\
+#define SET_RTS3 \
 {\
   HAL_GPIO_WritePin(RTS3_PORT, RTS3_PIN, GPIO_PIN_SET);\
  }
-#define CLR_RTS3\
+#define CLR_RTS3 \
 {\
   HAL_GPIO_WritePin(RTS3_PORT, RTS3_PIN, GPIO_PIN_RESET);\
  }
@@ -122,7 +122,7 @@
 
 
 //������������ ��� �� �����
-#define PIN_OUT_PORT2\
+#define PIN_OUT_PORT2 \
 {\
   gpio_init.Pin = RTS2_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
@@ -131,12 +131,12 @@
   HAL_GPIO_Init(RTS2_PORT, &gpio_init);\
  }
 
-#define CLR_RTS2\
+#define CLR_RTS2 \
 {\
   HAL_GPIO_WritePin(RTS2_PORT, RTS2_PIN, GPIO_PIN_SET);\
  }
 
-#define SET_RTS2\
+#define SET_RTS2 \
 {\
   HAL_GPIO_WritePin(RTS2_PORT, RTS2_PIN, GPIO_PIN_RESET);\
  }
@@ -147,7 +147,7 @@
 
 //���� ��������� ������� ������/////////////////////////////////
 //������������ ��� �� �����
-#define PIN_OUT_PWR\
+#define PIN_OUT_PWR \
 {\
   gpio_init.Pin = PWR_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
@@ -156,12 +156,12 @@
   HAL_GPIO_Init(PWR_PORT, &gpio_init);\
  }
 
-#define SET_PWR\
+#define SET_PWR \
 {\
   HAL_GPIO_WritePin(PWR_PORT, PWR_PIN, GPIO_PIN_SET);\
  }
 
-#define CLR_PWR\
+#define CLR_PWR \
 {\
   HAL_GPIO_WritePin(PWR_PORT, PWR_PIN, GPIO_PIN_RESET);\
  }
@@ -173,7 +173,7 @@
 //���� ��������� ������/////////////////////////////////
 
 //������������ ��� �� �����
-#define PIN_OUT_PWRK\
+#define PIN_OUT_PWRK \
 {\
   gpio_init.Pin = PWRK_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
@@ -182,12 +182,12 @@
   HAL_GPIO_Init(PWRK_PORT, &gpio_init);\
  }
 
-#define SET_PWRK\
+#define SET_PWRK \
 {\
   HAL_GPIO_WritePin(PWRK_PORT, PWRK_PIN, GPIO_PIN_SET);\
  }
 
-#define CLR_PWRK\
+#define CLR_PWRK \
 {\
   HAL_GPIO_WritePin(PWRK_PORT, PWRK_PIN, GPIO_PIN_RESET);\
  }
@@ -250,7 +250,7 @@
 
 #define TCH_I  GPIO_PIN_6
 
-#define PIN_IN_TS1_8\
+#define PIN_IN_TS1_8 \
 {\
   GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Mode = GPIO_MODE_INPUT;\
@@ -266,7 +266,7 @@
   gpio_init.Pin = IO4_PIN; HAL_GPIO_Init(IO4_PORT, &gpio_init);\
 }
 
-#define PIN_IN_MKD1_5\
+#define PIN_IN_MKD1_5 \
 {\
   GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Mode = GPIO_MODE_INPUT;\
@@ -286,7 +286,7 @@
   HAL_GPIO_Init(IO7_PORT, &gpio_init);\
 }
 
-#define PIN_OUT_TU\
+#define PIN_OUT_TU \
 {\
   GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Pin = IO11_PIN;\
@@ -299,47 +299,47 @@
 }
 
 
-#define TU2_ON\
+#define TU2_ON \
 {\
   HAL_GPIO_WritePin(IO12_PORT, IO12_PIN, GPIO_PIN_SET);\
 }
 
-#define TU2_OFF\
+#define TU2_OFF \
 {\
   HAL_GPIO_WritePin(IO12_PORT, IO12_PIN, GPIO_PIN_RESET);\
 }
 
-#define SOUND_ON\
+#define SOUND_ON \
 {\
   HAL_GPIO_WritePin(IO12_PORT, IO12_PIN, GPIO_PIN_SET);\
 }
 
-#define SOUND_OFF\
+#define SOUND_OFF \
 {\
   HAL_GPIO_WritePin(IO12_PORT, IO12_PIN, GPIO_PIN_RESET);\
 }
 
-#define TU1_ON\
+#define TU1_ON \
 {\
   HAL_GPIO_WritePin(IO11_PORT, IO11_PIN, GPIO_PIN_SET);\
 }
 
-#define TU1_OFF\
+#define TU1_OFF \
 {\
   HAL_GPIO_WritePin(IO11_PORT, IO11_PIN, GPIO_PIN_RESET);\
 }
 
-#define ST_SHL_ON\
+#define ST_SHL_ON \
 {\
   HAL_GPIO_WritePin(IO11_PORT, IO11_PIN, GPIO_PIN_SET);\
 }
 
-#define ST_SHL_OFF\
+#define ST_SHL_OFF \
 {\
   HAL_GPIO_WritePin(IO11_PORT, IO11_PIN, GPIO_PIN_RESET);\
 }
 
-#define PIN_OUT_MKD\
+#define PIN_OUT_MKD \
 {\
   GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Pin = IO2_PIN;\
@@ -352,22 +352,22 @@
   HAL_GPIO_Init(IO7_PORT, &gpio_init);\
 }
 
-#define TCH_O_ONE\
+#define TCH_O_ONE \
 {\
   HAL_GPIO_WritePin(IO2_PORT, IO2_PIN, GPIO_PIN_SET);\
 }
 
-#define TCH_O_ZERO\
+#define TCH_O_ZERO \
 {\
   HAL_GPIO_WritePin(IO2_PORT, IO2_PIN, GPIO_PIN_RESET);\
 }
 
-#define SOST_ON\
+#define SOST_ON \
 {\
   HAL_GPIO_WritePin(IO7_PORT, IO7_PIN, GPIO_PIN_SET);\
 }
 
-#define SOST_OFF\
+#define SOST_OFF \
 {\
   HAL_GPIO_WritePin(IO7_PORT, IO7_PIN, GPIO_PIN_RESET);\
 }
@@ -375,7 +375,7 @@
 //���� ���������� SIM////////////////////////////////////////////////////////////////////
 
 
-#define PIN_OUT_SIM\
+#define PIN_OUT_SIM \
 {\
   gpio_init.Pin = C_SIM1_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
@@ -386,13 +386,13 @@
   HAL_GPIO_Init(C_SIM2_PORT, &gpio_init);\
  }
 
-#define SET_SIM1\
+#define SET_SIM1 \
 {\
   HAL_GPIO_WritePin(C_SIM2_PORT, C_SIM2_PIN, GPIO_PIN_RESET);\
   HAL_GPIO_WritePin(C_SIM1_PORT, C_SIM1_PIN, GPIO_PIN_SET);\
  }
 
-#define SET_SIM2\
+#define SET_SIM2 \
 {\
   HAL_GPIO_WritePin(C_SIM1_PORT, C_SIM1_PIN, GPIO_PIN_RESET);\
   HAL_GPIO_WritePin(C_SIM2_PORT, C_SIM2_PIN, GPIO_PIN_SET);\
@@ -405,7 +405,7 @@
 //���� ��������� TEN /////////////////////////////////
 
 //������������ ��� �� �����
-#define PIN_OUT_TEN\
+#define PIN_OUT_TEN \
 {\
   gpio_init.Pin = TEN_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
@@ -414,12 +414,12 @@
   HAL_GPIO_Init(TEN_PORT, &gpio_init);\
  }
 
-#define SET_TEN\
+#define SET_TEN \
 {\
   HAL_GPIO_WritePin(TEN_PORT, TEN_PIN, GPIO_PIN_SET);\
  }
 
-#define CLR_TEN\
+#define CLR_TEN \
 {\
   HAL_GPIO_WritePin(TEN_PORT, TEN_PIN, GPIO_PIN_RESET);\
  }
@@ -430,7 +430,7 @@
 
 
 //������������ ��� �� �����
-#define PIN_OUT_S1\
+#define PIN_OUT_S1 \
 {\
   gpio_init.Pin = S1_R_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
@@ -441,7 +441,7 @@
   HAL_GPIO_Init(S1_G_PORT, &gpio_init);\
  }
 
-#define PIN_OUT_S2_S5\
+#define PIN_OUT_S2_S5 \
 {\
   gpio_init.Pin = S2_R_PIN;\
   gpio_init.Mode = GPIO_MODE_OUTPUT_PP;\
@@ -452,27 +452,27 @@
   HAL_GPIO_Init(S2_G_PORT, &gpio_init);\
  }
 ///S1
-#define S1_OFF\
+#define S1_OFF \
 {\
   HAL_GPIO_WritePin(S1_R_PORT, S1_R_PIN, GPIO_PIN_RESET);\
   HAL_GPIO_WritePin(S1_G_PORT, S1_G_PIN, GPIO_PIN_RESET);\
  }
-#define S1_YL\
+#define S1_YL \
 {\
   HAL_GPIO_WritePin(S1_R_PORT, S1_R_PIN, GPIO_PIN_SET);\
   HAL_GPIO_WritePin(S1_G_PORT, S1_G_PIN, GPIO_PIN_SET);\
  }
-#define S1_RD\
+#define S1_RD \
 {\
   HAL_GPIO_WritePin(S1_R_PORT, S1_R_PIN, GPIO_PIN_SET);\
   HAL_GPIO_WritePin(S1_G_PORT, S1_G_PIN, GPIO_PIN_RESET);\
  }
-#define S1_GR\
+#define S1_GR \
 {\
   HAL_GPIO_WritePin(S1_R_PORT, S1_R_PIN, GPIO_PIN_RESET);\
   HAL_GPIO_WritePin(S1_G_PORT, S1_G_PIN, GPIO_PIN_SET);\
  }
-#define S1_CH\
+#define S1_CH \
 {\
   HAL_GPIO_TogglePin(S1_R_PORT, S1_R_PIN);\
   HAL_GPIO_TogglePin(S1_G_PORT, S1_G_PIN);\
@@ -480,27 +480,27 @@
 
 
 ///S2
-#define S2_OFF\
+#define S2_OFF \
 {\
   HAL_GPIO_WritePin(S2_R_PORT, S2_R_PIN, GPIO_PIN_RESET);\
   HAL_GPIO_WritePin(S2_G_PORT, S2_G_PIN, GPIO_PIN_RESET);\
  }
-#define S2_YL\
+#define S2_YL \
 {\
   HAL_GPIO_WritePin(S2_R_PORT, S2_R_PIN, GPIO_PIN_SET);\
   HAL_GPIO_WritePin(S2_G_PORT, S2_G_PIN, GPIO_PIN_SET);\
  }
-#define S2_RD\
+#define S2_RD \
 {\
   HAL_GPIO_WritePin(S2_R_PORT, S2_R_PIN, GPIO_PIN_SET);\
   HAL_GPIO_WritePin(S2_G_PORT, S2_G_PIN, GPIO_PIN_RESET);\
  }
-#define S2_GR\
+#define S2_GR \
 {\
   HAL_GPIO_WritePin(S2_R_PORT, S2_R_PIN, GPIO_PIN_RESET);\
   HAL_GPIO_WritePin(S2_G_PORT, S2_G_PIN, GPIO_PIN_SET);\
  }
-#define S2_CH\
+#define S2_CH \
 {\
   HAL_GPIO_TogglePin(S2_R_PORT, S2_R_PIN);\
   HAL_GPIO_TogglePin(S2_G_PORT, S2_G_PIN);\
@@ -508,68 +508,68 @@
 
 
 ///S3
-#define S3_OFF\
+#define S3_OFF \
 {\
   __NOP();\
    }
-#define S3_YL\
+#define S3_YL \
 {\
   __NOP();\
    }
-#define S3_RD\
+#define S3_RD \
 {\
   __NOP();\
    }
-#define S3_GR\
+#define S3_GR \
 {\
   __NOP();\
    }
-#define S3_CH\
+#define S3_CH \
 {\
   __NOP();\
   }
 
 
 ///S4
-#define S4_OFF\
+#define S4_OFF \
 {\
   __NOP();\
   }
-#define S4_YL\
+#define S4_YL \
 {\
   __NOP();\
   }
-#define S4_RD\
+#define S4_RD \
 {\
   __NOP();\
   }
-#define S4_GR\
+#define S4_GR \
 {\
   __NOP();\
   }
-#define S4_CH\
+#define S4_CH \
 {\
   __NOP();\
   }
 
 ///S5
-#define S5_OFF\
+#define S5_OFF \
 {\
   __NOP();\
   }
-#define S5_YL\
+#define S5_YL \
 {\
   __NOP();\
   }
-#define S5_RD\
+#define S5_RD \
 {\
   __NOP();\
   }
-#define S5_GR\
+#define S5_GR \
 {\
   __NOP();\
    }
-#define S5_CH\
+#define S5_CH \
 {\
   __NOP();\
   }

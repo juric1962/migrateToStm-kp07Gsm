@@ -1,4 +1,4 @@
-
+#include "stm32f4xx_hal.h"
 #define ST_ALARM 0
 #define ST_VZAT  1
 #define ST_VZATIE 2

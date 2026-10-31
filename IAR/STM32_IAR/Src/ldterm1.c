@@ -18,6 +18,8 @@
 #include "map_ad.h"
 #include "map_mbus.h"
 #include "scenario_test_mtc.h"
+#include "sram_rtc.h"
+#include "uart4.h"
 
 #ifdef SCENARIO_TEST_MTC_ENABLE
 TEST_MTC test_mtc;
@@ -1009,7 +1011,7 @@ unsigned char check_memory_map(void) {
 
 void load_par_first(void) {
   if (e_first_on == 0xff) {
-    HAL_IWDG_Refresh(&iwdg);
+    HAL_IWDG_Refresh(&hiwdg);
     WrArrayToFlesh(BEG_BUF_LOG, 0, (L_LOG * 6), 0x01, 0x00);
     HAL_IWDG_Refresh(&iwdg);
     e_first_on = 0;
@@ -2594,7 +2596,7 @@ void at_mon_232(void) {
 
   // *
 
-no_Ready_com2:
+//no_Ready_com2:
 
   /*
   if ( (vol_tx_ppp >= 3 ) {
@@ -2720,7 +2722,7 @@ HAL_UART_DeInit(&huart4);
     HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
     //WDTCSR = 0x18;
     //WDTCSR = 0x0f;
-    HAL_IWDG_Refresh(&iwdg);
+    HAL_IWDG_Refresh(&hiwdg);
 
    __enable_irq();
     delay(30000);
@@ -2807,11 +2809,11 @@ HAL_UART_DeInit(&huart2);
   SET_RTS3; // !!!!!
 
   for (i = 0; i < 10; i++) {
-   HAL_IWDG_Refresh(&iwdg);;
+   HAL_IWDG_Refresh(&hiwdg);;
     s_port('s');
     s_port(i + 0x30);
     //UDR1 = i;
-    HAL_UART_Transmit(&huart3, &i, 1, 10);
+    HAL_UART_Transmit(&huart3, (const uint8_t *)i, 1, 10);
     //
     // бросаем в порт 485_1
     //
@@ -2865,7 +2867,7 @@ void test_loop2(void) {
   SET_RTS1; // !!!!!
 
   for (i = 0; i < 10; i++) {
-   HAL_IWDG_Refresh(&iwdg);;
+   HAL_IWDG_Refresh(&hiwdg);
     s_port('s');
     s_port(i + 0x30);
     //UDR3 = i;

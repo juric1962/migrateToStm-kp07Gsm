@@ -1,5 +1,8 @@
+#include "stm32f4xx_hal.h"
 #include "def_prot.h"
 #include "sec.h"
+#include <string.h>
+#include <stdio.h>
 //#include <iom2560.h>
 
 extern uint16_t crc_m1(unsigned char *ka, uint16_t num,

@@ -15,14 +15,22 @@
 #include "map_mbus.h"
 #include "ozu_map.h"
 #include "ver_api.h"
+#include "uart1.h"
+#include "uart2.h"
+#include "firmware.h"
 //#include <inavr.h>
 //#include <iom2560.h>
 
 // адоптированный обрезанный стек PPP 14.09.07
 
-#define VERSION_API 77
+//#define VERSION_API 77
 
+extern IWDG_HandleTypeDef hiwdg;
+extern uint8_t firmwareFlag;
+extern uint8_t ppp_tx_uart1_byte;
+extern uint8_t ppp_tx_uart2_byte;
 
+uint16_t global_crc_allPage;
 extern unsigned char k_a_tit[2];
 extern union {
   unsigned char mb[SEG3 * 2]; // байтовый массив
@@ -556,6 +564,7 @@ void TestLastPage(void)
                                             }
                                          
                                        __enable_irq();
+                                       global_crc_allPage = length;
                                        if(length == pg_crc)
                                         {  
                                          reboot_byte=0x55;
@@ -575,6 +584,7 @@ void TestLastPage(void)
                                
                                   }  
                                   // признак последняя страница
+                                 
                          }               
 
 /////////////////////////////////////////////////////////////////////////////
@@ -3768,9 +3778,9 @@ unsigned char proc_udp_data(unsigned char *buf_rx_ppp,
           return (0);
         if ((buf_rx_ppp[offset + C1_DATA] & 0x80) == 0x80) {
           // стирание лог файла
-         HAL_IWDG_Refresh(&iwdg);
+         HAL_IWDG_Refresh(&hiwdg);
           WrArrayToFlesh(BEG_BUF_LOG, 0, (L_LOG * 6), 0x01, 0x00);
-         HAL_IWDG_Refresh(&iwdg);
+         HAL_IWDG_Refresh(&hiwdg);
           point_log_buf = 0;
           *(uint16_t *)&buf_tx_232[TR_OP_DATA + C1_DATA + 1] =
               L_CONF_LOG + 1;
@@ -3980,7 +3990,7 @@ device_bad:
                                   Obj_ppp_tx.l_opt=4;// ????? ?????? ?????   
                                   buf_opt_tr[0]=KOD_WR_PG_CRC;
                                   buf_opt_tr[1]=L_OP_WR_PG_CRC;
-                                  *(uint16_t*)&buf_opt_tr[2]=ProgPCH.AllPageCrc;//??? crc
+                                  *(uint16_t*)&buf_opt_tr[2]= global_crc_allPage;
                                   }
                                  fl_pg_out.send_crc=0;  
                               //Obj_ppp_tx.kol_opt=1;// ?????????? ?????     

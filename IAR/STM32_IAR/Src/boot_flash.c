@@ -1,5 +1,6 @@
 #include "firmware.h"
 #include "stm32f4xx.h"
+#include "dfpin.h"
 #include <stdint.h>
 
 /*
@@ -11,13 +12,13 @@
 #define FLASH_KEY1       0x45670123U
 #define FLASH_KEY2       0xCDEF89ABU
 
-#define FLASH_SR_EOP     (1U << 0)
+//#define FLASH_SR_EOP     (1U << 0)
 #define FLASH_SR_OPERR   (1U << 1)
-#define FLASH_SR_WRPERR  (1U << 4)
-#define FLASH_SR_PGAERR  (1U << 5)
-#define FLASH_SR_PGPERR  (1U << 6)
-#define FLASH_SR_PGSERR  (1U << 7)
-#define FLASH_SR_BSY     (1U << 16)
+//#define FLASH_SR_WRPERR  (1U << 4)
+//#define FLASH_SR_PGAERR  (1U << 5)
+//#define FLASH_SR_PGPERR  (1U << 6)
+//#define FLASH_SR_PGSERR  (1U << 7)
+//#define FLASH_SR_BSY     (1U << 16)
 
 #define FLASH_SR_ERRORS  (FLASH_SR_OPERR  | \
                           FLASH_SR_WRPERR | \
@@ -25,12 +26,12 @@
                           FLASH_SR_PGPERR | \
                           FLASH_SR_PGSERR)
 
-#define FLASH_CR_PG      (1U << 0)
-#define FLASH_CR_SER     (1U << 1)
-#define FLASH_CR_SNB_Msk (0xFU << 3)
-#define FLASH_CR_PSIZE_Msk (3U << 8)
-#define FLASH_CR_STRT    (1U << 16)
-#define FLASH_CR_LOCK    (1U << 31)
+//#define FLASH_CR_PG      (1U << 0)
+//#define FLASH_CR_SER     (1U << 1)
+//#define FLASH_CR_SNB_Msk (0xFU << 3)
+//#define FLASH_CR_PSIZE_Msk (3U << 8)
+//#define FLASH_CR_STRT    (1U << 16)
+//#define FLASH_CR_LOCK    (1U << 31)
 
 #define BOOTFLASH_OK       0
 #define BOOTFLASH_ERROR   -1
@@ -250,25 +251,16 @@ if (BootFlash_Unlock() == BOOTFLASH_OK)
 
 void SelfProgramm(void) @ "BOOT_CODE"
 {
-  __disable_irq();
-if (BootFlash_Unlock() != BOOTFLASH_OK) goto exitProgram;
-
-// test 
-/*
-if (FLASH_If_Erase10() )
-{
-LED1_RED(1);
-LED2_RED(1);
-LED3_RED(1);
-while(1);
-}
-*/
-
-
-
+  
+  
 __IO uint32_t dst = 0x08000000;
 __IO uint32_t src = 0x08060000;
 __IO int i,err;
+  __disable_irq();
+if (BootFlash_Unlock() != BOOTFLASH_OK) goto exitProgram;
+
+
+
 /*
 
 new program present ? in source adress

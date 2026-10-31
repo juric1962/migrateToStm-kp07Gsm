@@ -193,7 +193,7 @@ void WrArrayToFleshInt(uint16_t adres_flesh, uint16_t *adres_ozu,
       offset += chunk;
     }
   } else {
-    fm25w256_write_page(address, &znach, (uint16_t)(num * 2u));
+    fm25w256_write_page(address, (uint8_t const *)znach, (uint16_t)(num * 2u));
     
   }
 }

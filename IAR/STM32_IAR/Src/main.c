@@ -12,11 +12,15 @@
 #include "uart2.h"
 #include "uart3.h"
 #include "uart4.h"
+#include "sram_rtc.h"
 //#include <inavr.h>
 //#include <iom2560.h>
 #include <stdlib.h>
 #include <string.h>
 
+extern IWDG_HandleTypeDef hiwdg;
+void MX_IWDG_Init (void);
+void SystemClock_Config(void);
 extern unsigned char sel_modul;
 void begin_kd_2(void);
 uint32_t burst_ds_r(void);
@@ -118,7 +122,7 @@ void main(void) {
   /* Start ADC in DMA circular mode and start TIM8 to produce triggers */
   ADC1_DMA_Start();
   MX_IWDG_Init ();
-  HAL_IWDG_Start(&iwdg);
+  //HAL_IWDG_Start(&iwdg);
   // if(Regim !=MODEM_ONLY)
   
 
@@ -130,7 +134,7 @@ void main(void) {
 
   long_delay(1000000); // для внешней флешки
  // __watchdog_reset();
-HAL_IWDG_Refresh(&iwdg);
+HAL_IWDG_Refresh(&hiwdg);
   
 
   
@@ -146,15 +150,15 @@ HAL_IWDG_Refresh(&iwdg);
     init_pins_ts_mod();
  
   // s_port(dbbb++);  // dbg
-  HAL_IWDG_Refresh(&iwdg);
+  HAL_IWDG_Refresh(&hiwdg);
 
   monitor_terminal(); // проверка терминала  13 05 2015!!!!!!!!!!!
                       // s_port(dbbb++);  // dbg
-  HAL_IWDG_Refresh(&iwdg);
+  HAL_IWDG_Refresh(&hiwdg);
 
   if (check_keys() == 1) {
     while (1) {
-      HAL_IWDG_Refresh(&iwdg);
+      HAL_IWDG_Refresh(&hiwdg);
       S1_YL;
       S2_YL;
       S3_YL;
@@ -190,10 +194,10 @@ HAL_IWDG_Refresh(&iwdg);
   /// s_port(dbbb++);  // dbg
   load_rw_pdp_r();
   // s_port(dbbb++);  // dbg
-  HAL_IWDG_Refresh(&iwdg);
+  HAL_IWDG_Refresh(&hiwdg);
   serch_point_log();
   // s_port(dbbb++);  // dbg
-  HAL_IWDG_Refresh(&iwdg);
+  HAL_IWDG_Refresh(&hiwdg);
 
   load_par_first_flash();
   // s_port(dbbb++);  // dbg

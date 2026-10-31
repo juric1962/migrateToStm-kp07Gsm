@@ -439,8 +439,8 @@ void sending_ppp_proverka(void) {
   */
 
 
-static uint8_t ppp_tx_uart1_byte;
-static uint8_t ppp_tx_uart2_byte;
+ uint8_t ppp_tx_uart1_byte;
+ uint8_t ppp_tx_uart2_byte;
 
 void sending_ppp_pac(void) {
   cnt_supervosor = 0;

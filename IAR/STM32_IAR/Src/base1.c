@@ -1,6 +1,7 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_rtc.h"
 #include "stm32f4xx_hal_def.h"
+#include "stm32f4xx_hal_uart.h"
 #include "def_at.h"
 #include "def_conf.h"
 #include "def_link.h"
@@ -18,7 +19,13 @@
 //#include <iom2560.h>
 #include <stdio.h>
 #include <string.h>
+#include <uart1.h>
+#include <uart2.h>
+#include <uart3.h>
+#include <uart4.h>
+#include <sram_rtc.h>
 extern IWDG_HandleTypeDef hiwdg;
+void sendBytePPP(unsigned char data);
 #define CHECK_TIME 15
 
 const unsigned char tab_crc[] = {
@@ -152,7 +159,7 @@ void init_pins_hiz_to_out(void);
 void monitor_wr_truffic(void);
 
 void send_terminate_lcp(void);
-char temp_to_grad(uint16_t t);
+int16_t temp_to_grad(float t);
 
 void supervisorwdt(void);
 
@@ -1282,8 +1289,13 @@ void start_func_stm_on(void) {
   /// EEEEEEEEEEEE dobavka
 
   // A7682 по умолчанию 115200
-  UBRR0H = R115200_H;
-  UBRR0L = R115200_L;
+  
+    HAL_UART_DeInit(&huart1);
+    huart1.Init.BaudRate   = 115200;
+    huart1.Init.WordLength = UART_WORDLENGTH_8B;
+    huart1.Init.Parity     = UART_PARITY_NONE;
+    huart1.Init.StopBits   = UART_STOPBITS_1;
+    HAL_UART_Init(&huart1);
 
   state_led_md = LED_MD_NO_CREG;
   command_AT = TRUE; // включен коммандный режим
@@ -1775,7 +1787,7 @@ void monitor_beg_state_seq(unsigned char zad) {
 
     while (i < 200) // 400 мсек
     {
-      HAL_IWDG_Refresh(&iwdg);
+      HAL_IWDG_Refresh(&hiwdg);
       delay(16000); // 1mcek
       delay(16000); // 1mcek
       i++;
@@ -2555,7 +2567,7 @@ void check_wdt(void) {
     fl_wdt.fl_main = 0;
     fl_wdt.fl_out = 0;
   }
-  HAL_IWDG_Refresh(&iwdg);
+  HAL_IWDG_Refresh(&hiwdg);
 }
 
 void modem_engine(void) {
@@ -4983,8 +4995,8 @@ char temp_to_grad(uint16_t t) {
   return (0x80);
 }
 */
-char temp_to_grad(float t) {
-return ( t);
+int16_t temp_to_grad(float t) {
+return ( (int16_t)t);
 }
 
 /*
