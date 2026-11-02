@@ -1,4 +1,4 @@
-//связь
+//пїЅпїЅпїЅпїЅпїЅ
 
 //#define UDP_PORT_H  0x13
 //#define UDP_PORT_L  0x8a
@@ -20,21 +20,21 @@
 #define MAX_VOL_INIT     35
 
 
-//cоединение PPP
+//cпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ PPP
 
-#define REG_MODEM_INI      0x00      //режимы
+#define REG_MODEM_INI      0x00      //пїЅпїЅпїЅпїЅпїЅпїЅ
 #define REG_PPP_LINCING    0x01
 #define REG_IP_CONNECTED   0x02
                                  
-                                  //уровни PPP  
-#define LAYER_HW           0      //физический уровень                   
+                                  //пїЅпїЅпїЅпїЅпїЅпїЅ PPP  
+#define LAYER_HW           0      //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ                   
 #define LAYER_LCP          1      //
 #define LAYER_PAP          2      //                                   
 #define LAYER_IPCP         3      //                                     
 #define LAYER_IP           4      //
                                                                         
                                      
-#define DL_PPP_IN_HI     0x05      //длина входного пакета со стороны сервера
+#define DL_PPP_IN_HI     0x05      //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 #define DL_PPP_IN_LO     0xdc                                
                                      
                                       
@@ -43,7 +43,7 @@
 #define MAX_DL_PAP      60
 #define MAX_DL_IPCP     35 
 
-                                        //протоколы                 
+                                        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ                 
 #define PR_LCP          0      //
 #define PR_PAP          1      //                                   
 #define PR_IPCP         2      //                                     
@@ -51,7 +51,7 @@
  
    
 
-//опции PPP
+//пїЅпїЅпїЅпїЅпїЅ PPP
 
 #define MRU             1      //
 #define ACCM            2      //                                   
@@ -63,7 +63,7 @@
 #define IP_PRI_DNS      0x81      // 
 #define IP_SEC_DNS      0x83      // 
 
-//Коды LCP,PAP,IPCP
+//пїЅпїЅпїЅпїЅ LCP,PAP,IPCP
 #define CONF_REQ        1      //
 #define CONF_ACK        2      //                                   
 #define CONF_NAK        3      //                                     
@@ -73,23 +73,23 @@
 #define CODE_REJ        7
 
                                    
-#define VOL_LCP_MT         2      //максимальное число Max Terminate       для счетчика пакетов                       
-#define VOL_LCP_MC         10      //максимальное число Max Configure 
-#define VOL_LCP_MF         5      //максимальное число Max Failure 
+#define VOL_LCP_MT         2      //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Max Terminate       пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ                       
+#define VOL_LCP_MC         10      //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Max Configure 
+#define VOL_LCP_MF         5      //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Max Failure 
 
                       
-#define VOL_PAP_MC         5      //максимальное число Max Configure 
+#define VOL_PAP_MC         5      //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Max Configure 
 
 
-#define VOL_IPCP_MT         2      //максимальное число Max Terminate       для счетчика пакетов                       
-#define VOL_IPCP_MC         10      //максимальное число Max Configure 
+#define VOL_IPCP_MT         2      //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Max Terminate       пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ                       
+#define VOL_IPCP_MC         10      //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Max Configure 
 
 
 
 
-#define VOL_PAP_TM_OUT     3000      //должно быть эквивалентно 3 секундам
-#define VOL_LCP_TM_OUT     3000      //должно быть эквивалентно 3 секундам
-#define VOL_IPCP_TM_OUT     3000      //должно быть эквивалентно 3 секундам
+#define VOL_PAP_TM_OUT     3000      //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 3 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+#define VOL_LCP_TM_OUT     3000      //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 3 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+#define VOL_IPCP_TM_OUT     3000      //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 3 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 
 
@@ -103,9 +103,9 @@
 
 
 
-// состояния, события и действия автомата LCP
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ LCP
 #define BEGIN      0x00 
-#define START_ST   0x01                       //состояния
+#define START_ST   0x01                       //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 #define CLOSE_ST   0x02                                      
 #define STOP_ST    0x03
 #define CLOSING_ST 0x04
@@ -115,7 +115,7 @@
 #define SEND_ACK   0x08
 #define OPEN_ST    0x09
                                                   
-#define UP         0x00                           //события
+#define UP         0x00                           //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 #define DOWN       0x01                                      
 #define OPEN       0x02
 #define CLOSE      0x03
@@ -133,17 +133,17 @@
 #define RXR        0x0f 
 #define NO_EVENT   0xff 
 
-#define TLU         0x00                           //действия
+#define TLU         0x00                           //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 #define TLD         0x01                                      
 #define TLS         0x02
 #define TLF         0x03
 #define IRC         0x04
 #define ZRC         0x05
-#define SCR         0x06
+#define S2CR         0x06
 #define SCA         0x07
 #define SCN         0x08                                    
 #define STR         0x09
-#define STA         0x0a
+#define S2TA         0x0a
 #define SCJ         0x0b 
 #define SER         0x0c
 
@@ -154,8 +154,8 @@
 
 
 
-#define LCP_ACT_VOL   15   //длина буфера действий LCP     
-#define IPCP_ACT_VOL  10   //длина буфера действий LCP
+#define LCP_ACT_VOL   15   //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ LCP     
+#define IPCP_ACT_VOL  10   //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ LCP
 
 # define NOPPER 0
 

@@ -253,9 +253,9 @@ void SelfProgramm(void) @ "BOOT_CODE"
 {
   
   
-__IO uint32_t dst = 0x08000000;
-__IO uint32_t src = 0x08060000;
-__IO int i,err;
+uint32_t dst = 0x08000000;
+uint32_t src = 0x08060000;
+int i,err;
   __disable_irq();
 if (BootFlash_Unlock() != BOOTFLASH_OK) goto exitProgram;
 
@@ -266,13 +266,13 @@ if (BootFlash_Unlock() != BOOTFLASH_OK) goto exitProgram;
 new program present ? in source adress
 */
 if (*(uint32_t*)src == 0xffffffff) goto exitProgram;
-if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_6 ) != BOOTFLASH_OK) goto exitProgram;
-if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_5 ) != BOOTFLASH_OK) goto exitProgram;
-if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_4 ) != BOOTFLASH_OK) goto exitProgram;
-if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_3 ) != BOOTFLASH_OK) goto exitProgram;
-if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_2 ) != BOOTFLASH_OK) goto exitProgram;
-if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_1 ) != BOOTFLASH_OK) goto exitProgram;
-if (BootFlash_EraseSector( ADDR_FLASH_SECTOR_0 ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( 6U ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( 5U ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( 4U ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( 3U ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( 2U ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( 1U ) != BOOTFLASH_OK) goto exitProgram;
+if (BootFlash_EraseSector( 0U ) != BOOTFLASH_OK) goto exitProgram;
 
 
 
@@ -282,9 +282,21 @@ for (i = 0; i < (0x60000/4); ++i)
   for ( err = 0; err < 4; err++)               // 4 attempt to write 
   {
   IWDG->KR = 0xAAAAU; // сброс watchdog я его запретить не могу  
-if( BootFlash_ProgramWord( dst, *(uint32_t*)src ) != BOOTFLASH_OK) { continue; }  // no ready
-if ((*(__IO uint32_t *)dst) != (*(__IO uint32_t*)src)) { continue; }               // bad write
-goto next_word;
+//if( BootFlash_ProgramWord( dst, *(uint32_t*)src ) != BOOTFLASH_OK) { continue; }  // no ready
+//if ((*(__IO uint32_t *)dst) != (*(__IO uint32_t*)src)) { continue; }               // bad write
+//goto next_word;
+
+    if (BootFlash_ProgramWord(dst,
+            *(volatile const uint32_t *)src) != BOOTFLASH_OK)
+    {
+        continue;
+    }
+
+    if (*(volatile const uint32_t *)dst ==
+        *(volatile const uint32_t *)src)
+    {
+        break;
+    }
  }
 if( err >= 3 ) { SV2_RD(); goto exitProgram; }  
 next_word: 

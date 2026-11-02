@@ -732,7 +732,7 @@ void run_lcp_act(void) {
 
     break;
 
-  case SCR:
+  case S2CR:
 
     fl_lcp.act_lcp_end = 0;
     buf_tx_232[0] = 0x7e;
@@ -915,7 +915,7 @@ void monitor_act_PAP(void) {
     uint16_t word;
   } temp;
 
-  if ((pap_act_buf == SCR) && (fl_pap.act_pap_end == 1) &&
+  if ((pap_act_buf == S2CR) && (fl_pap.act_pap_end == 1) &&
       (fl_lcp.act_lcp_end == 1) && (fl_ipcp.act_ipcp_end == 1) &&
       (fl_ip.act_ip_end == 1)) {
 
@@ -1025,7 +1025,7 @@ void monitor_event_PAP(void) {
       // cnt_rst_pap=vol_cnt_rst_pap;
       fl_pap.pap_tm_out_en = 1;
       fl_pap.act_pap_end = 1;
-      pap_act_buf = SCR;
+      pap_act_buf = S2CR;
       PAP_state = SEND_REQ;
       return;
     }
@@ -1041,7 +1041,7 @@ void monitor_event_PAP(void) {
     case SEND_REQ:
       // vol_cnt_rst_pap=VOL_PAP_MC;
       cnt_pap_tm_out = VOL_PAP_TM_OUT;
-      pap_act_buf = SCR;
+      pap_act_buf = S2CR;
       PAP_state = SEND_REQ;
       return;
     }
@@ -1096,7 +1096,7 @@ void monitor_event_LCP(void) {
       // vol_cnt_rst_lcp=VOL_LCP_MC;
       LCP_act_buf[uk_in_act_LCP] = IRC;
       prov_uk_in();
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_state = SEND_REQ;
 
@@ -1115,7 +1115,7 @@ void monitor_event_LCP(void) {
       //  vol_cnt_rst_lcp=VOL_LCP_MC;
       LCP_act_buf[uk_in_act_LCP] = IRC;
       prov_uk_in();
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_state = SEND_REQ;
       return;
@@ -1123,7 +1123,7 @@ void monitor_event_LCP(void) {
       // vol_cnt_rst_lcp=VOL_LCP_MC;
       LCP_act_buf[uk_in_act_LCP] = IRC;
       prov_uk_in();
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_state = SEND_REQ;
       return;
@@ -1131,7 +1131,7 @@ void monitor_event_LCP(void) {
       // vol_cnt_rst_lcp=VOL_LCP_MC;
       LCP_act_buf[uk_in_act_LCP] = IRC;
       prov_uk_in();
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_state = SEND_ACK;
       return;
@@ -1172,7 +1172,7 @@ void monitor_event_LCP(void) {
       LCP_act_buf[uk_in_act_LCP] = IRC;
       prov_uk_in();
       //    vol_cnt_rst_lcp=VOL_LCP_MC;
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_act_buf[uk_in_act_LCP] = SCA;
       prov_uk_in();
@@ -1211,7 +1211,7 @@ void monitor_event_LCP(void) {
       //     vol_cnt_rst_lcp=VOL_LCP_MC;
       LCP_act_buf[uk_in_act_LCP] = IRC;
       prov_uk_in();
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_act_buf[uk_in_act_LCP] = SCN;
       prov_uk_in();
@@ -1237,7 +1237,7 @@ void monitor_event_LCP(void) {
       //    vol_cnt_rst_lcp=VOL_LCP_MC;
       LCP_act_buf[uk_in_act_LCP] = IRC;
       prov_uk_in();
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_state = SEND_REQ;
       return;
@@ -1256,7 +1256,7 @@ void monitor_event_LCP(void) {
       prov_uk_in();
       LCP_act_buf[uk_in_act_LCP] = TLD;
       prov_uk_in();
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_state = SEND_REQ;
 
@@ -1271,7 +1271,7 @@ void monitor_event_LCP(void) {
       //   vol_cnt_rst_lcp=VOL_LCP_MC;
       LCP_act_buf[uk_in_act_LCP] = IRC;
       prov_uk_in();
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_state = SEND_REQ;
 
@@ -1280,7 +1280,7 @@ void monitor_event_LCP(void) {
       //    vol_cnt_rst_lcp=VOL_LCP_MC;
       LCP_act_buf[uk_in_act_LCP] = IRC;
       prov_uk_in();
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_state = SEND_REQ;
 
@@ -1289,7 +1289,7 @@ void monitor_event_LCP(void) {
       //    vol_cnt_rst_lcp=VOL_LCP_MC;
       LCP_act_buf[uk_in_act_LCP] = IRC;
       prov_uk_in();
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_state = SEND_ACK;
 
@@ -1300,7 +1300,7 @@ void monitor_event_LCP(void) {
       //     vol_cnt_rst_lcp=VOL_LCP_MC;
       LCP_act_buf[uk_in_act_LCP] = IRC;
       prov_uk_in();
-      LCP_act_buf[uk_in_act_LCP] = SCR;
+      LCP_act_buf[uk_in_act_LCP] = S2CR;
       prov_uk_in();
       LCP_state = SEND_REQ;
 
@@ -1353,7 +1353,7 @@ void run_ipcp_act(void) {
 
     break;
 
-  case SCR:
+  case S2CR:
 
     fl_ipcp.act_ipcp_end = 0;
 
@@ -1622,7 +1622,7 @@ void monitor_event_IPCP(void) {
       // vol_cnt_rst_ipcp=VOL_IPCP_MC;
       IPCP_act_buf[uk_in_act_IPCP] = IRC;
       prov_uk_in_ipcp();
-      IPCP_act_buf[uk_in_act_IPCP] = SCR;
+      IPCP_act_buf[uk_in_act_IPCP] = S2CR;
       prov_uk_in_ipcp();
       IPCP_state = SEND_REQ;
 
@@ -1641,7 +1641,7 @@ void monitor_event_IPCP(void) {
       // vol_cnt_rst_ipcp=VOL_IPCP_MC;
       IPCP_act_buf[uk_in_act_IPCP] = IRC;
       prov_uk_in_ipcp();
-      IPCP_act_buf[uk_in_act_IPCP] = SCR;
+      IPCP_act_buf[uk_in_act_IPCP] = S2CR;
       prov_uk_in_ipcp();
       IPCP_state = SEND_REQ;
       return;
@@ -1649,7 +1649,7 @@ void monitor_event_IPCP(void) {
       // vol_cnt_rst_ipcp=VOL_IPCP_MC;
       IPCP_act_buf[uk_in_act_IPCP] = IRC;
       prov_uk_in_ipcp();
-      IPCP_act_buf[uk_in_act_IPCP] = SCR;
+      IPCP_act_buf[uk_in_act_IPCP] = S2CR;
       prov_uk_in_ipcp();
       IPCP_state = SEND_REQ;
       return;
@@ -1657,7 +1657,7 @@ void monitor_event_IPCP(void) {
       //  vol_cnt_rst_ipcp=VOL_IPCP_MC;
       IPCP_act_buf[uk_in_act_IPCP] = IRC;
       prov_uk_in_ipcp();
-      IPCP_act_buf[uk_in_act_IPCP] = SCR;
+      IPCP_act_buf[uk_in_act_IPCP] = S2CR;
       prov_uk_in_ipcp();
       IPCP_state = SEND_ACK;
       return;
@@ -1733,7 +1733,7 @@ void monitor_event_IPCP(void) {
                   // vol_cnt_rst_ipcp=VOL_IPCP_MC;
                    IPCP_act_buf[uk_in_act_IPCP]=IRC;
                    prov_uk_in_ipcp();
-                   IPCP_act_buf[uk_in_act_IPCP]=SCR;
+                   IPCP_act_buf[uk_in_act_IPCP]=S2CR;
                    prov_uk_in_ipcp();
                    IPCP_act_buf[uk_in_act_IPCP]=SCN;
                    prov_uk_in_ipcp();
@@ -1761,7 +1761,7 @@ void monitor_event_IPCP(void) {
       IPCP_act_buf[uk_in_act_IPCP] = IRC;
       prov_uk_in_ipcp();
       // vol_cnt_rst_ipcp=VOL_IPCP_MC;
-      IPCP_act_buf[uk_in_act_IPCP] = SCR;
+      IPCP_act_buf[uk_in_act_IPCP] = S2CR;
       prov_uk_in_ipcp();
       IPCP_state = SEND_REQ;
 
@@ -1783,7 +1783,7 @@ void monitor_event_IPCP(void) {
 
                    IPCP_act_buf[uk_in_act_IPCP]=IRC;
                    prov_uk_in_ipcp();
-                   IPCP_act_buf[uk_in_act_IPCP]=SCR;
+                   IPCP_act_buf[uk_in_act_IPCP]=S2CR;
                    prov_uk_in_ipcp();
                    IPCP_state=SEND_REQ;
 
@@ -1800,7 +1800,7 @@ void monitor_event_IPCP(void) {
       vol_cnt_rst_ipcp = VOL_IPCP_MC;
       IPCP_act_buf[uk_in_act_IPCP] = IRC;
       prov_uk_in_ipcp();
-      IPCP_act_buf[uk_in_act_IPCP] = SCR;
+      IPCP_act_buf[uk_in_act_IPCP] = S2CR;
       prov_uk_in_ipcp();
       IPCP_state = SEND_REQ;
 
@@ -1809,7 +1809,7 @@ void monitor_event_IPCP(void) {
       // vol_cnt_rst_ipcp=VOL_IPCP_MC;
       IPCP_act_buf[uk_in_act_IPCP] = IRC;
       prov_uk_in_ipcp();
-      IPCP_act_buf[uk_in_act_IPCP] = SCR;
+      IPCP_act_buf[uk_in_act_IPCP] = S2CR;
       prov_uk_in_ipcp();
       IPCP_state = SEND_REQ;
 
@@ -1818,7 +1818,7 @@ void monitor_event_IPCP(void) {
       // vol_cnt_rst_ipcp=VOL_IPCP_MC;
       IPCP_act_buf[uk_in_act_IPCP] = IRC;
       prov_uk_in_ipcp();
-      IPCP_act_buf[uk_in_act_IPCP] = SCR;
+      IPCP_act_buf[uk_in_act_IPCP] = S2CR;
       prov_uk_in_ipcp();
       IPCP_state = SEND_ACK;
 
@@ -1828,7 +1828,7 @@ void monitor_event_IPCP(void) {
       IPCP_act_buf[uk_in_act_IPCP] = IRC;
       prov_uk_in_ipcp();
       // vol_cnt_rst_ipcp=VOL_IPCP_MC;
-      IPCP_act_buf[uk_in_act_IPCP] = SCR;
+      IPCP_act_buf[uk_in_act_IPCP] = S2CR;
       prov_uk_in_ipcp();
       IPCP_state = SEND_REQ;
 
