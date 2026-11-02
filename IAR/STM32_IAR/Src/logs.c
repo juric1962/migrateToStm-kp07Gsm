@@ -2,6 +2,7 @@
 #include "def_log.h"
 #include "map_ef.h"
 #include "ozu_map.h"
+#include <stdint.h>
 
 extern uint32_t burst_ds_r(void);
 extern void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,

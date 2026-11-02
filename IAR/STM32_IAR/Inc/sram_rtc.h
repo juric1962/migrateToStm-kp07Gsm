@@ -8,6 +8,7 @@ extern RTC_HandleTypeDef hrtc;
 
 
 void rtcInit(void);
+void systemTimeUpdate(void);
 
 uint32_t toUnix(RTC_DateTypeDef RTC_DateStructure, RTC_TimeTypeDef RTC_TimeStructure);
 void fromUnix(RTC_DateTypeDef *RTC_DateStructure, RTC_TimeTypeDef *RTC_TimeStructure, uint32_t secsarg);

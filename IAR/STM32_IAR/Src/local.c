@@ -7,6 +7,7 @@
 #include "dfproc.h"
 #include "map_ef.h"
 #include "map_mbus.h"
+#include "sram_rtc.h"
 
 //__flash char prov1[]={'P','R','O','V','1'};
 //__flash char prov2[]={'P','R','O','V','2'};

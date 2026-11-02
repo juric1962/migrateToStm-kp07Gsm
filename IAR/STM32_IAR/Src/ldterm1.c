@@ -56,7 +56,7 @@ TERM term;
 extern __no_init unsigned char simka; // dobavka
 extern unsigned char sel_modul;
 extern float temperatura;
-int16_t temp_to_grad(float t);
+int8_t temp_to_grad(float t);
 
 extern uint16_t num_self;
 unsigned char buf_boot_ver[10];
@@ -1013,7 +1013,7 @@ void load_par_first(void) {
   if (e_first_on == 0xff) {
     HAL_IWDG_Refresh(&hiwdg);
     WrArrayToFlesh(BEG_BUF_LOG, 0, (L_LOG * 6), 0x01, 0x00);
-    HAL_IWDG_Refresh(&iwdg);
+    HAL_IWDG_Refresh(&hiwdg);
     e_first_on = 0;
   }
   if (e_debug > 4)
@@ -1404,7 +1404,7 @@ void read_menu(unsigned char index_menu) {
 
     mov_lf();
     mov_s(sizeof(zp_temp), zp_temp);
-    sprintf(massiv, "%fhi\0", temp_to_grad(temperatura));
+    sprintf(massiv, "%hhi\0", temp_to_grad(temperatura));
     mov_massiv(strlen(massiv), massiv);
     s_port(' ');
     s_port('A');
@@ -2749,7 +2749,7 @@ if (HAL_GPIO_ReadPin(IO1_PORT, IO1_PIN) == GPIO_PIN_SET)
     S5_RD;
 
     do {
-      HAL_IWDG_Refresh(&iwdg);
+      HAL_IWDG_Refresh(&hiwdg);
       if ( (HAL_GetTick() - temp_long.word) >= 300 ) {
         S1_CH;
         S2_CH;
@@ -2832,7 +2832,7 @@ HAL_UART_DeInit(&huart2);
     if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_RXNE) == 0)
       goto LoopWait_rs485_1;
     s_port('r');
-    HAL_UART_Receive(&huart2, &dummy, 1 , 0);
+    HAL_UART_Receive(&huart2, ( uint8_t *)dummy, 1 , 0);
     //dummy = USART2->DR;
     s_port(dummy + 0x30);
     //     tutu:
@@ -2871,7 +2871,7 @@ void test_loop2(void) {
     s_port('s');
     s_port(i + 0x30);
     //UDR3 = i;
-     HAL_UART_Transmit(&huart2, &i, 1, 10);
+     HAL_UART_Transmit(&huart2, (const uint8_t *)i, 1, 10);
     //
     // бросаем в порт 485_2
     //
@@ -2889,7 +2889,7 @@ void test_loop2(void) {
     if (__HAL_UART_GET_FLAG(&huart3, UART_FLAG_RXNE) == 0)
       goto LoopWait_rs485_1;
     s_port('r');
-     HAL_UART_Receive(&huart3, &dummy, 1 , 0);
+     HAL_UART_Receive(&huart3, ( uint8_t *)dummy, 1 , 0);
     s_port(dummy + 0x30);
     //     tutu:
     //             _NOP();

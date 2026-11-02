@@ -67,7 +67,7 @@ uint32_t flashProgramm(__IO uint32_t* FlashAddress, uint32_t* Data ,uint32_t Dat
       if (*(uint32_t*)*FlashAddress != *(uint32_t*)(Data+i))
       {
         // Flash ?? ????????????? SRAM
-        LED2_RED(1);
+        //LED2_RED(1);
 
         return(2);
       }
@@ -76,7 +76,7 @@ uint32_t flashProgramm(__IO uint32_t* FlashAddress, uint32_t* Data ,uint32_t Dat
     else
     {
       // ?????? ??????
-      LED2_RED(1);
+      //LED2_RED(1);
       return (1);
     }
   }

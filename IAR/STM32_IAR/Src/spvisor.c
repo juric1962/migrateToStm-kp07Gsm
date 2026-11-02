@@ -2,7 +2,7 @@
 #include "def_log.h"
 //#include <inavr.h>
 //#include <iom2560.h>
-
+#include <stdint.h>
 #define DEF_SUPERVISOR 3600
 
 extern void s_port(unsigned char ch);

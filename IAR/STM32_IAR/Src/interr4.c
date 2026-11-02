@@ -10,19 +10,20 @@
 #include "ozu_map.h"
 #include "rs485_state.h"
 #include "sec.h"
-#include "stm32f4xx_hal.h"
+//#include "stm32f4xx_hal.h"
 #include "uart1.h"
 #include "uart2.h"
 #include "uart3.h"
 #include "uart4.h"
 #include "adc_callback.h"
 #include "gpio_exti.h"
+//#include <stdint.h>
 //#include <inavr.h>
 //#include <iom2560.h>
 
 
 extern volatile unsigned char disable_rx1, disable_rx2, disable_rx3, disable_rx4;
-
+void sendBytePPP(unsigned char data);
 static void Timer3_ProcessTick(void);
 void Uart1_ProcessRxCallback(void);
 void Uart2_ProcessRxCallback(void);
@@ -232,11 +233,11 @@ unsigned char greg_ereg :1;//пакетник GPRS or LTE
 fl_at_com;
 */
 
-#pragma dataseg = MY_SEG
+//#pragma dataseg = MY_SEG
 __no_init unsigned char Rs485_1_buf_rx_tx[MAX_BUF_RS485_1];
 __no_init unsigned char Rs485_2_buf_rx_tx[MAX_BUF_RS485_2];
 __no_init unsigned char Rs232_2_buf_rx_tx[MAX_BUF_RS232_2];
-#pragma dataseg = default
+//#pragma dataseg = default
 
 rs485_port_state_t Rs485_1, Rs485_2, Rs232_2;
 

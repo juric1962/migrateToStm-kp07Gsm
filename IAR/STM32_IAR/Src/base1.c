@@ -17,13 +17,13 @@
 #include "sec.h"
 //#include <inavr.h>
 //#include <iom2560.h>
-#include <stdio.h>
-#include <string.h>
-#include <uart1.h>
-#include <uart2.h>
-#include <uart3.h>
-#include <uart4.h>
-#include <sram_rtc.h>
+#include "stdio.h"
+#include "string.h"
+#include "uart1.h"
+#include "uart2.h"
+#include "uart3.h"
+#include "uart4.h"
+#include "sram_rtc.h"
 extern IWDG_HandleTypeDef hiwdg;
 void sendBytePPP(unsigned char data);
 #define CHECK_TIME 15
@@ -159,7 +159,7 @@ void init_pins_hiz_to_out(void);
 void monitor_wr_truffic(void);
 
 void send_terminate_lcp(void);
-int16_t temp_to_grad(float t);
+int8_t temp_to_grad(float t);
 
 void supervisorwdt(void);
 
@@ -4995,8 +4995,8 @@ char temp_to_grad(uint16_t t) {
   return (0x80);
 }
 */
-int16_t temp_to_grad(float t) {
-return ( (int16_t)t);
+int8_t temp_to_grad(float t) {
+return ( (int8_t)t);
 }
 
 /*

@@ -9,8 +9,8 @@
 //#include <iom2560.h>
 #include <string.h>
 #include <stdint.h>
-
-
+#include "uart1.h"
+extern IWDG_HandleTypeDef hiwdg;
 void control_temperatura(void);
 extern void long_delay(uint32_t period);
 char At_buf[10];
@@ -92,18 +92,18 @@ void fun_init_sim900(void) {
   s_port('.');
   CLR_PWR; // выключить питание
   SET_PWRK;
-  HAL_IWDG_Refresh(&iwdg);
+  HAL_IWDG_Refresh(&hiwdg);
   long_delay(10000000 / 4); //
 
   SET_PWR;
   CLR_PWRK;
 
- HAL_IWDG_Refresh(&iwdg);
+ HAL_IWDG_Refresh(&hiwdg);
   long_delay(10000000 / 4); //
   s_port('.');
   long_delay(10000000 / 4); //>3 sek
   SET_PWRK;
- HAL_IWDG_Refresh(&iwdg);
+ HAL_IWDG_Refresh(&hiwdg);
   long_delay(10000000); //>3 sek
   s_port('.');
   CLR_PWRK;
@@ -111,7 +111,7 @@ void fun_init_sim900(void) {
 
   CLR_DTR0;
   CLR_RTS0;
-  HAL_IWDG_Refresh(&iwdg);  
+  HAL_IWDG_Refresh(&hiwdg);  
   long_delay(1000000 / 4); //>1.5 sek
   s_port('.');
   SET_DTR0;

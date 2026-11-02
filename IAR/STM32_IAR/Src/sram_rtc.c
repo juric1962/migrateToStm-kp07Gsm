@@ -134,16 +134,14 @@ void rtcInit(void)
     __HAL_RCC_CLEAR_RESET_FLAGS();
   }
 }
-/*
+
 void systemTimeUpdate(void)
 {
   HAL_RTC_GetTime(&hrtc,&RTC_TimeStructure,RTC_FORMAT_BIN);
   HAL_RTC_GetDate(&hrtc,&RTC_DateStructure,RTC_FORMAT_BIN); 
-  RTC_UnixTime.timeStamp=toUnix(RTC_DateStructure,RTC_TimeStructure);
-  RTC_UnixTime.CRC16=modBusCRC16((uint8_t*)&RTC_UnixTime,4);
-  bkpSRAM_Write(TIMESTAMP_SRAM_ADDR,(uint8_t*)&RTC_UnixTime,TIMESTAMP_SRAM_LENGTH);
+  
 }
-*/
+
 
 uint32_t toUnix(RTC_DateTypeDef RTC_DateStructure, RTC_TimeTypeDef RTC_TimeStructure)
 {	/* convert time structure to scalar time */
