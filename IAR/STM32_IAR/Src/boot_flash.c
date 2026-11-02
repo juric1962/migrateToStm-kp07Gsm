@@ -1,8 +1,19 @@
-#include "firmware.h"
+//#include "firmware.h"
 #include "stm32f4xx.h"
-#include "dfpin.h"
+//#include "dfpin.h"
 #include <stdint.h>
 
+
+//#define SS2_R_PORT GPIOB
+//#define SS2_R_PIN  GPIO_PIN_9
+//#define SS2_G_PORT GPIOB
+//#define SS2_G_PIN  GPIO_PIN_8
+
+#define SS2_R_PORT GPIOB
+#define SS2_R_PIN  (1UL << 9)
+
+#define SS2_G_PORT GPIOB
+#define SS2_G_PIN  (1UL << 8)
 /*
  * Все функции этого файла помещаются
  * в секцию BOOT_CODE.
@@ -12,13 +23,13 @@
 #define FLASH_KEY1       0x45670123U
 #define FLASH_KEY2       0xCDEF89ABU
 
-//#define FLASH_SR_EOP     (1U << 0)
+#define FLASH_SR_EOP     (1U << 0)
 #define FLASH_SR_OPERR   (1U << 1)
-//#define FLASH_SR_WRPERR  (1U << 4)
-//#define FLASH_SR_PGAERR  (1U << 5)
-//#define FLASH_SR_PGPERR  (1U << 6)
-//#define FLASH_SR_PGSERR  (1U << 7)
-//#define FLASH_SR_BSY     (1U << 16)
+#define FLASH_SR_WRPERR  (1U << 4)
+#define FLASH_SR_PGAERR  (1U << 5)
+#define FLASH_SR_PGPERR  (1U << 6)
+#define FLASH_SR_PGSERR  (1U << 7)
+#define FLASH_SR_BSY     (1U << 16)
 
 #define FLASH_SR_ERRORS  (FLASH_SR_OPERR  | \
                           FLASH_SR_WRPERR | \
@@ -26,12 +37,12 @@
                           FLASH_SR_PGPERR | \
                           FLASH_SR_PGSERR)
 
-//#define FLASH_CR_PG      (1U << 0)
-//#define FLASH_CR_SER     (1U << 1)
-//#define FLASH_CR_SNB_Msk (0xFU << 3)
-//#define FLASH_CR_PSIZE_Msk (3U << 8)
-//#define FLASH_CR_STRT    (1U << 16)
-//#define FLASH_CR_LOCK    (1U << 31)
+#define FLASH_CR_PG      (1U << 0)
+#define FLASH_CR_SER     (1U << 1)
+#define FLASH_CR_SNB_Msk (0xFU << 3)
+#define FLASH_CR_PSIZE_Msk (3U << 8)
+#define FLASH_CR_STRT    (1U << 16)
+#define FLASH_CR_LOCK    (1U << 31)
 
 #define BOOTFLASH_OK       0
 #define BOOTFLASH_ERROR   -1
@@ -69,14 +80,14 @@ static void My_NVIC_SystemReset(void)  @ "BOOT_CODE"
 
 static void SV2_RD(void) @ "BOOT_CODE"
 {
-    S2_R_PORT->BSRR = (uint32_t)S2_R_PIN << 16;
-    S2_G_PORT->BSRR = S2_G_PIN;
+    SS2_R_PORT->BSRR = (uint32_t)SS2_R_PIN << 16;
+    SS2_G_PORT->BSRR = SS2_G_PIN;
 }
 
 static void SV2_GR(void) @ "BOOT_CODE"
 {
-    S2_R_PORT->BSRR = S2_R_PIN;
-    S2_G_PORT->BSRR = (uint32_t)S2_G_PIN << 16;
+    SS2_R_PORT->BSRR = SS2_R_PIN;
+    SS2_G_PORT->BSRR = (uint32_t)SS2_G_PIN << 16;
 }
 
  static int BootFlash_WaitReady(void) @ "BOOT_CODE"
