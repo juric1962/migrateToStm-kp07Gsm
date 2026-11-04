@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 extern IWDG_HandleTypeDef hiwdg;
 void MX_IWDG_Init (void);
 void SystemClock_Config(void);
@@ -108,7 +109,7 @@ void main(void) {
    UART4_Receive_IT(&uart4_rx_byte, 1U);
   
   MX_GPIO_TCs_Init();
-  MX_GPIO_TU_Init();
+  //MX_GPIO_TU_Init();
   MX_GPIO_EXTI6_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();

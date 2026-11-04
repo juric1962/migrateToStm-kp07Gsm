@@ -25,6 +25,13 @@
 TEST_MTC test_mtc;
 #endif
 
+
+
+__no_init uint8_t e_first_on @ 0x40024000;
+__no_init uint8_t e_debug    @ 0x40024001;
+__no_init uint8_t e_rw_pdp   @ 0x40024002;
+__no_init uint8_t e_rw_pdp_r @ 0x40024003;
+
 extern IWDG_HandleTypeDef hiwdg;
 extern RTC_TimeTypeDef  RTC_TimeStructure;
 extern RTC_DateTypeDef RTC_DateStructure; 
@@ -2813,7 +2820,7 @@ HAL_UART_DeInit(&huart2);
     s_port('s');
     s_port(i + 0x30);
     //UDR1 = i;
-    HAL_UART_Transmit(&huart3, (const uint8_t *)i, 1, 10);
+    HAL_UART_Transmit(&huart3, &i, 1, 10);
     //
     // бросаем в порт 485_1
     //
@@ -2871,7 +2878,7 @@ void test_loop2(void) {
     s_port('s');
     s_port(i + 0x30);
     //UDR3 = i;
-     HAL_UART_Transmit(&huart2, (const uint8_t *)i, 1, 10);
+     HAL_UART_Transmit(&huart2, &i, 1, 10);
     //
     // бросаем в порт 485_2
     //

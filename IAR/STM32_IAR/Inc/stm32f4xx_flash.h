@@ -212,7 +212,7 @@ typedef enum
   * @{
   */ 
 //#define FLASH_IT_EOP                   ((uint32_t)0x01000000)  /*!< End of FLASH Operation Interrupt source */
-#define FLASH_IT_ERR                   ((uint32_t)0x02000000)  /*!< Error Interrupt source */
+/////#define FLASH_IT_ERR                   ((uint32_t)0x02000000)  /*!< Error Interrupt source */
 #define IS_FLASH_IT(IT) ((((IT) & (uint32_t)0xFCFFFFFF) == 0x00000000) && ((IT) != 0x00000000))
 /**
   * @}
@@ -240,11 +240,11 @@ typedef enum
 /** @defgroup FLASH_Program_Parallelism   
   * @{
   */
-#define FLASH_PSIZE_BYTE           ((uint32_t)0x00000000)
-#define FLASH_PSIZE_HALF_WORD      ((uint32_t)0x00000100)
-#define FLASH_PSIZE_WORD           ((uint32_t)0x00000200)
-#define FLASH_PSIZE_DOUBLE_WORD    ((uint32_t)0x00000300)
-#define CR_PSIZE_MASK              ((uint32_t)0xFFFFFCFF)
+/////#define FLASH_PSIZE_BYTE           ((uint32_t)0x00000000)
+/////#define FLASH_PSIZE_HALF_WORD      ((uint32_t)0x00000100)
+/////#define FLASH_PSIZE_WORD           ((uint32_t)0x00000200)
+/////#define FLASH_PSIZE_DOUBLE_WORD    ((uint32_t)0x00000300)
+/////#define CR_PSIZE_MASK              ((uint32_t)0xFFFFFCFF)
 /**
   * @}
   */ 
@@ -253,10 +253,10 @@ typedef enum
   * @{
   */ 
 #define RDP_KEY                  ((uint16_t)0x00A5)
-#define FLASH_KEY1               ((uint32_t)0x45670123)
-#define FLASH_KEY2               ((uint32_t)0xCDEF89AB)
-#define FLASH_OPT_KEY1           ((uint32_t)0x08192A3B)
-#define FLASH_OPT_KEY2           ((uint32_t)0x4C5D6E7F)
+/////#define FLASH_KEY1               ((uint32_t)0x45670123)
+/////#define FLASH_KEY2               ((uint32_t)0xCDEF89AB)
+/////#define FLASH_OPT_KEY1           ((uint32_t)0x08192A3B)
+/////#define FLASH_OPT_KEY2           ((uint32_t)0x4C5D6E7F)
 /**
   * @}
   */ 
@@ -264,13 +264,13 @@ typedef enum
 /** 
   * @brief   ACR register byte 0 (Bits[8:0]) base address  
   */ 
-#define ACR_BYTE0_ADDRESS           ((uint32_t)0x40023C00) 
+//////#define ACR_BYTE0_ADDRESS           ((uint32_t)0x40023C00) 
 /** 
   * @brief   OPTCR register byte 3 (Bits[24:16]) base address  
   */ 
-#define OPTCR_BYTE0_ADDRESS         ((uint32_t)0x40023C14)
-#define OPTCR_BYTE1_ADDRESS         ((uint32_t)0x40023C15)
-#define OPTCR_BYTE2_ADDRESS         ((uint32_t)0x40023C16)
+/////#define OPTCR_BYTE0_ADDRESS         ((uint32_t)0x40023C14)
+/////#define OPTCR_BYTE1_ADDRESS         ((uint32_t)0x40023C15)
+/////#define OPTCR_BYTE2_ADDRESS         ((uint32_t)0x40023C16)
 
 /**
   * @}

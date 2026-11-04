@@ -18,6 +18,7 @@
 #include "uart1.h"
 #include "uart2.h"
 #include "firmware.h"
+#include "sram_rtc.h"
 //#include <inavr.h>
 //#include <iom2560.h>
 
@@ -4935,7 +4936,18 @@ device_bad:
             }
             if (flag_time != 0) {
               old_unix = unix;
-              set_rlt(2, &buf_tx_232[1000]);
+              //set_rlt(2, &buf_tx_232[1000]);
+                                    RTC_TimeStructure.Seconds= buf_tx_232[1000];
+                                    RTC_TimeStructure.Minutes= buf_tx_232[1001];
+                                    RTC_TimeStructure.Hours =  buf_tx_232[1002];
+                                    
+                                    RTC_DateStructure.Date= buf_tx_232[1003];
+                                    RTC_DateStructure.Month=buf_tx_232[1004];
+                                    RTC_DateStructure.Year= buf_tx_232[1005];
+                                    
+                                    HAL_RTC_SetTime(&hrtc,&RTC_TimeStructure,RTC_FORMAT_BIN);
+                                    HAL_RTC_SetDate(&hrtc,&RTC_DateStructure,RTC_FORMAT_BIN);
+              
               burst_ds_r();
               // if ((( old_unix - unix) >= 600 )||(( unix - old_unix) >= 600 ))
               // bit_level=1;
@@ -5334,7 +5346,18 @@ device_bad:
 
           if (flag_time != 0) {
             old_unix = unix;
-            set_rlt(2, &buf_tx_232[1000]);
+         //   set_rlt(2, &buf_tx_232[1000]);
+            
+                                    RTC_TimeStructure.Seconds= buf_tx_232[1000];
+                                    RTC_TimeStructure.Minutes= buf_tx_232[1001];
+                                    RTC_TimeStructure.Hours =  buf_tx_232[1002];
+                                    
+                                    RTC_DateStructure.Date= buf_tx_232[1003];
+                                    RTC_DateStructure.Month=buf_tx_232[1004];
+                                    RTC_DateStructure.Year= buf_tx_232[1005];
+                                    
+                                    HAL_RTC_SetTime(&hrtc,&RTC_TimeStructure,RTC_FORMAT_BIN);
+                                    HAL_RTC_SetDate(&hrtc,&RTC_DateStructure,RTC_FORMAT_BIN);
             burst_ds_r();
             // if ((( old_unix - unix) >= 600 )||(( unix - old_unix) >= 600 ))
             // bit_level=1;

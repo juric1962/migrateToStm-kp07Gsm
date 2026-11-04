@@ -1234,7 +1234,7 @@ void start_func_stm_off(void) {
 void start_func_stm_koff(void) {
   S2_OFF;
 
-  init_pins_out_to_hiz();
+ ////// init_pins_out_to_hiz();
 
   if (Regim != RG_DEBAG) {
     S3_OFF;
@@ -2639,7 +2639,7 @@ void modem_engine(void) {
 
       switch (event_modem) {
       case EVM_TM1:
-        init_pins_hiz_to_out();
+       // init_pins_hiz_to_out();
         send_info(sizeof(stm_si), stm_si, 0, 0);
         state_modem = STM_SI;
         init_scen_stm_si();
