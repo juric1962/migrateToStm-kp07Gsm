@@ -1,7 +1,7 @@
 #include "sram_rtc.h"
 #include "stm32f4xx_hal_rtc.h"
 #include "main.h"
-
+__no_init uint8_t e_first_on @ 0x40024000;
 
 //------------------------ RTC ------------------------------------------------- 
 #define _TBIAS_DAYS		((70 * (uint32_t)365) + 17)
@@ -113,7 +113,7 @@ void rtcInit(void)
   if (HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1) != 0x32F2)
   {
     /* Configure RTC Calendar */    
-    
+    e_first_on = 0xff;
     
     RTC_CalendarConfig();
   }
