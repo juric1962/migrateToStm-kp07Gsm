@@ -36,7 +36,9 @@ uint32_t burst_ds_r(void) {
  
    // ïðè ðàáîòå ñ STM çàïîëíÿåì ñâîþ ñòðóêòóðó èç ñèñòåìíîãî âðåìåíè STM 
    // ïîëüçóåìñÿ åãî ôóíêöèÿìè
-   
+  HAL_RTC_GetTime(&hrtc,&RTC_TimeStructure,RTC_FORMAT_BIN);
+  HAL_RTC_GetDate(&hrtc,&RTC_DateStructure,RTC_FORMAT_BIN); 
+
    real_time.r_sec=RTC_TimeStructure.Seconds;
    real_time.r_min=RTC_TimeStructure.Minutes;
    real_time.r_hor=RTC_TimeStructure.Hours;
