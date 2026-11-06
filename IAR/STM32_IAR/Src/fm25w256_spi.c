@@ -49,32 +49,30 @@ static void fm25w256_wait_busy(void) {
 }
 
 static void fm25w256_read_block(uint32_t address, uint8_t *buffer, uint16_t length) {
-  uint8_t tx[4];
+  uint8_t tx[3];
   tx[0] = FM25W256_CMD_READ;
-  tx[1] = (uint8_t)((address >> 16) & 0xFFu);
-  tx[2] = (uint8_t)((address >> 8) & 0xFFu);
-  tx[3] = (uint8_t)(address & 0xFFu);
+  tx[1] = (uint8_t)((address >> 8) & 0xFFu);
+  tx[2] = (uint8_t)(address & 0xFFu);
 
   fm25w256_cs_low();
-  HAL_SPI_Transmit(&hspi1, tx, 4, FM25W256_TIMEOUT);
+  HAL_SPI_Transmit(&hspi1, tx, 3, FM25W256_TIMEOUT);
   HAL_SPI_Receive(&hspi1, buffer, length, FM25W256_TIMEOUT);
   fm25w256_cs_high();
 }
 
 static void fm25w256_write_page(uint32_t address, const uint8_t *buffer,
                                 uint16_t length) {
-  uint8_t tx[4];
+  uint8_t tx[3];
 
   fm25w256_write_enable();
   fm25w256_wait_busy();
 
   tx[0] = FM25W256_CMD_PAGE_PROGRAM;
-  tx[1] = (uint8_t)((address >> 16) & 0xFFu);
-  tx[2] = (uint8_t)((address >> 8) & 0xFFu);
-  tx[3] = (uint8_t)(address & 0xFFu);
+  tx[1] = (uint8_t)((address >> 8) & 0xFFu);
+  tx[2] = (uint8_t)(address & 0xFFu);
 
   fm25w256_cs_low();
-  HAL_SPI_Transmit(&hspi1, tx, 4, FM25W256_TIMEOUT);
+  HAL_SPI_Transmit(&hspi1, tx, 3, FM25W256_TIMEOUT);
   HAL_SPI_Transmit(&hspi1, (uint8_t *)buffer, length, FM25W256_TIMEOUT);
   fm25w256_cs_high();
 
