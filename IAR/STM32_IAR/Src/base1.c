@@ -153,8 +153,18 @@ void control_ts(void);
 void energy_plus(void);
 
 void init_pins_out_to_hiz(void);
+void init_pins_out_to_hiz(void)
+{
+  CLR_RTS0;
+  CLR_DTR0; 
+}
 
 void init_pins_hiz_to_out(void);
+void init_pins_hiz_to_out(void)
+{
+  SET_RTS0;
+  SET_DTR0;
+}
 
 void monitor_wr_truffic(void);
 
@@ -1234,7 +1244,7 @@ void start_func_stm_off(void) {
 void start_func_stm_koff(void) {
   S2_OFF;
 
- ////// init_pins_out_to_hiz();
+  init_pins_out_to_hiz();
 
   if (Regim != RG_DEBAG) {
     S3_OFF;
@@ -2639,7 +2649,7 @@ void modem_engine(void) {
 
       switch (event_modem) {
       case EVM_TM1:
-       // init_pins_hiz_to_out();
+        init_pins_hiz_to_out();
         send_info(sizeof(stm_si), stm_si, 0, 0);
         state_modem = STM_SI;
         init_scen_stm_si();

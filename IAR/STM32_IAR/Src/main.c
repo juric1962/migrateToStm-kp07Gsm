@@ -93,7 +93,7 @@ void Error_Handler(void)
 
 void main(void) {
   // unsigned char buf[11];
-  unsigned char bufalo, I123;
+  //unsigned char bufalo, I123;
    HAL_Init();
   SystemClock_Config();
   bkpSRAMInit();    

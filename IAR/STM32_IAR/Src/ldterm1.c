@@ -2820,7 +2820,7 @@ HAL_UART_DeInit(&huart2);
     s_port('s');
     s_port(i + 0x30);
     //UDR1 = i;
-    HAL_UART_Transmit(&huart3, &i, 1, 10);
+    HAL_UART_Transmit(&huart3, (uint8_t *)i, 1, 10);
     //
     // бросаем в порт 485_1
     //
@@ -2878,7 +2878,7 @@ void test_loop2(void) {
     s_port('s');
     s_port(i + 0x30);
     //UDR3 = i;
-     HAL_UART_Transmit(&huart2, &i, 1, 10);
+     HAL_UART_Transmit(&huart2, (uint8_t *)i, 1, 10);
     //
     // бросаем в порт 485_2
     //
