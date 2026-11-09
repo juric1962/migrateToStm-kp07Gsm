@@ -205,15 +205,16 @@
 #define IO1  GPIO_PIN_6
 #define IO2  GPIO_PIN_15
 #define IO3  GPIO_PIN_14
-#define IO4  GPIO_PIN_4
-#define IO5  GPIO_PIN_13
-#define IO6  GPIO_PIN_5
-#define IO7  GPIO_PIN_6
-#define IO8  GPIO_PIN_7
+#define IO4  GPIO_PIN_13
+#define IO5  GPIO_PIN_5
+#define IO6  GPIO_PIN_6
+
+#define IO7  GPIO_PIN_2
+#define IO8  GPIO_PIN_1
 #define IO9  GPIO_PIN_5
 #define IO10 GPIO_PIN_0
-#define IO11 GPIO_PIN_1
-#define IO12 GPIO_PIN_2
+#define IO11 GPIO_PIN_4
+#define IO12 GPIO_PIN_7
 
 #define IO1_PORT GPIOC
 #define IO1_PIN  GPIO_PIN_6
@@ -232,12 +233,12 @@
 
 #define IO6_PORT GPIOA
 #define IO6_PIN  GPIO_PIN_6
+//
+#define IO7_PORT GPIOB
+#define IO7_PIN  GPIO_PIN_2
 
-#define IO7_PORT GPIOA
-#define IO7_PIN  GPIO_PIN_7
-
-#define IO8_PORT GPIOC
-#define IO8_PIN  GPIO_PIN_4
+#define IO8_PORT GPIOB
+#define IO8_PIN  GPIO_PIN_1
 
 #define IO9_PORT GPIOC
 #define IO9_PIN  GPIO_PIN_5
@@ -245,11 +246,11 @@
 #define IO10_PORT GPIOB
 #define IO10_PIN  GPIO_PIN_0
 
-#define IO11_PORT GPIOB
-#define IO11_PIN  GPIO_PIN_1
+#define IO11_PORT GPIOC
+#define IO11_PIN  GPIO_PIN_4
 
-#define IO12_PORT GPIOB
-#define IO12_PIN  GPIO_PIN_2
+#define IO12_PORT GPIOA
+#define IO12_PIN  GPIO_PIN_7
 
 #define TCH_I  GPIO_PIN_6
 
@@ -596,32 +597,32 @@
 #define TS3_PORT   GPIOB
 #define TS3_PIN    GPIO_PIN_14
 
-#define TS4_PORT   GPIOC
-#define TS4_PIN    GPIO_PIN_4
+#define TS4_PORT   GPIOB
+#define TS4_PIN    GPIO_PIN_13
 
-#define TS5_PORT   GPIOB
-#define TS5_PIN    GPIO_PIN_13
+#define TS5_PORT   GPIOA
+#define TS5_PIN    GPIO_PIN_5
 
 #define TS6_PORT   GPIOA
-#define TS6_PIN    GPIO_PIN_5
+#define TS6_PIN    GPIO_PIN_6
 
-#define TS7_PORT   GPIOA
-#define TS7_PIN    GPIO_PIN_6
+#define TS7_PORT   GPIOB
+#define TS7_PIN    GPIO_PIN_2
 
-#define TS8_PORT   GPIOA
-#define TS8_PIN    GPIO_PIN_7
+#define TS8_PORT   GPIOB
+#define TS8_PIN    GPIO_PIN_1
 
 
 #define TSS1_PORT   GPIOC
-#define TSS1_PIN    GPIO_PIN_7
+#define TSS1_PIN    GPIO_PIN_0
 
 #define TSS2_PORT   GPIOC
 #define TSS2_PIN    GPIO_PIN_1
 
-#define TU1_PORT   GPIOB
-#define TU1_PIN    GPIO_PIN_1
+#define TU1_PORT   GPIOC
+#define TU1_PIN    GPIO_PIN_4
 
-#define TU2_PORT   GPIOB
-#define TU2_PIN    GPIO_PIN_2
+#define TU2_PORT   GPIOA
+#define TU2_PIN    GPIO_PIN_7
 
 
