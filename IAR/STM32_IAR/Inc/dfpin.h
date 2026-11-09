@@ -16,10 +16,10 @@
 #define RI0_PORT GPIOC
 #define RI0_PIN  GPIO_PIN_7
 
-#define RTS1_PORT GPIOB
-#define RTS1_PIN  GPIO_PIN_12
-#define RTS3_PORT GPIOA
-#define RTS3_PIN  GPIO_PIN_4
+#define RTS3_PORT GPIOB
+#define RTS3_PIN  GPIO_PIN_12
+#define RTS1_PORT GPIOA
+#define RTS1_PIN  GPIO_PIN_4
 
 #define RTS2_PORT GPIOC
 #define RTS2_PIN  GPIO_PIN_2
