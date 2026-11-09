@@ -52,6 +52,7 @@ void init_pins_ts_mod(void) { PIN_IN_TS1_8; }
 
 void init_pins_mkd_mod(void) {
   PIN_IN_MKD1_5;
+  PIN_OUT_MKD;
 }
 
 
