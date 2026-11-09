@@ -824,7 +824,7 @@ static void Timer0_ProcessTick(void) {
 static void Timer2_ProcessTick(void) {
 
  // unsigned char temp;
-  term.time_out_loop = 0;
+  term.time_out_loop++;
   fl_wdt.from_timer2 = 1;
 
   cnt_clr_wdt++;
