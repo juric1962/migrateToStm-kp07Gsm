@@ -2779,7 +2779,7 @@ if (HAL_GPIO_ReadPin(IO1_PORT, IO1_PIN) == GPIO_PIN_SET)
 // тестировние 485 в терминале
 
 void test_loop(void) {
-  char i, dummy;
+  //char i, dummy;
   mov_lf();
   mov_s(sizeof(str_loop_ok), str_loop_ok);
   mov_lf();
@@ -2814,7 +2814,7 @@ HAL_UART_DeInit(&huart2);
   ///dummy = UDR3;
 
   SET_RTS3; // !!!!!
-
+  /*
   for (i = 0; i < 10; i++) {
    HAL_IWDG_Refresh(&hiwdg);;
     s_port('s');
@@ -2845,7 +2845,68 @@ HAL_UART_DeInit(&huart2);
     //     tutu:
     //             _NOP();
   }
+*/
 
+// codex 
+uint8_t i;
+uint8_t tx_byte;
+uint8_t dummy;
+HAL_StatusTypeDef status;
+
+/* Запрещаем UART IRQ на время теста.
+   Прерывания SysTick и таймеров остаются разрешёнными. */
+HAL_NVIC_DisableIRQ(USART2_IRQn);
+HAL_NVIC_DisableIRQ(USART3_IRQn);
+
+/* Завершаем ранее запущенный приём через прерывания. */
+if (HAL_UART_AbortReceive(&huart2) != HAL_OK)
+    goto restore_uart;
+
+if (HAL_UART_AbortReceive(&huart3) != HAL_OK)
+    goto restore_uart;
+
+for (i = 0U; i < 10U; i++)
+{
+    HAL_IWDG_Refresh(&hiwdg);
+
+    s_port('s');
+    s_port(i + '0');
+
+    tx_byte = i;
+
+    status = HAL_UART_Transmit(&huart3, &tx_byte, 1U, 10U);
+
+    if (status != HAL_OK)
+    {
+        s_port('t');
+        s_port('x');
+        continue;
+    }
+
+    /* Ждём один байт на USART2 до 200 мс. */
+    status = HAL_UART_Receive(&huart2, &dummy, 1U, 200U);
+
+    if (status == HAL_OK)
+    {
+        s_port('r');
+        s_port(dummy + '0');
+    }
+    else
+    {
+        s_port('r');
+        s_port('x');
+    }
+}
+
+restore_uart:
+
+/* Возвращаем обычный приём через прерывания. */
+HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1U);
+HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1U);
+
+HAL_NVIC_EnableIRQ(USART2_IRQn);
+HAL_NVIC_EnableIRQ(USART3_IRQn);
+// codex 
   mov_lf();
   //      s_port('>');
   CLR_RTS3;
@@ -2853,7 +2914,7 @@ HAL_UART_DeInit(&huart2);
 
 //
 void test_loop2(void) {
-  char i, dummy;
+  //char i, dummy;
   mov_lf();
   mov_s(sizeof(str_loop2_ok), str_loop2_ok);
   mov_lf();
@@ -2872,7 +2933,7 @@ void test_loop2(void) {
   ///dummy = UDR3;
 
   SET_RTS1; // !!!!!
-
+/*
   for (i = 0; i < 10; i++) {
    HAL_IWDG_Refresh(&hiwdg);
     s_port('s');
@@ -2901,6 +2962,67 @@ void test_loop2(void) {
     //     tutu:
     //             _NOP();
   }
+*/
+// codex
+uint8_t i;
+uint8_t tx_byte;
+uint8_t dummy;
+HAL_StatusTypeDef status;
+
+/* Запрещаем UART IRQ на время теста.
+   Прерывания SysTick и таймеров остаются разрешёнными. */
+HAL_NVIC_DisableIRQ(USART2_IRQn);
+HAL_NVIC_DisableIRQ(USART3_IRQn);
+
+/* Завершаем ранее запущенный приём через прерывания. */
+if (HAL_UART_AbortReceive(&huart2) != HAL_OK)
+    goto restore_uart1;
+
+if (HAL_UART_AbortReceive(&huart3) != HAL_OK)
+    goto restore_uart1;
+
+for (i = 0U; i < 10U; i++)
+{
+    HAL_IWDG_Refresh(&hiwdg);
+
+    s_port('s');
+    s_port(i + '0');
+
+    tx_byte = i;
+
+    status = HAL_UART_Transmit(&huart2, &tx_byte, 1U, 10U);
+
+    if (status != HAL_OK)
+    {
+        s_port('t');
+        s_port('x');
+        continue;
+    }
+
+    /* Ждём один байт на USART3 до 200 мс. */
+    status = HAL_UART_Receive(&huart3, &dummy, 1U, 200U);
+
+    if (status == HAL_OK)
+    {
+        s_port('r');
+        s_port(dummy + '0');
+    }
+    else
+    {
+        s_port('r');
+        s_port('x');
+    }
+}
+
+restore_uart1:
+
+/* Возвращаем обычный приём через прерывания. */
+HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1U);
+HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1U);
+
+HAL_NVIC_EnableIRQ(USART2_IRQn);
+HAL_NVIC_EnableIRQ(USART3_IRQn);
+// codex
 
   mov_lf();
   s_port('>');
