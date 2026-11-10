@@ -253,14 +253,13 @@
 #define IO12_PIN  GPIO_PIN_7
 
 #define TCH_I  GPIO_PIN_6
-
+// IO1 уже определен выше как прерывание
 #define PIN_IN_TS1_8 \
 {\
   GPIO_InitTypeDef gpio_init = {0};\
   gpio_init.Mode = GPIO_MODE_INPUT;\
   gpio_init.Pull = GPIO_PULLUP;\
   gpio_init.Speed = GPIO_SPEED_FREQ_LOW;\
-  gpio_init.Pin = IO1_PIN; HAL_GPIO_Init(IO1_PORT, &gpio_init);\
   gpio_init.Pin = IO2_PIN; HAL_GPIO_Init(IO2_PORT, &gpio_init);\
   gpio_init.Pin = IO6_PIN; HAL_GPIO_Init(IO6_PORT, &gpio_init);\
   gpio_init.Pin = IO8_PIN; HAL_GPIO_Init(IO8_PORT, &gpio_init);\
