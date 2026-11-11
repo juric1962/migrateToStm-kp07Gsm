@@ -20,6 +20,8 @@
 #include "scenario_test_mtc.h"
 #include "sram_rtc.h"
 #include "uart4.h"
+#include "uart3.h"
+#include "uart2.h"
 
 #ifdef SCENARIO_TEST_MTC_ENABLE
 TEST_MTC test_mtc;
@@ -2814,6 +2816,7 @@ HAL_UART_DeInit(&huart2);
   ///dummy = UDR3;
 
   SET_RTS3; // !!!!!
+  CLR_RTS1;
   /*
   for (i = 0; i < 10; i++) {
    HAL_IWDG_Refresh(&hiwdg);;
@@ -2855,16 +2858,16 @@ HAL_StatusTypeDef status;
 
 /* Запрещаем UART IRQ на время теста.
    Прерывания SysTick и таймеров остаются разрешёнными. */
-HAL_NVIC_DisableIRQ(USART2_IRQn);
-HAL_NVIC_DisableIRQ(USART3_IRQn);
+//HAL_NVIC_DisableIRQ(USART2_IRQn);
+//HAL_NVIC_DisableIRQ(USART3_IRQn);
 
-/* Завершаем ранее запущенный приём через прерывания. */
+/* Завершаем ранее запущенный приём через прерывания.
 if (HAL_UART_AbortReceive(&huart2) != HAL_OK)
     goto restore_uart;
 
 if (HAL_UART_AbortReceive(&huart3) != HAL_OK)
     goto restore_uart;
-
+ */
 for (i = 0U; i < 10U; i++)
 {
     HAL_IWDG_Refresh(&hiwdg);
@@ -2898,14 +2901,14 @@ for (i = 0U; i < 10U; i++)
     }
 }
 
-restore_uart:
+//restore_uart:
 
 /* Возвращаем обычный приём через прерывания. */
-HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1U);
-HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1U);
+//HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1U);
+//HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1U);
 
-HAL_NVIC_EnableIRQ(USART2_IRQn);
-HAL_NVIC_EnableIRQ(USART3_IRQn);
+//HAL_NVIC_EnableIRQ(USART2_IRQn);
+//HAL_NVIC_EnableIRQ(USART3_IRQn);
 // codex 
   mov_lf();
   //      s_port('>');
@@ -2933,6 +2936,7 @@ void test_loop2(void) {
   ///dummy = UDR3;
 
   SET_RTS1; // !!!!!
+  CLR_RTS3;
 /*
   for (i = 0; i < 10; i++) {
    HAL_IWDG_Refresh(&hiwdg);
@@ -2971,15 +2975,17 @@ HAL_StatusTypeDef status;
 
 /* Запрещаем UART IRQ на время теста.
    Прерывания SysTick и таймеров остаются разрешёнными. */
-HAL_NVIC_DisableIRQ(USART2_IRQn);
-HAL_NVIC_DisableIRQ(USART3_IRQn);
+//HAL_NVIC_DisableIRQ(USART2_IRQn);
+//HAL_NVIC_DisableIRQ(USART3_IRQn);
 
 /* Завершаем ранее запущенный приём через прерывания. */
+/*
 if (HAL_UART_AbortReceive(&huart2) != HAL_OK)
     goto restore_uart1;
 
 if (HAL_UART_AbortReceive(&huart3) != HAL_OK)
     goto restore_uart1;
+*/
 
 for (i = 0U; i < 10U; i++)
 {
@@ -3014,14 +3020,14 @@ for (i = 0U; i < 10U; i++)
     }
 }
 
-restore_uart1:
+//restore_uart1:
 
 /* Возвращаем обычный приём через прерывания. */
-HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1U);
-HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1U);
+//HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1U);
+//HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1U);
 
-HAL_NVIC_EnableIRQ(USART2_IRQn);
-HAL_NVIC_EnableIRQ(USART3_IRQn);
+//HAL_NVIC_EnableIRQ(USART2_IRQn);
+//HAL_NVIC_EnableIRQ(USART3_IRQn);
 // codex
 
   mov_lf();
