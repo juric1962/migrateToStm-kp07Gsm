@@ -13,8 +13,8 @@
 #define DCD0_PORT GPIOC
 #define DCD0_PIN  GPIO_PIN_8
 
-#define RI0_PORT GPIOC
-#define RI0_PIN  GPIO_PIN_7
+//#define RI0_PORT GPIOC
+//#define RI0_PIN  GPIO_PIN_7
 
 #define RTS3_PORT GPIOB
 #define RTS3_PIN  GPIO_PIN_12
@@ -613,7 +613,7 @@
 
 
 #define TSS1_PORT   GPIOC
-#define TSS1_PIN    GPIO_PIN_0
+#define TSS1_PIN    GPIO_PIN_7
 
 #define TSS2_PORT   GPIOC
 #define TSS2_PIN    GPIO_PIN_1

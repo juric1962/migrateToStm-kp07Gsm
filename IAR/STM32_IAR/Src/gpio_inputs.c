@@ -26,8 +26,8 @@ void MX_GPIO_TCs_Init(void) {
   HAL_GPIO_Init(CTS0_PORT, &gpio_init);
 
  
-  gpio_init.Pin = RI0_PIN;
-  HAL_GPIO_Init(RI0_PORT, &gpio_init);
+  //gpio_init.Pin = RI0_PIN;
+  //HAL_GPIO_Init(RI0_PORT, &gpio_init);
 
   gpio_init.Pin = DCD0_PIN;
   HAL_GPIO_Init(DCD0_PORT, &gpio_init);
