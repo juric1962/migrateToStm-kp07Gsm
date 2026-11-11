@@ -808,11 +808,11 @@ static void Timer0_ProcessTick(void) {
   } else {
     opros_ts(1, TS2_PORT, TS2_PIN, &str_tc2);
     opros_ts(2, TS3_PORT, TS3_PIN, &str_tc3);
-    opros_ts(3, TS4_PORT, TS4_PIN, &str_tc4);
-    opros_ts(4, TS5_PORT, TS5_PIN, &str_tc5);
-    opros_ts(5, TS6_PORT, TS6_PIN, &str_tc6);
-    opros_ts(6, TS7_PORT, TS7_PIN, &str_tc7);
-    opros_ts(7, TS8_PORT, TS8_PIN, &str_tc8);
+    opros_ts(3, TS8_PORT, TS8_PIN, &str_tc4);
+    opros_ts(4, TS4_PORT, TS4_PIN, &str_tc5);
+    opros_ts(5, TS5_PORT, TS5_PIN, &str_tc6);
+    opros_ts(6, TS6_PORT, TS6_PIN, &str_tc7);
+    opros_ts(7, TS7_PORT, TS7_PIN, &str_tc8);
   }
 }
 
