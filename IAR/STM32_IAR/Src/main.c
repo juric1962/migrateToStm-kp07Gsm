@@ -110,7 +110,8 @@ void main(void) {
   
   MX_GPIO_TCs_Init();
   //MX_GPIO_TU_Init();
-  MX_GPIO_EXTI6_Init();
+  //MX_GPIO_EXTI6_Init();
+
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_TIM5_Init();
@@ -145,14 +146,19 @@ HAL_IWDG_Refresh(&hiwdg);
 
   // s_port(dbbb++);  // dbg
   load_sel_modul();
-  if (sel_modul >= 1)
+  if (sel_modul == 1) init_pins_mkd_mod();
+  if (sel_modul > 1) {
+    sel_modul = 1;
+    WrArrayToFlesh(A_SEL_MODUL, &sel_modul, 1, 0, 0);
     init_pins_mkd_mod();
+  }
+    
   if (sel_modul == 0)
     init_pins_ts_mod();
  
   // s_port(dbbb++);  // dbg
   HAL_IWDG_Refresh(&hiwdg);
-
+  MX_GPIO_EXTI6_Init();
   monitor_terminal(); // проверка терминала  13 05 2015!!!!!!!!!!!
                       // s_port(dbbb++);  // dbg
   HAL_IWDG_Refresh(&hiwdg);
