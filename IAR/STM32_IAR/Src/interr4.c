@@ -852,8 +852,8 @@ static void Timer2_ProcessTick(void) {
       ///     return;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
-    // if ((PINE & CTS0)==0)
-    if(HAL_GPIO_ReadPin(CTS0_PORT, CTS0_PIN) == 0) {
+    // если активный
+    if(HAL_GPIO_ReadPin(CTS0_PORT, CTS0_PIN) == GPIO_PIN_SET) {
     //if (PINE & CTS0) {
       cnt_cts_off = 0;
       fl_cts_232.on = 0;

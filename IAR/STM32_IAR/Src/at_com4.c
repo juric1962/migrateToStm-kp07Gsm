@@ -17,6 +17,7 @@ extern unsigned char state_led_md;
 // void st_gprs_att(void);
 FL_AT_COM fl_at_com;
 extern UART_HandleTypeDef huart1, huart2;
+unsigned char check_dcd(void);
 void lock_it(void);
 
 const char stm_pin1_ok[] = {'S', 'T', 'M', ':', 'p', 'i', 'n', ' ',
@@ -987,7 +988,7 @@ unsigned char at_com_scen_stm_sc(unsigned char *cnt, unsigned char *rp) {
         (fl_at_com.ok == 1)) {
 
   //    if ((PINE & DCD0) || (fl_at_com.ok == 1)) {
-  if ((HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN) == 0) || (fl_at_com.ok == 1)) {
+  if ((check_dcd() == 0) || (fl_at_com.ok == 1)) {
         event_modem = EVM_AT_OK;
         return (1);
       } else {
@@ -1102,7 +1103,7 @@ unsigned char at_com_scen_stm_dc_1(unsigned char *cnt, unsigned char *rp) {
 
   case PAUSA4:
    // if ((PINE & DCD0) == 0) {
-   if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
+   if (check_dcd()) {
       event_modem = EVM_AT_OK;
       return (1);
     } else {

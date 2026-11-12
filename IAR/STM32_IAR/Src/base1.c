@@ -743,14 +743,26 @@ uint16_t crc_m1(unsigned char *ka, uint16_t num, uint16_t crc)
   return (uchCRCHi << 8 | uchCRCLo);
 }
 
+// сигнал инвертирован, активный высокий
+// CTS0 - активный высокий 
 unsigned char check_cts(void) {
-  if(HAL_GPIO_ReadPin(CTS0_PORT, CTS0_PIN)) {
+  if(HAL_GPIO_ReadPin(CTS0_PORT, CTS0_PIN) == GPIO_PIN_RESET) {
   // if (PINE & CTS0)
  // if ((PINE & CTS0) == 0) {
     fl_cts_232.on = 1;
-    return (1);
-  } // proverka CTS
-  return (0);
+    return (1); // passive
+  } 
+  return (0);  //active
+}
+// сигнал инвертирован, активный высокий
+// DCD0 - активный высокий 
+// заменить везде HAL_GPIO_ReadPin(DCD0_PORT, DCD0_PIN) на check_dcd()
+unsigned char check_dcd(void) {
+  if(HAL_GPIO_ReadPin(DCD0_PORT, DCD0_PIN) == GPIO_PIN_SET) {
+
+    return (0);   // active
+  } 
+  return (1);  // passive
 }
 
 void s_port(unsigned char ch) {
@@ -2765,7 +2777,7 @@ void modem_engine(void) {
       }
 
       //if ((PINE & DCD0) == 0)
-      if(HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN))
+      if(check_dcd())
         event_modem = EVM_DCD_ERR;
 
       //  if ( PINE & RI0 ) S3_RD;
@@ -2881,7 +2893,7 @@ void modem_engine(void) {
       }
 
       //if ((PINE & DCD0) == 0)
-      if(HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN))
+      if(check_dcd())
         event_modem = EVM_DCD_ERR;
 
       //    if ( PINE & RI0 ) S3_RD;
@@ -4580,7 +4592,7 @@ void monitor1_tm_rs485_1(void) {
   clr_cntr_link();
 
   fl_485_1.tm_out = 0;
-  if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN) == 0) {
+  if (check_dcd() == 0) {
   //if (PINE & DCD0)
     send_err485(
         NUM_RS485_1, RS_NO_LINK, Appl_RS485_1.id_tek,
@@ -4608,7 +4620,7 @@ void monitor1_rec_rs485_1(void) {
 
   clr_cntr_nat();
   clr_cntr_link();
-if(HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
+if(check_dcd()) {
   // if ((PINE & DCD0) == 0) {
     fl_485_1.over = 0; // игнорировать передачу если нет GPRS канала
     Rs485_1.cnt_bt_rx_tx = 0;
@@ -4725,7 +4737,7 @@ void monitor1_tm_rs485_2(void) {
   clr_cntr_link();
 
   fl_485_2.tm_out = 0;
-  if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN) == 0)
+  if (check_dcd() == 0)
   //if (PINE & DCD0)
     send_err485(
         NUM_RS485_2, RS_NO_LINK, Appl_RS485_2.id_tek,
@@ -4751,7 +4763,7 @@ void monitor1_rec_rs485_2(void) {
 
   clr_cntr_nat();
   clr_cntr_link();
-if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
+if (check_dcd()) {
   //if ((PINE & DCD0) == 0) {
     fl_485_2.over = 0; // игнорировать передачу если нет GPRS канала
     Rs485_2.cnt_bt_rx_tx = 0;
@@ -4869,7 +4881,7 @@ void monitor1_tm_rs232_2(void) {
   clr_cntr_link();
 
   fl_232_2.tm_out = 0;
-  if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN) == 0) 
+  if (check_dcd() == 0) 
  // if (PINE & DCD0)
     send_err485(
         NUM_RS232_2, RS_NO_LINK, Appl_RS232_2.id_tek,
@@ -4895,7 +4907,7 @@ void monitor1_rec_rs232_2(void) {
 
   clr_cntr_nat();
   clr_cntr_link();
-if (HAL_GPIO_ReadPin(DCD0_PORT,DCD0_PIN)) {
+if (check_dcd()) {
  // if ((PINE & DCD0) == 0) {
     fl_232_2.over = 0; // игнорировать передачу если нет GPRS канала
     Rs232_2.cnt_bt_rx_tx = 0;
