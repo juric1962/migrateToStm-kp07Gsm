@@ -2565,13 +2565,21 @@ void check_wdt(void) {
     if ((fl_wdt.from_timer0 != 1) || (fl_wdt.fl_main != 1) ||
         (fl_wdt.from_timer3 != 1) || (fl_wdt.from_timer2 != 1) ||
         (fl_wdt.from_adc != 1)) {
+      if ( fl_wdt.from_timer0 == 0) send_info(14, "miss flag t0  ", 0, 0);
+      if ( fl_wdt.from_timer2 == 0) send_info(14, "miss flag t2  ", 0, 0);
+      if ( fl_wdt.from_timer3 == 0) send_info(14, "miss flag t3  ", 0, 0);
+      if ( fl_wdt.from_adc == 0) send_info(14,    "miss flag adc ", 0, 0);
+      if ( fl_wdt.fl_main == 0) send_info(14,     "miss flag main", 0, 0);
+
       write_log_info(ST_ERROR, ERR1);
+     // send_info(13, "miss flag wdt", 0, 0);
       // s_port(0x55);
       lock_it();
     }
 
     if (prov_ozu != crc_ozu()) {
       write_log_info(ST_ERROR, ERR2);
+      send_info(13, "crc_ozu err. ", 0, 0);
       // s_port(0x56);
       lock_it();
     }
@@ -2579,6 +2587,7 @@ void check_wdt(void) {
     if (*(uint16_t *)&keys[L_KEYS - 2] !=
         crc_m1(&keys[0], L_KEYS - 2, 0xffff)) {
       write_log_info(ST_ERROR, ERR3);
+      send_info(13, "crc_keys err. ", 0, 0);
       // s_port(0x57);
       lock_it();
     }
@@ -2594,7 +2603,7 @@ void check_wdt(void) {
 
 void modem_engine(void) {
   start_func_stm_on(); // подача питания-включение модема в рабочем режиме
-  // fl_wdt.fl_main=1;
+  fl_wdt.fl_main=1;
 
   while (1) {
 
