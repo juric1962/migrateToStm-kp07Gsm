@@ -1016,8 +1016,8 @@ nxt_step4:
     UCSR3B = UCSR3B | RXEN | RXCIE;
     */
     //__HAL_UART_FLUSH_DRREGISTER(&huart2);
+     disable_rx2 = 0;
     HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
-    disable_rx2 = 0;
   } // togle to receiv mode ;
 
   // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
@@ -1137,8 +1137,9 @@ nt_step4:
     Rs232_2.cnt_tm_out = Rs232_2.vol_tm_out;
     //UCSR2B = UCSR2B | RXEN | RXCIE;
     //__HAL_UART_FLUSH_DRREGISTER(&huart4);
-    HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
     disable_rx4 = 0;
+    HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
+
   } // togle to receiv mode ;
 
   // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
@@ -1325,12 +1326,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
   if (huart->Instance == UART4) {
      HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
+     disable_rx4 = 0;
   } else if (huart->Instance == USART1) {
     HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
     // Handle UART receive complete callback
   } else if (huart->Instance == USART3) {
+   disable_rx3 = 0;
    HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1);
   } else if (huart->Instance == USART2) {
+    disable_rx2 = 0;
     HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
   }
 }
@@ -1706,6 +1710,7 @@ void Uart2_ProcessTxCallback(void) {
         CLR_RTS1;
 
         // Переход в режим приема
+        disable_rx2 = 0;
         HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
     }
 }
@@ -1748,6 +1753,7 @@ void Uart3_ProcessTxCallback(void) {
       S4_OFF;
       Rs485_2.cnt_tm_out = Rs485_2.vol_tm_out;
       CLR_RTS3;
+      disable_rx3 = 0;
       HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1U);
     }
     return;
@@ -1829,6 +1835,7 @@ void Uart4_ProcessTxCallback()
             CLR_RTS2;
 
             // Переход в режим приема
+             disable_rx4 = 0;
             HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
         }
 

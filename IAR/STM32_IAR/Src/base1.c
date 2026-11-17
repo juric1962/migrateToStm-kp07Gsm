@@ -4581,6 +4581,7 @@ void monitor1_tx_rs485_1(void) {
     //UCSR3B = UCSR3B & ~(RXCIE | RXEN);
      //__HAL_UART_DISABLE_IT(&huart2,UART_IT_RXNE);
      disable_rx2 = 1;
+     HAL_UART_Receive_IT(&huart2, &uart2_rx_byte, 1);
     SET_RTS1; // rts на передачу
   }
 }
@@ -4726,6 +4727,7 @@ void monitor1_tx_rs485_2(void) {
     //UCSR1B = UCSR1B & ~(RXCIE | RXEN);
     //__HAL_UART_DISABLE_IT(&huart3,UART_IT_RXNE);
     disable_rx3 = 1;
+    HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1);
     SET_RTS3; // rts на передачу
   }
 }
@@ -4870,6 +4872,7 @@ void monitor1_tx_rs232_2(void) {
     //UCSR2B = UCSR2B & ~(RXCIE | RXEN);
     //__HAL_UART_DISABLE_IT(&huart4,UART_IT_RXNE);
     disable_rx4 = 1;
+    HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
     SET_RTS2; // rts на передачу
   }
 }
