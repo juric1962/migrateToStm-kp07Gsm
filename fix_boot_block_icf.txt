@@ -1,0 +1,16 @@
+define block BOOT_BLOCK with alignment = 4, fixed order
+{
+    readonly section BOOT_ENTRY,
+    readonly section BOOT_CODE
+};
+
+place at address mem:0x080E0000
+{
+    block BOOT_BLOCK
+};
+
+
+void SelfProgramm(void) @ "BOOT_ENTRY"
+{
+    /* существующее тело */
+}
