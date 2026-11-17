@@ -14,3 +14,5 @@ void SelfProgramm(void) @ "BOOT_ENTRY"
 {
     /* существующее тело */
 }
+// jmp to bootloader SelfProgramm
+((void (*)(void))0x080E0001UL)();

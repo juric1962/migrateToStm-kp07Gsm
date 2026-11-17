@@ -4044,8 +4044,9 @@ device_bad:
                                
                                 
                                    send_info(sizeof(evc_rld),evc_rld,0,0);
-                                   HAL_IWDG_Refresh(&hiwdg);								   
-                                   SelfProgramm();  // in BOOT_CODE section
+                                   HAL_IWDG_Refresh(&hiwdg);
+                                   ((void (*)(void))0x080E0001UL)();								   
+                                   //SelfProgramm();  // in BOOT_ENTRY section
                                   
                                  }  													             
                             return(1);           
