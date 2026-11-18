@@ -1,3 +1,5 @@
+#define BOOT_LOADER
+#ifdef BOOT_LOADER
 //#include "firmware.h"
 #include "stm32f4xx.h"
 //#include "dfpin.h"
@@ -330,4 +332,4 @@ exitProgram:
 
 }
 //#pragma default_function_attributes =
-
+#endif
