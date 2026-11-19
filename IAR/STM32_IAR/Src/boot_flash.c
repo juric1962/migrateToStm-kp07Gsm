@@ -1,4 +1,4 @@
-#define BOOT_LOADER
+//#define BOOT_LOADER
 #ifdef BOOT_LOADER
 //#include "firmware.h"
 #include "stm32f4xx.h"
@@ -262,7 +262,7 @@ if (BootFlash_Unlock() == BOOTFLASH_OK)
 */
 
 
-void SelfProgramm(void) @ "BOOT_CODE"
+__root void SelfProgramm(void) @ "BOOT_ENTRY"
 {
   
   
