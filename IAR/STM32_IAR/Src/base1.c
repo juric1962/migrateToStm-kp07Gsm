@@ -5143,3 +5143,46 @@ void send_info(char size, char const *p, unsigned char fl_id,
   s_port(0x0d);
   s_port(0x0a);
 }
+
+
+void send_info_ura(char size, char const *p, unsigned char fl_id,
+               uint16_t id) {
+
+  char massiv[6];
+// только для режима 2, иначе не выводим
+  if (Regim != 2)
+    return;
+  burst_ds_r();
+  sprintf(massiv, "%d\0", real_time.r_date);
+  mov_massiv(strlen(massiv), massiv);
+  s_port('.');
+  sprintf(massiv, "%d\0", real_time.r_month);
+  mov_massiv(strlen(massiv), massiv);
+  s_port('.');
+  sprintf(massiv, "%d\0", real_time.r_year);
+  mov_massiv(strlen(massiv), massiv);
+  s_port(' ');
+  sprintf(massiv, "%d\0", real_time.r_hor);
+  mov_massiv(strlen(massiv), massiv);
+  s_port(':');
+  sprintf(massiv, "%d\0", real_time.r_min);
+  mov_massiv(strlen(massiv), massiv);
+  s_port(':');
+  sprintf(massiv, "%d\0", real_time.r_sec);
+  mov_massiv(strlen(massiv), massiv);
+  s_port(' ');
+
+  while (size--)
+    s_port(*p++);
+
+  if (fl_id != 0) {
+    s_port('=');
+    
+
+    sprintf(massiv, "%x\0", id);
+    mov_massiv(strlen(massiv), massiv);
+  }
+
+  s_port(0x0d);
+  s_port(0x0a);
+}

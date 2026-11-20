@@ -82,7 +82,8 @@ void reload_apl_HUGE(void);
 
 void send_info(char size, char const *p, unsigned char fl_id,
                unsigned char id);
-
+void send_info_ura(char size, char const *p, unsigned char fl_id,
+               uint16_t id);
 //const char gluk[]= {'g','l','u','k'};
 //const char gluk1[]= {'g','l','u','k','1'};
 
@@ -542,7 +543,7 @@ void TestLastPage(void)
                                    
                                     uint16_t total_kol_page=cnt_pg+1;
                                     
-                                    
+                                    send_info_ura( sizeof("total page"), "total page", 1, total_kol_page);
                                     fl_pg_out.end_pg=0;
                                     //fl_pg_out.yes_crc=0; //???????? ???? ????????????
                                     if (fl_pg_out.ch_crc==1)
@@ -566,6 +567,7 @@ void TestLastPage(void)
                                          
                                        __enable_irq();
                                        global_crc_allPage = length;
+                                        send_info_ura(sizeof("pg_crc calc"), "pg_crc calc", 1, global_crc_allPage);
                                        if(length == pg_crc)
                                         {  
                                          reboot_byte=0x55;
@@ -2997,7 +2999,7 @@ next_option:
       return (0);
     fl_pg_out.ch_crc = 1;
     pg_crc = *(uint16_t *)&buf_rx_ppp[ind + 2];
-
+    send_info_ura(sizeof("pg_crc from server"), "pg_crc from server", 1, pg_crc);
     //               send_info(sizeof(gluk),gluk,1,2);
 
     break;
@@ -3942,20 +3944,48 @@ device_bad:
 //                                код версии находится в таблице прерываний по адресу вектора OTG_FS
                                   if( ( cnt_pg == 0) && ( buf_rx_ppp[offset + C1_PORT + 4 + 0xE8] != VERSION_API ) ) goto device_bad;
 //
+               send_info_ura( sizeof("curent page"), "curent page", 1, cnt_pg);
+               struct {
+               uint8_t *src, *dst;
+               uint8_t buf_out[256];
+               uint8_t buf_in[256];
+               
+               uint16_t i ;
+               } selfP;
+
+               selfP.src = &buf_rx_ppp[offset + C1_PORT + 4];
+               selfP.dst = &selfP.buf_out[0];
+               selfP.i = 256;
+                while(selfP.i--) *selfP.dst++ = *selfP.src++;
                                     firmwareFlag = 1;
                                     uint32_t adrstart = 0x08060000;
                                     uint32_t test = 0xcccc;
                                     uint32_t adr =adrstart + cnt_pg*256;
+                                    uint32_t adr_prov =adr;
                                     flashProgramm(&adr, &test ,2);
                                     if (cnt_pg == 0)
                                     {
                                      if( FLASH_If_Erase(adr) )  fl_pg_out.send_kv=0;    // не удалось стереть флеш
                                     }
                                   // ura пишем прямо из исходного буфера, без всяких глупостей
-                                   if ( FLASH_If_Write(&adr, (uint32_t*)buf_rx_ppp[offset+C1_PORT+4] ,64) )  fl_pg_out.send_kv=0;
+                                   if ( FLASH_If_Write(&adr, (uint32_t*)selfP.buf_out ,64) )  fl_pg_out.send_kv=0;
                                   // если ошибка записи страницы не давать подтверждения  14 09 2020
                                   // было  if ( FLASH_If_Write(&adr, (uint32_t*)ProgPCH.PageArray ,64) )  fl_pg_out.send_kv=0;
                                     
+                                      
+                                       for (selfP.i =0; selfP.i<256; selfP.i++) {
+                                        selfP.buf_in[selfP.i]=*(__IO unsigned char*)adr_prov;
+                                        if (selfP.buf_in[selfP.i] != selfP.buf_out[selfP.i]) {
+                                          send_info_ura( sizeof("write byte"), "write byte", 1, (uint16_t) selfP.buf_out[selfP.i]);
+                                          send_info_ura( sizeof("read byte"), "read byte", 1, (uint16_t) selfP.buf_in[selfP.i]);
+                                          break;
+                                        }
+ 
+                                          
+                                        adr_prov++;
+                                      }
+                                      
+
                                     HAL_IWDG_Refresh(&hiwdg);
                                     TestLastPage();
                                   
