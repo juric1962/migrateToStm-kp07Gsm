@@ -151,13 +151,18 @@ void RdFromFleshToArrInt(uint16_t adres_flesh, uint16_t *adres_ozu,
 void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,
                     uint16_t num, unsigned char flag,
                     unsigned char znach) {
-  uint16_t i;
+  uint32_t i;
   uint32_t address = (uint32_t)adres_flesh;
 
   if (num == 0u) {
     return;
   }
-
+  for ( i=0; i < num; i++) {
+    if (flag ==0 ) fm25w256_write_page(address + i, adres_ozu + i, 1);
+    else fm25w256_write_page(address + i, &znach, 1);
+  }
+    
+/*
   if (flag == 0u) {
     uint16_t offset = 0u;
     while (offset < num) {
@@ -170,6 +175,8 @@ void WrArrayToFlesh(uint16_t adres_flesh, unsigned char *adres_ozu,
     fm25w256_write_page(address, &znach, (uint16_t)num);
     
   }
+*/  
+  
 }
 
 void WrArrayToFleshInt(uint16_t adres_flesh, uint16_t *adres_ozu,

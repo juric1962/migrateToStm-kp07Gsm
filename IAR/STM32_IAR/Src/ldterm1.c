@@ -160,7 +160,7 @@ const char map_test_mtc[] = {'T', 'E', 'C', 'T', '.', 'M', 'T',
 const char str_loop_ok[] = {"LOOP 485_1"};
 const char str_loop2_ok[] = {"LOOP 485_2"};
 const char versia[] = {
-    "M2560 A7682E 02-09-25"}; //{'S','I','0','2','.','0','6',':','1','1','0','3','1','6'};
+    "STM32 A7682E 21-11-26"}; //{'S','I','0','2','.','0','6',':','1','1','0','3','1','6'};
 
 //const char zp_udp[]=        {'U','D','P','p','o','r','t','-','>'};
 const char zp_udp[] = {'7', '.', 'U', 'D', 'P', ' ', 'p', 'o',

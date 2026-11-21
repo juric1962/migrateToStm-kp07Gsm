@@ -1,4 +1,4 @@
-//#define BOOT_LOADER
+#define BOOT_LOADER
 #ifdef BOOT_LOADER
 //#include "firmware.h"
 #include "stm32f4xx.h"
