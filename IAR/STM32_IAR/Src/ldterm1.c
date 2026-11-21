@@ -2693,6 +2693,15 @@ void at_mon_232(void) {
     //UCSR0B = UCSR0B | 0x90;
     break;
   }
+  default: 
+  {
+    buf_tx_232[local - 1] = 0xff;
+    vol_tx_ppp = 0;
+    //UCSR0B = UCSR0B | 0x90;
+    break;
+  }
+    
+  
   }
 }
 
