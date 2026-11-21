@@ -129,7 +129,7 @@ void fun_init_sim900(void) {
     huart1.Init.Parity     = UART_PARITY_NONE;
     huart1.Init.StopBits   = UART_STOPBITS_1;
     HAL_UART_Init(&huart1);
-
+    HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
 
 
   /*
