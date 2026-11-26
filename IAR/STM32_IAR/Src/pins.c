@@ -10,6 +10,8 @@
 #include <string.h>
 #include <stdint.h>
 #include "uart1.h"
+void send_info_ura(char size, char const *p, unsigned char fl_id,
+               uint16_t id);
 extern IWDG_HandleTypeDef hiwdg;
 void control_temperatura(void);
 extern void long_delay(uint32_t period);
@@ -67,6 +69,8 @@ void send_to_sim900(char num) {
   //   UCSR0B=UCSR0B & ~RXCIE;
   //////UCSR0B = UCSR0B | RXCIE; // разрешить прием от SIM модуля
   HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
+ // send_info_ura( sizeof("send sim n byte"), "send sim n byte", 1, (uint16_t)num);
+  
   for (i = 0; i < num; i++) {
 
   ///wait_ready:
@@ -102,10 +106,12 @@ void fun_init_sim900(void) {
  HAL_IWDG_Refresh(&hiwdg);
   long_delay(10000000 / 4); //
   s_port('.');
+  HAL_IWDG_Refresh(&hiwdg);
   long_delay(10000000 / 4); //>3 sek
   SET_PWRK;
  HAL_IWDG_Refresh(&hiwdg);
-  long_delay(10000000); //>3 sek
+ // long_delay(10000000); //>3 sek
+  long_delay(10000000 / 4); //>3 sek 23 11 26
   s_port('.');
   CLR_PWRK;
 

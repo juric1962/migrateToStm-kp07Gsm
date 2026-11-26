@@ -10,6 +10,7 @@ extern "C" {
 extern UART_HandleTypeDef huart4;
 extern uint8_t uart4_rx_byte;
 extern uint8_t uart4_tx_byte;
+extern volatile unsigned char disable_rx4;
 
 void MX_UART4_Init(void);
 HAL_StatusTypeDef UART4_Receive_IT(uint8_t *buffer, uint16_t size);

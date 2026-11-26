@@ -2635,17 +2635,21 @@ void at_mon_232(void) {
   case 0x1b: {
 
     //UCSR0B = UCSR0B & ~0x90;
+    disable_rx4 = 1;
+    
     index_pa = 1;
     read_menu(index_pa - 1);
     buf_tx_232[local - 1] = 0xff;
     vol_tx_ppp = 0;
     //UCSR0B = UCSR0B | 0x90;
+    disable_rx4 = 0;
     break;
   }
   case 0x2b: // верх
   {
 
     //UCSR0B = UCSR0B & ~0x90;
+    disable_rx4 = 1;
 
   pusto:
 
@@ -2656,12 +2660,15 @@ void at_mon_232(void) {
     buf_tx_232[local - 1] = 0xff;
     vol_tx_ppp = 0;
     //UCSR0B = UCSR0B | 0x90;
+    disable_rx4 = 0;
     break;
   }
 
   case 0x2d: // вниз
   {
     //UCSR0B = UCSR0B & ~0x90;
+    disable_rx4 = 1;
+    
     if (index_pa == 0)
       index_pa = 1;
     if ((index_pa - 1) != 0)
@@ -2674,6 +2681,7 @@ void at_mon_232(void) {
     buf_tx_232[local - 1] = 0xff;
     vol_tx_ppp = 0;
     //UCSR0B = UCSR0B | 0x90;
+    disable_rx4 = 0;
     break;
   }
 
@@ -2681,6 +2689,8 @@ void at_mon_232(void) {
   {
 
     //UCSR0B = UCSR0B & ~0x90;
+    disable_rx4 = 1;
+    
     if (index_pa == 41)
       goto nene_pusto;
     if ((local == 1) || (index_pa == 0))
@@ -2691,13 +2701,14 @@ void at_mon_232(void) {
     buf_tx_232[local - 1] = 0xff;
     vol_tx_ppp = 0;
     //UCSR0B = UCSR0B | 0x90;
+    disable_rx4 = 0;
     break;
   }
   default: 
   {
-    buf_tx_232[local - 1] = 0xff;
-    vol_tx_ppp = 0;
+    
     //UCSR0B = UCSR0B | 0x90;
+    disable_rx4 = 0;
     break;
   }
     

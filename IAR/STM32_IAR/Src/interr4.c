@@ -21,7 +21,8 @@
 //#include <inavr.h>
 //#include <iom2560.h>
 
-
+void send_info_ura(char size, char const *p, unsigned char fl_id,
+               uint16_t id);
 extern volatile unsigned char disable_rx1, disable_rx2, disable_rx3, disable_rx4;
 void sendBytePPP(unsigned char data);
 static void Timer3_ProcessTick(void);
@@ -1325,7 +1326,17 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
   if (huart->Instance == UART4) {
+    uint32_t save_baud =  huart4.Init.BaudRate;
+    HAL_UART_DeInit(&huart4);
+    
+    huart4.Init.BaudRate =   save_baud;
+    huart4.Init.WordLength = UART_WORDLENGTH_8B;
+    huart4.Init.Parity     = UART_PARITY_NONE;
+    huart4.Init.StopBits   = UART_STOPBITS_1;
+    HAL_UART_Init(&huart4);
+   
      HAL_UART_Receive_IT(&huart4, &uart4_rx_byte, 1);
+     send_info_ura( sizeof("err_com4"), "err_com4", 0, 0);
      disable_rx4 = 0;
   } else if (huart->Instance == USART1) {
     HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);
@@ -1885,8 +1896,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
     if (count_summa_adc[0] == 10) {
       
       count_summa_adc[0] = 0;
-      modbus_mem1[AD_TIT1] = summa_adc[0] / 10;
-      modbus_mem1[AD_TIT1 + 1] = summa_adc[1] / 10;
+      modbus_mem1[AD_TIT1] = summa_adc[1] / 10;
+      modbus_mem1[AD_TIT1 + 1] = summa_adc[0] / 10;    // тит1 тит2 наоборт
       summa_adc[0] = 0;
       summa_adc[1] = 0;
     }
